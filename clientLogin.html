@@ -1,0 +1,82 @@
+<html>
+<head>
+  <title>Simple client</title>
+
+  <script type="text/javascript">
+
+    var ws;
+    
+    function init() {
+
+      // Connect to Web Socket
+      ws = new WebSocket("ws://localhost:9001/");
+
+      // Set event handlers.
+      ws.onopen = function() {
+        output("onopen");
+      };
+      
+      ws.onmessage = function(e) {
+        // e.data contains received string.
+        output("onmessage: " + e.data);
+        alert(e.data);
+      };
+      
+      ws.onclose = function() {
+        output("onclose");
+      };
+
+      ws.onerror = function(e) {
+        output("onerror");
+        console.log(e)
+      };
+
+    }
+    
+    function onSubmit() {
+      var input = document.getElementById("input");
+      // You can send message to the Web Socket using ws.send.
+      x = "B:"+input.value;
+      ws.send(x);
+      output("send: " + input.value);
+      input.value = "";
+      input.focus();
+    }
+
+    function onLogin() {
+      var input = document.getElementById("loginText");
+      // You can send message to the Web Socket using ws.send.
+      x = "A:"+input.value;
+      ws.send(x);
+      output("send: " + input.value);
+      input.value = "";
+      input.focus();
+    }
+
+    function onCloseClick() {
+      ws.close();
+    }
+    
+    function output(str) {
+      var log = document.getElementById("log");
+      var escaped = str.replace(/&/, "&amp;").replace(/</, "&lt;").
+        replace(/>/, "&gt;").replace(/"/, "&quot;"); // "
+      log.innerHTML = escaped + "<br>" + log.innerHTML;
+    }
+
+  </script>
+</head>
+<body onload="init();">
+  <form onsubmit="onLogin(); return false;">
+    <input type="text" id="loginText">
+    <input type="submit" value="Login">
+    <button onclick="onCloseClick(); return false;">close</button>
+  </form>
+  <form onsubmit="onSubmit(); return false;">
+    <input type="text" id="input">
+    <input type="submit" value="Send">
+    <button onclick="onCloseClick(); return false;">close</button>
+  </form>
+  <div id="log"></div>
+</body>
+</html>
