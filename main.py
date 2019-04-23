@@ -91,14 +91,5 @@ def get_info():
     return str(response)
 
     
-def Flrun():
-    app.run(host='0.0.0.0', port=3000, debug=True)
-
-def Werun():
-    websocket.new_server()
 if __name__ == '__main__':
-    flaskThread = threading.Thread(target = Flrun)
-    socketThread = threading.Thread(target = Werun)
-
-    flaskThread.start()
-    socketThread.start()
+    app.run(host='0.0.0.0', port=3000, debug=True)
