@@ -33,29 +33,28 @@ def message_received(client, server, message):
         for i in accountList:
             if x[1] == i['account']:
                 print("Find account successfully, identity: %s\n" % (i['identity']))
-                print(client['id'])
+                
                 clientList[client['id']-1]['accountName'] = message
                 clientList[client['id']-1]['identity'] = i['identity']
         
         print("Afterwards client list:")
         print(clientList)
         print("\n")
-        print("AAA")
+                    
     else:
         clientList = server._get_client()
         for client in clientList:
             if client['identity'] is 'manager':
+                print("AAA\n")
                 server.send_message(client,x[1])
         
    
     
-   
-def new_server():
-    PORT=9001
-    server = WebsocketServer(PORT)
-    server.set_fn_new_client(new_client)
-    server.set_fn_client_left(client_left)
-    server.set_fn_message_received(message_received)
-    server.run_forever()
+PORT=9001
+server = WebsocketServer(PORT)
+server.set_fn_new_client(new_client)
+server.set_fn_client_left(client_left)
+server.set_fn_message_received(message_received)
+server.run_forever()
 
 # b = a[i:j]   表示复制a[i]到a[j-1]，以生成新的list对象
