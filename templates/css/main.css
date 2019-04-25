@@ -1,0 +1,74 @@
+body {
+    font-family: Microsoft JhengHei;
+    font-weight: 300;
+    font-size: 16px;
+}
+
+#mainNav .navbar-brand {
+  color: #009FCC;
+  font-weight:bold;
+  font-size: 25px;
+}
+
+#mainNav .navbar-brand.active, #mainNav .navbar-brand:active, #mainNav .navbar-brand:focus, #mainNav .navbar-brand:hover {
+  color: #009FCC;
+  font-weight:bold;
+  font-size: 25px;
+}
+h1{
+  font-weight:bold;
+	
+}
+
+.carousel .carousel-item {
+  min-height: 300px;
+  middle-height: 400px;
+  max-height: 600px;
+}
+
+.carousel .carousel-item img {
+  min-height: 300px;
+  middle-height: 400px;
+  max-height: 650px;
+  object-fit: cover;
+}
+
+#customCss .custom-file-control:lang(en)::after {
+  content: "Select file...";
+}
+
+#customCss .custom-file-control:lang(en)::before {
+  content: "Click me";
+}
+.custom-file-control:after {
+    content: attr(data-content) !important;
+}
+
+
+
+
+.btn-file {
+    position: relative;
+    overflow: hidden;
+}
+.btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    background: white;
+    cursor: inherit;
+    display: block;
+}
+
+#img-upload{
+    width: 100%;
+}
+
+

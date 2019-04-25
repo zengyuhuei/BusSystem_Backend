@@ -1,0 +1,119 @@
+
+.qty .count {
+    color: #000;
+    display: inline-block;
+    vertical-align: top;
+    font-size: 40px;
+    font-weight: 1000;
+    line-height: 50px;
+    padding: 0 4px;
+	min-width: 60px;
+    text-align: center;
+
+}
+.qty .count1 {
+    color: #000;
+    display: inline-block;
+    vertical-align: top;
+    font-size: 40px;
+    font-weight: 1000;
+    line-height: 50px;
+    padding: 0 4px;
+	min-width: 60px;
+    text-align: center;
+}
+.qty .count2 {
+    color: #000;
+    display: inline-block;
+    vertical-align: top;
+    font-size: 40px;
+    font-weight: 1000;
+    line-height: 50px;
+    padding: 0 4px;
+	min-width: 60px;
+    text-align: center;
+}
+
+.qty .plus {
+    cursor: pointer;
+    display: inline-block;
+    vertical-align: top;
+    color: white;
+    width: 50px;
+    height: 50px;
+    font: 50px/1 Arial,sans-serif;
+    text-align: center;
+    border-radius: 50%;
+    }
+.qty .minus {
+    cursor: pointer;
+    display: inline-block;
+    vertical-align: top;
+    color: white;
+    width: 50px;
+    height: 50px;
+    font: 45px/1 Arial,sans-serif;
+    text-align: center;
+    border-radius: 50%;
+    background-clip: padding-box;
+	
+}
+.qty .plus1 {
+    cursor: pointer;
+    display: inline-block;
+    vertical-align: top;
+    color: white;
+    width: 50px;
+    height: 50px;
+    font: 50px/1 Arial,sans-serif;
+    text-align: center;
+    border-radius: 50%;
+    }
+.qty .minus1 {
+    cursor: pointer;
+    display: inline-block;
+    vertical-align: top;
+    color: white;
+    width: 50px;
+    height: 50px;
+    font: 45px/1 Arial,sans-serif;
+    text-align: center;
+    border-radius: 50%;
+    background-clip: padding-box;
+	
+}
+.qty {
+	
+	text-align: center;
+	
+}
+.minus:hover{
+    background-color: #717fe0 !important;
+}
+.plus:hover{
+    background-color: #717fe0 !important;
+}
+.minus1:hover{
+    background-color: #717fe0 !important;
+}
+.plus1:hover{
+    background-color: #717fe0 !important;
+}
+/*Prevent text selection*/
+span{
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+}
+input{  
+    border: 0;
+    width: 5%;
+}
+nput::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+input:disabled{
+    background-color:white;
+}

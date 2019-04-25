@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<title>基隆公車調派系統-登入畫面</title>
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.1/js/tempusdominus-bootstrap-4.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.1/css/tempusdominus-bootstrap-4.min.css" />
+
+		<link rel="stylesheet" href="../css/main.css">
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+		<script src="../js/add_busdriver.js"></script>
+	</head>
+
+
+	<body>
+
+		<nav class="navbar navbar-expand-xl navbar-dark bg-dark" id="mainNav">
+			<div class="container">
+				<a class="navbar-brand" id="#">基隆公車調派系統</a>
+			 
+			</div>
+		</nav>
+	   	<div class="container py-5">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="row">
+						<div class="col-md-6 mx-auto">
+
+							<!-- form card login -->
+							<div class="card rounded-0">
+								<div class="card-header">
+									<h3 class="mb-0">Login</h3>
+								</div>
+								<div class="card-body">
+									<form class="form" role="form" autocomplete="off" id="formLogin" novalidate="" method="POST">
+										<div class="form-group">
+											<label for="uname1">Username</label>
+											<input type="text" class="form-control form-control-lg rounded-0" name="uname1" id="uname1" required="">
+											<div class="invalid-feedback">Oops, you missed this one.</div>
+										</div>
+										<div class="form-group">
+											<label>Password</label>
+											<input type="password" class="form-control form-control-lg rounded-0" id="pwd1" required="" autocomplete="new-password">
+											<div class="invalid-feedback">Enter your password too!</div>
+										</div>
+										<button type="submit" class="btn btn-success btn-lg float-right" id="btnLogin">Login</button>
+									</form>
+								</div>
+								<!--/card-block-->
+							</div>
+							<!-- /form card login -->
+
+						</div>
+
+
+					</div>
+					<!--/row-->
+
+				</div>
+				<!--/col-->
+			</div>
+			<!--/row-->
+		</div>
+		<!--/container-->
+
+	   
+
+	</body>
+</html>
