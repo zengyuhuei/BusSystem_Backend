@@ -3,7 +3,7 @@
 
 	<head>
       <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	  <title>基隆公車調派系統-首頁</title>
+	  <title>基隆公車調派系統-新增/修改班次</title>
 	  
 	  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
 
@@ -32,7 +32,7 @@
 				<li class="nav-item"><a class = "nav-link" href="./historical_record.html"> 歷史紀錄</a></li>
 				<li class="nav-item"><a class = "nav-link" href="./Emergency_reception.html"> 突發狀況接收</a></li>
 				<li class="nav-item dropdown">
-					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					<a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 					  修改路線/班次
 					</a>
 					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -60,32 +60,54 @@
 		</div>
 	   </nav>
 	   <div class="container">
-		   <div class="carousel slide" data-ride="carousel" id="carousel-demo">
-				<ol class="carousel-indicators">
-				  <li data-target="#carousel-demo" data-slide-to="0" class="active"></li>
-				  <li data-target="#carousel-demo" data-slide-to="1"></li>
-				  <li data-target="#carousel-demo" data-slide-to="2"></li>
-				</ol>
-			  <div class="carousel-inner">
-				<div class="carousel-item active">
-				  <img class="d-block w-100" src="https://www.taiwan.net.tw/att/1/big_scenic_spots/pic_412_8.jpg" alt="">
-				</div>
-				<div class="carousel-item">
-				  <img class="d-block w-100" src="http://farm4.staticflickr.com/3795/9269794168_3ac58fc15c_b.jpg" alt="">
-				</div>
-				<div class="carousel-item">
-				  <img class="d-block w-100" src="https://www.taiwan.net.tw/att/1/big_scenic_spots/pic_3266_19.jpg" alt="">
-				</div>
-			  
-				<a href="#carousel-demo" class="carousel-control-prev" data-slide="prev">
-				<span class="carousel-control-prev-icon"></span>
-				</a>
-				<a href="#carousel-demo" class="carousel-control-next" data-slide="next">
-				  <span class="carousel-control-next-icon"></span>
-				</a>
-			  </div>
+
+		<div class="intro-text my-4">  
+			<h1>新增/修改班次</h1>
+		</div>
+		   
+		<div class="form-group row">
+		
+			<label for="input1" class="col-xs-3 col-md-auto col-form-label">
+				<h5>路線：</h5>
+			</label>
+			
+			<div class="col-xs-4 col-md-3 col-lg-3">
+				<select id="inputState" class="form-control">
+					<option value="101">101 和平島</option>
+					<option value="102">102 祥豐街</option>
+					<option value="103">103 中正路</option>
+					<option value="104">104 海大</option>
+					<option value="105">105 新豐街</option>
+				</select>
+			</div>
+			
+			<label for="input1" class="col-xs-3 col-md-auto col-form-label">
+				<h5>時間：</h5>
+			</label>
+			
+			<div class="col-xs-4 col-md-3 col-lg-3">
+				<select id="inputState" class="form-control">
+					<option value="SUN">星期日 SUN</option>
+					<option value="MON">星期一 MON</option>
+					<option value="TUE">星期二 TUR</option>
+					<option value="WED">星期三 WED</option>
+					<option value="THU">星期四 THU</option>
+					<option value="FRI">星期五 FRI</option>
+					<option value="SAT">星期六 SAT</option>
+				</select>
+			</div>
+			
+			<div class="col-auto mt-3 mt-md-0">
+				<button type="button" class="btn btn-primary"  onclick='display()'>確認</button>
 			</div>
 		</div>
+		
+		<div class="form-group row">
+			
+		</div>
+
+	</div>
+	   
 
 	</body>
 </html>

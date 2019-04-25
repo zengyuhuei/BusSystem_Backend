@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<title>基隆公車調派系統-歷史紀錄</title>
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.1/js/tempusdominus-bootstrap-4.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.1/css/tempusdominus-bootstrap-4.min.css" />
+
+		<link rel="stylesheet" href="../css/main.css">
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+	</head>
+	<script type="text/javascript">
+		$(function () {
+			$('#datetimepicker4').datetimepicker({
+				format: 'DD/MM/YYYY'
+			});
+		});
+	</script>
+
+	<body>
+
+	  <nav class="navbar navbar-expand-xl navbar-dark bg-dark" id="mainNav">
+		  <div class="container">
+			  <a class="navbar-brand" href="./Index.html">基隆公車調派系統</a>
+			  <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			  </button>
+			
+			<div class="navbar-collapse collapse" id="navbarText">
+			  <ul class="nav navbar-nav">
+				<li class="nav-item"><a class = "nav-link" href="./bus_information.html">公車路線資訊</a></li>
+				<li class="nav-item"><a class = "nav-link" href="./add_busdriver.html">新增司機</a></li>
+				<li class="nav-item"><a class = "nav-link" href="./timely_bus_information.html"> 即時公車資訊</a></li>
+				<li class="nav-item"><a class = "nav-link" href="./Human_dispatch.html"> 人力調派</a></li>
+				<li class="nav-item active"><a class = "nav-link" href="./historical_record.html"> 歷史紀錄</a></li>
+				<li class="nav-item"><a class = "nav-link" href="./Emergency_reception.html"> 突發狀況接收</a></li>
+				<li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					  修改路線/班次
+					</a>
+					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+					  <a class="dropdown-item" href="./add_or_revise_shift.html">新增/修改班次</a>
+					  <a class="dropdown-item" href="./revise_path.html">修改路線</a>
+					</div>
+				</li>
+				<li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					  設定
+					</a>
+					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+					  <a class="dropdown-item" href="./Personal_basic_information.html">個人基本資料</a>
+					  <a class="dropdown-item" href="./change_password.html">修改密碼</a>
+					  <a class="dropdown-item" href="./sing_in.html">登出</a>
+					</div>
+				</li>
+				</li>
+			</ul>
+			<ul class="nav navbar-nav ml-auto">
+				
+			</ul>
+			</div>
+			
+		</div>
+	   </nav>
+	   <div class="container">
+			
+		<div class="intro-text my-4">  
+			<h1>歷史紀錄</h1>
+		</div>
+		   
+		<div class="form-group row">
+		
+			<label for="input1" class="col-xs-3 col-md-auto col-form-label">
+				<h5>路線：</h5>
+			</label>
+			
+			<div class="col-xs-4 col-md-3 col-lg-3">
+				<select id="inputState" class="form-control">
+					<option value="101">101 和平島</option>
+					<option value="102">102 祥豐街</option>
+					<option value="103">103 中正路</option>
+					<option value="104">104 海大</option>
+					<option value="105">105 新豐街</option>
+				</select>
+			</div>
+			
+			<label for="input1" class="col-xs-3 col-md-auto col-form-label">
+				<h5>時間：</h5>
+			</label>
+
+			
+			
+			<div class="col-sm-3">
+				<div class="form-group">
+					<div class="input-group date" id="datetimepicker4" data-target-input="nearest">
+						<input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker4"/>
+						<div class="input-group-append" data-target="#datetimepicker4" data-toggle="datetimepicker">
+							<div class="input-group-text"><i class="fa fa-calendar"></i></div>
+						</div>
+					</div>
+				</div>
+			</div>
+	
+			<div class="col-auto mt-3 mt-md-0">
+				<button type="button" class="btn btn-primary"  onclick='display()'>確認</button>
+			</div>
+		</div>
+		
+		<div class="form-group row">
+			<div class="col-xs-12 col-md-8 col-lg-8" id = "googlemap">
+				
+			</div>
+			
+			<div class="col-xs-12 col-md-4 col-lg-4" id = "bus">
+			</div>
+		</div>
+
+	</div>
+	   
+	   
+
+	</body>
+</html>

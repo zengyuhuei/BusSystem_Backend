@@ -3,7 +3,7 @@
 
 	<head>
       <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	  <title>基隆公車調派系統-首頁</title>
+	  <title>基隆公車調派系統-修改路線</title>
 	  
 	  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
 
@@ -12,8 +12,8 @@
 	  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
 
 	  <link rel="stylesheet" href="../css/main.css">
+	  <script src="../js/revise_path.js"></script>
 	</head>
-
 	<body>
 
 	  	  <nav class="navbar navbar-expand-xl navbar-dark bg-dark" id="mainNav">
@@ -32,7 +32,7 @@
 				<li class="nav-item"><a class = "nav-link" href="./historical_record.html"> 歷史紀錄</a></li>
 				<li class="nav-item"><a class = "nav-link" href="./Emergency_reception.html"> 突發狀況接收</a></li>
 				<li class="nav-item dropdown">
-					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					<a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 					  修改路線/班次
 					</a>
 					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -50,7 +50,6 @@
 					  <a class="dropdown-item" href="./sing_in.html">登出</a>
 					</div>
 				</li>
-				</li>
 			</ul>
 			<ul class="nav navbar-nav ml-auto">
 				
@@ -59,33 +58,31 @@
 			
 		</div>
 	   </nav>
+	   
+	   
 	   <div class="container">
-		   <div class="carousel slide" data-ride="carousel" id="carousel-demo">
-				<ol class="carousel-indicators">
-				  <li data-target="#carousel-demo" data-slide-to="0" class="active"></li>
-				  <li data-target="#carousel-demo" data-slide-to="1"></li>
-				  <li data-target="#carousel-demo" data-slide-to="2"></li>
-				</ol>
-			  <div class="carousel-inner">
-				<div class="carousel-item active">
-				  <img class="d-block w-100" src="https://www.taiwan.net.tw/att/1/big_scenic_spots/pic_412_8.jpg" alt="">
-				</div>
-				<div class="carousel-item">
-				  <img class="d-block w-100" src="http://farm4.staticflickr.com/3795/9269794168_3ac58fc15c_b.jpg" alt="">
-				</div>
-				<div class="carousel-item">
-				  <img class="d-block w-100" src="https://www.taiwan.net.tw/att/1/big_scenic_spots/pic_3266_19.jpg" alt="">
-				</div>
-			  
-				<a href="#carousel-demo" class="carousel-control-prev" data-slide="prev">
-				<span class="carousel-control-prev-icon"></span>
-				</a>
-				<a href="#carousel-demo" class="carousel-control-next" data-slide="next">
-				  <span class="carousel-control-next-icon"></span>
-				</a>
-			  </div>
+				
+			<div class="intro-text my-4">  
+				<h1>修改路線</h1>
+				
 			</div>
+			<div class="form-group row">
+
+				
+				<div class="custom-file col-xs-9 col-md-auto">
+				  <input type="file" class="custom-file-input" id="customFile">
+				  <label class="custom-file-label" for="customFile">Choose file</label>
+				</div>
+				<div class = "col-xs-3 col-md-auto mt-3">
+					<button type="button" class="btn btn-primary" onclick='upload()'>上傳檔案</button>
+				</div>
+				
+			</div>
+
+
 		</div>
+
+
 
 	</body>
 </html>

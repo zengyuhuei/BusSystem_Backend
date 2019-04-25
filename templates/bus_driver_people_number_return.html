@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        
+        <title>基隆公車調派系統-乘客人數回報</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+        
+        <link rel="stylesheet" href="../css/main.css">
+		<link rel="stylesheet" href="../css/bus_driver.css">
+        <script src="../js/bus_driver_people_number_return.js"></script>
+    </head>
+	
+    
+    <body>
+        <nav class="navbar navbar-expand-xl navbar-dark bg-dark" id="mainNav">
+		  <div class="container">
+			  <a class="navbar-brand" id="#">基隆公車調派系統</a>
+			  <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			  </button>
+			
+			<div class="navbar-collapse collapse" id="navbarText">
+			  <ul class="nav navbar-nav mr-auto">
+					<li class="nav-item active"><a class = "nav-link" href="./bus_driver_people_number_return.html">乘客人數回報</a></li>
+					<li class="nav-item"><a class = "nav-link" href="./bus_driver_emergency_return.html"> 突發狀況回報</a></li>
+					<li class="nav-item"><a class = "nav-link" href="./bus_driver_personal_basic_information.html"> 個人基本資料</a></li>
+					<li class="nav-item"><a class = "nav-link" href="#"> 導航模式</a></li>
+					<li class="nav-item"><a class = "nav-link" href="./bus_driver_change_password.html"> 修改密碼</a></li>
+				</ul>
+				<ul class="navbar-nav">
+					<a href="../Manager/sing_in.html" class="btn btn-outline-primary navbar-btn" role="button" aria-pressed="true">登出</a>
+                </ul>
+				
+			</div>
+		  </div>
+	    </nav>
+        
+        <div class="container">
+			<div class="intro-text my-4">  
+				<h1>乘客人數回報</h1>
+			</div>
+			<form>
+				<div class = "row">
+					<label for="address" class="col-xs-3 col-md-auto col-form-label">
+						<h4>上車人數：</h4>
+					</label>
+					<div class="qty col-xs-6 col-md-6 col-lg-6">
+						<span class="minus bg-dark">-</span>
+						<input type="number" class="count" name="qty" value="1" id="get_on">
+						<span class="plus bg-dark">+</span>
+					</div>
+				</div>
+				
+				<div class = "row my-4">
+					<label for="address" class="col-xs-3 col-md-auto col-form-label">
+						<h4>下車人數：</h4>
+					</label>
+					<div class="qty col-xs-6 col-md-6 col-lg-6">
+						<span class="minus1 bg-dark">-</span>
+						<input type="number" class="count1" name="qty" value="1" id="get_off">
+						<span class="plus1 bg-dark">+</span>
+					</div>
+				</div>
+				<div class="col-xs-12 col-md-12 col-lg-6 mt-3 text-center">
+					<button type="button" class="btn btn-outline-secondary btn-lg save"  onclick='display()'>送出</button>
+				</div>
+				
+				<div class="col-xs-12 col-md-12 col-lg-6 mt-3 text-center">
+					<button type="button" class="btn btn-secondary btn-lg"  onclick='display()'>到站按鈕</button>
+				</div>
+				
+				<div class = "row my-4">
+					<label for="address" class="col-xs-3-md-auto col-form-label">
+						<h4>當前乘客人數：
+						<input type="number" class="count2" value="0" id="people_number"></h4>
+					</label>
+				</div>
+				
+				
+			</form>
+    </body>
+</html>
