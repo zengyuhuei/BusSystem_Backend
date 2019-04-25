@@ -121,7 +121,7 @@ class WebsocketServer(ThreadingMixIn, TCPServer, API):
     id_counter = 0
     
     #--------------------使用者成功登入後儲存的帳號list------------------
-    #accountCompareList = []
+    accountCompareList = []
     #account = {
     #    'account': "ccting",
     #    'identity': "driver",
@@ -143,7 +143,8 @@ class WebsocketServer(ThreadingMixIn, TCPServer, API):
         model = Model()
         account = model.get_info_from_db_all()
         for acc in account:
-            print(acc)
+            #print(acc)
+            self.accountCompareList.append(acc)
 
     def _message_received_(self, handler, msg):
         self.message_received(self.handler_to_client(handler), self, msg)

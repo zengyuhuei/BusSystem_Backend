@@ -14,7 +14,8 @@
 	  <link rel="stylesheet" href="./css/main.css">
 	</head>
 
-	<body>
+	<script src = "js/websocket_open.js"></script>
+    <body onload="websocket_init()">
 
 		<nav class="navbar navbar-expand-xl navbar-dark bg-dark" id="mainNav">
 		  <div class="container">
@@ -48,7 +49,7 @@
 				<textarea class="form-control" id="exampleFormControlTextarea1" rows="5"></textarea>
 			  </div>
 			</form>
-			<input type="submit" class="btn btn-primary"  onclick='display()'>送出</input>
+			<input type="submit" class="btn btn-primary"  onclick='display()'>
 		</div>
 
 	</body>
