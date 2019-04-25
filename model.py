@@ -40,5 +40,28 @@ class Model:
         """
         return json.dumps(result)
 
+    def get_info_from_db_all(self):
+        client = pymongo.MongoClient('mongodb://user:870215@140.121.198.84:27017/')
+        db = client['KeelungBusSystem']
+        #collection = db['list']
+        result = db["info"]
+        all_account = list(result.find({}))
+        print()
+        """
+        {
+            "_id": "5cbd7f162af88f755a4390da",
+            "name": "tseng",
+            "gender": 0,
+            "birthday": "2019/04/11",
+            "phone_number": "0918338687",
+            "email": "zengyuhuei@gmail.com",
+            "identification_id": "F123456789",
+            "account": "123456", "address":
+            "ananaana",
+            "picture": "file.jpg"}
+        """
+        return all_account
+
+
 
 
