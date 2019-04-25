@@ -21,9 +21,7 @@
 
 
 	<body>
-		{%if error %}
-		 <window class="alert">{{error}}</window>
-		{% endif %}
+		
 		<nav class="navbar navbar-expand-xl navbar-dark bg-dark" id="mainNav">
 			<div class="container">
 				<a class="navbar-brand" id="#">基隆公車調派系統</a>
@@ -41,6 +39,7 @@
 								<div class="card-header">
 									<h3 class="mb-0">Login</h3>
 								</div>
+								
 								<div class="card-body">
 									<form class="form" action = "http://127.0.0.1:3000/login" role="form" autocomplete="off" id="formLogin" enctype = "multipart/form-data" method = "post">
 										<div class="form-group">
@@ -54,6 +53,11 @@
 											<div class="invalid-feedback">Enter your password too!</div>
 										</div>
 										<input type="submit" class="btn btn-success btn-lg float-right" id="btnLogin"></button>
+										{% if error %}
+											<div>
+												<p class=error style="color:red"><strong>Error:</strong> {{ error }}
+											</div>
+										{% endif %}
 									</form>
 								</div>
 								<!--/card-block-->

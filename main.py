@@ -6,8 +6,8 @@ from flask_cors import CORS
 from datetime import datetime, timedelta
 import os
 from werkzeug.utils import secure_filename
-
-
+import warnings
+from functools import wraps
 
 # init Flask 
 app = Flask(__name__)
@@ -54,7 +54,14 @@ def upload(data):
     else:
         return jsonify({"state":"error"})
 
-
+def login_required(f):
+    @wraps(f)
+    def wrap(*args, **kwargs):
+        if 'logged_in' in session:
+            return f(*args,**kwargs)
+        else:
+            return redirect(url_for('login'))
+    return wrap
 
 
 
@@ -63,13 +70,14 @@ def login():
     error = None
     if request.method == 'POST':
         if request.form['account'] != 'admin' or  request.form['password'] != 'admin':
-            error = "Login Error"
+            error = "帳號或密碼錯誤，請重新輸入!"
         else:
             session['logged_in'] = True
             return redirect(url_for('driver_index'))           
-    return render_template('login.html')
+    return render_template('login.html',error = error)
  
 @app.route('/driver_index', methods=['GET'])
+@login_required
 def driver_index():       
     return render_template('driver_index.html')
 
@@ -140,58 +148,73 @@ def get_info():
     return str(response)
 
 @app.route('/bus_driver_change_password', methods=['GET'])
+@login_required
 def bus_driver_change_password():
     return render_template('bus_driver_change_password.html')
 
 @app.route('/bus_driver_emergency_return', methods=['GET'])
+@login_required
 def bus_driver_emergency_return():
     return render_template('bus_driver_emergency_return.html')
 
 @app.route('/bus_driver_people_number_return', methods=['GET'])
+@login_required
 def bus_driver_people_number_return():
     return render_template('bus_driver_people_number_return.html')
 
 @app.route('/bus_driver_personal_basic_information', methods=['GET'])
+@login_required
 def bus_driver_personal_basic_information():
     return render_template('bus_driver_personal_basic_information.html')
 
 @app.route('/add_busdriver', methods=['GET'])
+@login_required
 def add_busdriver():
     return render_template('add_busdriver.html', methods=['GET'])
 
 @app.route('/add_or_revise_shift', methods=['GET'])
+@login_required
 def add_or_revise_shift():
     return render_template('add_or_revise_shift.html', methods=['GET'])
 
 @app.route('/bus_information', methods=['GET'])
+@login_required
 def bus_information():
     return render_template('bus_information.html')
 
 @app.route('/change_password', methods=['GET'])
+@login_required
 def change_password():
     return render_template('change_password.html', methods=['GET'])
 
 @app.route('/Emergency_reception', methods=['GET'])
+@login_required
 def Emergency_reception():
     return render_template('Emergency_reception.html')
 
 @app.route('/historical_record', methods=['GET'])
+@login_required
 def historical_record():
     return render_template('historical_record.html')
 
 @app.route('/Human_dispatch', methods=['GET'])
+@login_required
 def Human_dispatch():
     return render_template('Human_dispatch.html')
 
 @app.route('/Personal_basic_information', methods=['GET'])
+@login_required
 def Personal_basic_information():
     return render_template('Personal_basic_information.html')
 
 @app.route('/revise_path', methods=['GET'])
+@login_required
+@login_required
 def revise_path():
     return render_template('revise_path.html', methods=['GET'])
 
 @app.route('/timely_bus_information', methods=['GET'])
+@login_required
 def timely_bus_information():
     return render_template('timely_bus_information.html')
 
