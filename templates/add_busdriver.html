@@ -13,10 +13,11 @@
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
 
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.1/css/tempusdominus-bootstrap-4.min.css" />
-
-		<link rel="stylesheet" href="./css/main.css">
 		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
-		<script src="./js/add_busdriver.js"></script>
+		
+
+		<link href="{{ url_for('static', filename='css/main.css') }}" rel="stylesheet">
+		<script src="{{url_for('static', filename='js/add_busdriver.js')}}"></script>
 	</head>
 
 
@@ -24,7 +25,7 @@
 
 	  	  <nav class="navbar navbar-expand-xl navbar-dark bg-dark" id="mainNav">
 		  <div class="container">
-			  <a class="navbar-brand" href="{{url_for('manager_index.html')}}">基隆公車調派系統</a>
+			  <a class="navbar-brand" href="{{url_for('driver_index')}}">基隆公車調派系統</a>
 			  <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
 			  </button>
@@ -36,7 +37,7 @@
 				<li class="nav-item"><a class = "nav-link" href="{{url_for('timely_bus_information')}}"> 即時公車資訊</a></li>
 				<li class="nav-item"><a class = "nav-link" href="{{url_for('Human_dispatch')}}"> 人力調派</a></li>
 				<li class="nav-item"><a class = "nav-link" href="{{url_for('historical_record')}}"> 歷史紀錄</a></li>
-				<li class="nav-item"><a class = "nav-link" href="{{url_for('Emergency_reception')}}"> 突發狀況接收</a></li>
+				<li class="nav-item"><a class = "nav-link" href="{{url_for('Emergency_reception')}}"> 突發狀況回報</a></li>
 				<li class="nav-item dropdown">
 					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 					  修改路線/班次
@@ -52,6 +53,7 @@
 					</a>
 					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
 					  <a class="dropdown-item" href="{{url_for('Personal_basic_information')}}">個人基本資料</a>
+					  <a class="dropdown-item" href="{{url_for('change_password')}}">修改密碼</a>
 					  <a class="dropdown-item" href="{{url_for('login')}}">登出</a>
 					</div>
 				</li>
