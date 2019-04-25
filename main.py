@@ -62,16 +62,20 @@ def upload(data):
 def login():
     error = None
     if request.method == 'POST':
-        if request.form.get['uname1'] != 'admin' or request.form.get['pwd1'] != 'admin':
+        if request.form['account'] != 'admin' or  request.form['password'] != 'admin':
             error = "Login Error"
         else:
             session['logged_in'] = True
-            return render_template('driver_index.html')           
+            return redirect(url_for('driver_index'))           
     return render_template('login.html')
+ 
+@app.route('/driver_index', methods=['GET'])
+def driver_index():       
+    return render_template('driver_index.html')
 
 @app.route('/logout', methods=['GET'])
 def logout():
-    session['logged_in', None]
+    session.pop('logged_in', None)
     return render_template('login.html')           
 
 
