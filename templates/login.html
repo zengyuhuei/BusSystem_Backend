@@ -20,16 +20,9 @@
 	</head>
 
 
-<<<<<<< HEAD
-	<body>
-		
-=======
 	<script src = "js/websocket_open.js"></script>
     <body onload="websocket_init()">
-		{%if error %}
-		 <window class="alert">{{error}}</window>
-		{% endif %}
->>>>>>> 2e2df4b459b0ca186ba798522fa48d2cf8fb6fa8
+	
 		<nav class="navbar navbar-expand-xl navbar-dark bg-dark" id="mainNav">
 			<div class="container">
 				<a class="navbar-brand" id="#">基隆公車調派系統</a>
@@ -60,19 +53,17 @@
 											<input type="password" class="form-control form-control-lg rounded-0" id="pwd1" value = "{{request.form.password}}" name = "password" required="" autocomplete="new-password">
 											<div class="invalid-feedback">Enter your password too!</div>
 										</div>
-<<<<<<< HEAD
+
 										<button type="submit" class="btn btn-success btn-lg float-right" id="btnLogin">Login</button>
-=======
+
 										<input type="submit" class="btn btn-success btn-lg float-right" id="btnLogin"></button>
-<<<<<<< HEAD
+
 										{% if error %}
 											<div>
 												<p class=error style="color:red"><strong>Error:</strong> {{ error }}
 											</div>
 										{% endif %}
-=======
->>>>>>> 21430dea4cd4c5f88ea10a1f86218ab2309dafb6
->>>>>>> 2e2df4b459b0ca186ba798522fa48d2cf8fb6fa8
+
 									</form>
 								</div>
 								<!--/card-block-->
