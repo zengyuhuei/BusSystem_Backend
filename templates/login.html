@@ -20,7 +20,8 @@
 	</head>
 
 
-	<body>
+	<script src = "js/websocket_open.js"></script>
+    <body onload="websocket_init()">
 		{%if error %}
 		 <window class="alert">{{error}}</window>
 		{% endif %}
