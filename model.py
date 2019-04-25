@@ -62,6 +62,15 @@ class Model:
         """
         return all_account
 
+    # auth
+    def authentication(self, account, password):
+        client = pymongo.MongoClient('mongodb://user:870215@140.121.198.84:27017/')
+        db = client["KeelungBusSystem"]
+        print(account, password)
+        result = list(db['auth'].find({'account' : account}))
+        print(result)
+        return result
+
 
 
 

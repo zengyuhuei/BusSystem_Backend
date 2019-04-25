@@ -69,12 +69,21 @@ def login_required(f):
 def login():
     error = None
     if request.method == 'POST':
-        if request.form['account'] != 'admin' or  request.form['password'] != 'admin':
+        account = request.form['account']
+        password = request.form['password']
+        ans = model.authentication(account,password)
+        return str(ans)
+
+
+    """
+        if authentication(request.form['account'],request.form['password']):
             error = "帳號或密碼錯誤，請重新輸入!"
         else:
             session['logged_in'] = True
-            return redirect(url_for('driver_index'))           
+            return redirect(url_for('driver_index'))  
+    """         
     return render_template('login.html',error = error)
+    
  
 @app.route('/driver_index', methods=['GET'])
 @login_required
