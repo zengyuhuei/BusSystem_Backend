@@ -128,6 +128,7 @@ def get_info():
     try:
         id = request.args.get('id')
         response = model.get_info_from_db(id)
+        print(response)
 
     except Exception as e:
         response["status"] = "error"
