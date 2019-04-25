@@ -49,7 +49,7 @@
 			<div class="intro-text my-3">
 				<h1>個人基本資料</h1>
 			</div>
-			<form method = "post" action = "/api/upload" enctype = "multipart/form-data">
+			<form method = "post" action = "http://127.0.0.1:3000/add_info_to_db" enctype = "multipart/form-data">
 			  <div class = "row">
 				<div class="col-sm-7 col-lg-7 col-md-7">
 				  <div class="form-group row">
@@ -82,7 +82,7 @@
 					<div class="col-xs-6 col-md-6 col-lg-6">
 						<div class="form-group">
 							<div class="input-group date" id="birthday" data-target-input="nearest">
-								<input type="text" class="form-control datetimepicker-input" id="date" data-target="#birthday" name="brithday" required>
+								<input type="text" class="form-control datetimepicker-input" id="date" data-target="#birthday" name="brirthday" required>
 								<div class="input-group-append" data-target="#birthday" data-toggle="datetimepicker">
 									<div class="input-group-text"><i class="fa fa-calendar"></i></div>
 								</div>
@@ -135,7 +135,7 @@
 					<input type="address" class="form-control col-xs-9 col-md-9 col-lg-9" id="address" name="address" required>
 				  </div>
 				  
-				  <button type="submit" class="btn btn-primary"  onclick='display()'>儲存</button>
+				  <input type="submit" class="btn btn-primary"  onclick='display()'>儲存</input>
 				  <div class="form-group row"></div>
 
 			    </div>
@@ -146,7 +146,7 @@
 								<h6>上傳大頭照：</h6>
 							</label>
 						  <div class="custom-file">
-							<input type="file" class="custom-file-input" id="customFile" name="myfile" required>
+							<input type="file" class="custom-file-input" id="customFile" name="myfile" accept=".jpg,.gif,.png" required>
 							<label class="custom-file-label" for="customFile">Choose file</label>
 						  </div>
 
