@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request,render_template,send_file
+from flask import Flask, jsonify, redirect, url_for, request,render_template, send_file, session
 from flask import jsonify
 import json
 from model import Model
@@ -13,7 +13,7 @@ from werkzeug.utils import secure_filename
 app = Flask(__name__)
 CORS(app)
 model = Model()
-
+app.secret_key = "my precious"
 #上傳文件儲存路徑
 UPLOAD_FOLDER = 'picture'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -56,10 +56,23 @@ def upload(data):
 
 
 
-#Route
-@app.route('/')
-def index():
-    return render_template('index.html')
+
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    error = None
+    if request.method == 'POST':
+        if request.form.get['uname1'] != 'admin' or request.form.get['pwd1'] != 'admin':
+            error = "Login Error"
+        else:
+            session['logged_in'] = True
+            return render_template('driver_index.html')           
+    return render_template('login.html')
+
+@app.route('/logout', methods=['GET'])
+def logout():
+    session['logged_in', None]
+    return render_template('login.html')           
 
 
 @app.route('/add_info_to_db', methods=['POST'])

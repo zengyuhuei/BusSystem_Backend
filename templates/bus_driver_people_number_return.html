@@ -26,10 +26,10 @@
 			<div class="navbar-collapse collapse" id="navbarText">
 			  <ul class="nav navbar-nav mr-auto">
 					<li class="nav-item active"><a class = "nav-link" href="./bus_driver_people_number_return.html">乘客人數回報</a></li>
-					<li class="nav-item"><a class = "nav-link" href="./bus_driver_emergency_return.html"> 突發狀況回報</a></li>
-					<li class="nav-item"><a class = "nav-link" href="./bus_driver_personal_basic_information.html"> 個人基本資料</a></li>
+					<li class="nav-item"><a class = "nav-link" href="{{url_for('bus_driver_emergency_return')}}"> 突發狀況回報</a></li>
+					<li class="nav-item"><a class = "nav-link" href="{{url_for('bus_driver_personal_basic_information')}}"> 個人基本資料</a></li>
 					<li class="nav-item"><a class = "nav-link" href="#"> 導航模式</a></li>
-					<li class="nav-item"><a class = "nav-link" href="./bus_driver_change_password.html"> 修改密碼</a></li>
+					<li class="nav-item"><a class = "nav-link" href="{{url_for('bus_driver_change_password')}}"> 修改密碼</a></li>
 				</ul>
 				<ul class="navbar-nav">
 					<a href="./login.html" class="btn btn-outline-primary navbar-btn" role="button" aria-pressed="true">登出</a>
