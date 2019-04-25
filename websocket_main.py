@@ -11,14 +11,12 @@ def client_left(client, server):
 
 # Called when a client sends a message
 def message_received(client, server, message):
-    print("AAA")
     if len(message) > 200:
         message = message[0:200]+'..'
     x=message.split(":",1)
     print(x)
     if x[0] is 'A':
         # Whenever message received, server send message to client2
-        print("XXX")
         clientList = server._get_client() 
         #new = clientList[1]
         #server.send_message(new, "Server said: Hi, Client2")

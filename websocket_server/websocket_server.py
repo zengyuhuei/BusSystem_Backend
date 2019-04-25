@@ -142,10 +142,8 @@ class WebsocketServer(ThreadingMixIn, TCPServer, API):
         self.port = self.socket.getsockname()[1]
         model = Model()
         account = model.get_info_from_db_all()
-        print(account[0])
         for acc in account:
-            print(account)
-            print("\n")
+            print(acc)
 
     def _message_received_(self, handler, msg):
         self.message_received(self.handler_to_client(handler), self, msg)

@@ -44,7 +44,7 @@ class Model:
         client = pymongo.MongoClient('mongodb://user:870215@140.121.198.84:27017/')
         db = client['KeelungBusSystem']
         #collection = db['list']
-        result = db["info"]
+        result = db["account"]
         all_account = list(result.find({}))
         print()
         """
