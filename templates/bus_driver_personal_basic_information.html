@@ -14,17 +14,116 @@
 
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.1/css/tempusdominus-bootstrap-4.min.css" />
 
-		<link rel="stylesheet" href="./css/main.css">
+		<link rel="stylesheet" href="../css/main.css">
 		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
-		<script src="./js/bus_driver_personal_basic_information.js"></script>
+		<script src="../js/Personal_basic_information.js"></script>
 	</head>
 
+	<script type="text/javascript">
+
+		//把值轉成json檔
+		function display(){
+
+				/*if(gender1.checked==true){
+						var gg = 1;
+				}
+				else if(gender2.checked==true){
+						gg = 0;
+				}
+
+				var json = {
+						'name': InputName.value,
+						'gender': gg,
+						'birthday': $("#birthday").find("input").val(),
+						'phone_number': InputPhone1.value,
+						'email': email.value,
+						'identification_id': identification.value,
+						'account': account.value,
+						'address': address.value,
+						'picture': customFile.value
+				}
+				var kk = JSON.stringify(json);
+				console.log(kk);
+
+				$.ajax({
+						type: 'POST',
+						url: "http://127.0.0.1:3000/add_info_to_db",
+						dataType: 'json',
+						data: JSON.stringify({
+								'name': InputName.value,
+								'gender': gg,
+								'birthday': $("#birthday").find("input").val(),
+								'phone_number': InputPhone1.value,
+								'email': email.value,
+								'identification_id': identification.value,
+								'account': account.value,
+								'address': address.value,
+								'picture': customFile.value
+						}),
+						success: function(data) {
+							console.log(data);
+						},
+						error: function(xhr, type) {
+						}
+				});*/
+		}
+
+		//測試資料
+		/*var js = {
+				'name': 'tseng', 
+				'gender': 0, 
+				'birthday': '2019/04/11',
+				'phone_number': '0918338687',
+				'email': 'zengyuhuei@gmail.com', 
+				'identification_id': 'F123456789', 
+				'account': '123456',
+				'address': 'ananaana',
+				'picture': 'file.jpg'
+		}*/
+
+		//讀取資料庫資料
+		function load(){
+			var idd = "5cbd7f162af88f755a4390da";
+			$.ajax({
+					type: 'GET',
+					url: "http://127.0.0.1:3000/getInfo?id="+idd,
+					dataType: 'json',
+					success: function(data) {
+						console.log(data);
+						loaddata(data);
+					},
+					error: function(xhr, type) {
+					}
+			});
+
+		}
+		function loaddata(js)
+		{
+				InputName.value = js.name;
+				if(js.gender==1){
+						gender1.checked = true;
+						gender2.checked = false;
+				}
+				else if(js.gender==0){
+						gender1.checked = false;
+						gender2.checked = true;
+				}
+				date.value = js.birthday;
+				InputPhone1.value = js.phone_number;
+				email.value = js.email;
+				identification.value = js.identification_id;
+				employee.value = js._id;
+				account.value = js.account;
+				address.value = js.address;
+				//customFile.value = js.picture;
+		}
+</script>
 
 	<body onload="load()">
 
 		<nav class="navbar navbar-expand-xl navbar-dark bg-dark" id="mainNav">
 		  <div class="container">
-			  <a class="navbar-brand" href="./driver_index.html">基隆公車調派系統</a>
+			  <a class="navbar-brand" id="#">基隆公車調派系統</a>
 			  <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
 			  </button>
@@ -38,7 +137,7 @@
 					<li class="nav-item"><a class = "nav-link" href="./bus_driver_change_password.html"> 修改密碼</a></li>
 				</ul>
 				<ul class="navbar-nav">
-					<a href="./login.html" class="btn btn-outline-primary" role="button" aria-pressed="true">登出</a>
+					<a href="../Manager/sing_in.html" class="btn btn-outline-primary" role="button" aria-pressed="true">登出</a>
 				</ul>
 				
 			</div>
@@ -82,7 +181,7 @@
 					<div class="col-xs-6 col-md-6 col-lg-6">
 						<div class="form-group">
 							<div class="input-group date" id="birthday" data-target-input="nearest">
-								<input type="text" class="form-control datetimepicker-input" id="date" data-target="#birthday" name="brirthday" required>
+								<input type="text" class="form-control datetimepicker-input" id="date" data-target="#birthday" name="birthday" required>
 								<div class="input-group-append" data-target="#birthday" data-toggle="datetimepicker">
 									<div class="input-group-text"><i class="fa fa-calendar"></i></div>
 								</div>
@@ -135,7 +234,11 @@
 					<input type="address" class="form-control col-xs-9 col-md-9 col-lg-9" id="address" name="address" required>
 				  </div>
 				  
+<<<<<<< HEAD
 				  <button type="submit" class="btn btn-primary"  onclick='display()'>儲存</button>
+=======
+				  <input type="submit" class="btn btn-primary"  onclick='display()'>儲存</button>
+>>>>>>> 21430dea4cd4c5f88ea10a1f86218ab2309dafb6
 				  <div class="form-group row"></div>
 
 			    </div>

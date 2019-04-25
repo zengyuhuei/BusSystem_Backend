@@ -8,6 +8,8 @@ from hashlib import sha1
 import logging
 from socket import error as SocketError
 import errno
+sys.path.append("..")
+from model import Model
 
 if sys.version_info[0] < 3:
     from SocketServer import ThreadingMixIn, TCPServer, StreamRequestHandler
@@ -119,25 +121,29 @@ class WebsocketServer(ThreadingMixIn, TCPServer, API):
     id_counter = 0
     
     #--------------------使用者成功登入後儲存的帳號list------------------
-    accountCompareList = []
-    account = {
-        'account': "ccting",
-        'identity': "driver",
-        'name': "照址停"
-    }
-    accountCompareList.append(account)
-    account = {
-        'account': "c861029",
-        'identity': "manager",
-        'name': "障踩停"
-    }
-    accountCompareList.append(account)
+    #accountCompareList = []
+    #account = {
+    #    'account': "ccting",
+    #    'identity': "driver",
+    #    'name': "照址停"
+    #}
+    #accountCompareList.append(account)
+    #account = {
+    #   'account': "c861029",
+    #    'identity': "manager",
+    #    'name': "障踩停"
+    #}
+    #accountCompareList.append(account)
     #-------------------------------------------------------------------
     
     def __init__(self, port, host='127.0.0.1', loglevel=logging.WARNING):
         logger.setLevel(loglevel)
         TCPServer.__init__(self, (host, port), WebSocketHandler)
         self.port = self.socket.getsockname()[1]
+        model = Model()
+        account = model.get_info_from_db_all()
+        for acc in account:
+            print(acc)
 
     def _message_received_(self, handler, msg):
         self.message_received(self.handler_to_client(handler), self, msg)

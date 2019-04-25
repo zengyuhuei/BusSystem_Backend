@@ -21,7 +21,9 @@
 
 
 	<body>
-
+		{%if error %}
+		 <window class="alert">{{error}}</window>
+		{% endif %}
 		<nav class="navbar navbar-expand-xl navbar-dark bg-dark" id="mainNav">
 			<div class="container">
 				<a class="navbar-brand" id="#">基隆公車調派系統</a>
@@ -40,18 +42,22 @@
 									<h3 class="mb-0">Login</h3>
 								</div>
 								<div class="card-body">
-									<form class="form" role="form" autocomplete="off" id="formLogin" novalidate="" method="POST">
+									<form class="form" action = "http://127.0.0.1:3000/login" role="form" autocomplete="off" id="formLogin" enctype = "multipart/form-data" method = "post">
 										<div class="form-group">
 											<label for="uname1">Username</label>
-											<input type="text" class="form-control form-control-lg rounded-0" name="uname1" id="uname1" required="">
+											<input type="text" class="form-control form-control-lg rounded-0" value = "{{request.form.account}}" name="account" id="uname1" required="">
 											<div class="invalid-feedback">Oops, you missed this one.</div>
 										</div>
 										<div class="form-group">
 											<label>Password</label>
-											<input type="password" class="form-control form-control-lg rounded-0" id="pwd1" required="" autocomplete="new-password">
+											<input type="password" class="form-control form-control-lg rounded-0" id="pwd1" value = "{{request.form.password}}" name = "password" required="" autocomplete="new-password">
 											<div class="invalid-feedback">Enter your password too!</div>
 										</div>
+<<<<<<< HEAD
 										<button type="submit" class="btn btn-success btn-lg float-right" id="btnLogin">Login</button>
+=======
+										<input type="submit" class="btn btn-success btn-lg float-right" id="btnLogin"></button>
+>>>>>>> 21430dea4cd4c5f88ea10a1f86218ab2309dafb6
 									</form>
 								</div>
 								<!--/card-block-->
