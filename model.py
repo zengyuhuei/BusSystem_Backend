@@ -7,22 +7,22 @@ from bson import ObjectId
         
 class Model:
         
-    # add_info_to_db
-    def add_one_to_db(self, data):
+    # add_driver_to_db
+    def add_driver_to_db(self, data, acc_data):
         client = pymongo.MongoClient('mongodb://user:870215@140.121.198.84:27017/')
         db = client["KeelungBusSystem"]
         # data = { a : xxxx, b : 12345 }
-        result = db['info'].insert_one(data)
-        print(result)
-        return result
+        info_result = db['info'].insert_one(data)
+        account_result = db['auth'].insert_one(acc_data)
+        print(info_result)
+        print(account_result)
+        return info_result
     
     #get info from db    
     def get_info_from_db(self, email):
-        print(email)
         client = pymongo.MongoClient('mongodb://user:870215@140.121.198.84:27017/')
         db = client['KeelungBusSystem']
         #collection = db['list']
-        print("aa")
         result = db["info"].find_one({"email" : email})
         print(result)
         result['_id'] = str(result['_id'])

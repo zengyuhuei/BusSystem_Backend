@@ -108,22 +108,44 @@ def logout():
     session.pop('logged_in', None)
     return redirect(url_for('login'))           
 
+#add driver
+@app.route('/add_driver_to_db', methods=['POST'])
+def add_driver_to_db():
+    response = {"status":"ok"}
+    try:
+        # 傳進來的 JSON String 轉成 LIST json decode
+        data = dict()
+        acc_data = dict()
+        data['name'] = request.form.get("name")
+        data['gender'] = request.form.get("gender")
+        data['birthday'] = request.form.get("birthday")
+        data['phone_number'] = request.form.get("phone_number")
+        data['email'] = request.form.get("email")
+        data['identification_id'] = request.form.get("identification_id")
+        data['address'] = request.form.get("address")
+        upload(data)
+        # 傳進來的 Date String 轉成 Datetime 類別
+        data["birthday"] = datetime.strptime(data["birthday"], '%Y/%m/%d')
+        print(data)
+        acc_data['account'] = request.form.get("email")
+        acc_data['password'] = request.form.get("birthday").replace("/", "")
+        acc_data['identify'] = 1
+        print(acc_data)
+        # 把 DICT 加到資料庫
+        model.add_driver_to_db(data,acc_data)
+    except Exception as e:
+        response["status"] = "error"
+        response["error"] = str(e)
+        print("sss")
+        print(str(e))
+    
+    return json.dumps(response)
 
-@app.route('/add_info_to_db', methods=['POST'])
-def add_info_to_db():
-    """
-    {
-        "name" :"tseng",
-        "gender" : 18,
-        "birthday" : "2019/04/11",
-        "phone_number" : "0918338687",
-        "email" : "zengyuhuei@gmail.com",
-        "identification_id" : "F123456789",
-        "account" : "123456",
-        "address" : "ananaana",
-        "picture" : "file.jpg"
-    }
-    """
+
+#add driver
+@app.route('/modify_info_to_db', methods=['POST'])
+def modify_info_to_db():
+    
     response = {"status":"ok"}
     try:
         # 傳進來的 JSON String 轉成 LIST json decode
@@ -154,7 +176,6 @@ def add_info_to_db():
         print(str(e))
     
     return json.dumps(response)
-
 
 @app.route('/getInfo', methods=['GET'])
 def get_info():
