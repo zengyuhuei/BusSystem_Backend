@@ -9,6 +9,8 @@ from werkzeug.utils import secure_filename
 import warnings
 from functools import wraps
 
+from bson import ObjectId
+
 # init Flask 
 app = Flask(__name__)
 CORS(app)
@@ -68,19 +70,25 @@ def login_required(f):
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     error = None
+    account = None
     if request.method == 'POST':
         account = request.form['account']
         password = request.form['password']
         ans = model.authentication(account,password)
+        result = model.authentication(request.form['account'],request.form['password'])
         
-        if model.authentication(request.form['account'],request.form['password']) == 3:
+        if  result == False:
             error = "帳號或密碼錯誤，請重新輸入!"
-        elif model.authentication(request.form['account'],request.form['password']) == 1:
+        elif result['identity'] == 1:
             session['logged_in'] = True
-            return redirect(url_for('manager_index'))         
-        elif model.authentication(request.form['account'],request.form['password']) == 0:
+            account = result['account']
+            session['store'] = account
+            return render_template('manager_index.html', account = account)
+        elif result['identity'] == 0:
             session['logged_in'] = True
-            return redirect(url_for('driver_index'))   
+            account = result['account']
+            session['store'] = account
+            return render_template('driver.html', account = account)
     return render_template('login.html',error = error)
     
  
@@ -90,64 +98,82 @@ def driver_index():
     return render_template('driver_index.html')
 
 @app.route('/logout', methods=['GET'])
+@login_required
 def logout():
     session.pop('logged_in', None)
-    return render_template('login.html')           
+    return redirect(url_for('login'))           
 
-
-@app.route('/add_info_to_db', methods=['POST'])
-def add_info_to_db():
-    """
-    {
-        "name" :"tseng",
-        "gender" : 18,
-        "birthday" : "2019/04/11",
-        "phone_number" : "0918338687",
-        "email" : "zengyuhuei@gmail.com",
-        "identification_id" : "F123456789",
-        "account" : "123456",
-        "address" : "ananaana",
-        "picture" : "file.jpg"
-    }
-    """
+#add driver to db
+@app.route('/add_driver_to_db', methods=['POST'])
+@login_required
+def add_driver_to_db():
+    error = None
+    success = None
     response = {"status":"ok"}
     try:
         # 傳進來的 JSON String 轉成 LIST json decode
         data = dict()
+        acc_data = dict()
         data['name'] = request.form.get("name")
         data['gender'] = request.form.get("gender")
         data['birthday'] = request.form.get("birthday")
         data['phone_number'] = request.form.get("phone_number")
         data['email'] = request.form.get("email")
         data['identification_id'] = request.form.get("identification_id")
+        data['address'] = request.form.get("address")
+        upload(data)
+        # 傳進來的 Date String 轉成 Datetime 類別
+        data["birthday"] = datetime.strptime(data["birthday"], '%Y/%m/%d')
+        print(data)
+        acc_data['account'] = request.form.get("email")
+        acc_data['password'] = request.form.get("birthday").replace("/", "")
+        acc_data['identity'] = 1
+        print(acc_data)
+        # 把 DICT 加到資料庫
+        model.add_driver_to_db(data,acc_data)
+        success = "新增成功"
+    except Exception as e:
+        response["status"] = "error"
+        response["error"] = str(e)
+        error = "新增失敗"
+        print(response,str(e))
+    if response['status'] == "ok":
+        return render_template('add_busdriver.html',success = success)
+    return render_template('add_busdriver.html',error = error)
+
+
+#modify info
+@app.route('/modify_info_to_db', methods=['POST'])
+@login_required
+def modify_info_to_db():
+    error = None
+    response = {"status":"ok"}
+    try:
+        # 傳進來的 JSON String 轉成 LIST json decode
+        data = dict()
+        data['_id'] = ObjectId(request.form.get("id"))
+        data['phone_number'] = request.form.get("phone_number")
         data['account'] = request.form.get("account")
         data['address'] = request.form.get("address")
         upload(data)
         print(data)
         # 傳進來的 Date String 轉成 Datetime 類別
-        data["birthday"] = datetime.strptime(data["birthday"], '%Y/%m/%d')
         print(data)
-        """
-        'birthday': datetime.datetime(2019, 4, 11, 0, 0), 
-        """
-        
         # 把 DICT 加到資料庫
-        model.add_one_to_db(data)
+        model.modify_info_to_db(data)
     except Exception as e:
         response["status"] = "error"
         response["error"] = str(e)
-        print("sss")
-        print(str(e))
+        print(response,str(e))
     
-    return json.dumps(response)
-
 
 @app.route('/getInfo', methods=['GET'])
+@login_required
 def get_info():
     response = {"status":"ok"}
     try:
-        id = request.args.get('id')
-        response = model.get_info_from_db(id)
+        email = session['store']
+        response = model.get_info_from_db(email)
         print(response)
 
     except Exception as e:

@@ -3,41 +3,39 @@ import pymongo
 import json
 import time
 from datetime import datetime
-from bson.objectid import ObjectId
+from bson import ObjectId
         
 class Model:
         
-    # add_info_to_db
-    def add_one_to_db(self, data):
+    # add_driver_to_db
+    def add_driver_to_db(self, data, acc_data):
         client = pymongo.MongoClient('mongodb://user:870215@140.121.198.84:27017/')
         db = client["KeelungBusSystem"]
-        # data = { a : xxxx, b : 12345 }
-        result = db['info'].insert_one(data)
-        print(result)
+        info_result = db['info'].insert_one(data)
+        account_result = db['auth'].insert_one(acc_data)
+        print(info_result)
+        print(account_result)
+        return info_result
+
+     # modify info
+    def modify_info_to_db(self, data):
+        id = dict()
+        client = pymongo.MongoClient('mongodb://user:870215@140.121.198.84:27017/')
+        db = client["KeelungBusSystem"]
+        id['_id'] = data['_id']
+        del data['_id']
+        result = db['info'].update_one(id, { "$set": data })
         return result
     
     #get info from db    
-    def get_info_from_db(self, id):
+    def get_info_from_db(self, email):
         client = pymongo.MongoClient('mongodb://user:870215@140.121.198.84:27017/')
         db = client['KeelungBusSystem']
         #collection = db['list']
-        result = db["info"].find_one({"_id" : ObjectId(id)})
+        result = db["info"].find_one({"email" : email})
+        print(result)
         result['_id'] = str(result['_id'])
         result['birthday'] = result['birthday'].strftime("%Y/%m/%d")
-        print()
-        """
-        {
-            "_id": "5cbd7f162af88f755a4390da",
-            "name": "tseng",
-            "gender": 0,
-            "birthday": "2019/04/11",
-            "phone_number": "0918338687",
-            "email": "zengyuhuei@gmail.com",
-            "identification_id": "F123456789",
-            "account": "123456", "address":
-            "ananaana",
-            "picture": "file.jpg"}
-        """
         return json.dumps(result)
 
     def get_info_from_db_all(self):
@@ -47,19 +45,6 @@ class Model:
         result = db["auth"]
         all_account = list(result.find({'account':1,'password':0,'identity':1}))
         print()
-        """
-        {
-            "_id": "5cbd7f162af88f755a4390da",
-            "name": "tseng",
-            "gender": 0,
-            "birthday": "2019/04/11",
-            "phone_number": "0918338687",
-            "email": "zengyuhuei@gmail.com",
-            "identification_id": "F123456789",
-            "account": "123456", "address":
-            "ananaana",
-            "picture": "file.jpg"}
-        """
         return all_account
 
     # auth
@@ -70,9 +55,9 @@ class Model:
         result = list(db['auth'].find({'account' : account}))
         if len(result) > 0:
             if result[0]['password'] == password:
-                print(result)
-                return result[0]['identity']
-        return 3
+                print(result[0])
+                return result[0]
+        return False
 
 
 
