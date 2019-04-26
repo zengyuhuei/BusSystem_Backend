@@ -11,12 +11,21 @@ class Model:
     def add_driver_to_db(self, data, acc_data):
         client = pymongo.MongoClient('mongodb://user:870215@140.121.198.84:27017/')
         db = client["KeelungBusSystem"]
-        # data = { a : xxxx, b : 12345 }
         info_result = db['info'].insert_one(data)
         account_result = db['auth'].insert_one(acc_data)
         print(info_result)
         print(account_result)
         return info_result
+
+     # modify info
+    def modify_info_to_db(self, data):
+        id = dict()
+        client = pymongo.MongoClient('mongodb://user:870215@140.121.198.84:27017/')
+        db = client["KeelungBusSystem"]
+        id['_id'] = data['_id']
+        del data['_id']
+        result = db['info'].update_one(id, { "$set": data })
+        return result
     
     #get info from db    
     def get_info_from_db(self, email):

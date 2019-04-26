@@ -55,12 +55,6 @@ def upload(data):
         return jsonify({"state":"ok", "fname":fname, "ext":ext,"dir":file_dir})
     else:
         return jsonify({"state":"error"})
-#objextID to json
-class JSONEncoder(json.JSONEncoder):
-    def default(self, o):
-        if isinstance(o, ObjectId):
-            return str(o)
-        return json.JSONEncoder.default(self, o)
 
 def login_required(f):
     @wraps(f)
@@ -104,13 +98,17 @@ def driver_index():
     return render_template('driver_index.html')
 
 @app.route('/logout', methods=['GET'])
+@login_required
 def logout():
     session.pop('logged_in', None)
     return redirect(url_for('login'))           
 
-#add driver
+#add driver to db
 @app.route('/add_driver_to_db', methods=['POST'])
+@login_required
 def add_driver_to_db():
+    error = None
+    success = None
     response = {"status":"ok"}
     try:
         # 傳進來的 JSON String 轉成 LIST json decode
@@ -129,55 +127,48 @@ def add_driver_to_db():
         print(data)
         acc_data['account'] = request.form.get("email")
         acc_data['password'] = request.form.get("birthday").replace("/", "")
-        acc_data['identify'] = 1
+        acc_data['identity'] = 1
         print(acc_data)
         # 把 DICT 加到資料庫
         model.add_driver_to_db(data,acc_data)
+        success = "新增成功"
     except Exception as e:
         response["status"] = "error"
         response["error"] = str(e)
-        print("sss")
-        print(str(e))
-    
-    return json.dumps(response)
+        error = "新增失敗"
+        print(response,str(e))
+    if response['status'] == "ok":
+        return render_template('add_busdriver.html',success = success)
+    return render_template('add_busdriver.html',error = error)
 
 
-#add driver
+#modify info
 @app.route('/modify_info_to_db', methods=['POST'])
+@login_required
 def modify_info_to_db():
-    
+    error = None
     response = {"status":"ok"}
     try:
         # 傳進來的 JSON String 轉成 LIST json decode
         data = dict()
-        data['name'] = request.form.get("name")
-        data['gender'] = request.form.get("gender")
-        data['birthday'] = request.form.get("birthday")
+        data['_id'] = ObjectId(request.form.get("id"))
         data['phone_number'] = request.form.get("phone_number")
-        data['email'] = request.form.get("email")
-        data['identification_id'] = request.form.get("identification_id")
         data['account'] = request.form.get("account")
         data['address'] = request.form.get("address")
         upload(data)
         print(data)
         # 傳進來的 Date String 轉成 Datetime 類別
-        data["birthday"] = datetime.strptime(data["birthday"], '%Y/%m/%d')
         print(data)
-        """
-        'birthday': datetime.datetime(2019, 4, 11, 0, 0), 
-        """
-        
         # 把 DICT 加到資料庫
-        model.add_one_to_db(data)
+        model.modify_info_to_db(data)
     except Exception as e:
         response["status"] = "error"
         response["error"] = str(e)
-        print("sss")
-        print(str(e))
+        print(response,str(e))
     
-    return json.dumps(response)
 
 @app.route('/getInfo', methods=['GET'])
+@login_required
 def get_info():
     response = {"status":"ok"}
     try:
