@@ -143,7 +143,7 @@ class WebsocketServer(ThreadingMixIn, TCPServer, API):
         model = Model()
         account = model.get_info_from_db_all()
         for acc in account:
-            #print(acc)
+            print(acc)
             self.accountCompareList.append(acc)
 
     def _message_received_(self, handler, msg):

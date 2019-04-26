@@ -3,12 +3,11 @@ function websocket_init()
 {
     // Connect to Web Socket
     var i = 0;
-    localStorage.setItem('Account','ccting');
     ws = new WebSocket("ws://localhost:9001/");
     // Set event handlers.
     ws.onopen = function() 
     {
-      ws.send('A:'+localStorage.getItem('Account'))
+      ws.send('A:'+localStorage.getItem('Account'));
     };
     
     ws.onmessage = function(e) {
@@ -18,4 +17,9 @@ function websocket_init()
     
     ws.onclose = function() {
     };
+}
+function sendMessage()
+{
+  text = document.getElementById("exampleFormControlTextarea1")
+  ws.send(text.value)
 }
