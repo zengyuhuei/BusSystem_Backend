@@ -72,16 +72,15 @@ def login():
         account = request.form['account']
         password = request.form['password']
         ans = model.authentication(account,password)
-        return str(ans)
-
-
-    """
-        if authentication(request.form['account'],request.form['password']):
+        
+        if model.authentication(request.form['account'],request.form['password']) == 3:
             error = "帳號或密碼錯誤，請重新輸入!"
-        else:
+        elif model.authentication(request.form['account'],request.form['password']) == 1:
             session['logged_in'] = True
-            return redirect(url_for('driver_index'))  
-    """         
+            return redirect(url_for('manager_index'))         
+        elif model.authentication(request.form['account'],request.form['password']) == 0:
+            session['logged_in'] = True
+            return redirect(url_for('driver_index'))   
     return render_template('login.html',error = error)
     
  
@@ -226,6 +225,12 @@ def revise_path():
 @login_required
 def timely_bus_information():
     return render_template('timely_bus_information.html')
+
+
+@app.route('/manager_index', methods=['GET'])
+@login_required
+def manager_index():
+    return render_template('manager_index.html')
 
 
 

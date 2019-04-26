@@ -68,8 +68,11 @@ class Model:
         db = client["KeelungBusSystem"]
         print(account, password)
         result = list(db['auth'].find({'account' : account}))
-        print(result)
-        return result
+        if len(result) > 0:
+            if result[0]['password'] == password:
+                print(result)
+                return result[0]['identity']
+        return 3
 
 
 
