@@ -9,6 +9,8 @@ from werkzeug.utils import secure_filename
 import warnings
 from functools import wraps
 
+from bson import ObjectId
+
 # init Flask 
 app = Flask(__name__)
 CORS(app)
@@ -53,6 +55,12 @@ def upload(data):
         return jsonify({"state":"ok", "fname":fname, "ext":ext,"dir":file_dir})
     else:
         return jsonify({"state":"error"})
+#objextID to json
+class JSONEncoder(json.JSONEncoder):
+    def default(self, o):
+        if isinstance(o, ObjectId):
+            return str(o)
+        return json.JSONEncoder.default(self, o)
 
 def login_required(f):
     @wraps(f)
@@ -68,19 +76,25 @@ def login_required(f):
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     error = None
+    account = None
     if request.method == 'POST':
         account = request.form['account']
         password = request.form['password']
         ans = model.authentication(account,password)
+        result = model.authentication(request.form['account'],request.form['password'])
         
-        if model.authentication(request.form['account'],request.form['password']) == 3:
+        if  result == False:
             error = "帳號或密碼錯誤，請重新輸入!"
-        elif model.authentication(request.form['account'],request.form['password']) == 1:
+        elif result['identity'] == 1:
             session['logged_in'] = True
-            return redirect(url_for('manager_index'))         
-        elif model.authentication(request.form['account'],request.form['password']) == 0:
+            account = result['account']
+            session['store'] = account
+            return render_template('manager_index.html', account = account)
+        elif result['identity'] == 0:
             session['logged_in'] = True
-            return redirect(url_for('driver_index'))   
+            account = result['account']
+            session['store'] = account
+            return render_template('driver.html', account = account)
     return render_template('login.html',error = error)
     
  
@@ -92,7 +106,7 @@ def driver_index():
 @app.route('/logout', methods=['GET'])
 def logout():
     session.pop('logged_in', None)
-    return render_template('login.html')           
+    return redirect(url_for('login'))           
 
 
 @app.route('/add_info_to_db', methods=['POST'])
@@ -146,8 +160,8 @@ def add_info_to_db():
 def get_info():
     response = {"status":"ok"}
     try:
-        id = request.args.get('id')
-        response = model.get_info_from_db(id)
+        email = session['store']
+        response = model.get_info_from_db(email)
         print(response)
 
     except Exception as e:

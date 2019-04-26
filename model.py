@@ -3,7 +3,7 @@ import pymongo
 import json
 import time
 from datetime import datetime
-from bson.objectid import ObjectId
+from bson import ObjectId
         
 class Model:
         
@@ -17,27 +17,16 @@ class Model:
         return result
     
     #get info from db    
-    def get_info_from_db(self, id):
+    def get_info_from_db(self, email):
+        print(email)
         client = pymongo.MongoClient('mongodb://user:870215@140.121.198.84:27017/')
         db = client['KeelungBusSystem']
         #collection = db['list']
-        result = db["info"].find_one({"_id" : ObjectId(id)})
+        print("aa")
+        result = db["info"].find_one({"email" : email})
+        print(result)
         result['_id'] = str(result['_id'])
         result['birthday'] = result['birthday'].strftime("%Y/%m/%d")
-        print()
-        """
-        {
-            "_id": "5cbd7f162af88f755a4390da",
-            "name": "tseng",
-            "gender": 0,
-            "birthday": "2019/04/11",
-            "phone_number": "0918338687",
-            "email": "zengyuhuei@gmail.com",
-            "identification_id": "F123456789",
-            "account": "123456", "address":
-            "ananaana",
-            "picture": "file.jpg"}
-        """
         return json.dumps(result)
 
     def get_info_from_db_all(self):
@@ -47,19 +36,6 @@ class Model:
         result = db["account"]
         all_account = list(result.find({}))
         print()
-        """
-        {
-            "_id": "5cbd7f162af88f755a4390da",
-            "name": "tseng",
-            "gender": 0,
-            "birthday": "2019/04/11",
-            "phone_number": "0918338687",
-            "email": "zengyuhuei@gmail.com",
-            "identification_id": "F123456789",
-            "account": "123456", "address":
-            "ananaana",
-            "picture": "file.jpg"}
-        """
         return all_account
 
     # auth
@@ -70,9 +46,9 @@ class Model:
         result = list(db['auth'].find({'account' : account}))
         if len(result) > 0:
             if result[0]['password'] == password:
-                print(result)
-                return result[0]['identity']
-        return 3
+                print(result[0])
+                return result[0]
+        return False
 
 
 
