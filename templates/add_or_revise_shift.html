@@ -13,7 +13,7 @@
 
 	  <link href="{{ url_for('static', filename='css/main.css') }}" rel="stylesheet">
 	  <link href="{{ url_for('static', filename='js/websocket_open.js') }}" rel="stylesheet">
-	  <script src = "js/websocket_open.js"></script>
+	  <script src = "{{url_for('static', filename='js/websocket_open.js')}}"></script>
 	</head>
 	
     <body onload="websocket_init()">
