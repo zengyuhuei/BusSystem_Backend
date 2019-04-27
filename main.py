@@ -170,7 +170,6 @@ def modify_info_to_db():
         response["error"] = str(e)
         error = "修改失敗"
         print(response,str(e))
-    return str(response)
 
     if response['status'] == "ok":
         return redirect(url_for('bus_driver_personal_basic_information',success = success))
