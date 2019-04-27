@@ -18,10 +18,17 @@ function websocket_init()
     ws.onclose = function() {
     };
 }
-function sendMessage()
+function sendMessageToManager()
 {
   text = document.getElementById("exampleFormControlTextarea1")
-  ws.send(text.value)
+  x = "B:"+text.value
+  ws.send(x)
+  text.value = " "
+}
+function sendMessageToDriver()
+{
+  x = "C:已接收到!將會立即處理!"
+  ws.send(x)
 }
 function start(account)
 {

@@ -167,12 +167,19 @@ class WebsocketServer(ThreadingMixIn, TCPServer, API):
         }
         self.clients.append(client)
         self.new_client(client, self)
+        print(client['id'])
 
     def _client_left_(self, handler):
         client = self.handler_to_client(handler)
+        #self.id_counter -= 1
         self.client_left(client, self)
         if client in self.clients:
-            self.clients.remove(client)
+            self.clients.remove(client)  
+        #now = 0
+        #for client in self.clients:
+        #    print("A")
+        #    now += 1
+        #    client['id'] = now
 
     def _unicast_(self, to_client, msg):
         to_client['handler'].send_message(msg)

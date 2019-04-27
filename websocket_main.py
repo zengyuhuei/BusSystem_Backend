@@ -15,14 +15,11 @@ def message_received(client, server, message):
         message = message[0:200]+'..'
     x=message.split(":",1)
     print(x)
-    if x[0] == 'A':
-        print("Client(%d) send ID: %s" % (client['id'], message))
-        
+    if x[0] == 'A':        
         # Whenever message received, server send message to client2
         clientList = server._get_client()
         #new = clientList[1]
-        #server.send_message(new, "Server said: Hi, Client2")
-        
+        #server.send_message(new, "Server said: Hi, Client2")        
         accountList = server._get_account()
         print("Initial account list:")
         print(accountList)
@@ -52,7 +49,9 @@ def message_received(client, server, message):
         # 推播訊息給管理者，不管身分只要send就是指有管理噁能看到訊息
         clientList = server._get_client()
         for client in clientList:
-            if client['identity'] == 'manager':
+            print(client['identity'])
+            if client['identity'] is 0:
+                print("AAA")
                 server.send_message(client,x[1])
     else:    
         #管理者回傳訊息給司機
