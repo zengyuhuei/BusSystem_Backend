@@ -40,7 +40,7 @@ class Model:
         result['birthday'] = result['birthday'].strftime("%Y/%m/%d")
         return json.dumps(result)
     
-    # modify info
+    # modify shift from db
     def modify_shift_from_db(self, data):
         info = dict()
         client = pymongo.MongoClient('mongodb://user:870215@140.121.198.84:27017/')
@@ -52,6 +52,16 @@ class Model:
         del data['day']
         print(data)
         result = db['shift'].update_one(info, { "$set": data })
+        return result
+    
+    # del shft from db
+    def del_shift_from_db(self, data):
+        info = dict()
+        client = pymongo.MongoClient('mongodb://user:870215@140.121.198.84:27017/')
+        db = client["KeelungBusSystem"]
+        
+        print(data)
+        result = db['shift'].delete_one(data)
         return result
 
     #get shift from db    

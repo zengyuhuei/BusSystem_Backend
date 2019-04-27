@@ -140,8 +140,8 @@ def add_driver_to_db():
         error = "新增失敗"
         print(response,str(e))
     if response['status'] == "ok":
-        return render_template('add_busdriver.html',success = success)
-    return render_template('add_busdriver.html',error = error)
+        return redirect(url_for('add_busdriver',success = success))
+    return redirect(url_for('add_busdriver',error = error))
 
 
 #modify info
@@ -220,6 +220,26 @@ def modify_shift():
         response["status"] = "error"
         response["error"] = str(e)
         error = "修改失敗"
+        print(response)
+    if response['status'] == "ok":
+        return redirect(url_for('add_or_revise_shift',  success = success))
+    return redirect(url_for('add_or_revise_shift', error = error))
+
+@app.route('/delShift', methods=['POST'])
+@login_required
+def del_shift():
+    error = None
+    success = None
+    response = {"status":"ok"}
+    try:
+        data = request.get_json()
+        data["start_time"] = datetime.strptime(data["start_time"], '%H:%M')
+        model.del_shift_from_db(data)
+        success = "刪除成功"
+    except Exception as e:
+        response["status"] = "error"
+        response["error"] = str(e)
+        error = "刪除失敗"
         print(response)
     if response['status'] == "ok":
         return redirect(url_for('add_or_revise_shift',  success = success))
