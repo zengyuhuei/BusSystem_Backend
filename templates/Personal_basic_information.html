@@ -66,122 +66,124 @@
 		</div>
 	   </nav>
 	   <div class="container">
-		  <fieldset disabled>
+		  
 			<div class="intro-text my-3">
 				<h1>個人基本資料</h1>
 			</div>
 			<form method = "post" action = "/api/upload" enctype = "multipart/form-data">
-			  <div class = "row">
-				<div class="col-sm-7 col-lg-7 col-md-7">
-				  <div class="form-group row">
-					<label for="InputName" class="col-xs-3 col-md-auto col-form-label"><h6>姓名：</h6></label>
-					<input type="text" class="form-control col-xs-6 col-md-6 col-lg-6" id="InputName" placeholder="請輸入姓名" name="name" required >
-				  </div>
-				  
-				  
-				  <div class="form-group row">
-					<legend class="col-xs-3 col-md-auto col-form-label" readonly="readonly"><h6>性別：</h6></legend>
-					<div class="col-sm-1 mt-2 mt-md-1">
-						<div class="form-check form-check-inline">
-						  <input class="form-check-input" type="radio" name="gender" id="gender1" value="0">
-						  <label class="form-check-label" for="gender1"><h6>男</h6></label>
+				  <div class = "row">
+					<div class="col-sm-7 col-lg-7 col-md-7">
+					  <div class="form-group row">
+						<label for="InputName" class="col-xs-3 col-md-auto col-form-label"><h6>姓名：</h6></label>
+						<input type="text" class="form-control col-xs-6 col-md-6 col-lg-6" id="InputName" placeholder="請輸入姓名" name="name" required disabled>
+					  </div>
+					  
+					  
+					  <div class="form-group row ">
+						<legend class="col-xs-3 col-md-auto col-form-label" readonly="readonly"><h6>性別：</h6></legend>
+						<div class="col-sm-1 mt-2 mt-md-1">
+							<div class="form-check form-check-inline">
+							  <input class="form-check-input" type="radio" name="gender" id="gender1" value="0" required disabled>
+							  <label class="form-check-label" for="gender1"><h6>男</h6></label>
+							</div>
 						</div>
-					</div>
-					<div class="col-sm-1 mt-2 mt-md-1">
-						<div class="form-check form-check-inline">
-						  <input class="form-check-input" type="radio" name="gender" id="gender1" value="1">
-						  <label class="form-check-label" for="gender2"><h6>女</h6></label>
+						<div class="col-sm-1 mt-2 mt-md-1">
+							<div class="form-check form-check-inline">
+							  <input class="form-check-input" type="radio" name="gender" id="gender1" value="1" required disabled>
+							  <label class="form-check-label" for="gender2"><h6>女</h6></label>
+							</div>
 						</div>
-					</div>
-				  </div>
-				  
-				  <div class="form-group row">
-					<label for="birthday" class="col-xs-3 col-md-auto col-form-label">
-						<h6>生日：</h6>
-					</label>
-					
-					
-					<div class="col-xs-6 col-md-6 col-lg-6">
-						<div class="form-group">
-							<div class="input-group date" id="birthday" data-target-input="nearest">
-								<input type="text" class="form-control datetimepicker-input" data-target="#birthday" name="birthday" required>
-								<div class="input-group-append" data-target="#birthday" data-toggle="datetimepicker">
-									<div class="input-group-text"><i class="fa fa-calendar"></i></div>
+					  </div>
+					  
+					  <div class="form-group row">
+						<label for="birthday" class="col-xs-3 col-md-auto col-form-label">
+							<h6>生日：</h6>
+						</label>
+						
+						
+						<div class="col-xs-6 col-md-6 col-lg-6">
+							<div class="form-group">
+								<div class="input-group date" id="birthday" data-target-input="nearest">
+									<input type="text" class="form-control datetimepicker-input" data-target="#birthday" name="birthday" required disabled>
+									<div class="input-group-append" data-target="#birthday" data-toggle="datetimepicker">
+										<div class="input-group-text"><i class="fa fa-calendar"></i></div>
+									</div>
 								</div>
 							</div>
 						</div>
+						
+						
+					  </div>
+					  
+					  <div class="form-group row">
+						<label for="InputPhone1" class="col-xs-3 col-md-auto col-form-label">
+							<h6>電話：（手機）</h6>
+						</label>
+						<input type="phone" class="form-control col-xs-6 col-md-6 col-lg-6" id="InputPhone1" placeholder="請輸入手機號碼" name="phone_number" required disabled>
+					  </div>
+					  
+					  <div class="form-group row">
+						<label for="staticEmail" class="col-sm-3 col-md-auto col-form-label">
+						<h6>e-mail：</h6>
+						</label>
+						 <input type="text" class="form-control col-xs-6 col-md-6 col-lg-6" id="email" placeholder="email@example.com" name="email" required disabled>
+					  </div>
+
+					  
+					  <div class="form-group row">
+						<label for="identification" class="col-xs-3 col-md-auto col-form-label">
+							<h6>身分證字號：</h6>
+						</label>
+						<input type="identification" class="form-control col-xs-6 col-md-6 col-lg-6" id="identification" name="identification_id" required disabled>
+					  </div>
+					  
+					  <div class="form-group row">
+						<label for="employee" class="col-xs-3 col-md-auto col-form-label">
+							<h6>員工代號：</h6>
+						</label>
+						<input type="employee" class="form-control col-xs-6 col-md-6 col-lg-6" id="employee" required disabled>
+					  </div>
+					  
+					  <div class="form-group row">
+						<label for="account" class="col-xs-3 col-md-auto col-form-label">
+							<h6>帳戶：</h6>
+						</label>
+						<input type="account" class="form-control col-xs-6 col-md-6 col-lg-6" id="account" name="account" required disabled>
+					  </div>
+					  
+					  <div class="form-group row">
+						<label for="address" class="col-xs-3 col-md-auto col-form-label">
+							<h6>通訊地址：</h6>
+						</label>
+						<input type="address" class="form-control col-xs-9 col-md-9 col-lg-9" id="address" name="address" required disabled>
+					  </div>
+
+
 					</div>
-					
-					
-				  </div>
-				  
-				  <div class="form-group row">
-					<label for="InputPhone1" class="col-xs-3 col-md-auto col-form-label">
-						<h6>電話：（手機）</h6>
-					</label>
-					<input type="phone" class="form-control col-xs-6 col-md-6 col-lg-6" id="InputPhone1" placeholder="請輸入手機號碼" name="phone_number" required>
-				  </div>
-				  
-				  <div class="form-group row">
-					<label for="staticEmail" class="col-sm-3 col-md-auto col-form-label">
-					<h6>e-mail：</h6>
-					</label>
-					 <input type="text" class="form-control col-xs-6 col-md-6 col-lg-6" id="email" placeholder="email@example.com" name="email" required>
-				  </div>
+					<div class="col-sm-4 col-lg-4 col-md-4">
+						<div class="form-group">
+							<div class="form-group row">
+								<label for="address" class="col-xs-3 col-md-auto col-form-label">
+									<h6>上傳大頭照：</h6>
+								</label>
+							  <div class="custom-file">
+								<input type="file" class="custom-file-input" id="myfile" name="myfile" accept=".jpg,.gif,.png" required disabled>
+								<label class="custom-file-label" for="myfile">Choose file</label>
+							  </div>
 
-				  
-				  <div class="form-group row">
-					<label for="identification" class="col-xs-3 col-md-auto col-form-label">
-						<h6>身分證字號：</h6>
-					</label>
-					<input type="identification" class="form-control col-xs-6 col-md-6 col-lg-6" id="identification" name="identification_id" required>
-				  </div>
-				  
-				  <div class="form-group row">
-					<label for="employee" class="col-xs-3 col-md-auto col-form-label">
-						<h6>員工代號：</h6>
-					</label>
-					<input type="employee" class="form-control col-xs-6 col-md-6 col-lg-6" id="employee" required>
-				  </div>
-				  
-				  <div class="form-group row">
-					<label for="account" class="col-xs-3 col-md-auto col-form-label">
-						<h6>帳戶：</h6>
-					</label>
-					<input type="account" class="form-control col-xs-6 col-md-6 col-lg-6" id="account" name="account" required>
-				  </div>
-				  
-				  <div class="form-group row">
-					<label for="address" class="col-xs-3 col-md-auto col-form-label">
-						<h6>通訊地址：</h6>
-					</label>
-					<input type="address" class="form-control col-xs-9 col-md-9 col-lg-9" id="address" name="address" required>
-				  </div>
-
-
-			    </div>
-			    <div class="col-sm-4 col-lg-4 col-md-4">
-					<div class="form-group">
-						<div class="form-group row">
-							<label for="address" class="col-xs-3 col-md-auto col-form-label">
-								<h6>上傳大頭照：</h6>
-							</label>
-						  <div class="custom-file">
-							<input type="file" class="custom-file-input" id="customFile" name="myfile" accept=".jpg,.gif,.png" required>
-							<label class="custom-file-label" for="customFile">Choose file</label>
-						  </div>
-
-							
+								
+							</div>
+							<img id='img-upload'/>
 						</div>
-						<img id='img-upload'/>
+						
 					</div>
-					
-			    </div>
-			  </div>
+				  </div>
+			  <input type="submit" class="btn btn-primary mb-3 yes"  style="display:none;" onclick="display()">
+			  
 			</form>
-			</fieldset>
-			<button type="submit" class="btn btn-primary mb-3 yes"  style="display:none;">確認</button>
-			<button type="submit" class="btn btn-success mb-3 fix" >修改</button>
+			<button class="btn btn-success mb-3 fix" >修改</button>
+			
+			
 			  
 		</div>
 	   
