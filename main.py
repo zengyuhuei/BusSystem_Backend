@@ -146,7 +146,7 @@ def add_driver_to_db():
 
 #modify info
 @app.route('/modify_info_to_db', methods=['POST'])
-
+@login_required
 def modify_info_to_db():
     error = None
     success = None
@@ -164,13 +164,12 @@ def modify_info_to_db():
         print(data)
         # 把 DICT 加到資料庫
         model.modify_info_to_db(data)
-        message = "修改成功"
+        success = "修改成功"
     except Exception as e:
         response["status"] = "error"
         response["error"] = str(e)
         error = "修改失敗"
-        print(response,str(e))
-    return str(response)
+        print(response)
 
     if response['status'] == "ok":
         return redirect(url_for('bus_driver_personal_basic_information', success = success))
@@ -191,10 +190,12 @@ def get_info():
     return str(response)
 
 @app.route('/getShift', methods=['GET'])
+@login_required
 def get_shift():
     response = {"status":"ok"}
     try:
         data = request.get_json()
+        data["start_time"] = datetime.strptime(data["start_time"], '%H:%M')
         response = model.get_shift_from_db(data)
         print(response)
 
@@ -203,7 +204,28 @@ def get_shift():
         print(str(e))
     return str(response)
 
+@app.route('/modifyShift', methods=['POST'])
+@login_required
+def modify_shift():
+    error = None
+    success = None
+    response = {"status":"ok"}
+    try:
+        data = request.get_json()
+        data["start_time"] = datetime.strptime(data["start_time"], '%H:%M')
+        model.modify_shift_from_db(data)
+        success = "修改成功"
+    except Exception as e:
+        response["status"] = "error"
+        response["error"] = str(e)
+        error = "修改失敗"
+        print(response)
+    if response['status'] == "ok":
+        return redirect(url_for('add_or_revise_shift',  success = success))
+    return redirect(url_for('add_or_revise_shift', error = error))
+
 @app.route('/addShift', methods=['POST'])
+@login_required
 def add_shift():
     error = None
     success = None

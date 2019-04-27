@@ -39,15 +39,30 @@ class Model:
         result['_id'] = str(result['_id'])
         result['birthday'] = result['birthday'].strftime("%Y/%m/%d")
         return json.dumps(result)
+    
+    # modify info
+    def modify_shift_from_db(self, data):
+        info = dict()
+        client = pymongo.MongoClient('mongodb://user:870215@140.121.198.84:27017/')
+        db = client["KeelungBusSystem"]
+        info['route'] = data['route']
+        info['day'] = data['day']
+        print(info)
+        del data['route']
+        del data['day']
+        print(data)
+        result = db['shift'].update_one(info, { "$set": data })
+        return result
 
     #get shift from db    
     def get_shift_from_db(self, data):
         client = pymongo.MongoClient('mongodb://user:870215@140.121.198.84:27017/')
         db = client['KeelungBusSystem']
         #collection = db['list']
-        result = db["shift"].find_one({"start_time" : data['start_time'], "route" : data['route']})
+        result = db["shift"].find_one({"start_time" : data['start_time'], "route" : data['route'], "day" : data['day']})
         print(result)
-        result['start_time'] = result['start_time'].strftime("%H:%M").time()
+        result['start_time'] = result['start_time'].strftime("%H:%M")
+        del result['_id']
         return json.dumps(result)
 
     # add_shift_to_db
