@@ -25,7 +25,7 @@
 
 	  	 <nav class="navbar navbar-expand-xl navbar-dark bg-dark" id="mainNav">
 		  <div class="container">
-			  <a class="navbar-brand" href="{{url_for('driver_index')}}">基隆公車調派系統</a>
+			  <a class="navbar-brand" href="{{url_for('manager_index')}}">基隆公車調派系統</a>
 			  <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
 			  </button>
@@ -54,7 +54,7 @@
 					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
 					  <a class="dropdown-item active" href="{{url_for('Personal_basic_information')}}">個人基本資料</a>
 					  <a class="dropdown-item" href="{{url_for('change_password')}}">修改密碼</a>
-					  <a class="dropdown-item" href="{{url_for('login')}}">登出</a>
+					  <a class="dropdown-item" href="{{url_for('logout')}}">登出</a>
 					</div>
 				</li>
 			</ul>

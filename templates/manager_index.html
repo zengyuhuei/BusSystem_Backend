@@ -16,20 +16,16 @@
 		<link href="{{ url_for('static', filename='css/main.css') }}" rel="stylesheet">
 		
 		<script>
-			function loadAccount()
-			{
-					console.log( '{{ account }}');
-			}
+			console.log("account = ");
 		</script>
-
 	</head>
 
     
 	
-	<body onload="loadAccount()">
+	<body onload="start('{{account}}')">
 	  	  <nav class="navbar navbar-expand-xl navbar-dark bg-dark" id="mainNav">
 		  <div class="container">
-			  <a class="navbar-brand" href="{{url_for('driver_index')}}">基隆公車調派系統</a>
+			  <a class="navbar-brand" href="{{url_for('manager_index')}}">基隆公車調派系統</a>
 			  <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
 			  </button>
@@ -93,9 +89,9 @@
 				<a href="#carousel-demo" class="carousel-control-next" data-slide="next">
 				  <span class="carousel-control-next-icon"></span>
 				</a>
+				
 			  </div>
 			</div>
 		</div>
-
 	</body>
 </html>

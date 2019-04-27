@@ -3,7 +3,6 @@ function websocket_init()
 {
     // Connect to Web Socket
     var i = 0;
-    localStorage.setItem('account','{{account}}')
     ws = new WebSocket("ws://localhost:9001/");
     // Set event handlers.
     ws.onopen = function() 
@@ -26,6 +25,6 @@ function sendMessage()
 }
 function start(account)
 {
-  console.log(account);
+  localStorage.setItem('account',account)
   websocket_init();
 }

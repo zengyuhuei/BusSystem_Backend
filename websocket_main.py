@@ -15,9 +15,11 @@ def message_received(client, server, message):
         message = message[0:200]+'..'
     x=message.split(":",1)
     print(x)
-    if x[0] is 'A':
+    if x[0] == 'A':
+        print("Client(%d) send ID: %s" % (client['id'], message))
+        
         # Whenever message received, server send message to client2
-        clientList = server._get_client() 
+        clientList = server._get_client()
         #new = clientList[1]
         #server.send_message(new, "Server said: Hi, Client2")
         
@@ -41,12 +43,26 @@ def message_received(client, server, message):
         print(clientList)
         print("\n")
                     
-    else:
+    elif x[0] == 'B':
+        print("Client(%d) send message: %s" % (client['id'], message))
+        
+        global client_sender_id
+        client_sender_id = client['id']
+        print("B:Client(%d) 傳訊給管理者" % (client_sender_id))
+        # 推播訊息給管理者，不管身分只要send就是指有管理噁能看到訊息
         clientList = server._get_client()
         for client in clientList:
-            if client['identity'] is 'manager':
-                print("AAA\n")
+            if client['identity'] == 'manager':
                 server.send_message(client,x[1])
+    else:    
+        #管理者回傳訊息給司機
+        #server.send_message(client['id'],"朕知道了")
+        clientList = server._get_client()
+        
+        print("C:Client(%d) 傳訊給管理者" % (client_sender_id))
+        server.send_message(clientList[client_sender_id-1], "朕知道了")
+        print(clientList[client_sender_id-1])
+        #print("Client(%d) sendback message: %s" % (client['id'], "朕知道了")) 
         
    
     
