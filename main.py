@@ -147,6 +147,7 @@ def add_driver_to_db():
 @login_required
 def modify_info_to_db():
     error = None
+    success = None
     response = {"status":"ok"}
     try:
         # 傳進來的 JSON String 轉成 LIST json decode
@@ -161,10 +162,15 @@ def modify_info_to_db():
         print(data)
         # 把 DICT 加到資料庫
         model.modify_info_to_db(data)
+        message = "修改成功"
     except Exception as e:
         response["status"] = "error"
         response["error"] = str(e)
+        error = "修改失敗"
         print(response,str(e))
+    if response['status'] == "ok":
+        return render_template('bus_driver_personal_basic_information.html',success = success)
+    return render_template('bus_driver_personal_basic_information.html',error = error)
     
 
 @app.route('/getInfo', methods=['GET'])
@@ -173,6 +179,18 @@ def get_info():
     response = {"status":"ok"}
     try:
         email = session['store']
+        response = model.get_info_from_db(email)
+        print(response)
+
+    except Exception as e:
+        response["status"] = "error"
+        print(str(e))
+    return str(response)
+
+@app.route('/get', methods=['GET'])
+def get_info():
+    response = {"status":"ok"}
+    try:
         response = model.get_info_from_db(email)
         print(response)
 
