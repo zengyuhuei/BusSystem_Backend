@@ -110,17 +110,23 @@ $(document).ready(function(){
 	$(".fix").click(function() {
 		$(".yes").show();
 		$(".fix").hide();
-		$('fieldset').prop('disabled', false);
-		$('#birthday > .form-control').prop('disabled', false);
+		$('#InputPhone1').prop('disabled', false);
+		$('#address').prop('disabled', false);
+		$('#customFile').prop('disabled', false);
+		$('#account').prop('disabled', false);
 		
+		$('#InputPhone1').prop('required', true);
+		$('#address').prop('required', true);
+		$('#customFile').prop('required', true);
+		$('#account').prop('required', true);
 		
 	})
-	$(".yes").click(function() {
+	/*$(".yes").click(function() {
 		$(".yes").hide();
 		$(".fix").show();
 		$('fieldset').prop('disabled', true);
 		$('#birthday > .form-control').prop('disabled', true);
-	})
+	})*/
 	
 	$(document).on('change', '.btn-file :file', function() {
 		var input = $(this),
