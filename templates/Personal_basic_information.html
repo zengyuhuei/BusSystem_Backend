@@ -66,7 +66,7 @@
 		</div>
 	   </nav>
 	   <div class="container">
-
+		  <fieldset disabled>
 			<div class="intro-text my-3">
 				<h1>個人基本資料</h1>
 			</div>
@@ -157,9 +157,7 @@
 					</label>
 					<input type="address" class="form-control col-xs-9 col-md-9 col-lg-9" id="address" name="address" required>
 				  </div>
-				  
-				  <input type="submit" class="btn btn-primary"  onclick='display()'>
-				  <div class="form-group row"></div>
+
 
 			    </div>
 			    <div class="col-sm-4 col-lg-4 col-md-4">
@@ -181,8 +179,9 @@
 			    </div>
 			  </div>
 			</form>
-			
-			  
+			</fieldset>
+			<button type="submit" class="btn btn-primary mb-3 yes"  style="display:none;">確認</button>
+			<button type="submit" class="btn btn-success mb-3 fix" >修改</button>
 			  
 		</div>
 	   

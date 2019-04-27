@@ -3,7 +3,7 @@ function websocket_init()
 {
     // Connect to Web Socket
     var i = 0;
-    localStorage.setItem('Account','ccting');
+    localStorage.setItem('Account','tesng');
     ws = new WebSocket("ws://localhost:9001/");
     // Set event handlers.
     ws.onopen = function() 

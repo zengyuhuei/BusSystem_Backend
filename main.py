@@ -79,16 +79,16 @@ def login():
         
         if  result == False:
             error = "帳號或密碼錯誤，請重新輸入!"
-        elif result['identity'] == 1:
-            session['logged_in'] = True
-            account = result['account']
-            session['store'] = account
-            return render_template('manager_index.html', account = account)
         elif result['identity'] == 0:
             session['logged_in'] = True
             account = result['account']
             session['store'] = account
-            return render_template('driver.html', account = account)
+            return render_template('manager_index.html', account = account)
+        elif result['identity'] == 1:
+            session['logged_in'] = True
+            account = result['account']
+            session['store'] = account
+            return render_template('driver_index.html', account = account)
     return render_template('login.html',error = error)
     
  
