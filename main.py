@@ -76,7 +76,7 @@ def login():
         password = request.form['password']
         ans = model.authentication(account,password)
         result = model.authentication(request.form['account'],request.form['password'])
-        
+        print(account)
         if  result == False:
             error = "帳號或密碼錯誤，請重新輸入!"
         elif result['identity'] == 1:

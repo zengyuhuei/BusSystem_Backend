@@ -12,7 +12,3 @@ $(document).ready(function(){
 		$(this).siblings(".custom-file-label").addClass("selected").html(fileName);
 	});
 });
-function deleteItem()
-{
-	localStorage.removeItem();
-}
