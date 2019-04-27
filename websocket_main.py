@@ -21,15 +21,16 @@ def message_received(client, server, message):
         #new = clientList[1]
         #server.send_message(new, "Server said: Hi, Client2")        
         accountList = server._get_account()
-        print("Initial account list:")
-        print(accountList)
-        print("\n")
+        #print("Initial account list:")
+        #print(accountList)
+        #print("\n")
     
         print("Initial client list:")
         print(clientList)
         print("\n")
         
         for i in accountList:
+            print(x[1])
             if x[1] == i['account']:
                 print("Find account successfully, identity: %s\n" % (i['identity']))
                 
