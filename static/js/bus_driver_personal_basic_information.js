@@ -61,10 +61,9 @@ function display(){
 
 //讀取資料庫資料
 function load(){
-	var idd = "5cbd7f162af88f755a4390da";
 	$.ajax({
 			type: 'GET',
-			url: "http://127.0.0.1:3000/getInfo?id="+idd,
+			url: "http://127.0.0.1:3000/getInfo?",
 			dataType: 'json',
 			success: function(data) {
 				console.log(data);
@@ -96,7 +95,6 @@ function loaddata(js)
 		//customFile.value = js.picture;
 }
 
-
 $(function () {
 		$('#birthday').datetimepicker({
 			format: 'YYYY/MM/DD'
@@ -108,7 +106,21 @@ $(document).ready(function(){
 		var fileName = e.target.files[0].name;
 		$(this).siblings(".custom-file-label").addClass("selected").html(fileName);
 	});
-	
+	$('#birthday > .form-control').prop('disabled', true);
+	$(".fix").click(function() {
+		$(".yes").show();
+		$(".fix").hide();
+		$('fieldset').prop('disabled', false);
+		$('#birthday > .form-control').prop('disabled', false);
+		
+		
+	})
+	$(".yes").click(function() {
+		$(".yes").hide();
+		$(".fix").show();
+		$('fieldset').prop('disabled', true);
+		$('#birthday > .form-control').prop('disabled', true);
+	})
 	
 	$(document).on('change', '.btn-file :file', function() {
 		var input = $(this),

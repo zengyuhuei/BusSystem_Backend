@@ -18,14 +18,14 @@
 		
 
 		<link href="{{ url_for('static', filename='css/main.css') }}" rel="stylesheet">
-		<script src="{{url_for('static', filename='js/Personal_basic_information.js')}}"></script>
+		<script src="{{url_for('static', filename='js/bus_driver_personal_basic_information.js')}}"></script>
 		<script src = "{{url_for('static', filename='js/websocket_open.js')}}"></script>
 		<script type = "text/javascript">
-			function start()
-			{
-				load();
-				websocket_init();
-			}
+		function start()
+		{
+			load();
+			websocket_init();
+		}
 		</script>
 	</head>
 
@@ -55,7 +55,7 @@
 		  </div>
 	    </nav>
 	   <div class="container">
-
+		  <fieldset disabled>
 			<div class="intro-text my-3">
 				<h1>個人基本資料</h1>
 			</div>
@@ -145,9 +145,6 @@
 					<input type="address" class="form-control col-xs-9 col-md-9 col-lg-9" id="address" name="address" required>
 				  </div>
 
-				  <button type="submit" class="btn btn-primary"  onclick='display()'>儲存</button>
-				  <div class="form-group row"></div>
-
 			    </div>
 			    <div class="col-sm-4 col-lg-4 col-md-4">
 					<div class="form-group">
@@ -168,7 +165,9 @@
 			    </div>
 			  </div>
 			</form>
-
+		  </fieldset>
+		  <button type="submit" class="btn btn-primary mb-3 yes" onclick='display()' style="display:none;">儲存</button>
+		  <button type="submit" class="btn btn-success mb-3 fix" >修改</button>
 
 			  
 			  
