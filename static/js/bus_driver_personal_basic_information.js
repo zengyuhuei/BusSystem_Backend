@@ -61,10 +61,9 @@ function display(){
 
 //讀取資料庫資料
 function load(){
-	var idd = "5cbd7f162af88f755a4390da";
 	$.ajax({
 			type: 'GET',
-			url: "http://127.0.0.1:3000/getInfo?id="+idd,
+			url: "http://127.0.0.1:3000/getInfo?",
 			dataType: 'json',
 			success: function(data) {
 				console.log(data);
@@ -95,7 +94,6 @@ function loaddata(js)
 		address.value = js.address;
 		//customFile.value = js.picture;
 }
-
 
 $(function () {
 		$('#birthday').datetimepicker({
