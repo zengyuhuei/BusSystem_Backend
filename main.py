@@ -146,7 +146,7 @@ def add_driver_to_db():
 
 #modify info
 @app.route('/modify_info_to_db', methods=['POST'])
-@login_required
+
 def modify_info_to_db():
     error = None
     success = None
@@ -170,11 +170,12 @@ def modify_info_to_db():
         response["error"] = str(e)
         error = "修改失敗"
         print(response,str(e))
-    if response['status'] == "ok":
-        return render_template('bus_driver_personal_basic_information.html',success = success)
-    return render_template('bus_driver_personal_basic_information.html',error = error)
-    
+    return str(response)
 
+    if response['status'] == "ok":
+        return redirect(url_for('bus_driver_personal_basic_information', success = success))
+    return redirect(url_for('bus_driver_personal_basic_information', error = error))
+    
 @app.route('/getInfo', methods=['GET'])
 @login_required
 def get_info():
@@ -220,13 +221,13 @@ def add_shift():
         response["status"] = "error"
         response["error"] = str(e)
         error = "新增失敗"
-        print(str(e))
-    return str(response)
-    """
+        print(response, str(e))
+    
+    
     if response['status'] == "ok":
         return redirect(url_for('add_or_revise_shift', success = success))
     return redirect(url_for('add_or_revise_shift', error = error))
-    """
+    
 
 @app.route('/bus_driver_change_password', methods=['GET'])
 @login_required

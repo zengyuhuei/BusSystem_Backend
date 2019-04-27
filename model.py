@@ -23,7 +23,9 @@ class Model:
         client = pymongo.MongoClient('mongodb://user:870215@140.121.198.84:27017/')
         db = client["KeelungBusSystem"]
         id['_id'] = data['_id']
+        print(id)
         del data['_id']
+        print(data)
         result = db['info'].update_one(id, { "$set": data })
         return result
     
@@ -45,15 +47,16 @@ class Model:
         #collection = db['list']
         result = db["shift"].find_one({"start_time" : data['start_time'], "route" : data['route']})
         print(result)
-        result['start_time'] = result['start_time'].strftime("%H:%M")
+        result['start_time'] = result['start_time'].strftime("%H:%M").time()
         return json.dumps(result)
 
-    # add_driver_to_db
+    # add_shift_to_db
     def add_shift_to_db(self, data):
         client = pymongo.MongoClient('mongodb://user:870215@140.121.198.84:27017/')
         db = client["KeelungBusSystem"]
+        print(data)
         result = db['shift'].insert_one(data)
-        print(info_result)
+        print(result)
         return result
 
 
