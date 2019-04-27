@@ -90,6 +90,7 @@ function loaddata(js)
 		email.value = js.email;
 		identification.value = js.identification_id;
 		employee.value = js._id;
+		console.log(js._id);
 		account.value = js.account;
 		address.value = js.address;
 		//customFile.value = js.picture;
@@ -120,13 +121,16 @@ $(document).ready(function(){
 		$('#customFile').prop('required', true);
 		$('#account').prop('required', true);
 		
+		
 	})
-	/*$(".yes").click(function() {
-		$(".yes").hide();
+	$(".yes").click(function() {
+		/*$(".yes").hide();
 		$(".fix").show();
 		$('fieldset').prop('disabled', true);
-		$('#birthday > .form-control').prop('disabled', true);
-	})*/
+		$('#birthday > .form-control').prop('disabled', true);*/
+		console.log("aaaaaaaaaaaaa");
+		console.log(js._id);
+	})
 	
 	$(document).on('change', '.btn-file :file', function() {
 		var input = $(this),

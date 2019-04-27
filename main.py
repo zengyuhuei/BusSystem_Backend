@@ -172,8 +172,9 @@ def modify_info_to_db():
         print(response)
 
     if response['status'] == "ok":
-        return redirect(url_for('bus_driver_personal_basic_information', success = success))
-    return redirect(url_for('bus_driver_personal_basic_information', error = error))
+        return redirect(url_for('bus_driver_personal_basic_information',success = success))
+    return redirect(url_for('bus_driver_personal_basic_information',error = error))
+
     
 @app.route('/getInfo', methods=['GET'])
 @login_required
