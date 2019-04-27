@@ -43,11 +43,19 @@ class Model:
         client = pymongo.MongoClient('mongodb://user:870215@140.121.198.84:27017/')
         db = client['KeelungBusSystem']
         #collection = db['list']
-        result = db["shift"].find_one({"start" : email})
+        result = db["shift"].find_one({"start_time" : data['start_time'], "route" : data['route']})
         print(result)
-        result['_id'] = str(result['_id'])
-        result['birthday'] = result['birthday'].strftime("%Y/%m/%d")
+        result['start_time'] = result['start_time'].strftime("%H:%M")
         return json.dumps(result)
+
+    # add_driver_to_db
+    def add_shift_to_db(self, data):
+        client = pymongo.MongoClient('mongodb://user:870215@140.121.198.84:27017/')
+        db = client["KeelungBusSystem"]
+        result = db['shift'].insert_one(data)
+        print(info_result)
+        return result
+
 
     def get_info_from_db_all(self):
         client = pymongo.MongoClient('mongodb://user:870215@140.121.198.84:27017/')

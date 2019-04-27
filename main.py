@@ -202,6 +202,32 @@ def get_shift():
         print(str(e))
     return str(response)
 
+@app.route('/addShift', methods=['POST'])
+def add_shift():
+    error = None
+    success = None
+    response = {"status":"ok"}
+    try:
+        # 傳進來的 JSON String 轉成 LIST json decode
+        data = request.get_json()
+        # 傳進來的 Date String 轉成 Datetime 類別
+        data["start_time"] = datetime.strptime(data["start_time"], '%H:%M')
+        print(data)
+        # 把 DICT 加到資料庫
+        model.add_shift_to_db(data)
+        success = "新增成功"
+    except Exception as e:
+        response["status"] = "error"
+        response["error"] = str(e)
+        error = "新增失敗"
+        print(str(e))
+    return str(response)
+    """
+    if response['status'] == "ok":
+        return redirect(url_for('add_or_revise_shift', success = success))
+    return redirect(url_for('add_or_revise_shift', error = error))
+    """
+
 @app.route('/bus_driver_change_password', methods=['GET'])
 @login_required
 def bus_driver_change_password():
