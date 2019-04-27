@@ -48,16 +48,19 @@ $(document).ready(function(){
 	$(".fix").click(function() {
 		$(".yes").show();
 		$(".fix").hide();
-		$('fieldset').prop('disabled', false);
-		$('#birthday > .form-control').prop('disabled', false);
-		
+		$('#InputPhone1').prop('disabled', false);
+		$('#address').prop('disabled', false);
+		$('#myfile').prop('disabled', false);
+		$('#account').prop('disabled', false);
 		
 	})
 	$(".yes").click(function() {
 		$(".yes").hide();
 		$(".fix").show();
-		$('fieldset').prop('disabled', true);
-		$('#birthday > .form-control').prop('disabled', true);
+		$('#InputPhone1').prop('disabled', true);
+		$('#address').prop('disabled', true);
+		$('#myfile').prop('disabled', true);
+		$('#account').prop('disabled', true);
 	})
 	
 });

@@ -3,3 +3,10 @@ $(function () {
 		format: 'DD/MM/YYYY'
 	});
 });
+
+$(document).ready(function(){
+	$(".yes").click(function() {
+		$("#googlemap").toggle();
+		$("#bus").toggle();
+	})
+});
