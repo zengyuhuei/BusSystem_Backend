@@ -52,6 +52,7 @@ $(document).ready(function(){
 		$('#address').prop('disabled', false);
 		$('#myfile').prop('disabled', false);
 		$('#account').prop('disabled', false);
+		
 		$('#InputPhone1').prop('required', true);
 		$('#address').prop('required', true);
 		$('#myfile').prop('required', true);

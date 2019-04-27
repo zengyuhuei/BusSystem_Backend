@@ -171,8 +171,8 @@ def modify_info_to_db():
         error = "修改失敗"
         print(response,str(e))
     if response['status'] == "ok":
-        return render_template('bus_driver_personal_basic_information.html',success = success)
-    return render_template('bus_driver_personal_basic_information.html',error = error)
+        return redirect(url_for('bus_driver_personal_basic_information',success = success))
+    return redirect(url_for('bus_driver_personal_basic_information',error = error))
     
 
 @app.route('/getInfo', methods=['GET'])
