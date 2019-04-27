@@ -38,6 +38,17 @@ class Model:
         result['birthday'] = result['birthday'].strftime("%Y/%m/%d")
         return json.dumps(result)
 
+    #get shift from db    
+    def get_shift_from_db(self, data):
+        client = pymongo.MongoClient('mongodb://user:870215@140.121.198.84:27017/')
+        db = client['KeelungBusSystem']
+        #collection = db['list']
+        result = db["shift"].find_one({"start" : email})
+        print(result)
+        result['_id'] = str(result['_id'])
+        result['birthday'] = result['birthday'].strftime("%Y/%m/%d")
+        return json.dumps(result)
+
     def get_info_from_db_all(self):
         client = pymongo.MongoClient('mongodb://user:870215@140.121.198.84:27017/')
         db = client['KeelungBusSystem']

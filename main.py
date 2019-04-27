@@ -84,14 +84,14 @@ def login():
             account = result['account']
             session['store'] = account
             print("account0 = "+account)
-            return render_template('manager_index.html', account = account)
+            return redirect(url_for('manager_index', account = account))
         elif result['identity'] == 1:
             session['logged_in'] = True
             account = result['account']
             session['store'] = account
             print("account1 = "+account)
-            return render_template('driver_index.html', account = account)
-    return render_template('login.html',error = error)
+            return redirect(url_for('driver_index', account = account))
+    return render_template('login.html' ,error = error)
     
  
 @app.route('/driver_index', methods=['GET'])
@@ -189,11 +189,12 @@ def get_info():
         print(str(e))
     return str(response)
 
-@app.route('/get', methods=['GET'])
-def get_info():
+@app.route('/getShift', methods=['GET'])
+def get_shift():
     response = {"status":"ok"}
     try:
-        response = model.get_info_from_db(email)
+        data = request.get_json()
+        response = model.get_shift_from_db(data)
         print(response)
 
     except Exception as e:
