@@ -44,14 +44,14 @@ $(document).ready(function(){
 		var fileName = e.target.files[0].name;
 		$(this).siblings(".custom-file-label").addClass("selected").html(fileName);
 	});
-	$('#birthday > .form-control').prop('disabled', true);
+	$('#birthday > .form-control').prop('readonly', true);
 	$(".fix").click(function() {
 		$(".yes").show();
 		$(".fix").hide();
-		$('#InputPhone1').prop('disabled', false);
-		$('#address').prop('disabled', false);
+		$('#InputPhone1').prop('readonly', false);
+		$('#address').prop('readonly', false);
 		$('#myfile').prop('disabled', false);
-		$('#account').prop('disabled', false);
+		$('#account').prop('readonly', false);
 		
 		$('#InputPhone1').prop('required', true);
 		$('#address').prop('required', true);

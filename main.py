@@ -165,7 +165,6 @@ def add_driver_to_db():
 
 #modify info
 @app.route('/modify_info_to_db', methods=['POST'])
-@login_required
 def modify_info_to_db():
     error = None
     success = None
@@ -173,7 +172,7 @@ def modify_info_to_db():
     try:
         # 傳進來的 JSON String 轉成 LIST json decode
         data = dict()
-        data['_id'] = ObjectId(request.form.get("id"))
+        data['email'] = request.form.get("email")
         data['phone_number'] = request.form.get("phone_number")
         data['account'] = request.form.get("account")
         data['address'] = request.form.get("address")
@@ -214,10 +213,9 @@ def get_info():
 def get_shift():
     response = {"status":"ok"}
     try:
-        print("BB")
-        print(request)
         data = request.get_json()
         response = model.get_shift_from_db(data)
+        print("BB")
         print(response)
 
     except Exception as e:

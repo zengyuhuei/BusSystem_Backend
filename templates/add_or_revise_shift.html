@@ -16,6 +16,10 @@
 	  <link href="{{ url_for('static', filename='js/websocket_open.js') }}" rel="stylesheet">
 	  <script src = "{{url_for('static', filename='js/websocket_open.js')}}"></script>
 	  <script src="{{url_for('static', filename='js/add_or_revise_shift.js')}}"></script>
+	  
+	  <link href="{{ url_for('static', filename='css/add_or_revise_shift.css') }}" rel="stylesheet">
+	  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round|Open+Sans">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 	</head>
 	
     <body onload="websocket_init()">
@@ -108,42 +112,39 @@
 				<button type="submit" class="btn btn-primary yes">確認</button>
 			</div>
 		</div>
-		
-		<div class="form-group row">
-		
-			<table class="table" style = "display: none" id="bus">
-				  <thead class="thead-dark">
-					<tr>
-					  <th scope="col">司機</th>
-					  <th scope="col">發車時刻表</th>
-					  <th scope="col">編輯</th>
-					</tr>
-				  </thead>
-				  <tbody>
-					<!--
-					<tr>
-					  <th scope="col">HIHIHIH</th>
-					  <td scope="col">HIHIHIH</td>
-					  <td><input type="button" value="modify" class="btn" onclick="Delete(this)"/></td>
-					</tr>
-					<tr>
-					  <th scope="row"></th>
-					  <td></td>
-					  <td></td>
-					</tr>
-					<tr>
-					  <th scope="row"></th>
-					  <td></td>
-					  <td></td>
-					</tr>
-				-->
-				  </tbody>
-				</table>
-				
-				<button type="submit" class="btn btn-primary add" style = "display: none">新增</button>
+		<div class="table" style="display : none" id="bus">
+			<div class="table-title">
+				<div class="row">
+					<div class="col-sm-12 text-right">
+						<button type="button" class="btn btn-info add-new"><i class="fa fa-plus"></i> Add New</button>
+					</div>
+				</div>
+			</div>
+			<div class="form-group row mt-3">
 			
+				<table class="table table-bordered">
+					<thead class="thead-dark">
+						<tr>
+							<th>司機</th>
+							<th>發車時刻</th>
+							<th>Actions</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td></td>
+							<td></td>
+							<td>
+								<a class="add" title="Add"><i class="material-icons">&#xE03B;</i></a>
+								<a class="edit" title="Edit"><i class="material-icons">&#xE254;</i></a>
+								<a class="delete" title="Delete"><i class="material-icons">&#xE872;</i></a>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			
+			</div>
 		</div>
-
 	</div>
 	   
 

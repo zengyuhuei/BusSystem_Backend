@@ -1,14 +1,12 @@
 $(document).ready(function(){
 	$(".yes").click(function() {
-		$("#map").toggle();
-		$("#bus").toggle();
-		console.log("what the fuck");
+		$("#map").show();
+		$("#bus").show();
 	})
 });
 
 function disappear()
 {
 		var googleMap = document.getElementById("map");
-		console.log("= =");
 		googleMap.style.display = block;
 }
