@@ -20,13 +20,15 @@ class Model:
      # modify info
     def modify_info_to_db(self, data):
         email = dict()
+        
         client = pymongo.MongoClient('mongodb://user:870215@140.121.198.84:27017/')
         db = client["KeelungBusSystem"]
         email['email'] = data['email']
         print(email)
         del data['email']
         print(data)
-        result = db['info'].update_one(email, { "$set": data })
+        result = db['info'].update_one(email , { "$set": data })
+        #result['identify'] = 
         return result
     
     #get info from db    
