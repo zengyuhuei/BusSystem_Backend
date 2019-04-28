@@ -33,6 +33,25 @@ class Model:
         print(result['identity'])
         return result['identity']
     
+    # modify password
+    def change_password_to_db(self, data):
+        email = dict()
+        new_password = dict()
+        client = pymongo.MongoClient('mongodb://user:870215@140.121.198.84:27017/')
+        db = client["KeelungBusSystem"]
+        email['account'] = data['email']
+        email['password'] = data['password']
+        account = data['email']
+        print(email)
+        del data['email']
+        del data['password']
+        print(data)
+        new_password['password'] = data['new_password']
+        db['auth'].update_one(email , { "$set": new_password })
+        result =  db["auth"].find_one({"account" : account})
+        print(result['identity'])
+        return result['identity']
+    
     #get info from db    
     def get_info_from_db(self, email):
         client = pymongo.MongoClient('mongodb://user:870215@140.121.198.84:27017/')

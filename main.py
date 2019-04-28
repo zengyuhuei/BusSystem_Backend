@@ -298,13 +298,40 @@ def add_shift():
         response["error"] = str(e)
         error = "新增失敗"
         print(response, str(e))
-    
-    
+
     if response['status'] == "ok":
         return redirect(url_for('add_or_revise_shift', success = success, inserted_id = inserted_id))
     return redirect(url_for('add_or_revise_shift', error = error))
     
-
+@app.route('/changePassword', methods=['POST'])
+def change_password():
+    error = None
+    success = None
+    response = {"status":"ok"}
+    try:
+        data = request.get_json()
+        identity = model.change_password_from_db(data)
+        success = "修改成功"
+        print(identity)
+    except Exception as e:
+        response["status"] = "error"
+        response["error"] = str(e)
+        error = "修改失敗"
+        print(response)
+    
+    return str(response)
+"""
+    if identity == 0:
+        if response['status'] == "ok":
+            return redirect(url_for('change_password',success = success))
+        else:
+            return redirect(url_for('change_password',error = error))
+    elif identity == 1:
+        if response['status'] == "ok":
+            return redirect(url_for('bus_driver_change_password',success = success))
+        else:
+            return redirect(url_for('bus_driver_change_password',error = error))
+"""
 @app.route('/bus_driver_change_password', methods=['GET'])
 @login_required
 def bus_driver_change_password():
