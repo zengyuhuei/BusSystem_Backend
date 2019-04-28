@@ -1,6 +1,6 @@
 function getData()
 {
-	data = {
+	let data = {
 		"route":$route,
 		"day": $day
 	}
