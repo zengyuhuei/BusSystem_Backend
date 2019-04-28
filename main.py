@@ -350,7 +350,32 @@ def timely_bus_information():
 def manager_index():
     return render_template('manager_index.html')
 
-
+#--------------------------------------------------------------------------
+@app.route('/',methods=['GET','POST'])
+def upload_csv_file():
+  if request.method =='POST':
+    #獲取post過來的檔名稱，從name=file引數中獲取
+    file = request.files['file']
+    if file and allowed_csv_file(file.filename):
+      # secure_filename方法會去掉檔名中的中文
+      filename = secure_filename(file.filename)
+      #因為上次的檔案可能有重名，因此使用uuid儲存檔案
+      file_name = str(uuid.uuid4()) + '.' + filename.rsplit('.', 1)[1]
+      file.save(os.path.join(app.config['UPLOAD_FOLDER2'],file_name))
+      base_path = os.getcwd()
+      file_path = base_path + app.config['UPLOAD_FOLDER2'] + file_name
+      print(file_path)
+      return redirect(url_for('upload_csv_file',filename = file_name))
+  return '''
+  <!doctype html>
+  <title>Upload new File</title>
+  <h1>Upload new File</h1>
+  <form action="" method=post enctype=multipart/form-data>
+   <p><input type=file name=file>
+     <input type=submit value=Upload>
+  </form>
+  '''
+#--------------------------------------------------------------------------
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=3000, debug=True)
