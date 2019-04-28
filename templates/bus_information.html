@@ -17,7 +17,9 @@
 				</style>
     </head>
 	
-    <body onload="websocket_init()">
+		<body onload="websocket_init()">
+		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC3RdvutneSQCHgWDr4t7AAhKNx7jmMFz0"> //含金鑰
+		</script>
 		 <nav class="navbar navbar-expand-xl navbar-dark bg-dark" id="mainNav">
 		  <div class="container">
 			  <a class="navbar-brand" href="{{url_for('manager_index')}}">基隆公車調派系統</a>
@@ -146,14 +148,14 @@
 				</div>
 			</div>
 			
-		<div class="col-xs-12 col-md-8 col-lg-8" id="map"></div>
+		<div class="col-xs-12 col-md-8 col-lg-8" id="googlemap"></div>
 			
         </div>
-		    
-				
+		    <div id="map"></div>
 				<script type="text/javascript">
+
 					var map;
-					
+
 					var json = {
 					 position1: {name: "深美國小", lat: 25.136333, lng: 121.778361},
 					 position2: {name: "深溪路口", lat: 25.135139, lng: 121.782333},
@@ -167,24 +169,20 @@
 					
 					console.log(JSON.stringify(json));
 					
-					 function initMap() {}
-						// 載入路線服務與路線顯示圖層
-						var directionsService = new google.maps.DirectionsService();
+					// 載入路線服務與路線顯示圖層
+					var directionsService = new google.maps.DirectionsService();
 					var directionsDisplay = new google.maps.DirectionsRenderer({
-						 suppressMarkers: true // 單純畫路線，不要顯示 marker
-						});
+						suppressMarkers: true // 單純畫路線，不要顯示 marker
+					});
 				
-						// 初始化地圖
+					// 初始化地圖
 					map = new google.maps.Map(document.getElementById('map'), {
 					zoom: 17,
 					center: json.position2
 					});
 				
-						// 放置路線圖層
-						directionsDisplay.setMap(map);
-					
-				
-						
+					// 放置路線圖層
+					directionsDisplay.setMap(map);
 					var waypts = [];
 					var markers = [];
 					
@@ -226,7 +224,6 @@
 											console.log("ouo");
 											infowindow.setContent( this.data );
 											infowindow.open(map, this);
-				
 									});
 				
 								}
@@ -235,6 +232,6 @@
 							console.log(status);
 							}
 						});
-			</script>
+						</script>
     </body>
 </html>
