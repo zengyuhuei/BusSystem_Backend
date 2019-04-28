@@ -1,47 +1,67 @@
 function setTable(response)
 {
+	var i = 0;
+	while(response[i]!=null)
+	{
 		$('[data-toggle="tooltip"]').tooltip();
 		var actions = $("table td:last-child").html();
 		var index = $("table tbody tr:last-child").index();
 					var row = '<tr>' +
-							'<td>'+response['driver']+'</td>' +
-							'<td>'+response['start_time']+'</td>' +
+							'<td style="display: none;">'+response[i]['_id']+'</td>' +
+							'<td>'+response[i]['driver']+'</td>' +
+							'<td>'+response[i]['start_time']+'</td>' +
 				'<td>' + actions + '</td>' +
 					'</tr>';
 				$("table").append(row);		
 				$("table tbody tr").eq(index + 1).find(".add, .edit").toggle();
 					$('[data-toggle="tooltip"]').tooltip();			
-		
+		i=i+1;
+	}	
 }
 function addTable(driver,time)
-{
-	$route = $("#inputRoute").val();
-	$day = $("#inputDate").val();
-	$.ajax({
-		type: 'POST',
-		dataType : 'json',
-		contentType : 'application/json',
-		url: "http://127.0.0.1:3000/addShift",
-		data:JSON.stringify({
-			"route":$route,
-			"day": $day,
-			"driver":driver,
-			"start_time" : time
-		}),
-			error: function (xhr) { },      // 錯誤後執行的函數
-			success: function (response) {
-			console.log(response);
-		}// 成功後要執行的函數
-		});
-	
-
-}
-function delTable(driver,time)
 {
 	$route = $("#inputRoute").val();
 		$day = $("#inputDate").val();
 		// For Success/Failure Message
       	// Check for white space in name for Success/Fail message
+		$.ajax({
+			type: 'POST',
+			dataType : 'json',
+			contentType : 'application/json',
+			url: "http://127.0.0.1:3000/addShift",
+			data:JSON.stringify({
+				"route":$route,
+				"day": $day,
+				"driver":driver,
+				"start_time":time
+			}),
+			  error: function (xhr) { },      // 錯誤後執行的函數
+			  success: function (response) {
+				console.log(response);
+			}// 成功後要執行的函數
+		  });
+
+}
+function delTable(id)
+{
+		// For Success/Failure Message
+      	// Check for white space in name for Success/Fail message
+		$.ajax({
+			type: 'POST',
+			dataType : 'json',
+			contentType : 'application/json',
+			url: "http://127.0.0.1:3000/delShift",
+			data:JSON.stringify({
+				"_id" : id
+			}),
+			  error: function (xhr) { },      // 錯誤後執行的函數
+			  success: function (response) {
+				console.log(response);
+			}// 成功後要執行的函數
+		  });
+}
+function modifyTable(driver,time)
+{
 		$.ajax({
 			type: 'POST',
 			dataType : 'json',
@@ -58,6 +78,12 @@ function delTable(driver,time)
 				console.log(response);
 			}// 成功後要執行的函數
 		  });
+}
+function setid(id)
+{
+	var x = document.getElementById("busTable")
+	x.find("tr:nth-child(end)").find("td:nth-child(1)").text() = id;
+	console.log("AAA")
 }
 $(document).ready(function(){
 	$(".yes").click(function() {
@@ -83,17 +109,14 @@ $(document).ready(function(){
 		  });
 	})
 	
-	
-	
-	
-	
 	$('[data-toggle="tooltip"]').tooltip();
 	var actions = $("table td:last-child").html();
 	// Append table with add row form on add new button click
     $(".add-new").click(function(){
 		$(this).attr("disabled", "disabled");
 		var index = $("table tbody tr:last-child").index();
-        var row = '<tr>' +
+				var row = '<tr>' +
+						'<td style="display: none;"></td>' +
             '<td><input type="text" class="form-control" name="name" id="name"></td>' +
             '<td><input type="text" class="form-control" name="department" id="department"></td>' +
 			'<td>' + actions + '</td>' +
@@ -104,7 +127,6 @@ $(document).ready(function(){
     });
 	// Add row on add button click
 	$(document).on("click", ".add", function(){
-		console.log("AA")
 		var empty = false;
 		var driver;
 		var time;
@@ -128,6 +150,7 @@ $(document).ready(function(){
 			$(".add-new").removeAttr("disabled");
 		}	
 		addTable(driver,time);
+		
     });
 	// Edit row on edit button click
 	$(document).on("click", ".edit", function(){		
@@ -139,9 +162,8 @@ $(document).ready(function(){
     });
 	// Delete row on delete button click
 	$(document).on("click", ".delete", function(){
-			var driver = $(this).closest('tr').find('td:nth-child(1)').text();
-			var time = $(this).closest('tr').find('td:nth-child(2)').text();
-			delTable(driver,time);
+			var id = $(this).closest('tr').find('td:nth-child(1)').text();
+			delTable(id);
         $(this).parents("tr").remove();
 		$(".add-new").removeAttr("disabled");
     });

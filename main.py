@@ -8,11 +8,16 @@ import os
 from werkzeug.utils import secure_filename
 import warnings
 from functools import wraps
-
+import platform
 from bson import ObjectId
 #---------------------------------------------------
 import uuid  # 為了上傳csv檔import
 #-----------------------------------------------------
+if platform.system() == "Windows":
+  slash = '\\'
+else:
+  platform.system()=="Linux"
+  slash = '/'
 UPLOAD_FOLDER_CSV = 'upload_csv'
 ALLOW_EXTENSIONS_CSV = set(['csv'])
 #----------------------------------------------------
@@ -263,6 +268,7 @@ def del_shift():
         data = request.get_json()
         data["_id"] = ObjectId(data['_id'])
         model.del_shift_from_db(data)
+        print(data)
         success = "刪除成功"
     except Exception as e:
         response["status"] = "error"
@@ -446,30 +452,22 @@ def manager_index():
     return render_template('manager_index.html',account = account, methods=['GET'])
 
 #--------------------------------------------------------------------------
-@app.route('/',methods=['GET','POST'])
-def upload_csv_file():
+@app.route('/upload_file',methods=['GET','POST'])
+@login_required
+def upload_file():
   if request.method =='POST':
     #獲取post過來的檔名稱，從name=file引數中獲取
-    file = request.files['file']
-    if file and allowed_csv_file(file.filename):
+    file = request.files['customeFile']
+    if file and allowed_file(file.filename):
       # secure_filename方法會去掉檔名中的中文
       filename = secure_filename(file.filename)
       #因為上次的檔案可能有重名，因此使用uuid儲存檔案
       file_name = str(uuid.uuid4()) + '.' + filename.rsplit('.', 1)[1]
       file.save(os.path.join(app.config['UPLOAD_FOLDER2'],file_name))
       base_path = os.getcwd()
-      file_path = base_path + app.config['UPLOAD_FOLDER2'] + file_name
+      file_path = base_path + slash + app.config['UPLOAD_FOLDER2'] + slash + file_name
       print(file_path)
-      return redirect(url_for('upload_csv_file',filename = file_name))
-  return '''
-  <!doctype html>
-  <title>Upload new File</title>
-  <h1>Upload new File</h1>
-  <form action="" method=post enctype=multipart/form-data>
-   <p><input type=file name=file>
-     <input type=submit value=Upload>
-  </form>
-  '''
+      return redirect(url_for('upload_file',filename = file_name))
 #--------------------------------------------------------------------------
 
 if __name__ == '__main__':

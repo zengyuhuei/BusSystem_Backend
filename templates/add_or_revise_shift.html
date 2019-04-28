@@ -78,6 +78,7 @@
 			 {% if success %}
 			  	<script>
 						window.alert("{{ success }}");
+						setid('{{inserted_id}}')
 					</script>
 			 {% endif %}
 			<label for="input1" class="col-xs-3 col-md-auto col-form-label">
@@ -124,7 +125,7 @@
 			</div>
 			<div class="form-group row mt-3">
 			
-				<table class="table table-bordered">
+				<table class="table table-bordered" id = "busTable"> 
 					<thead class="thead-dark">
 						<tr>
 							<th>司機</th>
@@ -142,6 +143,7 @@
 								<a class="delete" title="Delete"><i class="material-icons">&#xE872;</i></a>
 							</td>
 						</tr>
+
 					</tbody>
 				</table>
 			
