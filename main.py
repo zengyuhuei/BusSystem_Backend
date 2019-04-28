@@ -173,7 +173,7 @@ def modify_info_to_db():
     try:
         # 傳進來的 JSON String 轉成 LIST json decode
         data = dict()
-        data['_id'] = ObjectId(request.form.get("id"))
+        data['email'] = ObjectId(request.form.get("email"))
         data['phone_number'] = request.form.get("phone_number")
         data['account'] = request.form.get("account")
         data['address'] = request.form.get("address")
