@@ -10,9 +10,28 @@ import warnings
 from functools import wraps
 
 from bson import ObjectId
+#---------------------------------------------------
+import uuid  # 為了上傳csv檔import
+#-----------------------------------------------------
+UPLOAD_FOLDER_CSV = 'upload_csv'
+ALLOW_EXTENSIONS_CSV = set(['csv'])
+#----------------------------------------------------
 
 # init Flask 
 app = Flask(__name__)
+
+#----------------------------------------------------
+app.config['UPLOAD_FOLDER_CSV'] = UPLOAD_FOLDER_CSV
+#判斷資料夾是否存在，如果不存在則建立
+if not os.path.exists(UPLOAD_FOLDER_CSV):
+    os.makedirs(UPLOAD_FOLDER_CSV)
+else:
+    pass
+# 判斷檔案字尾是否在列表中
+def allowed_csv_file(filename):
+    return '.' in filename and \
+    filename.rsplit('.', 1)[1] in ALLOW_EXTENSIONS_CSV
+#----------------------------------------------------
 CORS(app)
 model = Model()
 app.secret_key = "my precious"
@@ -190,14 +209,13 @@ def get_info():
         print(str(e))
     return str(response)
 
-@app.route('/getShift', methods=['GET'])
-@login_required
+@app.route('/getShift', methods=['POST'])
 def get_shift():
     response = {"status":"ok"}
     try:
         data = request.get_json()
-        data["start_time"] = datetime.strptime(data["start_time"], '%H:%M')
         response = model.get_shift_from_db(data)
+        print("BB")
         print(response)
 
     except Exception as e:
@@ -349,7 +367,32 @@ def timely_bus_information():
 def manager_index():
     return render_template('manager_index.html')
 
-
+#--------------------------------------------------------------------------
+@app.route('/',methods=['GET','POST'])
+def upload_csv_file():
+  if request.method =='POST':
+    #獲取post過來的檔名稱，從name=file引數中獲取
+    file = request.files['file']
+    if file and allowed_csv_file(file.filename):
+      # secure_filename方法會去掉檔名中的中文
+      filename = secure_filename(file.filename)
+      #因為上次的檔案可能有重名，因此使用uuid儲存檔案
+      file_name = str(uuid.uuid4()) + '.' + filename.rsplit('.', 1)[1]
+      file.save(os.path.join(app.config['UPLOAD_FOLDER2'],file_name))
+      base_path = os.getcwd()
+      file_path = base_path + app.config['UPLOAD_FOLDER2'] + file_name
+      print(file_path)
+      return redirect(url_for('upload_csv_file',filename = file_name))
+  return '''
+  <!doctype html>
+  <title>Upload new File</title>
+  <h1>Upload new File</h1>
+  <form action="" method=post enctype=multipart/form-data>
+   <p><input type=file name=file>
+     <input type=submit value=Upload>
+  </form>
+  '''
+#--------------------------------------------------------------------------
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=3000, debug=True)

@@ -6,7 +6,7 @@ $(function () {
 
 $(document).ready(function(){
 	$(".yes").click(function() {
-		$("#googlemap").toggle();
+		$("#map").toggle();
 		$("#bus").toggle();
 	})
 });
