@@ -152,6 +152,11 @@ class Model:
                 return result[0]
         return False
 
-
+    def busGps_to_db(self, data):
+        client = pymongo.MongoClient('mongodb://user:870215@140.121.198.84:27017/')
+        db = client["KeelungBusSystem"]
+        coor_result = db['busRoad_coor'].insert_one(data)
+        print(coor_result)
+        return coor_result
 
 
