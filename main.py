@@ -226,6 +226,18 @@ def get_info():
         print(str(e))
     return str(response)
 
+@app.route('/getDriver', methods=['GET'])
+def get_driver():
+    response = {"status":"ok"}
+    try:
+        response = model.get_driver_from_db()
+        print(response)
+
+    except Exception as e:
+        response["status"] = "error"
+        print(str(e))
+    return str(response)
+
 @app.route('/getShift', methods=['POST'])
 def get_shift():
     response = {"status":"ok"}
@@ -325,8 +337,6 @@ def changePassword():
         error = "修改失敗"
         print(response)
     
-    return str(response)
-"""
     if identity == 0:
         if response['status'] == "ok":
             return redirect(url_for('change_password',success = success))
@@ -337,7 +347,7 @@ def changePassword():
             return redirect(url_for('bus_driver_change_password',success = success))
         else:
             return redirect(url_for('bus_driver_change_password',error = error))
-"""
+
 @app.route('/bus_driver_change_password', methods=['GET'])
 @login_required
 def bus_driver_change_password():

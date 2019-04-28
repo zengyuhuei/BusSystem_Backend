@@ -127,6 +127,18 @@ class Model:
             tempDictionary.pop('password')
             tempList.append(tempDictionary)
         return tempList
+    
+    #get driver from db    
+    def get_driver_from_db(self):
+        name = list()
+        client = pymongo.MongoClient('mongodb://user:870215@140.121.198.84:27017/')
+        db = client['KeelungBusSystem']
+        result = list(db["auth"].find({"identity" : 1},{ "_id": 0 , "password": 0, "identity": 0 }))
+        print(result)
+        for mail in result:
+            name.append(db["info"].find_one({"email" : mail['account']},{"_id" : 0, "name": 1 })['name'])
+        print(name)
+        return name
 
     # auth
     def authentication(self, account, password):
