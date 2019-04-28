@@ -88,7 +88,7 @@
 				  </select>
 			  </div>
 			  <div class="col-auto mt-3 mt-md-0">
-				<button type="submit" class="btn btn-primary btn-md yes" >確認</button>
+				<button type="submit" class="btn btn-primary btn-md yes" id="yes" >確認</button>
 			  </div>
 			</div>
 
@@ -97,7 +97,7 @@
 					<script type="text/javascript">
 
 						var map;
-			
+						var count = 0;
 						var json = {
 						 position1: {name: "深美國小", lat: 25.136333, lng: 121.778361},
 						 position2: {name: "深溪路口", lat: 25.135139, lng: 121.782333},
@@ -108,10 +108,16 @@
 						 position7: {name: "八斗高中", lat: 25.139583, lng: 121.789444},
 						 position8: {name: "福泉寺", lat: 25.142389, lng: 121.789306},
 						}
+
+						var obj = Object.keys(json).map(function(_) { return json[_]; });
+						console.log(obj);
+						console.log(obj.length);
 			
 						var jjson = {
 							bus1:{lat: 25.135139, lng: 121.782333},
 							bus2:{lat: 25.139583, lng: 121.789444},
+							bus3:{lat: 25.135306, lng: 121.784750},
+							bus4:{lat: 25.142389, lng: 121.789306},
 						}
 						
 						console.log(JSON.stringify(json));
@@ -127,7 +133,7 @@
 						// 初始化地圖
 						map = new google.maps.Map(document.getElementById('map'), {
 						zoom: 17,
-						center: json.position2
+						center: obj[obj.length/2]
 						});
 					
 						// 放置路線圖層
@@ -136,9 +142,7 @@
 						var markers = [];
 						var marker1 = [];
 						
-						var obj = Object.keys(json).map(function(_) { return json[_]; });
-						console.log(obj);
-						console.log(obj.length);
+						
 						 for (var i = 1; i < obj.length-1; i++) {
 													waypts.push({
 																	location: obj[i],
@@ -185,28 +189,38 @@
 								console.log(status);
 								}
 							});
-			
-							//公車資訊
-							for(var j = 0; j < jj.length; j++){
-									marker1[j] = new google.maps.Marker({
-										position: jj[j],
-										map: map,
-										icon:'http://www.oxxostudio.tw/img/articles/201801/google-maps-3-marker-icon.png',
-										zIndex:2
-									});
-			
-									// 加入地圖標記點擊事件
-									marker1[j].addListener('click', function () {
-											console.log("ouo");
-									});
-			
+
+							function busInformation()
+							{
+								//公車資訊
+								for(var j = 0; j < jj.length ; j++){
+										marker1[j] = new google.maps.Marker({
+											position: jj[j],
+											map: map,
+											icon:'http://www.oxxostudio.tw/img/articles/201801/google-maps-3-marker-icon.png',
+											zIndex:2
+										});
+										// 加入地圖標記點擊事件
+										marker1[j].addListener('click', function () {
+												
+										});
+								}
+								console.log("ouo");
 							}
-			
+							
+							setInterval(busInformation(),2000);
+							document.getElementById("yes").addEventListener("click", myFunction);
+							function myFunction() {
+								document.getElementById("bus").style.display==false;
+								document.getElementById("map").style.display==false;
+								map.setZoom(15);
+								map.setCenter(obj[obj.length/2]);
+							}
 							</script>
 				</div>
-				</div>
+				
 
-				<div class="col-xs-12 col-md-20 col-lg-4" id = "bus" style = "top:240px;left:850px;position:absolute; display: none">
+				<div class="col-xs-12 col-md-4 col-lg-4" id = "bus" style = "display: none">
 					<table class="table">
 					  <thead class="thead-dark">
 						<tr>
@@ -229,6 +243,7 @@
 					  </tbody>
 					</table>
 				</div>
+			  </div>
 			</div>
 			
 				</div>
