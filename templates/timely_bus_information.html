@@ -38,7 +38,7 @@
 				<li class="nav-item active"><a class = "nav-link" href="{{url_for('timely_bus_information')}}"> 即時公車資訊</a></li>
 				<li class="nav-item"><a class = "nav-link" href="{{url_for('Human_dispatch')}}"> 人力調派</a></li>
 				<li class="nav-item"><a class = "nav-link" href="{{url_for('historical_record')}}"> 歷史紀錄</a></li>
-				<li class="nav-item"><a class = "nav-link" href="{{url_for('Emergency_reception')}}"> 突發狀況回報</a></li>
+				<li class="nav-item"><a class = "nav-link" href="{{url_for('Emergency_reception')}}"> 突發狀況接收</a></li>
 				<li class="nav-item dropdown">
 					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 					  修改路線/班次
@@ -88,18 +88,101 @@
 				  </select>
 			  </div>
 			  <div class="col-auto mt-3 mt-md-0">
-				<button type="submit" class="btn btn-primary btn-md yes">確認</button>
+				<button type="submit" class="btn btn-primary btn-md yes" >確認</button>
 			  </div>
 			</div>
-			
+
 			<div class="form-group row">
-				<div class="col-xs-12 col-md-8 col-lg-8" id = "googlemap" style = "display: none">
-					
+				<div class="col-xs-12 col-md-8 col-lg-8" id="map" style="width:55%; height:450px; display: none">
+			<script type="text/javascript">
+
+				var map;
+				
+				var json = {
+				position1: {name: "深美國小", lat: 25.136333, lng: 121.778361},
+				position2: {name: "深溪路口", lat: 25.135139, lng: 121.782333},
+				position3: {name: "海中天社區", lat: 25.135306, lng: 121.784750},
+				position4: {name: "巴塞隆納社區", lat: 25.135611, lng: 121.785639},
+				position5: {name: "碧海擎天社區", lat: 25.136333, lng: 121.787778},
+				position6: {name: "普羅旺世社區", lat: 25.137444, lng: 121.788667},
+				position7: {name: "八斗高中", lat: 25.139583, lng: 121.789444},
+				position8: {name: "福泉寺", lat: 25.142389, lng: 121.789306},
+				}
+				
+				console.log(JSON.stringify(json));
+				
+				// 載入路線服務與路線顯示圖層
+				var directionsService = new google.maps.DirectionsService();
+				var directionsDisplay = new google.maps.DirectionsRenderer({
+					suppressMarkers: true // 單純畫路線，不要顯示 marker
+				});
+			
+				// 初始化地圖
+				map = new google.maps.Map(document.getElementById('map'), {
+				zoom: 17,
+				center: json.position2
+				});
+			
+				// 放置路線圖層
+				directionsDisplay.setMap(map);
+				var waypts = [];
+				var markers = [];
+				
+				var obj = Object.keys(json).map(function(_) { return json[_]; });
+				console.log(obj);
+				console.log(obj.length);
+				for (var i = 1; i < obj.length-1; i++) {
+											waypts.push({
+															location: obj[i],
+															stopover: false
+											});
+							}
+			
+					var point = {
+						origin: obj[0],
+						destination: obj[obj.length-1],
+						waypoints: waypts,
+						optimizeWaypoints: true,
+							travelMode: 'DRIVING'
+					}
+					directionsService.route( point, function(response, status) {
+						if (status == 'OK') {
+							// 回傳路線上每個步驟的細節
+							for(var i = 0; i < obj.length; i++)
+							{
+								// 加入地圖標記
+								markers[i] = new google.maps.Marker({
+									position: obj[i],
+									map: map,
+									label: { text: ''+i, color: "#fff" },
+									data: obj[i].name,
+									data2: "https://www.google.com.tw/" //影像連結 一起從json拿出
+								});
+								// 加入資訊視窗
+								var infowindow = new google.maps.InfoWindow();
+								//infowindows[i].open(map, markers[i]);
+
+								// 加入地圖標記點擊事件
+								markers[i].addListener('click', function () {
+										console.log("ouo");		
+										infowindow.setContent( this.data +'<br><a href='+ this.data2 +' target="_blank">查看即時影像</a>');
+										infowindow.open(map, this);
+								});
+								
+							}
+
+
+
+						directionsDisplay.setDirections(response);
+						} else {
+						console.log(status);
+						}
+					});
+					</script>
 				</div>
-				
-				<div class="col-xs-12 col-md-4 col-lg-4" id = "bus" style = "display: none">
-				
-				
+				</div>
+
+				<div class="col-xs-12 col-md-20 col-lg-4" id = "bus" style = "top:220px;left:830px;position:absolute; display: none">
 					<table class="table">
 					  <thead class="thead-dark">
 						<tr>
@@ -121,99 +204,10 @@
 						</tr>
 					  </tbody>
 					</table>
-
-				
 				</div>
 			</div>
-		</div>
-
-		<div id="map"></div>
-		<script type="text/javascript">
-
-			var map;
-
-			var json = {
-			 position1: {name: "深美國小", lat: 25.136333, lng: 121.778361},
-			 position2: {name: "深溪路口", lat: 25.135139, lng: 121.782333},
-			 position3: {name: "海中天社區", lat: 25.135306, lng: 121.784750},
-			 position4: {name: "巴塞隆納社區", lat: 25.135611, lng: 121.785639},
-			 position5: {name: "碧海擎天社區", lat: 25.136333, lng: 121.787778},
-			 position6: {name: "普羅旺世社區", lat: 25.137444, lng: 121.788667},
-			 position7: {name: "八斗高中", lat: 25.139583, lng: 121.789444},
-			 position8: {name: "福泉寺", lat: 25.142389, lng: 121.789306},
-			}
 			
-			console.log(JSON.stringify(json));
-			
-			// 載入路線服務與路線顯示圖層
-			var directionsService = new google.maps.DirectionsService();
-			var directionsDisplay = new google.maps.DirectionsRenderer({
-				suppressMarkers: true // 單純畫路線，不要顯示 marker
-			});
-		
-			// 初始化地圖
-			map = new google.maps.Map(document.getElementById('map'), {
-			zoom: 17,
-			center: json.position2
-			});
-		
-			// 放置路線圖層
-			directionsDisplay.setMap(map);
-			var waypts = [];
-			var markers = [];
-			
-			var obj = Object.keys(json).map(function(_) { return json[_]; });
-			console.log(obj);
-			console.log(obj.length);
-			 for (var i = 1; i < obj.length-1; i++) {
-										waypts.push({
-														location: obj[i],
-														stopover: false
-										});
-						}
-		
-				var point = {
-					origin: obj[0],
-					destination: obj[obj.length-1],
-					waypoints: waypts,
-					optimizeWaypoints: true,
-						travelMode: 'DRIVING'
-				}
-				directionsService.route( point, function(response, status) {
-					if (status == 'OK') {
-						// 回傳路線上每個步驟的細節
-						for(var i = 0; i < obj.length; i++)
-						{
-							// 加入地圖標記
-							markers[i] = new google.maps.Marker({
-								position: obj[i],
-								map: map,
-								label: { text: ''+i, color: "#fff" },
-								data: obj[i].name,
-								data2: "https://www.google.com.tw/" //影像連結 一起從json拿出
-							});
-							// 加入資訊視窗
-							var infowindow = new google.maps.InfoWindow();
-							//infowindows[i].open(map, markers[i]);
-
-							// 加入地圖標記點擊事件
-							markers[i].addListener('click', function () {
-									console.log("ouo");		
-									infowindow.setContent( this.data +'<br><a href='+ this.data2 +' target="_blank">查看即時影像</a>');
-									infowindow.open(map, this);
-							});
-							
-						}
-
-
-
-					directionsDisplay.setDirections(response);
-					} else {
-					console.log(status);
-					}
-				});
-				</script>
-	   
+				</div>
 
 	</body>
 </html>

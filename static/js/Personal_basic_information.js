@@ -59,14 +59,6 @@ $(document).ready(function(){
 		$('#account').prop('required', true);
 		
 	})
-	/*$(".yes").click(function() {
-		$(".yes").hide();
-		$(".fix").show();
-		$('#InputPhone1').prop('disabled', true);
-		$('#address').prop('disabled', true);
-		$('#myfile').prop('disabled', true);
-		$('#account').prop('disabled', true);
-	})*/
 	
 });
 

@@ -32,7 +32,7 @@
 				<li class="nav-item"><a class = "nav-link" href="{{url_for('timely_bus_information')}}"> 即時公車資訊</a></li>
 				<li class="nav-item"><a class = "nav-link" href="{{url_for('Human_dispatch')}}"> 人力調派</a></li>
 				<li class="nav-item"><a class = "nav-link" href="{{url_for('historical_record')}}"> 歷史紀錄</a></li>
-				<li class="nav-item"><a class = "nav-link" href="{{url_for('Emergency_reception')}}"> 突發狀況回報</a></li>
+				<li class="nav-item"><a class = "nav-link" href="{{url_for('Emergency_reception')}}"> 突發狀況接收</a></li>
 				<li class="nav-item dropdown">
 					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 					  修改路線/班次
@@ -101,58 +101,18 @@
                 </div>
                 
                 <div class="col-auto mt-3 mt-md-0">
-                    <button type="submit" class="btn btn-primary yes">確認</button>
+                    <button type="submit" class="btn btn-primary yes" onclock="disappear()">確認</button>
                 </div>
             </div>
-			<div class="form-group row">
-				<div class="col-xs-12 col-md-8 col-lg-8" id="googlemap" style = "display: none">
-				
-				
-				</div>
-				<div class="col-xs-12 col-md-4 col-lg-4" id = "bus" style = "display: none">
-					<table class="table">
-					  <thead class="thead-dark">
-						<tr>
-						  <th scope="col">班次</th>
-						  <th scope="col">發車時間</th>
-						  <th scope="col">司機</th>
-						</tr>
-					  </thead>
-					  <!--<tbody>
-						<tr>
-						  <th scope="row">1</th>
-						  <td>Mark</td>
-						  <td>Otto</td>
-						  <td>@mdo</td>
-						</tr>
-						<tr>
-						  <th scope="row">2</th>
-						  <td>Jacob</td>
-						  <td>Thornton</td>
-						  <td>@fat</td>
-						</tr>
-						<tr>
-						  <th scope="row">3</th>
-						  <td>Larry</td>
-						  <td>the Bird</td>
-						  <td>@twitter</td>
-						</tr>
-					  </tbody>-->
-					</table>
-
-				
-				
-				
-				</div>
-			</div>
 			
-		<div class="col-xs-12 col-md-8 col-lg-8" id="googlemap"></div>
 			
-        </div>
-		    <div id="map"></div>
+		    <div class="form-group row">
+			  <div class="col-xs-12 col-md-8 col-lg-8" id="map" style="width:55%; height:450px; display: none">
 				<script type="text/javascript">
 
 					var map;
+
+					
 
 					var json = {
 					 position1: {name: "深美國小", lat: 25.136333, lng: 121.778361},
@@ -231,5 +191,50 @@
 							}
 						});
 						</script>
+					</div>
+					
+					
+					<div class="col-xs-12 col-md-4 col-lg-4" id = "bus" style = "display: none">
+						<table class="table">
+							<thead class="thead-dark">
+							<tr>
+								<th scope="col">班次</th>
+								<th scope="col">發車時間</th>
+								<th scope="col">司機</th>
+							</tr>
+							</thead>
+							<!--<tbody>
+							<tr>
+								<th scope="row">1</th>
+								<td>Mark</td>
+								<td>Otto</td>
+								<td>@mdo</td>
+							</tr>
+							<tr>
+								<th scope="row">2</th>
+								<td>Jacob</td>
+								<td>Thornton</td>
+								<td>@fat</td>
+							</tr>
+							<tr>
+								<th scope="row">3</th>
+								<td>Larry</td>
+								<td>the Bird</td>
+								<td>@twitter</td>
+							</tr>
+							</tbody>-->
+						</table>
+	
+					
+					
+					
+					</div>
+				</div>
+
+					
+				</div>
+				
+				
+					</div>
     </body>
 </html>
