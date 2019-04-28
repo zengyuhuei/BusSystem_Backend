@@ -89,10 +89,18 @@ class Model:
         client = pymongo.MongoClient('mongodb://user:870215@140.121.198.84:27017/')
         db = client['KeelungBusSystem']
         #collection = db['list']
-        result = db['auth']
-        all_account = list(result.find({}))
-        print()
-        return all_account
+        result = db["auth"]
+        
+        tempList=[] # 用來存放account和identity的list
+        all_account = list(result.find({})) # 原本含有pwd的list
+        print("all_account list: ")
+        print(all_account)
+        for i in range(0,len(all_account)):
+            tempDictionary = all_account[i]
+            tempDictionary.pop('_id')
+            tempDictionary.pop('password')
+            tempList.append(tempDictionary)
+        return tempList
 
     # auth
     def authentication(self, account, password):
