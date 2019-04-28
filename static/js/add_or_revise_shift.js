@@ -16,8 +16,8 @@ function getData()
 }
 $(document).ready(function(){
 	$(".yes").click(function() {
-		$("#bus").toggle();
-		$(".add").toggle();
+		$("#bus").show();
+		$(".bus").display();
 		$route = $("#inputRoute").val();
 		$day = $("#inputDate").val();
 		// For Success/Failure Message
