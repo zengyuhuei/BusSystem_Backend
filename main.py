@@ -190,15 +190,13 @@ def get_info():
         print(str(e))
     return str(response)
 
-@app.route('/getShift', methods=['GET'])
-@login_required
+@app.route('/getShift', methods=['POST'])
 def get_shift():
     response = {"status":"ok"}
     try:
-        print("BB")
-        print(request)
         data = request.get_json()
         response = model.get_shift_from_db(data)
+        print("BB")
         print(response)
 
     except Exception as e:
