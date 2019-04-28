@@ -84,14 +84,14 @@ def login():
             account = result['account']
             session['store'] = account
             print("account0 = "+account)
-            return render_template('manager_index.html', account = account)
+            return redirect(url_for('manager_index', account = account))
         elif result['identity'] == 1:
             session['logged_in'] = True
             account = result['account']
             session['store'] = account
             print("account1 = "+account)
-            return render_template('driver_index.html', account = account)
-    return render_template('login.html',error = error)
+            return redirect(url_for('driver_index', account = account))
+    return render_template('login.html' ,error = error)
     
  
 @app.route('/driver_index', methods=['GET'])
@@ -140,8 +140,8 @@ def add_driver_to_db():
         error = "新增失敗"
         print(response,str(e))
     if response['status'] == "ok":
-        return render_template('add_busdriver.html',success = success)
-    return render_template('add_busdriver.html',error = error)
+        return redirect(url_for('add_busdriver',success = success))
+    return redirect(url_for('add_busdriver',error = error))
 
 
 #modify info
@@ -149,6 +149,7 @@ def add_driver_to_db():
 @login_required
 def modify_info_to_db():
     error = None
+    success = None
     response = {"status":"ok"}
     try:
         # 傳進來的 JSON String 轉成 LIST json decode
@@ -163,12 +164,18 @@ def modify_info_to_db():
         print(data)
         # 把 DICT 加到資料庫
         model.modify_info_to_db(data)
+        success = "修改成功"
     except Exception as e:
         response["status"] = "error"
         response["error"] = str(e)
-        print(response,str(e))
-    
+        error = "修改失敗"
+        print(response)
 
+    if response['status'] == "ok":
+        return redirect(url_for('bus_driver_personal_basic_information',success = success))
+    return redirect(url_for('bus_driver_personal_basic_information',error = error))
+
+    
 @app.route('/getInfo', methods=['GET'])
 @login_required
 def get_info():
@@ -182,6 +189,88 @@ def get_info():
         response["status"] = "error"
         print(str(e))
     return str(response)
+
+@app.route('/getShift', methods=['GET'])
+@login_required
+def get_shift():
+    response = {"status":"ok"}
+    try:
+        data = request.get_json()
+        data["start_time"] = datetime.strptime(data["start_time"], '%H:%M')
+        response = model.get_shift_from_db(data)
+        print(response)
+
+    except Exception as e:
+        response["status"] = "error"
+        print(str(e))
+    return str(response)
+
+@app.route('/modifyShift', methods=['POST'])
+@login_required
+def modify_shift():
+    error = None
+    success = None
+    response = {"status":"ok"}
+    try:
+        data = request.get_json()
+        data["start_time"] = datetime.strptime(data["start_time"], '%H:%M')
+        model.modify_shift_from_db(data)
+        success = "修改成功"
+    except Exception as e:
+        response["status"] = "error"
+        response["error"] = str(e)
+        error = "修改失敗"
+        print(response)
+    if response['status'] == "ok":
+        return redirect(url_for('add_or_revise_shift',  success = success))
+    return redirect(url_for('add_or_revise_shift', error = error))
+
+@app.route('/delShift', methods=['POST'])
+@login_required
+def del_shift():
+    error = None
+    success = None
+    response = {"status":"ok"}
+    try:
+        data = request.get_json()
+        data["start_time"] = datetime.strptime(data["start_time"], '%H:%M')
+        model.del_shift_from_db(data)
+        success = "刪除成功"
+    except Exception as e:
+        response["status"] = "error"
+        response["error"] = str(e)
+        error = "刪除失敗"
+        print(response)
+    if response['status'] == "ok":
+        return redirect(url_for('add_or_revise_shift',  success = success))
+    return redirect(url_for('add_or_revise_shift', error = error))
+
+@app.route('/addShift', methods=['POST'])
+@login_required
+def add_shift():
+    error = None
+    success = None
+    response = {"status":"ok"}
+    try:
+        # 傳進來的 JSON String 轉成 LIST json decode
+        data = request.get_json()
+        # 傳進來的 Date String 轉成 Datetime 類別
+        data["start_time"] = datetime.strptime(data["start_time"], '%H:%M')
+        print(data)
+        # 把 DICT 加到資料庫
+        model.add_shift_to_db(data)
+        success = "新增成功"
+    except Exception as e:
+        response["status"] = "error"
+        response["error"] = str(e)
+        error = "新增失敗"
+        print(response, str(e))
+    
+    
+    if response['status'] == "ok":
+        return redirect(url_for('add_or_revise_shift', success = success))
+    return redirect(url_for('add_or_revise_shift', error = error))
+    
 
 @app.route('/bus_driver_change_password', methods=['GET'])
 @login_required

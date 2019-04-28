@@ -53,15 +53,20 @@ $(document).ready(function(){
 		$('#myfile').prop('disabled', false);
 		$('#account').prop('disabled', false);
 		
+		$('#InputPhone1').prop('required', true);
+		$('#address').prop('required', true);
+		$('#myfile').prop('required', true);
+		$('#account').prop('required', true);
+		
 	})
-	$(".yes").click(function() {
+	/*$(".yes").click(function() {
 		$(".yes").hide();
 		$(".fix").show();
 		$('#InputPhone1').prop('disabled', true);
 		$('#address').prop('disabled', true);
 		$('#myfile').prop('disabled', true);
 		$('#account').prop('disabled', true);
-	})
+	})*/
 	
 });
 

@@ -23,7 +23,9 @@ class Model:
         client = pymongo.MongoClient('mongodb://user:870215@140.121.198.84:27017/')
         db = client["KeelungBusSystem"]
         id['_id'] = data['_id']
+        print(id)
         del data['_id']
+        print(data)
         result = db['info'].update_one(id, { "$set": data })
         return result
     
@@ -37,6 +39,51 @@ class Model:
         result['_id'] = str(result['_id'])
         result['birthday'] = result['birthday'].strftime("%Y/%m/%d")
         return json.dumps(result)
+    
+    # modify shift from db
+    def modify_shift_from_db(self, data):
+        info = dict()
+        client = pymongo.MongoClient('mongodb://user:870215@140.121.198.84:27017/')
+        db = client["KeelungBusSystem"]
+        info['route'] = data['route']
+        info['day'] = data['day']
+        print(info)
+        del data['route']
+        del data['day']
+        print(data)
+        result = db['shift'].update_one(info, { "$set": data })
+        return result
+    
+    # del shft from db
+    def del_shift_from_db(self, data):
+        info = dict()
+        client = pymongo.MongoClient('mongodb://user:870215@140.121.198.84:27017/')
+        db = client["KeelungBusSystem"]
+        
+        print(data)
+        result = db['shift'].delete_one(data)
+        return result
+
+    #get shift from db    
+    def get_shift_from_db(self, data):
+        client = pymongo.MongoClient('mongodb://user:870215@140.121.198.84:27017/')
+        db = client['KeelungBusSystem']
+        #collection = db['list']
+        result = db["shift"].find_one({"start_time" : data['start_time'], "route" : data['route'], "day" : data['day']})
+        print(result)
+        result['start_time'] = result['start_time'].strftime("%H:%M")
+        del result['_id']
+        return json.dumps(result)
+
+    # add_shift_to_db
+    def add_shift_to_db(self, data):
+        client = pymongo.MongoClient('mongodb://user:870215@140.121.198.84:27017/')
+        db = client["KeelungBusSystem"]
+        print(data)
+        result = db['shift'].insert_one(data)
+        print(result)
+        return result
+
 
     def get_info_from_db_all(self):
         client = pymongo.MongoClient('mongodb://user:870215@140.121.198.84:27017/')
