@@ -195,8 +195,9 @@ def get_info():
 def get_shift():
     response = {"status":"ok"}
     try:
+        print("BB")
+        print(request)
         data = request.get_json()
-        data["start_time"] = datetime.strptime(data["start_time"], '%H:%M')
         response = model.get_shift_from_db(data)
         print(response)
 

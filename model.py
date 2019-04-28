@@ -66,10 +66,11 @@ class Model:
 
     #get shift from db    
     def get_shift_from_db(self, data):
+        print("AA")
         client = pymongo.MongoClient('mongodb://user:870215@140.121.198.84:27017/')
         db = client['KeelungBusSystem']
         #collection = db['list']
-        result = db["shift"].find_one({"start_time" : data['start_time'], "route" : data['route'], "day" : data['day']})
+        result = db["shift"].find_one({"route" : data['route'], "day" : data['day']})
         print(result)
         result['start_time'] = result['start_time'].strftime("%H:%M")
         del result['_id']

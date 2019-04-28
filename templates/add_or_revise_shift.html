@@ -7,7 +7,8 @@
 	  
 	  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
 
-	  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+		<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+		<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
 	  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
 
@@ -73,7 +74,7 @@
 			</label>
 			
 			<div class="col-xs-4 col-md-3 col-lg-3">
-				<select id="inputState" class="form-control">
+				<select id="inputRoute" class="form-control">
 					<option value="101">101 和平島</option>
 					<option value="102">102 祥豐街</option>
 					<option value="103">103 中正路</option>
@@ -87,7 +88,7 @@
 			</label>
 			
 			<div class="col-xs-4 col-md-3 col-lg-3">
-				<select id="inputState" class="form-control">
+				<select id="inputDate" class="form-control">
 					<option value="SUN">星期日 SUN</option>
 					<option value="MON">星期一 MON</option>
 					<option value="TUE">星期二 TUR</option>
@@ -105,20 +106,20 @@
 		
 		<div class="form-group row">
 		
-			<table class="table">
-				  <thead class="thead-dark" style = "display: none" id="bus">
+			<table class="table" style = "display: none" id="bus">
+				  <thead class="thead-dark">
 					<tr>
 					  <th scope="col">司機</th>
 					  <th scope="col">發車時刻表</th>
 					  <th scope="col">編輯</th>
 					</tr>
 				  </thead>
-				  <!--
 				  <tbody>
+					<!--
 					<tr>
-					  <th scope="row"></th>
-					  <td></td>
-					  <td></td>
+					  <th scope="col">HIHIHIH</th>
+					  <td scope="col">HIHIHIH</td>
+					  <td><input type="button" value="modify" class="btn" onclick="Delete(this)"/></td>
 					</tr>
 					<tr>
 					  <th scope="row"></th>
