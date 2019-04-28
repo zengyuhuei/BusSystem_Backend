@@ -209,7 +209,7 @@ def get_info():
         print(str(e))
     return str(response)
 
-@app.route('/getShift', methods=['GET'])
+@app.route('/getShift', methods=['POST'])
 @login_required
 def get_shift():
     response = {"status":"ok"}
