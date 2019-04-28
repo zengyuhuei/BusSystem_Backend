@@ -310,13 +310,13 @@ def add_shift():
     return redirect(url_for('add_or_revise_shift', error = error))
     
 @app.route('/changePassword', methods=['POST'])
-def change_password():
+def changePassword():
     error = None
     success = None
     response = {"status":"ok"}
     try:
         data = request.get_json()
-        identity = model.change_password_from_db(data)
+        identity = model.change_password_to_db(data)
         success = "修改成功"
         print(identity)
     except Exception as e:
