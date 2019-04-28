@@ -209,22 +209,18 @@ def get_info():
     return str(response)
 
 @app.route('/getShift', methods=['POST'])
-@login_required
 def get_shift():
     response = {"status":"ok"}
     try:
         data = request.get_json()
         response = model.get_shift_from_db(data)
-        print("BB")
         print(response)
-
     except Exception as e:
         response["status"] = "error"
         print(str(e))
     return str(response)
 
 @app.route('/modifyShift', methods=['POST'])
-@login_required
 def modify_shift():
     error = None
     success = None
@@ -264,10 +260,10 @@ def del_shift():
     return redirect(url_for('add_or_revise_shift', error = error))
 
 @app.route('/addShift', methods=['POST'])
-@login_required
 def add_shift():
     error = None
     success = None
+    inserted_id = None
     response = {"status":"ok"}
     try:
         # 傳進來的 JSON String 轉成 LIST json decode
@@ -276,7 +272,11 @@ def add_shift():
         data["start_time"] = datetime.strptime(data["start_time"], '%H:%M')
         print(data)
         # 把 DICT 加到資料庫
-        model.add_shift_to_db(data)
+        result = model.add_shift_to_db(data)
+        result_dict = json.loads(result)
+        print(result_dict)
+        inserted_id = result_dict['inserted_id']
+        print(inserted_id)
         success = "新增成功"
     except Exception as e:
         response["status"] = "error"
@@ -286,7 +286,7 @@ def add_shift():
     
     
     if response['status'] == "ok":
-        return redirect(url_for('add_or_revise_shift', success = success))
+        return redirect(url_for('add_or_revise_shift', success = success, inserted_id = inserted_id))
     return redirect(url_for('add_or_revise_shift', error = error))
     
 
@@ -316,9 +316,17 @@ def add_busdriver():
     return render_template('add_busdriver.html', methods=['GET'])
 
 @app.route('/add_or_revise_shift', methods=['GET'])
-@login_required
 def add_or_revise_shift():
-    return render_template('add_or_revise_shift.html', methods=['GET'])
+    success = None
+    error = None
+    inserted_id = None
+    try:
+        success = request.args.get('success')
+        inserted_id =  request.args.get('inserted_id')
+        error = request.args.get('error')
+    except:
+        pass
+    return render_template('add_or_revise_shift.html', success = success,  inserted_id = inserted_id, error = error, methods=['GET'])
 
 @app.route('/bus_information', methods=['GET'])
 @login_required

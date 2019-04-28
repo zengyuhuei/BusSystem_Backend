@@ -73,10 +73,10 @@
 		   
 		<div class="form-group row">
 			{% if error %}
-			 <script>window.alert("修改失敗");</script>
+			 <script>window.alert("{{ error }}");</script>
 			 {% endif %}
 			 {% if success %}
-			  <script>window.alert("修改成功");</script>
+			  <script>window.alert("{{ success }}");window.alert("{{ inserted_id }}");</script>
 			 {% endif %}
 			<label for="input1" class="col-xs-3 col-md-auto col-form-label">
 				<h5>路線：</h5>
