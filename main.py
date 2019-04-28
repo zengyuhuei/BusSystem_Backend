@@ -245,14 +245,13 @@ def modify_shift():
     return redirect(url_for('add_or_revise_shift', error = error))
 
 @app.route('/delShift', methods=['POST'])
-@login_required
 def del_shift():
     error = None
     success = None
     response = {"status":"ok"}
     try:
         data = request.get_json()
-        data["start_time"] = datetime.strptime(data["start_time"], '%H:%M')
+        data["_id"] = ObjectId(data['_id'])
         model.del_shift_from_db(data)
         print(data)
         success = "刪除成功"
