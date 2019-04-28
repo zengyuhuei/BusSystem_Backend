@@ -1,18 +1,22 @@
 function setTable(response)
 {
+	var i = 0;
+	while(response[i]!=null)
+	{
 		$('[data-toggle="tooltip"]').tooltip();
 		var actions = $("table td:last-child").html();
 		var index = $("table tbody tr:last-child").index();
 					var row = '<tr>' +
-							'<td style="display: none;">'+response['id']+'</td>' +
-							'<td>'+response['driver']+'</td>' +
-							'<td>'+response['start_time']+'</td>' +
+							'<td style="display: none;">'+response[i]['id']+'</td>' +
+							'<td>'+response[i]['driver']+'</td>' +
+							'<td>'+response[i]['start_time']+'</td>' +
 				'<td>' + actions + '</td>' +
 					'</tr>';
 				$("table").append(row);		
 				$("table tbody tr").eq(index + 1).find(".add, .edit").toggle();
 					$('[data-toggle="tooltip"]').tooltip();			
-		
+		i=i+1;
+	}	
 }
 function addTable(driver,time)
 {
