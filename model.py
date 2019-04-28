@@ -20,15 +20,16 @@ class Model:
      # modify info
     def modify_info_to_db(self, data):
         email = dict()
-        
         client = pymongo.MongoClient('mongodb://user:870215@140.121.198.84:27017/')
         db = client["KeelungBusSystem"]
         email['email'] = data['email']
+        account = data['email']
         print(email)
         del data['email']
         print(data)
         result = db['info'].update_one(email , { "$set": data })
-        #result['identify'] = 
+        result['identify'] =  db["auth"].find_one({"account" : account})
+        print(result)
         return result
     
     #get info from db    
@@ -47,11 +48,9 @@ class Model:
         info = dict()
         client = pymongo.MongoClient('mongodb://user:870215@140.121.198.84:27017/')
         db = client["KeelungBusSystem"]
-        info['route'] = data['route']
-        info['day'] = data['day']
+        info['_id'] = ObjectId(data['_id'])
         print(info)
-        del data['route']
-        del data['day']
+        del data['_id']
         print(data)
         result = db['shift'].update_one(info, { "$set": data })
         return result
@@ -72,10 +71,13 @@ class Model:
         client = pymongo.MongoClient('mongodb://user:870215@140.121.198.84:27017/')
         db = client['KeelungBusSystem']
         #collection = db['list']
-        result = db["shift"].find_one({"route" : data['route'], "day" : data['day']})
+        result = list(db["shift"].find({"route" : data['route'], "day" : data['day']}))
+        
+        for info in result:
+            info['start_time'] = info['start_time'].strftime("%H:%M")
+            info['_id'] = str(info['_id'])
+          
         print(result)
-        result['start_time'] = result['start_time'].strftime("%H:%M")
-        del result['_id']
         return json.dumps(result)
 
     # add_shift_to_db
@@ -84,8 +86,9 @@ class Model:
         db = client["KeelungBusSystem"]
         print(data)
         result = db['shift'].insert_one(data)
-        print(result)
-        return result
+        print(result.inserted_id)
+
+        return json.dumps({'inserted_id': str(result.inserted_id)})
 
 
     def get_info_from_db_all(self):
