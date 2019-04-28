@@ -20,6 +20,7 @@ class Model:
      # modify info
     def modify_info_to_db(self, data):
         email = dict()
+        result = dict()
         client = pymongo.MongoClient('mongodb://user:870215@140.121.198.84:27017/')
         db = client["KeelungBusSystem"]
         email['email'] = data['email']
@@ -27,10 +28,10 @@ class Model:
         print(email)
         del data['email']
         print(data)
-        result = db['info'].update_one(email , { "$set": data })
-        result['identify'] =  db["auth"].find_one({"account" : account})
-        print(result)
-        return result
+        db['info'].update_one(email , { "$set": data })
+        result =  db["auth"].find_one({"account" : account})
+        print(result['identity'])
+        return result['identity']
     
     #get info from db    
     def get_info_from_db(self, email):

@@ -78,10 +78,10 @@
 				<form method = "post" action = "http://127.0.0.1:3000/modify_info_to_db" enctype = "multipart/form-data">
 					<div class = "row">
 					{% if error %}
-					 <script>window.alert("新增失敗");</script>
+					 <script>window.alert("{{error}}");</script>
 					 {% endif %}
 					 {% if success %}
-					  <script>window.alert("新增成功");</script>
+					  <script>window.alert("{{success}}");</script>
 					 {% endif %}
 					<div class="col-sm-7 col-lg-7 col-md-7">
 						<div class="form-group row">
