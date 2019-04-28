@@ -60,7 +60,7 @@ function delTable(id)
 			}// 成功後要執行的函數
 		  });
 }
-function modifyTable(driver,time)
+function modifyTable(id,driver,time)
 {
 		$.ajax({
 			type: 'POST',
@@ -68,8 +68,7 @@ function modifyTable(driver,time)
 			contentType : 'application/json',
 			url: "http://127.0.0.1:3000/delShift",
 			data:JSON.stringify({
-				"route":$route,
-				"day": $day,
+				"_id":id,
 				"driver":driver,
 				"start_time":time
 			}),
@@ -83,7 +82,6 @@ function setid(id)
 {
 	var x = document.getElementById("busTable")
 	x.find("tr:nth-child(end)").find("td:nth-child(1)").text() = id;
-	console.log("AAA")
 }
 $(document).ready(function(){
 	$(".yes").click(function() {
@@ -126,6 +124,7 @@ $(document).ready(function(){
         $('[data-toggle="tooltip"]').tooltip();
     });
 	// Add row on add button click
+	var check = 0;
 	$(document).on("click", ".add", function(){
 		var empty = false;
 		var driver;
@@ -149,8 +148,14 @@ $(document).ready(function(){
 			$(this).parents("tr").find(".add, .edit").toggle();
 			$(".add-new").removeAttr("disabled");
 		}	
-		addTable(driver,time);
-		
+		if(check == 1)
+		{
+			var id = $(this).parent("tr").find("td:nth-child(1)");
+			modifyTable(id,driver,time);
+			check = 0;
+		}
+		else
+			addTable(driver,time);		
     });
 	// Edit row on edit button click
 	$(document).on("click", ".edit", function(){		
@@ -159,9 +164,11 @@ $(document).ready(function(){
 		});		
 		$(this).parents("tr").find(".add, .edit").toggle();
 		$(".add-new").attr("disabled", "disabled");
+		check = 1;
     });
 	// Delete row on delete button click
 	$(document).on("click", ".delete", function(){
+			console.log("AAA")
 			var id = $(this).closest('tr').find('td:nth-child(1)').text();
 			delTable(id);
         $(this).parents("tr").remove();
