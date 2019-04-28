@@ -32,13 +32,13 @@
 				<li class="nav-item"><a class = "nav-link" href="{{url_for('timely_bus_information')}}"> 即時公車資訊</a></li>
 				<li class="nav-item"><a class = "nav-link" href="{{url_for('Human_dispatch')}}"> 人力調派</a></li>
 				<li class="nav-item"><a class = "nav-link" href="{{url_for('historical_record')}}"> 歷史紀錄</a></li>
-				<li class="nav-item"><a class = "nav-link" href="{{url_for('Emergency_reception')}}"> 突發狀況回報</a></li>
+				<li class="nav-item"><a class = "nav-link" href="{{url_for('Emergency_reception')}}"> 突發狀況接收</a></li>
 				<li class="nav-item dropdown">
-					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					<a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 					  修改路線/班次
 					</a>
 					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-					  <a class="dropdown-item active" href="{{url_for('add_or_revise_shift')}}">新增/修改班次</a>
+					  <a class="dropdown-item" href="{{url_for('add_or_revise_shift')}}">新增/修改班次</a>
 					  <a class="dropdown-item" href="{{url_for('revise_path')}}">修改路線</a>
 					</div>
 				</li>
@@ -67,7 +67,12 @@
 		</div>
 		   
 		<div class="form-group row">
-		
+			{% if error %}
+			 <script>window.alert("修改失敗");</script>
+			 {% endif %}
+			 {% if success %}
+			  <script>window.alert("修改成功");</script>
+			 {% endif %}
 			<label for="input1" class="col-xs-3 col-md-auto col-form-label">
 				<h5>路線：</h5>
 			</label>
