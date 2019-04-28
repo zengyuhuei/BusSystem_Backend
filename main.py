@@ -209,6 +209,7 @@ def get_info():
     return str(response)
 
 @app.route('/getShift', methods=['POST'])
+@login_required
 def get_shift():
     response = {"status":"ok"}
     try:
