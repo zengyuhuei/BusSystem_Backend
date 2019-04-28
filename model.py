@@ -39,11 +39,11 @@ class Model:
         new_password = dict()
         client = pymongo.MongoClient('mongodb://user:870215@140.121.198.84:27017/')
         db = client["KeelungBusSystem"]
-        email['account'] = data['email']
+        email['account'] = data['account']
         email['password'] = data['password']
-        account = data['email']
+        account = data['account']
         print(email)
-        del data['email']
+        del data['account']
         del data['password']
         print(data)
         new_password['password'] = data['new_password']
