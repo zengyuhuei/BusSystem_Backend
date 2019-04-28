@@ -121,7 +121,12 @@ def login():
 @app.route('/driver_index', methods=['GET'])
 @login_required
 def driver_index():       
-    return render_template('driver_index.html')
+    account = None
+    try:
+        account = request.args.get('account')
+    except:
+        pass
+    return render_template('driver_index.html',account = account, methods=['GET'])
 
 @app.route('/logout', methods=['GET'])
 @login_required
@@ -170,6 +175,7 @@ def add_driver_to_db():
 
 #modify info
 @app.route('/modify_info_to_db', methods=['POST'])
+@login_required
 def modify_info_to_db():
     error = None
     success = None
@@ -186,17 +192,24 @@ def modify_info_to_db():
         # 傳進來的 Date String 轉成 Datetime 類別
         print(data)
         # 把 DICT 加到資料庫
-        model.modify_info_to_db(data)
+        identity = model.modify_info_to_db(data)
+        print(identity)
         success = "修改成功"
     except Exception as e:
         response["status"] = "error"
         response["error"] = str(e)
         error = "修改失敗"
         print(response)
-
-    if response['status'] == "ok":
-        return redirect(url_for('bus_driver_personal_basic_information',success = success))
-    return redirect(url_for('bus_driver_personal_basic_information',error = error))
+    if identity == 0:
+        if response['status'] == "ok":
+            return redirect(url_for('Personal_basic_information',success = success))
+        else:
+            return redirect(url_for('Personal_basic_information',error = error))
+    elif identity == 1:
+        if response['status'] == "ok":
+            return redirect(url_for('bus_driver_personal_basic_information',success = success))
+        else:
+            return redirect(url_for('bus_driver_personal_basic_information',error = error))
 
     
 @app.route('/getInfo', methods=['GET'])
@@ -226,6 +239,7 @@ def get_shift():
     return str(response)
 
 @app.route('/modifyShift', methods=['POST'])
+@login_required
 def modify_shift():
     error = None
     success = None
@@ -245,6 +259,7 @@ def modify_shift():
     return redirect(url_for('add_or_revise_shift', error = error))
 
 @app.route('/delShift', methods=['POST'])
+@login_required
 def del_shift():
     error = None
     success = None
@@ -265,6 +280,7 @@ def del_shift():
     return redirect(url_for('add_or_revise_shift', error = error))
 
 @app.route('/addShift', methods=['POST'])
+@login_required
 def add_shift():
     error = None
     success = None
@@ -313,12 +329,27 @@ def bus_driver_people_number_return():
 @app.route('/bus_driver_personal_basic_information', methods=['GET'])
 @login_required
 def bus_driver_personal_basic_information():
-    return render_template('bus_driver_personal_basic_information.html')
+    success = None
+    error = None
+    try:
+        success = request.args.get('success')
+        error = request.args.get('error')
+    except:
+        pass
+    return render_template('bus_driver_personal_basic_information.html', success = success, error = error, methods=['GET'])
+    
 
 @app.route('/add_busdriver', methods=['GET'])
 @login_required
 def add_busdriver():
-    return render_template('add_busdriver.html', methods=['GET'])
+    success = None
+    error = None
+    try:
+        success = request.args.get('success')
+        error = request.args.get('error')
+    except:
+        pass
+    return render_template('add_busdriver.html', success = success, error = error, methods=['GET'])
 
 @app.route('/add_or_revise_shift', methods=['GET'])
 def add_or_revise_shift():
@@ -361,7 +392,15 @@ def Human_dispatch():
 @app.route('/Personal_basic_information', methods=['GET'])
 @login_required
 def Personal_basic_information():
-    return render_template('Personal_basic_information.html')
+    success = None
+    error = None
+    try:
+        success = request.args.get('success')
+        error = request.args.get('error')
+    except:
+        pass
+    return render_template('Personal_basic_information.html', success = success, error = error, methods=['GET'])
+
 
 @app.route('/revise_path', methods=['GET'])
 @login_required
@@ -378,7 +417,12 @@ def timely_bus_information():
 @app.route('/manager_index', methods=['GET'])
 @login_required
 def manager_index():
-    return render_template('manager_index.html')
+    account = None
+    try:
+        account = request.args.get('account')
+    except:
+        pass
+    return render_template('manager_index.html',account = account, methods=['GET'])
 
 #--------------------------------------------------------------------------
 @app.route('/upload_file',methods=['GET','POST'])
