@@ -100,7 +100,7 @@
                 </div>
                 
                 <div class="col-auto mt-3 mt-md-0">
-                    <button type="submit" class="btn btn-primary yes" onclock="disappear()">確認</button>
+                    <button type="submit" class="btn btn-primary yes" id="yes" onclock="disappear()">確認</button>
                 </div>
             </div>
 			
@@ -189,6 +189,11 @@
 							console.log(status);
 							}
 						});
+						document.getElementById("yes").addEventListener("click", myFunction);
+						function myFunction() {
+							map.setZoom(15);
+							map.setCenter(obj[obj.length/2]);
+						}
 						</script>
 					</div>
 					
