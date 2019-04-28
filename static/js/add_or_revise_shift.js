@@ -4,6 +4,7 @@ function setTable(response)
 		var actions = $("table td:last-child").html();
 		var index = $("table tbody tr:last-child").index();
 					var row = '<tr>' +
+							'<td style="display: none;">'+response['id']+'</td>' +
 							'<td>'+response['driver']+'</td>' +
 							'<td>'+response['start_time']+'</td>' +
 				'<td>' + actions + '</td>' +
@@ -16,24 +17,25 @@ function setTable(response)
 function addTable(driver,time)
 {
 	$route = $("#inputRoute").val();
-	$day = $("#inputDate").val();
-	$.ajax({
-		type: 'POST',
-		dataType : 'json',
-		contentType : 'application/json',
-		url: "http://127.0.0.1:3000/addShift",
-		data:JSON.stringify({
-			"route":$route,
-			"day": $day,
-			"driver":driver,
-			"start_time" : time
-		}),
-			error: function (xhr) { },      // 錯誤後執行的函數
-			success: function (response) {
-			console.log(response);
-		}// 成功後要執行的函數
-		});
-	
+		$day = $("#inputDate").val();
+		// For Success/Failure Message
+      	// Check for white space in name for Success/Fail message
+		$.ajax({
+			type: 'POST',
+			dataType : 'json',
+			contentType : 'application/json',
+			url: "http://127.0.0.1:3000/addShift",
+			data:JSON.stringify({
+				"route":$route,
+				"day": $day,
+				"driver":driver,
+				"start_time":time
+			}),
+			  error: function (xhr) { },      // 錯誤後執行的函數
+			  success: function (response) {
+				console.log(response);
+			}// 成功後要執行的函數
+		  });
 
 }
 function delTable(driver,time)
@@ -58,6 +60,10 @@ function delTable(driver,time)
 				console.log(response);
 			}// 成功後要執行的函數
 		  });
+}
+function modifyTable(driver,time)
+{
+
 }
 $(document).ready(function(){
 	$(".yes").click(function() {
