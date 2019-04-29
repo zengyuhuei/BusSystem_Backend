@@ -109,7 +109,6 @@ $(document).ready(function(){
 		  });
 	})
 	
-	$('[data-toggle="tooltip"]').tooltip();
 	var actions = $("table td:last-child").html();
 	// Append table with add row form on add new button click
     $(".add-new").click(function(){
@@ -117,13 +116,14 @@ $(document).ready(function(){
 		var index = $("table tbody tr:last-child").index();
 				var row = '<tr>' +
 						'<td style="display: none;"></td>' +
-            '<td><input type="text" class="form-control" name="name" id="name"></td>' +
-            '<td><input type="text" class="form-control" name="department" id="department"></td>' +
+            '<td><select type="text" class="form-control" name="driver" id="driver"></td>' +
+            '<td><select type="text" class="form-control" name="time" id="time"><option>7:00</option><option>7:20</option><option>7:40</option><option>8:00</option><option>8:20</option><option>8:40</option><option>9:00</option><option>9:20</option>'+
+			'<option>9:40</option><option>10:00</option><option>10:20</option><option>10:40</option><option>11:00</option><option>11:20</option><option>11:40</option><option>12:00</option><option>12:20</option><option>12:40</option>'+
+			'<option>13:00</option><option>13:20</option><option>13:40</option><option>14:00</option><option>14:20</option><option>14:40</option><option>15:00</option><option>15:20</option><option>15:40</option><option>16:00</option></select></td>' +
 			'<td>' + actions + '</td>' +
         '</tr>';
     	$("table").append(row);		
 		$("table tbody tr").eq(index+1).find(".add, .edit").toggle();
-        $('[data-toggle="tooltip"]').tooltip();
     });
 	// Add row on add button click
 	var check = 0;
