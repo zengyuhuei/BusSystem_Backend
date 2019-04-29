@@ -22,13 +22,14 @@ function setTable(response)
 }
 function addTable(driver,time)
 {
+	var xhr = new XMLHttpRequest();
 	$route = $("#inputRoute").val();
 		$day = $("#inputDate").val();
 		// For Success/Failure Message
       	// Check for white space in name for Success/Fail message
 		$.ajax({
 			type: 'POST',
-			dataType : 'json',
+			data : 'json',
 			contentType : 'application/json',
 			url: "http://127.0.0.1:3000/addShift",
 			data:JSON.stringify({
@@ -37,10 +38,13 @@ function addTable(driver,time)
 				"driver":driver,
 				"start_time":time
 			}),
+			xhr: function() {
+				return xhr;
+			 },
 			  error: function (xhr) { },      // 錯誤後執行的函數
 			  success: function (response) {
-					console.log("AAA");
-					window.location.href = response.redirect;
+					window.location.href = xhr.responseURL;
+					//window.location.href = response.redirect;
 			}// 成功後要執行的函數
 		  });
 
@@ -48,25 +52,31 @@ function addTable(driver,time)
 function delTable(id)
 {
 		// For Success/Failure Message
-      	// Check for white space in name for Success/Fail message
+				// Check for white space in name for Success/Fail message
+		var xhr = new XMLHttpRequest();
 		$.ajax({
 			type: 'POST',
-			dataType : 'json',
+			data : 'json',
 			contentType : 'application/json',
 			url: "http://127.0.0.1:3000/delShift",
 			data:JSON.stringify({
 				"_id" : id
 			}),
+			xhr: function() {
+				return xhr;
+			 },
 			  error: function (xhr) {
-
+						console.log("AAAA")
 				 },      // 錯誤後執行的函數
 			  success: function (response) {
-				console.log(response);
+					console.log(response)
+				window.location.href = xhr.responseURL;
 			}// 成功後要執行的函數
 		  });
 }
 function modifyTable(id,driver,time)
 {
+	var xhr = new XMLHttpRequest();
 	$.ajax({
 		type: 'POST',
 		data: 'json',
@@ -77,10 +87,15 @@ function modifyTable(id,driver,time)
 			'driver' : driver,
 			'start_time' : time
 		}),
+		xhr: function() {
+			return xhr;
+ 		},
 			error: function (xhr) { 
 			},      // 錯誤後執行的函數
 			success: function (response) {
-			window.location.href = response.redirect;
+			//console.log(response);
+			console.log(xhr.responseURL);
+			window.location.href = xhr.responseURL;
 		}// 成功後要執行的函數
 		});
 }

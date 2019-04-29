@@ -454,12 +454,9 @@ def manager_index():
 @app.route('/getRoute', methods=['POST'])
 def get_route():
     response = {"status":"ok"}
-    print("getRoute")
     try:
         getRoute = request.get_json()
-        print(getRoute)
         response = model.get_route_from_db(getRoute)
-        print(response)
 
     except Exception as e:
         response["status"] = "error"

@@ -12,7 +12,6 @@ function setTable(response)
 	var i = 0;
 	while(response[i]!=null)
 	{
-		console.log(response[i]);
 		$('[data-toggle="tooltip"]').tooltip();
 		var actions = $("table td:last-child").html();
 		var index = $("table tbody tr:last-child").index();
@@ -33,7 +32,6 @@ function setTable(response)
 }
 function getTable()
 {
-	console.log("AaAA");
 	$route = $("#inputRoute").val();
 	$day = $("#inputDate").val();
 	var tr_length = $('.table tbody tr').length; 
@@ -43,7 +41,6 @@ function getTable()
 		var td_length = $('.table tr')[i].childElementCount; //當下td長度
 		$('.table tr:eq('+i+')').remove();
 	}
-	console.log($route+$day);
 	// For Success/Failure Message
   	// Check for white space in name for Success/Fail message
 	$.ajax({
@@ -59,18 +56,18 @@ function getTable()
 		error: function (xhr) { },      // 錯誤後執行的函數
 		success: function (response) {
 			console.log(response);
-			console.log("AAAA");
 			setTable(response);
 		}// 成功後要執行的函數
 	});
 }
 
 
-function load(route){
-	
+function load(route)
+{	
 	$.ajax({
 		type: 'POST',
 		data: 'json',
+		dataType:'json',
 		contentType : 'application/json',
 		url: "http://127.0.0.1:3000/getRoute",
 		data:JSON.stringify({
@@ -79,9 +76,10 @@ function load(route){
 		success: function(response) {
 			console.log(response);
 			console.log(response[0]);
+			console.log("AA"+route);	
 			returnRoute();
 		},
-		error: function(xhr, type) {
+		error: function(xhr) {
 			console.log("ouo");
 		}
 	});
