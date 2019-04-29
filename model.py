@@ -168,7 +168,7 @@ class Model:
         print(bus_route)
         route_name = bus_route["route"]
         print(route_name)
-        route_result = db["route"].find_one({"bus_route" : route_name})
+        route_result = db["route"].find_one({'bus_route' : route_name})
         print(route_result)
         print(len(route_result))
         for i in range(1,len(route_result)-1):
