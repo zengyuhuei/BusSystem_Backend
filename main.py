@@ -464,7 +464,7 @@ def get_route():
     except Exception as e:
         response["status"] = "error"
         print(str(e))
-    return str(response)
+    return jsonify(response)
 
 #--------------------------------------------------------------------------
 @app.route('/upload_file',methods=['GET','POST'])
