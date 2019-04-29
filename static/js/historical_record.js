@@ -8,8 +8,8 @@ $(document).ready(function(){
 	$(".yes").click(function() {
 		$("#map").show();
 		$("#bus").show();
-		var route = "104";
-		load(route);
+		$route = $("#inputState").val();
+		load($route);
 	})
 });
 
