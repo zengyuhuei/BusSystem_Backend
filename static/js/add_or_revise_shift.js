@@ -177,12 +177,11 @@ $(document).ready(function(){
 	// Edit row on edit button click
 	$(document).on("click", ".edit", function(){		
         $(this).parents("tr").find("td:not(:last-child)").each(function(){
-			$(this).children().html('<select type="text" class="form-control" name="driver" id="driver"><option>gggg</option><option>ffff</option><option>eeee</option><option>dddd</option><option>cccc</option><option>bbbb</option><option>aaaa</option></select>');
-			//console.log($(this).children("#driver"));
-			//$(this).children.html('<select type="text" class="form-control" name="driver" id="driver"><option>gggg</option><option>ffff</option><option>eeee</option><option>dddd</option><option>cccc</option><option>bbbb</option><option>aaaa</option></select>');
-			/*$(this).children().html('<select type="text" class="form-control" name="time" id="time"><option>7:00</option><option>7:20</option><option>7:40</option><option>8:00</option><option>8:20</option><option>8:40</option><option>9:00</option><option>9:20</option>'+
+			console.log($(this).parents("tr").find("td:nth-child(2)"));
+			$(this).parents("tr").find("td:nth-child(2)").html('<select type="text" class="form-control" name="driver" id="driver"><option>gggg</option><option>ffff</option><option>eeee</option><option>dddd</option><option>cccc</option><option>bbbb</option><option>aaaa</option></select>');
+			$(this).parents("tr").find("td:nth-child(3)").html('<select type="text" class="form-control" name="time" id="time"><option>7:00</option><option>7:20</option><option>7:40</option><option>8:00</option><option>8:20</option><option>8:40</option><option>9:00</option><option>9:20</option>'+
 			'<option>9:40</option><option>10:00</option><option>10:20</option><option>10:40</option><option>11:00</option><option>11:20</option><option>11:40</option><option>12:00</option><option>12:20</option><option>12:40</option>'+
-			'<option>13:00</option><option>13:20</option><option>13:40</option><option>14:00</option><option>14:20</option><option>14:40</option><option>15:00</option><option>15:20</option><option>15:40</option><option>16:00</option></select>');*/
+			'<option>13:00</option><option>13:20</option><option>13:40</option><option>14:00</option><option>14:20</option><option>14:40</option><option>15:00</option><option>15:20</option><option>15:40</option><option>16:00</option></select>');
 		});		
 		$(this).parents("tr").find(".add, .edit").toggle();
 		$(".add-new").attr("disabled", "disabled");
