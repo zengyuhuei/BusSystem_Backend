@@ -1,12 +1,7 @@
 $(document).ready(function(){
 	$(".yes").click(function() {
-		$("#map").show();
-		$("#bus").show();
+		$("#map").toggle();
+		$("#bus").toggle();
+		console.log("what the fuck");
 	})
 });
-
-function disappear()
-{
-		var googleMap = document.getElementById("map");
-		googleMap.style.display = block;
-}

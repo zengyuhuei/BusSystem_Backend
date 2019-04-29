@@ -451,6 +451,21 @@ def manager_index():
         pass
     return render_template('manager_index.html',account = account, methods=['GET'])
 
+@app.route('/getRoute', methods=['GET'])
+def get_route():
+    response = {"status":"ok"}
+    try:
+        print("getRoute")
+        getRoute = request.get_json()
+        
+        response = model.get_route_from_db(getRoute)
+        print("route = "+response)
+
+    except Exception as e:
+        response["status"] = "error"
+        print(str(e))
+    return str(response)
+
 #--------------------------------------------------------------------------
 @app.route('/upload_file',methods=['GET','POST'])
 @login_required
