@@ -25,18 +25,7 @@ else:
 # init Flask 
 app = Flask(__name__)
 
-#----------------------------------------------------
-app.config['UPLOAD_FOLDER_CSV'] = UPLOAD_FOLDER_CSV
-#判斷資料夾是否存在，如果不存在則建立
-if not os.path.exists(UPLOAD_FOLDER_CSV):
-    os.makedirs(UPLOAD_FOLDER_CSV)
-else:
-    pass
-# 判斷檔案字尾是否在列表中
-def allowed_csv_file(filename):
-    return '.' in filename and \
-    filename.rsplit('.', 1)[1] in ALLOW_EXTENSIONS_CSV
-#----------------------------------------------------
+
 CORS(app)
 model = Model()
 app.secret_key = "my precious"
