@@ -243,9 +243,11 @@ def get_shift():
 def modify_shift():
     error = None
     success = None
-    response = {"status":"ok"}
+    response = {"status":"ok"}    
     try:
         data = request.get_json()
+        print("AAAA")
+        print(request.get_json())
         data["start_time"] = datetime.strptime(data["start_time"], '%H:%M')
         model.modify_shift_from_db(data)
         success = "修改成功"
@@ -286,6 +288,7 @@ def add_shift():
     success = None
     inserted_id = None
     response = {"status":"ok"}
+    print(request)
     try:
         # 傳進來的 JSON String 轉成 LIST json decode
         data = request.get_json()
