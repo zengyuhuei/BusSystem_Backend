@@ -39,11 +39,11 @@ class Model:
         new_password = dict()
         client = pymongo.MongoClient('mongodb://user:870215@140.121.198.84:27017/')
         db = client["KeelungBusSystem"]
-        email['account'] = data['email']
+        email['account'] = data['account']
         email['password'] = data['password']
-        account = data['email']
+        account = data['account']
         print(email)
-        del data['email']
+        del data['account']
         del data['password']
         print(data)
         new_password['password'] = data['new_password']
@@ -127,6 +127,18 @@ class Model:
             tempDictionary.pop('password')
             tempList.append(tempDictionary)
         return tempList
+    
+    #get driver from db    
+    def get_driver_from_db(self):
+        name = list()
+        client = pymongo.MongoClient('mongodb://user:870215@140.121.198.84:27017/')
+        db = client['KeelungBusSystem']
+        result = list(db["auth"].find({"identity" : 1},{ "_id": 0 , "password": 0, "identity": 0 }))
+        print(result)
+        for mail in result:
+            name.append(db["info"].find_one({"email" : mail['account']},{"_id" : 0, "name": 1 })['name'])
+        print(name)
+        return name
 
     # auth
     def authentication(self, account, password):
@@ -140,6 +152,11 @@ class Model:
                 return result[0]
         return False
 
-
+    def busGps_to_db(self, data):
+        client = pymongo.MongoClient('mongodb://user:870215@140.121.198.84:27017/')
+        db = client["KeelungBusSystem"]
+        coor_result = db['busRoad_coor'].insert_one(data)
+        print(coor_result)
+        return coor_result
 
 
