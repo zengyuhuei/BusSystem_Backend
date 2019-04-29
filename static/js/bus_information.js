@@ -11,8 +11,9 @@ $(document).ready(function(){
 function load(route){
 	
 	$.ajax({
-		type: 'POST',
-		data: 'json',
+		type: "POST",
+		data: "json",
+		dataType: "json",
 		contentType : 'application/json',
 		url: "http://127.0.0.1:3000/getRoute",
 		data:JSON.stringify({
