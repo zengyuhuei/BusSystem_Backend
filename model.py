@@ -166,9 +166,9 @@ class Model:
         client = pymongo.MongoClient('mongodb://user:870215@140.121.198.84:27017/')
         db = client['KeelungBusSystem']
         print(bus_route)
-        route_name = bus_route['route']
+        route_name = bus_route["route"]
         print(route_name)
-        route_result = db["route"].find_one({"bus_route" : route_name})
+        route_result = db["route"].find_one({'bus_route' : route_name})
         print(route_result)
         print(len(route_result))
         for i in range(1,len(route_result)-1):
@@ -178,11 +178,4 @@ class Model:
             position.append(db["bus"].find_one({"name" : bus_stop},{"_id" : 0, "name": 1, "lat": 1, "lng": 1 }))
         print(position)
         return position
-        #for busStop in route_result:
-            #position.append(db["bus"].find({bus_route : })
-        #for mail in result:
-            #name.append(db["info"].find_one({"email" : mail['account']},{"_id" : 0, "name": 1 })['name'])
-        #print(name)
-        #return name
-        #print(result)
         #return json.dumps(result)

@@ -75,9 +75,7 @@ function load(route)
 		}),
 		success: function(response) {
 			console.log(response);
-			console.log(response[0]);
-			console.log("AA"+route);	
-			returnRoute();
+			returnRoute(response);
 		},
 		error: function(xhr) {
 			console.log("ouo");
@@ -85,22 +83,12 @@ function load(route)
 	});
 }
 
-function returnRoute()
+function returnRoute(json)
 {
 	var map;
-	var json = [
-		{name: "深美國小", lat: 25.136333, lng: 121.778361},
-		{name: "深溪路口", lat: 25.135139, lng: 121.782333},
-		{name: "海中天社區", lat: 25.135306, lng: 121.784750},
-		{name: "巴塞隆納社區", lat: 25.135611, lng: 121.785639},
-		{name: "碧海擎天社區", lat: 25.136333, lng: 121.787778},
-		{name: "普羅旺世社區", lat: 25.137444, lng: 121.788667},
-		{name: "八斗高中", lat: 25.139583, lng: 121.789444},
-		{name: "福泉寺", lat: 25.142389, lng: 121.789306},
-	]
 	
-	console.log(JSON.stringify(json));
 	var obj = Object.keys(json).map(function(_) { return json[_]; });
+	console.log(obj[0]);
 
 	// 載入路線服務與路線顯示圖層
 	var directionsService = new google.maps.DirectionsService();
@@ -110,7 +98,7 @@ function returnRoute()
 
 	// 初始化地圖
 	map = new google.maps.Map(document.getElementById('map'), {
-	zoom: 17,
+	zoom: 19,
 	center: obj[obj.length/2]
 	});
 
@@ -122,11 +110,11 @@ function returnRoute()
 	console.log(obj);
 	console.log(obj.length);
 		for (var i = 1; i < obj.length-1; i++) {
-								waypts.push({
-												location: obj[i],
-												stopover: false
-								});
-				}
+			waypts.push({
+				location: obj[i],
+				stopover: false
+			});
+		}
 
 		var point = {
 			origin: obj[0],
@@ -168,5 +156,6 @@ function returnRoute()
 		function myFunction() {
 			map.setZoom(15);
 			map.setCenter(obj[obj.length/2]);
+			getTable();
 		}
 }
