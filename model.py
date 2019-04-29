@@ -159,4 +159,18 @@ class Model:
         print(coor_result)
         return coor_result
 
-
+    #get route from db    
+    def get_route_from_db(self, bus_route):
+        #result = list()
+        client = pymongo.MongoClient('mongodb://user:870215@140.121.198.84:27017/')
+        db = client['KeelungBusSystem']
+        result = list(db["route"].find({"bus_route" : bus_route}))
+        print("result = "+result)
+        #for busStop in result:
+            #name.append(db["bus"].find_one({"name" : bus_route})
+        #for mail in result:
+            #name.append(db["info"].find_one({"email" : mail['account']},{"_id" : 0, "name": 1 })['name'])
+        #print(name)
+        #return name
+        #print(result)
+        #return json.dumps(result)
