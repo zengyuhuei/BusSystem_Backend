@@ -114,9 +114,8 @@ $(document).ready(function(){
     $(".add-new").click(function(){
 		$(this).attr("disabled", "disabled");
 		var index = $("table tbody tr:last-child").index();
-				var row = '<tr>' +
-						'<td style="display: none;"></td>' +
-            '<td><select type="text" class="form-control" name="driver" id="driver"></td>' +
+		var row = '<tr>' + '<td style="display: none;"></td>' +
+            '<td><select type="text" class="form-control" name="driver" id="driver"><option>gggg</option><option>ffff</option><option>eeee</option><option>dddd</option><option>cccc</option><option>bbbb</option><option>aaaa</option></select></td>' +
             '<td><select type="text" class="form-control" name="time" id="time"><option>7:00</option><option>7:20</option><option>7:40</option><option>8:00</option><option>8:20</option><option>8:40</option><option>9:00</option><option>9:20</option>'+
 			'<option>9:40</option><option>10:00</option><option>10:20</option><option>10:40</option><option>11:00</option><option>11:20</option><option>11:40</option><option>12:00</option><option>12:20</option><option>12:40</option>'+
 			'<option>13:00</option><option>13:20</option><option>13:40</option><option>14:00</option><option>14:20</option><option>14:40</option><option>15:00</option><option>15:20</option><option>15:40</option><option>16:00</option></select></td>' +
@@ -131,7 +130,7 @@ $(document).ready(function(){
 		var empty = false;
 		var driver;
 		var time;
-		var input = $(this).parents("tr").find('input[type="text"]');
+		var input = $(this).parents("tr").find('select[type="text"]');
         input.each(function(){
 			if(!$(this).val()){
 				driver = $(this).val();
@@ -150,6 +149,7 @@ $(document).ready(function(){
 			$(this).parents("tr").find(".add, .edit").toggle();
 			$(".add-new").removeAttr("disabled");
 		}	
+		
 		if(check == 1)
 		{
 			var id = $(this).closest("tr").find("td:nth-child(1)").text();
@@ -166,7 +166,12 @@ $(document).ready(function(){
 	// Edit row on edit button click
 	$(document).on("click", ".edit", function(){		
         $(this).parents("tr").find("td:not(:last-child)").each(function(){
-			$(this).html('<input type="text" class="form-control" value="' + $(this).text() + '">');
+			$(this).children().html('<select type="text" class="form-control" name="driver" id="driver"><option>gggg</option><option>ffff</option><option>eeee</option><option>dddd</option><option>cccc</option><option>bbbb</option><option>aaaa</option></select>');
+			//console.log($(this).children("#driver"));
+			//$(this).children.html('<select type="text" class="form-control" name="driver" id="driver"><option>gggg</option><option>ffff</option><option>eeee</option><option>dddd</option><option>cccc</option><option>bbbb</option><option>aaaa</option></select>');
+			/*$(this).children().html('<select type="text" class="form-control" name="time" id="time"><option>7:00</option><option>7:20</option><option>7:40</option><option>8:00</option><option>8:20</option><option>8:40</option><option>9:00</option><option>9:20</option>'+
+			'<option>9:40</option><option>10:00</option><option>10:20</option><option>10:40</option><option>11:00</option><option>11:20</option><option>11:40</option><option>12:00</option><option>12:20</option><option>12:40</option>'+
+			'<option>13:00</option><option>13:20</option><option>13:40</option><option>14:00</option><option>14:20</option><option>14:40</option><option>15:00</option><option>15:20</option><option>15:40</option><option>16:00</option></select>');*/
 		});		
 		$(this).parents("tr").find(".add, .edit").toggle();
 		$(".add-new").attr("disabled", "disabled");
