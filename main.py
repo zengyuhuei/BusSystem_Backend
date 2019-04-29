@@ -10,6 +10,8 @@ import warnings
 from functools import wraps
 import platform
 from bson import ObjectId
+import csv
+import json
 #---------------------------------------------------
 import uuid  # 為了上傳csv檔import
 #-----------------------------------------------------
@@ -26,31 +28,26 @@ ALLOW_EXTENSIONS_CSV = set(['csv'])
 app = Flask(__name__)
 
 #----------------------------------------------------
-app.config['UPLOAD_FOLDER_CSV'] = UPLOAD_FOLDER_CSV
-#判斷資料夾是否存在，如果不存在則建立
-if not os.path.exists(UPLOAD_FOLDER_CSV):
-    os.makedirs(UPLOAD_FOLDER_CSV)
-else:
-    pass
-# 判斷檔案字尾是否在列表中
-def allowed_csv_file(filename):
-    return '.' in filename and \
-    filename.rsplit('.', 1)[1] in ALLOW_EXTENSIONS_CSV
-#----------------------------------------------------
 CORS(app)
 model = Model()
 app.secret_key = "my precious"
 #上傳文件儲存路徑
 UPLOAD_FOLDER = 'picture'
+UPLOAD_FOLDER_CSV = 'csv'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['UPLOAD_FOLDER_CSV'] = UPLOAD_FOLDER_CSV
 #配置文件大笑
 app.config['MAX_CONTENT_LENGTH'] = 16*1024*1024
 basedir = os.path.abspath(os.path.dirname(__file__))
 #檔案類型
 ALLOWED_EXTENSION = (['jpg','JPEG','JPG','png', 'PNG', 'jpeg'])
+ALLOWED_EXTENSION_CSV = (['csv'])
 #determint the ext of file is legal or not
 def allowed_file(filename):
     return "." in filename and filename.split('.')[1] in ALLOWED_EXTENSION
+
+def allowed_csv_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1] in ALLOWED_EXTENSION_CSV
 
 #get the size of file
 def get_FileSize(filePath):
@@ -61,11 +58,14 @@ def get_FileSize(filePath):
 
 def upload(data):
     file_dir = os.path.join(basedir, app.config['UPLOAD_FOLDER'])
+    file_dir_csv = os.path.join(basedir, app.config['UPLOAD_FOLDER_CSV'])
     if not os.path.exists(file_dir):
         os.makedirs(file_dir)
+    elif not os.path.exists(file_dir_csv):
+        os.makedirs(file_dir_csv)
     else:
         pass
-    #take the file from frontend name "picture"
+    #take the file from frontend 
     f = request.files['myfile']
     #判斷文件是否存在且類型符合
     print(f)
@@ -76,6 +76,13 @@ def upload(data):
         ext = fname.split('.')[1]
         #save the file
         f.save(os.path.join(file_dir, f.filename))
+        return jsonify({"state":"ok", "fname":fname, "ext":ext,"dir":file_dir})
+    elif f and  allowed_csv_file(f.filename):
+        fname = secure_filename(f.filename)
+        data['csv'] = fname
+        ext = fname.split('.')[1]
+        #save the file
+        f.save(os.path.join(file_dir_csv, f.filename))
         return jsonify({"state":"ok", "fname":fname, "ext":ext,"dir":file_dir})
     else:
         return jsonify({"state":"error"})
@@ -390,6 +397,42 @@ def add_or_revise_shift():
     except:
         pass
     return render_template('add_or_revise_shift.html', success = success,  inserted_id = inserted_id, error = error, methods=['GET'])
+
+@app.route('/busGps_to_db',methods=['POST'])
+@login_required
+def busGps_to_db():
+    error = None
+    success = None
+    response = {"status":"ok"}
+    data = dict()
+    upload(data)
+    try:
+        csv_rows = dict()
+        csv_dir = 'csv/'+request.files['myfile'].filename
+        with open(csv_dir) as csvfile:
+            reader = csv.DictReader(csvfile)
+            title = reader.fieldnames
+            csv_rows = [{title[i]:row[title[i]] for i in range(3)}  for row in reader]
+        
+        for data in csv_rows:
+            data['a'] = float(data['a'])
+            data['b'] = float(data['b'])
+                
+        print(csv_rows)
+
+        #json_data = dict()
+        #json_data = json.dumps(csv_rows, sort_keys=False, indent=4, separators=(',', ': '),ensure_ascii=False)
+        #print(json_data)
+        model.busGps_to_db(csv_rows)
+        success = "上傳成功"
+    except Exception as e:
+        response["status"] = "error"
+        response["error"] = str(e)
+        error = "上傳失敗"
+        print(response,str(e))
+    if response['status'] == "ok":
+        return redirect(url_for('revise_path',success = success))
+    return redirect(url_for('revise_path',error = error))
 
 @app.route('/bus_information', methods=['GET'])
 @login_required
