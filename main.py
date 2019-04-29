@@ -219,7 +219,6 @@ def get_info():
     try:
         email = session['store']
         response = model.get_info_from_db(email)
-        print(response)
 
     except Exception as e:
         response["status"] = "error"
@@ -231,8 +230,9 @@ def get_shift():
     response = {"status":"ok"}
     try:
         data = request.get_json()
+        print("SS")
+        print(request)
         response = model.get_shift_from_db(data)
-        print(response)
     except Exception as e:
         response["status"] = "error"
         print(str(e))

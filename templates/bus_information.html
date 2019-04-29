@@ -5,6 +5,11 @@
 				<title>基隆公車調派系統-公車路線資訊</title>
 			  <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+				<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+				<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+	  		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+	  		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+        
 				<!--<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
         --><script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
@@ -79,7 +84,7 @@
                 </label>
                 
                 <div class="col-xs-4 col-md-3 col-lg-3">
-                    <select id="inputState" class="form-control">
+                    <select id="inputRoute" class="form-control">
                         <option value="101">101 和平島</option>
                         <option value="102">102 祥豐街</option>
                         <option value="103">103 中正路</option>
@@ -93,7 +98,7 @@
                 </label>
                 
                 <div class="col-xs-4 col-md-3 col-lg-3">
-                    <select id="inputState" class="form-control">
+                    <select id="inputDate" class="form-control">
                         <option value="SUN">星期日 SUN</option>
                         <option value="MON">星期一 MON</option>
                         <option value="TUE">星期二 TUR</option>
@@ -115,13 +120,84 @@
 				<script type="text/javascript">
 
 					
+					console.log(JSON.stringify(json));
+					var obj = Object.keys(json).map(function(_) { return json[_]; });
+
+					// 載入路線服務與路線顯示圖層
+					var directionsService = new google.maps.DirectionsService();
+					var directionsDisplay = new google.maps.DirectionsRenderer({
+					suppressMarkers: true // 單純畫路線，不要顯示 marker
+					});
+				
+					// 初始化地圖
+					map = new google.maps.Map(document.getElementById('map'), {
+					zoom: 17,
+					center: obj[obj.length/2]
+					});
+				
+					// 放置路線圖層
+					directionsDisplay.setMap(map);
+					var waypts = [];
+					var markers = [];
+				
+					console.log(obj);
+					console.log(obj.length);
+					 for (var i = 1; i < obj.length-1; i++) {
+												waypts.push({
+																location: obj[i],
+																stopover: false
+												});
+								}
+				
+						var point = {
+							origin: obj[0],
+							destination: obj[obj.length-1],
+							waypoints: waypts,
+							optimizeWaypoints: true,
+								travelMode: 'DRIVING'
+						}
+						directionsService.route( point, function(response, status) {
+							if (status == 'OK') {
+								// 回傳路線上每個步驟的細節
+								for(var i = 0; i < obj.length; i++)
+								{
+									// 加入地圖標記
+									markers[i] = new google.maps.Marker({
+									position: obj[i],
+									map: map,
+									label: { text: ''+i, color: "#fff" },
+									data: obj[i].name
+									});
+									// 加入資訊視窗
+									var infowindow = new google.maps.InfoWindow();
+									//infowindows[i].open(map, markers[i]);
+				
+									// 加入地圖標記點擊事件
+									markers[i].addListener('click', function () {
+											console.log("ouo");
+											infowindow.setContent( this.data );
+											infowindow.open(map, this);
+									});
+				
+								}
+							directionsDisplay.setDirections(response);
+							} else {
+							console.log(status);
+							}
+						});
+						document.getElementById("yes").addEventListener("click", myFunction);
+						function myFunction() {
+							map.setZoom(15);
+							map.setCenter(obj[obj.length/2]);
+							getTable();
+						}
 						
 						</script>
 					</div>
 					</div>
 
 					<div class="col-xs-12 col-md-20 col-lg-4" id = "bus" style = "top:220px;left:830px;position:absolute;display: none">
-						<table class="table">
+						<table class="table" id="busTable">
 							<thead class="thead-dark">
 							<tr>
 								<th scope="col">班次</th>

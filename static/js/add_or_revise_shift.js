@@ -78,7 +78,6 @@ function modifyTable(id,driver,time)
 			'start_time' : time
 		}),
 			error: function (xhr) { 
-				console.log("AAA")
 			},      // 錯誤後執行的函數
 			success: function (response) {
 			window.location.href = response.redirect;
@@ -94,7 +93,6 @@ $(document).ready(function(){
 	$(".yes").click(function() {
 		$("#bus").show();		
 		var tr_length = $('.table tbody tr').length; 
-		var Tbdata = {}; 
 		for(var i=tr_length; i > 1; i--)
 		{
 			var td_length = $('.table tr')[i].childElementCount; //當下td長度
