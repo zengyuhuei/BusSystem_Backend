@@ -3,6 +3,8 @@ $(document).ready(function(){
 		$("#map").toggle();
 		$("#bus").toggle();
 		console.log("what the fuck");
+		var route= "104";
+		load(route);
 	})
 });
 function setTable(response)
@@ -59,5 +61,25 @@ function getTable()
 			console.log("AAAA");
 			setTable(response);
 		}// 成功後要執行的函數
+	});
+}
+
+
+function load(route){
+	
+	$.ajax({
+		type: 'POST',
+		data: 'json',
+		contentType : 'application/json',
+		url: "http://127.0.0.1:3000/getRoute",
+		data:JSON.stringify({
+			"route": route
+		}),
+		success: function(response) {
+			console.log(response);
+		},
+		error: function(xhr, type) {
+			console.log("ouo");
+		}
 	});
 }
