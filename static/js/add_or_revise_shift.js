@@ -1,6 +1,8 @@
 function setTable(response)
 {
 	var i = 0;
+	var x = 0;
+	while(response[x++]!=null);
 	while(response[i]!=null)
 	{
 		$('[data-toggle="tooltip"]').tooltip();
@@ -13,7 +15,7 @@ function setTable(response)
 				'<td>' + actions + '</td>' +
 					'</tr>';
 				$("table").append(row);		
-				$("table tbody tr").eq(index + 1).find(".add, .edit").toggle();
+				$("table tbody tr").eq(x).find(".add,.edit").toggle();
 					$('[data-toggle="tooltip"]').tooltip();			
 		i=i+1;
 	}	
@@ -62,21 +64,21 @@ function delTable(id)
 }
 function modifyTable(id,driver,time)
 {
-		$.ajax({
-			type: 'POST',
-			dataType : 'json',
-			contentType : 'application/json',
-			url: "http://127.0.0.1:3000/delShift",
-			data:JSON.stringify({
-				"_id":id,
-				"driver":driver,
-				"start_time":time
-			}),
-			  error: function (xhr) { },      // 錯誤後執行的函數
-			  success: function (response) {
-				console.log(response);
-			}// 成功後要執行的函數
-		  });
+	$.ajax({
+		type: 'POST',
+		dataType : 'json',
+		contentType : 'application/json',
+		url: "http://127.0.0.1:3000/modifyShift",
+		data:JSON.stringify({
+			'_id' : id,
+			'driver' : driver,
+			'start_time' : time
+		}),
+			error: function (xhr) { },      // 錯誤後執行的函數
+			success: function (response) {
+			console.log(response);
+		}// 成功後要執行的函數
+		});
 }
 function setid(id)
 {
@@ -107,7 +109,6 @@ $(document).ready(function(){
 		  });
 	})
 	
-	$('[data-toggle="tooltip"]').tooltip();
 	var actions = $("table td:last-child").html();
 	// Append table with add row form on add new button click
     $(".add-new").click(function(){
@@ -115,13 +116,14 @@ $(document).ready(function(){
 		var index = $("table tbody tr:last-child").index();
 				var row = '<tr>' +
 						'<td style="display: none;"></td>' +
-            '<td><input type="text" class="form-control" name="name" id="name"></td>' +
-            '<td><input type="text" class="form-control" name="department" id="department"></td>' +
+            '<td><select type="text" class="form-control" name="driver" id="driver"></td>' +
+            '<td><select type="text" class="form-control" name="time" id="time"><option>7:00</option><option>7:20</option><option>7:40</option><option>8:00</option><option>8:20</option><option>8:40</option><option>9:00</option><option>9:20</option>'+
+			'<option>9:40</option><option>10:00</option><option>10:20</option><option>10:40</option><option>11:00</option><option>11:20</option><option>11:40</option><option>12:00</option><option>12:20</option><option>12:40</option>'+
+			'<option>13:00</option><option>13:20</option><option>13:40</option><option>14:00</option><option>14:20</option><option>14:40</option><option>15:00</option><option>15:20</option><option>15:40</option><option>16:00</option></select></td>' +
 			'<td>' + actions + '</td>' +
         '</tr>';
     	$("table").append(row);		
-		$("table tbody tr").eq(index + 1).find(".add, .edit").toggle();
-        $('[data-toggle="tooltip"]').tooltip();
+		$("table tbody tr").eq(index+1).find(".add, .edit").toggle();
     });
 	// Add row on add button click
 	var check = 0;
@@ -150,11 +152,15 @@ $(document).ready(function(){
 		}	
 		if(check == 1)
 		{
-			var id = $(this).parent("tr").find("td:nth-child(1)");
+			var id = $(this).closest("tr").find("td:nth-child(1)").text();
+			var driver = $(this).closest("tr").find("td:nth-child(2)").text();
+			var time = $(this).closest("tr").find("td:nth-child(3)").text();
 			modifyTable(id,driver,time);
 			check = 0;
 		}
 		else
+			var driver = $(this).closest("tr").find("td:nth-child(2)").text();
+			var time = $(this).closest("tr").find("td:nth-child(3)").text();
 			addTable(driver,time);		
     });
 	// Edit row on edit button click
@@ -168,7 +174,6 @@ $(document).ready(function(){
     });
 	// Delete row on delete button click
 	$(document).on("click", ".delete", function(){
-			console.log("AAA")
 			var id = $(this).closest('tr').find('td:nth-child(1)').text();
 			delTable(id);
         $(this).parents("tr").remove();
