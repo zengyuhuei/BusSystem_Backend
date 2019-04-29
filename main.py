@@ -501,15 +501,15 @@ def manager_index():
         pass
     return render_template('manager_index.html',account = account, methods=['GET'])
 
-@app.route('/getRoute', methods=['GET'])
+@app.route('/getRoute', methods=['POST'])
 def get_route():
     response = {"status":"ok"}
+    print("getRoute")
     try:
-        print("getRoute")
         getRoute = request.get_json()
-        
+        print(getRoute)
         response = model.get_route_from_db(getRoute)
-        print("route = "+response)
+        print(response)
 
     except Exception as e:
         response["status"] = "error"
