@@ -39,7 +39,8 @@ function addTable(driver,time)
 			}),
 			  error: function (xhr) { },      // 錯誤後執行的函數
 			  success: function (response) {
-				console.log(response);
+					console.log("AAA");
+					window.location.href = response.redirect;
 			}// 成功後要執行的函數
 		  });
 
@@ -56,7 +57,9 @@ function delTable(id)
 			data:JSON.stringify({
 				"_id" : id
 			}),
-			  error: function (xhr) { },      // 錯誤後執行的函數
+			  error: function (xhr) {
+
+				 },      // 錯誤後執行的函數
 			  success: function (response) {
 				console.log(response);
 			}// 成功後要執行的函數
@@ -66,7 +69,7 @@ function modifyTable(id,driver,time)
 {
 	$.ajax({
 		type: 'POST',
-		dataType : 'json',
+		data: 'json',
 		contentType : 'application/json',
 		url: "http://127.0.0.1:3000/modifyShift",
 		data:JSON.stringify({
@@ -74,9 +77,11 @@ function modifyTable(id,driver,time)
 			'driver' : driver,
 			'start_time' : time
 		}),
-			error: function (xhr) { },      // 錯誤後執行的函數
+			error: function (xhr) { 
+				console.log("AAA")
+			},      // 錯誤後執行的函數
 			success: function (response) {
-			console.log(response);
+			window.location.href = response.redirect;
 		}// 成功後要執行的函數
 		});
 }
@@ -87,7 +92,14 @@ function setid(id)
 }
 $(document).ready(function(){
 	$(".yes").click(function() {
-		$("#bus").show();
+		$("#bus").show();		
+		var tr_length = $('.table tbody tr').length; 
+		var Tbdata = {}; 
+		for(var i=tr_length; i > 1; i--)
+		{
+			var td_length = $('.table tr')[i].childElementCount; //當下td長度
+			$('.table tr:eq('+i+')').remove();
+		}
 		$route = $("#inputRoute").val();
 		$day = $("#inputDate").val();
 		// For Success/Failure Message
@@ -126,9 +138,10 @@ $(document).ready(function(){
 		$("table tbody tr").eq(index+1).find(".add, .edit").toggle();
     });
 	// Add row on add button click
-	var check = 0;
+	var checkTable = 0;
 	$(document).on("click", ".add", function(){
 		var empty = false;
+		check = 1;
 		var driver;
 		var time;
 		var input = $(this).parents("tr").find('input[type="text"]');

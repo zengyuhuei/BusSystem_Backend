@@ -10,7 +10,6 @@ import warnings
 from functools import wraps
 import platform
 from bson import ObjectId
-import csv
 #---------------------------------------------------
 import uuid  # 為了上傳csv檔import
 #-----------------------------------------------------
@@ -19,33 +18,39 @@ if platform.system() == "Windows":
 else:
   platform.system()=="Linux"
   slash = '/'
-
+UPLOAD_FOLDER_CSV = 'upload_csv'
+ALLOW_EXTENSIONS_CSV = set(['csv'])
 #----------------------------------------------------
 
 # init Flask 
 app = Flask(__name__)
 
-
+#----------------------------------------------------
+app.config['UPLOAD_FOLDER_CSV'] = UPLOAD_FOLDER_CSV
+#判斷資料夾是否存在，如果不存在則建立
+if not os.path.exists(UPLOAD_FOLDER_CSV):
+    os.makedirs(UPLOAD_FOLDER_CSV)
+else:
+    pass
+# 判斷檔案字尾是否在列表中
+def allowed_csv_file(filename):
+    return '.' in filename and \
+    filename.rsplit('.', 1)[1] in ALLOW_EXTENSIONS_CSV
+#----------------------------------------------------
 CORS(app)
 model = Model()
 app.secret_key = "my precious"
 #上傳文件儲存路徑
 UPLOAD_FOLDER = 'picture'
-UPLOAD_FOLDER_CSV = 'csv'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-app.config['UPLOAD_FOLDER_CSV'] = UPLOAD_FOLDER_CSV
 #配置文件大笑
 app.config['MAX_CONTENT_LENGTH'] = 16*1024*1024
 basedir = os.path.abspath(os.path.dirname(__file__))
 #檔案類型
 ALLOWED_EXTENSION = (['jpg','JPEG','JPG','png', 'PNG', 'jpeg'])
-ALLOWED_EXTENSION_CSV = (['csv'])
 #determint the ext of file is legal or not
 def allowed_file(filename):
     return "." in filename and filename.split('.')[1] in ALLOWED_EXTENSION
-
-def allowed_csv_file(filename):
-    return '.' in filename and filename.rsplit('.', 1)[1] in ALLOWED_EXTENSION_CSV
 
 #get the size of file
 def get_FileSize(filePath):
@@ -221,18 +226,6 @@ def get_info():
         print(str(e))
     return str(response)
 
-@app.route('/getDriver', methods=['GET'])
-def get_driver():
-    response = {"status":"ok"}
-    try:
-        response = model.get_driver_from_db()
-        print(response)
-
-    except Exception as e:
-        response["status"] = "error"
-        print(str(e))
-    return str(response)
-
 @app.route('/getShift', methods=['POST'])
 def get_shift():
     response = {"status":"ok"}
@@ -253,17 +246,14 @@ def modify_shift():
     response = {"status":"ok"}    
     try:
         data = request.get_json()
-        print("AAAA")
-        print(request.get_json())
         data["start_time"] = datetime.strptime(data["start_time"], '%H:%M')
         model.modify_shift_from_db(data)
         success = "修改成功"
     except Exception as e:
         response["status"] = "error"
         response["error"] = str(e)
-        error = "修改失敗"
-        print(response)
-    if response['status'] == "ok":
+        error = "修改失敗"    
+    if response["status"] == "ok":
         return redirect(url_for('add_or_revise_shift',  success = success))
     return redirect(url_for('add_or_revise_shift', error = error))
 
@@ -335,6 +325,8 @@ def changePassword():
         error = "修改失敗"
         print(response)
     
+    return str(response)
+"""
     if identity == 0:
         if response['status'] == "ok":
             return redirect(url_for('change_password',success = success))
@@ -345,7 +337,7 @@ def changePassword():
             return redirect(url_for('bus_driver_change_password',success = success))
         else:
             return redirect(url_for('bus_driver_change_password',error = error))
-
+"""
 @app.route('/bus_driver_change_password', methods=['GET'])
 @login_required
 def bus_driver_change_password():
@@ -398,48 +390,6 @@ def add_or_revise_shift():
     except:
         pass
     return render_template('add_or_revise_shift.html', success = success,  inserted_id = inserted_id, error = error, methods=['GET'])
-
-@app.route('/busGps_to_db',methods=['POST'])
-@login_required
-def busGps_to_db():
-    error = None
-    success = None
-    response = {"status":"ok"}
-    print('boy with luv')
-    data = dict()
-    #upload(data)
-    try:
-        csv_rows = []
-        file = request.files['myfile']
-        print(file.filename)
-        if file and allowed_csv_file(file.filename):
-      # secure_filename方法會去掉檔名中的中文
-            filename = secure_filename(file.filename)
-      #因為上次的檔案可能有重名，因此使用uuid儲存檔案
-            file_name = str(uuid.uuid4()) + '.' + filename.rsplit('.', 1)[1]
-            file.save(os.path.join(app.config['UPLOAD_FOLDER_CSV'],file_name))
-            base_path = os.getcwd()
-            file_path = base_path + app.config['UPLOAD_FOLDER_CSV'] + file_name
-            print(file_path)
-
-        with open(file) as csvfile:
-            reader = csv.DictReader(csvfile)
-            title = reader.fieldnames
-            for row in reader:
-                csv_rows.extend([{title[i]:row[title[i]] for i in range(3)}])
-
-        data = json.dumps(csv_rows, sort_keys=False, indent=4, separators=(',', ': '),ensure_ascii=False)
-        print(data)
-        model.busGps_to_db(data)
-        success = "上傳成功"
-    except Exception as e:
-        response["status"] = "error"
-        response["error"] = str(e)
-        error = "上傳失敗"
-        print(response,str(e))
-    if response['status'] == "ok":
-        return redirect(url_for('revise_path',success = success))
-    return redirect(url_for('revise_path',error = error))
 
 @app.route('/bus_information', methods=['GET'])
 @login_required
@@ -517,7 +467,6 @@ def get_route():
     return str(response)
 
 #--------------------------------------------------------------------------
-'''
 @app.route('/upload_file',methods=['GET','POST'])
 @login_required
 def upload_file():
@@ -534,7 +483,6 @@ def upload_file():
       file_path = base_path + slash + app.config['UPLOAD_FOLDER2'] + slash + file_name
       print(file_path)
       return redirect(url_for('upload_file',filename = file_name))
-      '''
 #--------------------------------------------------------------------------
 
 if __name__ == '__main__':
