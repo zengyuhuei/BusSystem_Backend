@@ -115,6 +115,81 @@
 			
 		    <div class="form-group row">
 					<div class="col-xs-12 col-md-8 col-lg-8" id="map" style="width:55%; height:450px; display: none">
+				<script type="text/javascript">
+
+					
+					console.log(JSON.stringify(json));
+					var obj = Object.keys(json).map(function(_) { return json[_]; });
+
+					// 載入路線服務與路線顯示圖層
+					var directionsService = new google.maps.DirectionsService();
+					var directionsDisplay = new google.maps.DirectionsRenderer({
+					suppressMarkers: true // 單純畫路線，不要顯示 marker
+					});
+				
+					// 初始化地圖
+					map = new google.maps.Map(document.getElementById('map'), {
+					zoom: 17,
+					center: obj[obj.length/2]
+					});
+				
+					// 放置路線圖層
+					directionsDisplay.setMap(map);
+					var waypts = [];
+					var markers = [];
+				
+					console.log(obj);
+					console.log(obj.length);
+					 for (var i = 1; i < obj.length-1; i++) {
+												waypts.push({
+																location: obj[i],
+																stopover: false
+												});
+								}
+				
+						var point = {
+							origin: obj[0],
+							destination: obj[obj.length-1],
+							waypoints: waypts,
+							optimizeWaypoints: true,
+								travelMode: 'DRIVING'
+						}
+						directionsService.route( point, function(response, status) {
+							if (status == 'OK') {
+								// 回傳路線上每個步驟的細節
+								for(var i = 0; i < obj.length; i++)
+								{
+									// 加入地圖標記
+									markers[i] = new google.maps.Marker({
+									position: obj[i],
+									map: map,
+									label: { text: ''+i, color: "#fff" },
+									data: obj[i].name
+									});
+									// 加入資訊視窗
+									var infowindow = new google.maps.InfoWindow();
+									//infowindows[i].open(map, markers[i]);
+				
+									// 加入地圖標記點擊事件
+									markers[i].addListener('click', function () {
+											console.log("ouo");
+											infowindow.setContent( this.data );
+											infowindow.open(map, this);
+									});
+				
+								}
+							directionsDisplay.setDirections(response);
+							} else {
+							console.log(status);
+							}
+						});
+						document.getElementById("yes").addEventListener("click", myFunction);
+						function myFunction() {
+							map.setZoom(15);
+							map.setCenter(obj[obj.length/2]);
+						}
+						
+						</script>
 					</div>
 					</div>
 

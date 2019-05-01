@@ -126,6 +126,10 @@ class Model:
             tempDictionary.pop('_id')
             tempDictionary.pop('password')
             tempList.append(tempDictionary)
+            
+        print("\n\nprint list without _id and password field: ")
+        print(tempList)
+        
         return tempList
     
     #get driver from db    
@@ -152,11 +156,15 @@ class Model:
                 return result[0]
         return False
 
-    def busGps_to_db(self, data):
+    #add the bus stop coordinate
+    def busGps_to_db(self, data_coor,data_route):
         client = pymongo.MongoClient('mongodb://user:870215@140.121.198.84:27017/')
         db = client["KeelungBusSystem"]
-        coor_result = db['busRoad_coor'].insert_one(data)
-        print(coor_result)
+        print('its db')
+        print(data_coor)
+        coor_result = db['busRoad_coor'].insert_many(data_coor)
+        coor_result = db['route'].insert_many(data_route)
+        #print(coor_result)
         return coor_result
 
     #get route from db    
