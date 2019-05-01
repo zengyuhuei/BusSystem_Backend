@@ -12,17 +12,10 @@ import platform
 from bson import ObjectId
 import csv
 import json
+import copy
 #---------------------------------------------------
 import uuid  # 為了上傳csv檔import
 #-----------------------------------------------------
-if platform.system() == "Windows":
-  slash = '\\'
-else:
-  platform.system()=="Linux"
-  slash = '/'
-UPLOAD_FOLDER_CSV = 'upload_csv'
-ALLOW_EXTENSIONS_CSV = set(['csv'])
-#----------------------------------------------------
 
 #---------------------------------------------------
 import uuid  # 為了上傳csv檔import
@@ -35,26 +28,12 @@ if platform.system() == "Windows":
 else:
   platform.system()=="Linux"
   slash = '/'
-UPLOAD_FOLDER_CSV = 'upload_csv'
-ALLOW_EXTENSIONS_CSV = set(['csv'])
 #----------------------------------------------------
 
 # init Flask 
 app = Flask(__name__)
 
-#----------------------------------------------------
-
-app.config['UPLOAD_FOLDER_CSV'] = UPLOAD_FOLDER_CSV
-#判斷資料夾是否存在，如果不存在則建立
-if not os.path.exists(UPLOAD_FOLDER_CSV):
-    os.makedirs(UPLOAD_FOLDER_CSV)
-else:
-    pass
-# 判斷檔案字尾是否在列表中
-def allowed_csv_file(filename):
-    return '.' in filename and \
-    filename.rsplit('.', 1)[1] in ALLOW_EXTENSIONS_CSV
-#----------------------------------------------------
+#---------------------------------------------------
 
 CORS(app)
 model = Model()
@@ -176,14 +155,8 @@ def login():
             session['logged_in'] = True
             account = result['account']
             session['store'] = account
-<<<<<<< HEAD
             return render_template('driver_index.html', account = account)
     return render_template('login.html',error = error)
-=======
-            print("account1 = "+account)
-            return redirect(url_for('driver_index', account = account))
-    return render_template('login.html' ,error = error)
->>>>>>> 8e9ef0936ed349ddfcc3e168f4099e2e25bfb291
     
  
 @app.route('/driver_index', methods=['GET'])
@@ -459,6 +432,27 @@ def add_or_revise_shift():
         pass
     return render_template('add_or_revise_shift.html', success = success,  inserted_id = inserted_id, error = error, methods=['GET'])
 
+def get_routelist(data):
+    temp = []
+    temp = copy.deepcopy(data)
+    for one in temp:
+        one.pop('a')
+        one.pop('b')
+    
+    routelist = []
+    routename = temp[0].keys()
+    for name in routename:
+        if name.isdigit():
+            route = dict()
+            temp.sort(key = lambda temp:int(temp[name]))    
+            for one in temp:
+                route['bus_route'] = name
+                if(one[name] != '0'):
+                    route[one[name]] = one['route']
+            routelist.append(route)
+
+    return routelist
+
 @app.route('/busGps_to_db',methods=['POST'])
 @login_required
 def busGps_to_db():
@@ -468,24 +462,24 @@ def busGps_to_db():
     data = dict()
     upload(data)
     try:
-        csv_rows = dict()
+        csv_data = dict()
         csv_dir = 'csv/'+request.files['myfile'].filename
         with open(csv_dir) as csvfile:
             reader = csv.DictReader(csvfile)
             title = reader.fieldnames
-            csv_rows = [{title[i]:row[title[i]] for i in range(3)}  for row in reader]
-        
-        for data in csv_rows:
+            csv_data = [{title[i]:row[title[i]] for i in range(5)}  for row in reader]
+        print(csv_data)
+        for data in csv_data:
             data['a'] = float(data['a'])
             data['b'] = float(data['b'])
-                
-        print(csv_rows)
+        
+        routelist = dict()
+        routelist = get_routelist(csv_data)
 
-        #json_data = dict()
-        #json_data = json.dumps(csv_rows, sort_keys=False, indent=4, separators=(',', ': '),ensure_ascii=False)
-        #print(json_data)
-        model.busGps_to_db(csv_rows)
+        model.busGps_to_db(csv_data,routelist)
+
         success = "上傳成功"
+
     except Exception as e:
         response["status"] = "error"
         response["error"] = str(e)
@@ -494,6 +488,7 @@ def busGps_to_db():
     if response['status'] == "ok":
         return redirect(url_for('revise_path',success = success))
     return redirect(url_for('revise_path',error = error))
+
 
 @app.route('/bus_information', methods=['GET'])
 @login_required
@@ -567,6 +562,7 @@ def get_route():
         print(str(e))
     return jsonify(response)
 
+'''
 #--------------------------------------------------------------------------
 @app.route('/upload_file',methods=['GET','POST'])
 @login_required
@@ -605,10 +601,8 @@ def upload_csv_file():
       file_path = base_path + slash + app.config['UPLOAD_FOLDER_CSV'] + slash + file_name
       print("file_path :" + file_path)
       return redirect(url_for('upload_csv_file',filename = file_name))
-
+'''
 #--------------------------------------------------------------------------
-"""
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=3000, debug=True)
-"""
-read_csv()
