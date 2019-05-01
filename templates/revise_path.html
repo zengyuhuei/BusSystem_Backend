@@ -68,18 +68,19 @@
 				<h1>修改路線</h1>
 				
 			</div>
-			<div class="form-group row">
-
-				
-				<div class="custom-file col-xs-9 col-md-auto">
-				  <input type="file" class="custom-file-input" id="customFile">
-				  <label class="custom-file-label" for="customFile" accept=".csv">Choose file</label>
-				</div>
-				<div class = "col-xs-3 col-md-auto mt-3">
-					<input type="submit" class="btn btn-primary" onclick='upload()'>
-				</div>
-				
-			</div>
+			
+				<form action="" method=post enctype=multipart/form-data>	
+				<div class="form-group row">
+					<div class="custom-file col-xs-9 col-md-auto">
+					  <input type="file" class="custom-file-input" id="customFile" name = file>
+					  <label class="custom-file-label" for="customFile" accept=".csv">Choose file</label>
+					</div>
+					<div class = "col-xs-3 col-md-auto mt-3">
+						<input type="submit" class="btn btn-primary" onclick=Upload>
+					</div>
+					</div>
+				</form>
+			
 
 
 		</div>
