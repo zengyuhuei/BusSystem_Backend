@@ -7,13 +7,19 @@
 	  
 	  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
 
-	  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+		<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+		<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
 	  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
 
 	  <link href="{{ url_for('static', filename='css/main.css') }}" rel="stylesheet">
 	  <link href="{{ url_for('static', filename='js/websocket_open.js') }}" rel="stylesheet">
 	  <script src = "{{url_for('static', filename='js/websocket_open.js')}}"></script>
+	  <script src="{{url_for('static', filename='js/add_or_revise_shift.js')}}"></script>
+	  
+	  <link href="{{ url_for('static', filename='css/add_or_revise_shift.css') }}" rel="stylesheet">
+	  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round|Open+Sans">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 	</head>
 	
     <body onload="websocket_init()">
@@ -31,13 +37,13 @@
 				<li class="nav-item"><a class = "nav-link" href="{{url_for('timely_bus_information')}}"> 即時公車資訊</a></li>
 				<li class="nav-item"><a class = "nav-link" href="{{url_for('Human_dispatch')}}"> 人力調派</a></li>
 				<li class="nav-item"><a class = "nav-link" href="{{url_for('historical_record')}}"> 歷史紀錄</a></li>
-				<li class="nav-item"><a class = "nav-link" href="{{url_for('Emergency_reception')}}"> 突發狀況回報</a></li>
+				<li class="nav-item"><a class = "nav-link" href="{{url_for('Emergency_reception')}}"> 突發狀況接收</a></li>
 				<li class="nav-item dropdown">
-					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					<a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 					  修改路線/班次
 					</a>
 					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-					  <a class="dropdown-item active" href="{{url_for('add_or_revise_shift')}}">新增/修改班次</a>
+					  <a class="dropdown-item" href="{{url_for('add_or_revise_shift')}}">新增/修改班次</a>
 					  <a class="dropdown-item" href="{{url_for('revise_path')}}">修改路線</a>
 					</div>
 				</li>
@@ -66,13 +72,21 @@
 		</div>
 		   
 		<div class="form-group row">
-		
+			{% if error %}
+			 <script>window.alert("{{ error }}");</script>
+			 {% endif %}
+			 {% if success %}
+			  	<script>
+						window.alert("{{ success }}");
+						setid('{{inserted_id}}');
+					</script>
+			 {% endif %}
 			<label for="input1" class="col-xs-3 col-md-auto col-form-label">
 				<h5>路線：</h5>
 			</label>
 			
 			<div class="col-xs-4 col-md-3 col-lg-3">
-				<select id="inputState" class="form-control">
+				<select id="inputRoute" class="form-control">
 					<option value="101">101 和平島</option>
 					<option value="102">102 祥豐街</option>
 					<option value="103">103 中正路</option>
@@ -86,7 +100,7 @@
 			</label>
 			
 			<div class="col-xs-4 col-md-3 col-lg-3">
-				<select id="inputState" class="form-control">
+				<select id="inputDate" class="form-control">
 					<option value="SUN">星期日 SUN</option>
 					<option value="MON">星期一 MON</option>
 					<option value="TUE">星期二 TUR</option>
@@ -98,14 +112,43 @@
 			</div>
 			
 			<div class="col-auto mt-3 mt-md-0">
-				<button type="submit" class="btn btn-primary"  onclick='display()'>確認</button>
+				<button type="submit" class="btn btn-primary yes">確認</button>
 			</div>
 		</div>
-		
-		<div class="form-group row">
+		<div class="table" style="display : none" id="bus">
+			<div class="table-title">
+				<div class="row">
+					<div class="col-sm-12 text-right">
+						<button type="button" class="btn btn-info add-new"><i class="fa fa-plus"></i> Add New</button>
+					</div>
+				</div>
+			</div>
+			<div class="form-group row mt-3">
 			
-		</div>
+				<table class="table table-bordered" id = "busTable"> 
+					<thead class="thead-dark">
+						<tr>
+							<th>司機</th>
+							<th>發車時刻</th>
+							<th>Actions</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr style="display:none">
+							<td id="driver"></td>
+							<td id="time"></td>
+							<td >
+								<a class="add" title="Add"><i class="material-icons">&#xE03B;</i></a>
+								<a class="edit" title="Edit"><i class="material-icons">&#xE254;</i></a>
+								<a class="delete" title="Delete"><i class="material-icons">&#xE872;</i></a>
+							</td>
+						</tr>
 
+					</tbody>
+				</table>
+			
+			</div>
+		</div>
 	</div>
 	   
 

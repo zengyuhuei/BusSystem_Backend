@@ -31,7 +31,7 @@
 				<li class="nav-item"><a class = "nav-link" href="{{url_for('timely_bus_information')}}"> 即時公車資訊</a></li>
 				<li class="nav-item"><a class = "nav-link" href="{{url_for('Human_dispatch')}}"> 人力調派</a></li>
 				<li class="nav-item"><a class = "nav-link" href="{{url_for('historical_record')}}"> 歷史紀錄</a></li>
-				<li class="nav-item active"><a class = "nav-link" href="{{url_for('Emergency_reception')}}"> 突發狀況回報</a></li>
+				<li class="nav-item active"><a class = "nav-link" href="{{url_for('Emergency_reception')}}"> 突發狀況接收</a></li>
 				<li class="nav-item dropdown">
 					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 					  修改路線/班次
@@ -65,10 +65,17 @@
 				<h1>突發狀況接收</h1>
 			</div>
 
-			
+			<div class="form-group row">
+				
+				<div class="col-xs-12 col-md-8 col-lg-8" id = "googlemap">
+					
+				</div>
+				
+
 			<div id = "googlemap">
-						
+				
 			</div>
+
 		</div>
 	   
 

@@ -61,10 +61,9 @@ function display(){
 
 //讀取資料庫資料
 function load(){
-	var idd = "5cbd7f162af88f755a4390da";
 	$.ajax({
 			type: 'GET',
-			url: "http://127.0.0.1:3000/getInfo?id="+idd,
+			url: "http://127.0.0.1:3000/getInfo?",
 			dataType: 'json',
 			success: function(data) {
 				console.log(data);
@@ -91,11 +90,11 @@ function loaddata(js)
 		email.value = js.email;
 		identification.value = js.identification_id;
 		employee.value = js._id;
+		console.log(js._id);
 		account.value = js.account;
 		address.value = js.address;
 		//customFile.value = js.picture;
 }
-
 
 $(function () {
 		$('#birthday').datetimepicker({
@@ -108,7 +107,30 @@ $(document).ready(function(){
 		var fileName = e.target.files[0].name;
 		$(this).siblings(".custom-file-label").addClass("selected").html(fileName);
 	});
-	
+	$('#birthday > .form-control').prop('disabled', true);
+	$(".fix").click(function() {
+		$(".yes").show();
+		$(".fix").hide();
+		$('#InputPhone1').prop('disabled', false);
+		$('#address').prop('disabled', false);
+		$('#customFile').prop('disabled', false);
+		$('#account').prop('disabled', false);
+		
+		$('#InputPhone1').prop('required', true);
+		$('#address').prop('required', true);
+		$('#customFile').prop('required', true);
+		$('#account').prop('required', true);
+		
+		
+	})
+	$(".yes").click(function() {
+		/*$(".yes").hide();
+		$(".fix").show();
+		$('fieldset').prop('disabled', true);
+		$('#birthday > .form-control').prop('disabled', true);*/
+		console.log("aaaaaaaaaaaaa");
+		console.log(js._id);
+	})
 	
 	$(document).on('change', '.btn-file :file', function() {
 		var input = $(this),

@@ -4,18 +4,25 @@
 	<head>
 	  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	  <title>基隆公車調派系統-即時公車資訊</title>
-	  
-	  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
-
-	  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-	  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
-	  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
-		<script src = "{{url_for('static', filename='js/websocket_open.js')}}"></script>
-	  <link href="{{ url_for('static', filename='css/main.css') }}" rel="stylesheet">
+		<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+		<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+		<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+		
+		<!--<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+		--><script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+		
+		<!--<script src = "{{url_for('static', filename='js/websocket_open.js')}}"></script>-->  
+	  <script src = "{{url_for('static', filename='js/timely_bus_information.js')}}"></script>
+		<link href="{{ url_for('static', filename='css/main.css') }}" rel="stylesheet">
+		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC3RdvutneSQCHgWDr4t7AAhKNx7jmMFz0"></script>
 	</head>
 
 
-    <body onload="websocket_init()">
+    <body><!-- <onload="websocket_init()">-->
 		<nav class="navbar navbar-expand-xl navbar-dark bg-dark" id="mainNav">
 		  <div class="container">
 			  <a class="navbar-brand" href="{{url_for('manager_index')}}">基隆公車調派系統</a>
@@ -30,7 +37,7 @@
 				<li class="nav-item active"><a class = "nav-link" href="{{url_for('timely_bus_information')}}"> 即時公車資訊</a></li>
 				<li class="nav-item"><a class = "nav-link" href="{{url_for('Human_dispatch')}}"> 人力調派</a></li>
 				<li class="nav-item"><a class = "nav-link" href="{{url_for('historical_record')}}"> 歷史紀錄</a></li>
-				<li class="nav-item"><a class = "nav-link" href="{{url_for('Emergency_reception')}}"> 突發狀況回報</a></li>
+				<li class="nav-item"><a class = "nav-link" href="{{url_for('Emergency_reception')}}"> 突發狀況接收</a></li>
 				<li class="nav-item dropdown">
 					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 					  修改路線/班次
@@ -72,30 +79,50 @@
 			  
 			  <div class="col-xs-3 col-lg-2 col-md-3">
 				  <select id="inputState" class="form-control">
-					<option selected>101 和平島</option>
-					<option selected>102 祥豐街</option>
-					<option selected>103 中正路</option>
-					<option selected>104 海大</option>
-					<option selected>105 新豐街</option>
+					<option selected>101</option>
+					<option selected>102</option>
+					<option selected>103</option>
+					<option selected>104</option>
+					<option selected>105</option>
 				  </select>
 			  </div>
 			  <div class="col-auto mt-3 mt-md-0">
-				<button type="submit" class="btn btn-primary btn-md " onclick='display()'>確認</button>
+				<button type="submit" class="btn btn-primary btn-md yes" id="yes" >確認</button>
+			  </div>
+			</div>
+
+			<div class="form-group row">
+				<div class="col-xs-12 col-md-8 col-lg-8" id="map" style="width:55%; height:450px; display: none">
+				</div>
+				
+
+				<div class="col-xs-12 col-md-4 col-lg-4" id = "bus" style = "display: none">
+					<table class="table">
+					  <thead class="thead-dark">
+						<tr>
+						  <th scope="row" colspan="2" class="text-center">公車資訊</th>
+						</tr>
+					  </thead>
+					  <tbody>
+						<tr>
+						  <th scope="row">車牌</th>
+						  <td>00</td>
+						</tr>
+						<tr>
+						  <th scope="row">乘客數量</th>
+						  <td>0</td>
+						</tr>
+						<tr>
+						  <th scope="row">司機</th>
+						  <td>ting</td>
+						</tr>
+					  </tbody>
+					</table>
+				</div>
 			  </div>
 			</div>
 			
-			<div class="form-group row">
-				<div class="col-xs-12 col-md-8 col-lg-8" id = "googlemap">
-					
 				</div>
-				
-				<div class="col-xs-12 col-md-4 col-lg-4" id = "bus">
-				
-				</div>
-			</div>
-		</div>
-	   
-	   
 
 	</body>
 </html>

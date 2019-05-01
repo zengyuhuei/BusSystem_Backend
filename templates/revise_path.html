@@ -10,10 +10,11 @@
 	  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 	  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
 	  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
-
+		<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	  <link href="{{ url_for('static', filename='css/main.css') }}" rel="stylesheet">
 		<script src="{{url_for('static', filename='js/revise_path.js')}}"></script>
 		<script src = "{{url_for('static', filename='js/websocket_open.js')}}"></script>
+		<script src = "{{url_for('static', filename='js/upload_file.js')}}"></script>
 	</head>
 	
     <body onload="websocket_init()">
@@ -32,14 +33,14 @@
 				<li class="nav-item"><a class = "nav-link" href="{{url_for('timely_bus_information')}}"> 即時公車資訊</a></li>
 				<li class="nav-item"><a class = "nav-link" href="{{url_for('Human_dispatch')}}"> 人力調派</a></li>
 				<li class="nav-item"><a class = "nav-link" href="{{url_for('historical_record')}}"> 歷史紀錄</a></li>
-				<li class="nav-item"><a class = "nav-link" href="{{url_for('Emergency_reception')}}"> 突發狀況回報</a></li>
+				<li class="nav-item"><a class = "nav-link" href="{{url_for('Emergency_reception')}}"> 突發狀況接收</a></li>
 				<li class="nav-item dropdown">
-					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					<a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 					  修改路線/班次
 					</a>
 					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
 					  <a class="dropdown-item" href="{{url_for('add_or_revise_shift')}}">新增/修改班次</a>
-					  <a class="dropdown-item active" href="{{url_for('revise_path')}}">修改路線</a>
+					  <a class="dropdown-item" href="{{url_for('revise_path')}}">修改路線</a>
 					</div>
 				</li>
 				<li class="nav-item dropdown">
@@ -68,6 +69,7 @@
 				<h1>修改路線</h1>
 				
 			</div>
+<<<<<<< HEAD
 			
 				<form action="" method=post enctype=multipart/form-data>	
 				<div class="form-group row">
@@ -82,6 +84,29 @@
 				</form>
 			
 
+=======
+			<form method = "post" action = "http://127.0.0.1:3000/busGps_to_db"  enctype = "multipart/form-data">
+			<div class="form-group row">
+
+				
+				<div class="custom-file col-xs-9 col-md-auto">
+				
+					{% if error %}
+					<script>window.alert("上傳失敗");</script>
+					{% endif %}
+					{% if success %}
+						<script>window.alert("上傳成功");</script>
+					{% endif %}
+				  <input type="file" class="custom-file-input" id="customFile" accept=".csv" name = "myfile">
+				  <label class="custom-file-label" for="customFile" >Choose file</label>
+				</div>
+				<div class = "col-xs-3 col-md-auto mt-3">
+					<input id = "upload" type="submit" class="btn btn-primary" onclick='upload_file()'>
+				</div>
+				
+			</div>
+			</form>
+>>>>>>> 8e9ef0936ed349ddfcc3e168f4099e2e25bfb291
 
 		</div>
 

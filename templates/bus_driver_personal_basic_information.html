@@ -18,14 +18,14 @@
 		
 
 		<link href="{{ url_for('static', filename='css/main.css') }}" rel="stylesheet">
-		<script src="{{url_for('static', filename='js/Personal_basic_information.js')}}"></script>
+		<script src="{{url_for('static', filename='js/bus_driver_personal_basic_information.js')}}"></script>
 		<script src = "{{url_for('static', filename='js/websocket_open.js')}}"></script>
 		<script type = "text/javascript">
-			function start()
-			{
-				load();
-				websocket_init();
-			}
+		function start()
+		{
+			load();
+			websocket_init();
+		}
 		</script>
 	</head>
 
@@ -33,14 +33,14 @@
 	<body onload="start()">
 
 		<nav class="navbar navbar-expand-xl navbar-dark bg-dark" id="mainNav">
-		  <div class="container">
-			  <a class="navbar-brand" href="{{url_for('driver_index')}}">基隆公車調派系統</a>
-			  <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+			<div class="container">
+				<a class="navbar-brand" href="{{url_for('driver_index')}}">基隆公車調派系統</a>
+				<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
-			  </button>
+				</button>
 			
 			<div class="navbar-collapse collapse" id="navbarText">
-			  <ul class="nav navbar-nav mr-auto">
+				<ul class="nav navbar-nav mr-auto">
 					<li class="nav-item"><a class = "nav-link" href="{{url_for('bus_driver_people_number_return')}}">乘客人數回報</a></li>
 					<li class="nav-item"><a class = "nav-link" href="{{url_for('bus_driver_emergency_return')}}"> 突發狀況回報</a></li>
 					<li class="nav-item active"><a class = "nav-link" href="{{url_for('bus_driver_personal_basic_information')}}"> 個人基本資料</a></li>
@@ -49,35 +49,40 @@
 				</ul>
 				<ul class="navbar-nav">
 					<a href="{{url_for('logout')}}" class="btn btn-outline-primary navbar-btn" role="button" aria-pressed="true">登出</a>
-                </ul>
+				</ul>
 				
 			</div>
-		  </div>
-	    </nav>
+			</div>
+			</nav>
 	   <div class="container">
-
 			<div class="intro-text my-3">
 				<h1>個人基本資料</h1>
 			</div>
-			<form method = "post" action = "http://127.0.0.1:3000/add_info_to_db" enctype = "multipart/form-data">
+			<form method = "post" action = "http://127.0.0.1:3000/modify_info_to_db" enctype = "multipart/form-data">
 			  <div class = "row">
+				{% if error %}
+				 <script>window.alert("{{error}}");</script>
+				 {% endif %}
+				 {% if success %}
+				  <script>window.alert("{{success}}");</script>
+				 {% endif %}
 				<div class="col-sm-7 col-lg-7 col-md-7">
 				  <div class="form-group row">
 					<label for="InputName" class="col-xs-3 col-md-auto col-form-label"><h6>姓名：</h6></label>
-					<input type="text" class="form-control col-xs-6 col-md-6 col-lg-6" id="InputName" placeholder="請輸入姓名" name="name" required>
+					<input type="text" class="form-control col-xs-6 col-md-6 col-lg-6" id="InputName" placeholder="請輸入姓名" name="name" disabled>
 				  </div>
 				  
 				  <div class="form-group row">
 					<legend class="col-xs-3 col-md-auto col-form-label"><h6>性別：</h6></legend>
 					<div class="col-sm-1 mt-2 mt-md-1">
 						<div class="form-check form-check-inline">
-						  <input class="form-check-input" type="radio" name="gender" id="gender1" value="0" required>
+						  <input class="form-check-input" type="radio" name="gender" id="gender1" value="0" disabled>
 						  <label class="form-check-label" for="gender1"><h6>男</h6></label>
 						</div>
 					</div>
 					<div class="col-sm-1 mt-2 mt-md-1">
 						<div class="form-check form-check-inline">
-						  <input class="form-check-input" type="radio" name="gender" id="gender2" value="1" required>
+						  <input class="form-check-input" type="radio" name="gender" id="gender2" value="1" disabled>
 						  <label class="form-check-label" for="gender2"><h6>女</h6></label>
 						</div>
 					</div>
@@ -92,7 +97,7 @@
 					<div class="col-xs-6 col-md-6 col-lg-6">
 						<div class="form-group">
 							<div class="input-group date" id="birthday" data-target-input="nearest">
-								<input type="text" class="form-control datetimepicker-input" id="date" data-target="#birthday" name="birthday" required>
+								<input type="text" class="form-control datetimepicker-input" id="date" data-target="#birthday" name="birthday" disabled>
 								<div class="input-group-append" data-target="#birthday" data-toggle="datetimepicker">
 									<div class="input-group-text"><i class="fa fa-calendar"></i></div>
 								</div>
@@ -107,46 +112,43 @@
 					<label for="InputPhone1" class="col-xs-3 col-md-auto col-form-label">
 						<h6>電話：（手機）</h6>
 					</label>
-					<input type="phone" class="form-control col-xs-6 col-md-6 col-lg-6" id="InputPhone1" placeholder="請輸入手機號碼" name="phone_number" required>
+					<input type="phone" class="form-control col-xs-6 col-md-6 col-lg-6" id="InputPhone1" placeholder="請輸入手機號碼" name="phone_number" disabled>
 				  </div>
 				  
 				  <div class="form-group row">
 					<label for="staticEmail" class="col-sm-3 col-md-auto col-form-label">
 					<h6>e-mail：</h6>
 					</label>
-					 <input type="text" class="form-control col-xs-6 col-md-6 col-lg-6" id="email" placeholder="email@example.com" name="email" required>
+					 <input type="text" class="form-control col-xs-6 col-md-6 col-lg-6" id="email" placeholder="email@example.com" name="email" readonly>
 				  </div>
 				  
 				  <div class="form-group row">
 					<label for="identification" class="col-xs-3 col-md-auto col-form-label">
 						<h6>身分證字號：</h6>
 					</label>
-					<input type="identification" class="form-control col-xs-6 col-md-6 col-lg-6" id="identification" name="identification_id" required>
+					<input type="identification" class="form-control col-xs-6 col-md-6 col-lg-6" id="identification" name="identification_id" disabled>
 				  </div>
 				  
 				  <div class="form-group row">
 					<label for="employee" class="col-xs-3 col-md-auto col-form-label">
 						<h6>員工代號：</h6>
 					</label>
-					<input type="employee" class="form-control col-xs-6 col-md-6 col-lg-6" id="employee" required>
+					<input type="employee" class="form-control col-xs-6 col-md-6 col-lg-6" id="employee" name="id" readonly>
 				  </div>
 				  
 				  <div class="form-group row">
 					<label for="account" class="col-xs-3 col-md-auto col-form-label">
 						<h6>帳戶：</h6>
 					</label>
-					<input type="account" class="form-control col-xs-6 col-md-6 col-lg-6" id="account" name="account" required>
+					<input type="account" class="form-control col-xs-6 col-md-6 col-lg-6" id="account" name="account" disabled>
 				  </div>
 				  
 				  <div class="form-group row">
 					<label for="address" class="col-xs-3 col-md-auto col-form-label">
 						<h6>通訊地址：</h6>
 					</label>
-					<input type="address" class="form-control col-xs-9 col-md-9 col-lg-9" id="address" name="address" required>
+					<input type="address" class="form-control col-xs-9 col-md-9 col-lg-9" id="address" name="address" disabled>
 				  </div>
-
-				  <button type="submit" class="btn btn-primary"  onclick='display()'>儲存</button>
-				  <div class="form-group row"></div>
 
 			    </div>
 			    <div class="col-sm-4 col-lg-4 col-md-4">
@@ -156,7 +158,7 @@
 								<h6>上傳大頭照：</h6>
 							</label>
 						  <div class="custom-file">
-							<input type="file" class="custom-file-input" id="customFile" name="myfile" accept=".jpg,.gif,.png" required>
+							<input type="file" class="custom-file-input" id="customFile" name="myfile" accept=".jpg,.gif,.png" disabled>
 							<label class="custom-file-label" for="customFile">Choose file</label>
 						  </div>
 
@@ -167,8 +169,10 @@
 					
 			    </div>
 			  </div>
+			  <input type="submit" class="btn btn-primary mb-3 yes" onclick='display()' style="display:none;">
 			</form>
-
+		  
+		  <button class="btn btn-success mb-3 fix" >修改</button>
 
 			  
 			  

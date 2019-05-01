@@ -13,14 +13,16 @@
 		<link href="{{ url_for('static', filename='css/main.css') }}" rel="stylesheet">
 		<script src="{{url_for('static', filename='js/bus_driver_people_number_return.js')}}"></script>
 		<script src = "{{url_for('static', filename='js/websocket_open.js')}}"></script>
+		<style type="text/css">
+			html, body { height: 70%; margin: 20; padding: 20; }
+			#map { height: 100%; }
+		</style>
     </head>
-	
-    
     
     <body onload="websocket_init()">
         <nav class="navbar navbar-expand-xl navbar-dark bg-dark" id="mainNav">
 		  <div class="container">
-			  <a class="navbar-brand" href="{{url_for('manager_index')}}">基隆公車調派系統</a>
+			  <a class="navbar-brand" href="{{url_for('driver_index')}}">基隆公車調派系統</a>
 			  <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
 			  </button>
@@ -81,8 +83,28 @@
 						<input type="number" class="count2" value="0" id="people_number"></h4>
 					</label>
 				</div>
-				
-				
 			</form>
+
+			<div id="map"></div>
+			<script>
+				var lat, lng;
+					function initMap() {
+							navigator.geolocation.watchPosition((position) => {
+									console.log(position.coords);
+									console.log(position.timestamp);
+									lat = position.coords.latitude;
+									lng = position.coords.longitude;
+									var json = {
+										lat: lat,
+										lng: lng
+									}
+									console.log(JSON.stringify(json));
+
+							});
+					}
+			</script>
+			<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC3RdvutneSQCHgWDr4t7AAhKNx7jmMFz0&callback=initMap"
+			async defer>
+			</script>
     </body>
 </html>

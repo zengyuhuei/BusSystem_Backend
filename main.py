@@ -8,8 +8,21 @@ import os
 from werkzeug.utils import secure_filename
 import warnings
 from functools import wraps
-
+import platform
 from bson import ObjectId
+import csv
+import json
+#---------------------------------------------------
+import uuid  # 為了上傳csv檔import
+#-----------------------------------------------------
+if platform.system() == "Windows":
+  slash = '\\'
+else:
+  platform.system()=="Linux"
+  slash = '/'
+UPLOAD_FOLDER_CSV = 'upload_csv'
+ALLOW_EXTENSIONS_CSV = set(['csv'])
+#----------------------------------------------------
 
 #---------------------------------------------------
 import uuid  # 為了上傳csv檔import
@@ -30,6 +43,7 @@ ALLOW_EXTENSIONS_CSV = set(['csv'])
 app = Flask(__name__)
 
 #----------------------------------------------------
+
 app.config['UPLOAD_FOLDER_CSV'] = UPLOAD_FOLDER_CSV
 #判斷資料夾是否存在，如果不存在則建立
 if not os.path.exists(UPLOAD_FOLDER_CSV):
@@ -41,20 +55,27 @@ def allowed_csv_file(filename):
     return '.' in filename and \
     filename.rsplit('.', 1)[1] in ALLOW_EXTENSIONS_CSV
 #----------------------------------------------------
+
 CORS(app)
 model = Model()
 app.secret_key = "my precious"
 #上傳文件儲存路徑
 UPLOAD_FOLDER = 'picture'
+UPLOAD_FOLDER_CSV = 'csv'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['UPLOAD_FOLDER_CSV'] = UPLOAD_FOLDER_CSV
 #配置文件大笑
 app.config['MAX_CONTENT_LENGTH'] = 16*1024*1024
 basedir = os.path.abspath(os.path.dirname(__file__))
 #檔案類型
 ALLOWED_EXTENSION = (['jpg','JPEG','JPG','png', 'PNG', 'jpeg'])
+ALLOWED_EXTENSION_CSV = (['csv'])
 #determint the ext of file is legal or not
 def allowed_file(filename):
     return "." in filename and filename.split('.')[1] in ALLOWED_EXTENSION
+
+def allowed_csv_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1] in ALLOWED_EXTENSION_CSV
 
 #get the size of file
 def get_FileSize(filePath):
@@ -65,11 +86,14 @@ def get_FileSize(filePath):
 
 def upload(data):
     file_dir = os.path.join(basedir, app.config['UPLOAD_FOLDER'])
+    file_dir_csv = os.path.join(basedir, app.config['UPLOAD_FOLDER_CSV'])
     if not os.path.exists(file_dir):
         os.makedirs(file_dir)
+    elif not os.path.exists(file_dir_csv):
+        os.makedirs(file_dir_csv)
     else:
         pass
-    #take the file from frontend name "picture"
+    #take the file from frontend 
     f = request.files['myfile']
     #判斷文件是否存在且類型符合
     print(f)
@@ -80,6 +104,13 @@ def upload(data):
         ext = fname.split('.')[1]
         #save the file
         f.save(os.path.join(file_dir, f.filename))
+        return jsonify({"state":"ok", "fname":fname, "ext":ext,"dir":file_dir})
+    elif f and  allowed_csv_file(f.filename):
+        fname = secure_filename(f.filename)
+        data['csv'] = fname
+        ext = fname.split('.')[1]
+        #save the file
+        f.save(os.path.join(file_dir_csv, f.filename))
         return jsonify({"state":"ok", "fname":fname, "ext":ext,"dir":file_dir})
     else:
         return jsonify({"state":"error"})
@@ -132,26 +163,38 @@ def login():
         password = request.form['password']
         ans = model.authentication(account,password)
         result = model.authentication(request.form['account'],request.form['password'])
-        
+        print("account = "+account)
         if  result == False:
             error = "帳號或密碼錯誤，請重新輸入!"
-        elif result['identity'] == 1:
-            session['logged_in'] = True
-            account = result['account']
-            session['store'] = account
-            return render_template('manager_index.html', account = account)
         elif result['identity'] == 0:
             session['logged_in'] = True
             account = result['account']
             session['store'] = account
+            print("account0 = "+account)
+            return redirect(url_for('manager_index', account = account))
+        elif result['identity'] == 1:
+            session['logged_in'] = True
+            account = result['account']
+            session['store'] = account
+<<<<<<< HEAD
             return render_template('driver_index.html', account = account)
     return render_template('login.html',error = error)
+=======
+            print("account1 = "+account)
+            return redirect(url_for('driver_index', account = account))
+    return render_template('login.html' ,error = error)
+>>>>>>> 8e9ef0936ed349ddfcc3e168f4099e2e25bfb291
     
  
 @app.route('/driver_index', methods=['GET'])
 @login_required
 def driver_index():       
-    return render_template('driver_index.html')
+    account = None
+    try:
+        account = request.args.get('account')
+    except:
+        pass
+    return render_template('driver_index.html',account = account, methods=['GET'])
 
 @app.route('/logout', methods=['GET'])
 @login_required
@@ -194,8 +237,8 @@ def add_driver_to_db():
         error = "新增失敗"
         print(response,str(e))
     if response['status'] == "ok":
-        return render_template('add_busdriver.html',success = success)
-    return render_template('add_busdriver.html',error = error)
+        return redirect(url_for('add_busdriver',success = success))
+    return redirect(url_for('add_busdriver',error = error))
 
 
 #modify info
@@ -203,11 +246,12 @@ def add_driver_to_db():
 @login_required
 def modify_info_to_db():
     error = None
+    success = None
     response = {"status":"ok"}
     try:
         # 傳進來的 JSON String 轉成 LIST json decode
         data = dict()
-        data['_id'] = ObjectId(request.form.get("id"))
+        data['email'] = request.form.get("email")
         data['phone_number'] = request.form.get("phone_number")
         data['account'] = request.form.get("account")
         data['address'] = request.form.get("address")
@@ -216,13 +260,26 @@ def modify_info_to_db():
         # 傳進來的 Date String 轉成 Datetime 類別
         print(data)
         # 把 DICT 加到資料庫
-        model.modify_info_to_db(data)
+        identity = model.modify_info_to_db(data)
+        print(identity)
+        success = "修改成功"
     except Exception as e:
         response["status"] = "error"
         response["error"] = str(e)
-        print(response,str(e))
-    
+        error = "修改失敗"
+        print(response)
+    if identity == 0:
+        if response['status'] == "ok":
+            return redirect(url_for('Personal_basic_information',success = success))
+        else:
+            return redirect(url_for('Personal_basic_information',error = error))
+    elif identity == 1:
+        if response['status'] == "ok":
+            return redirect(url_for('bus_driver_personal_basic_information',success = success))
+        else:
+            return redirect(url_for('bus_driver_personal_basic_information',error = error))
 
+    
 @app.route('/getInfo', methods=['GET'])
 @login_required
 def get_info():
@@ -230,13 +287,125 @@ def get_info():
     try:
         email = session['store']
         response = model.get_info_from_db(email)
-        print(response)
 
     except Exception as e:
         response["status"] = "error"
         print(str(e))
     return str(response)
 
+@app.route('/getShift', methods=['POST'])
+def get_shift():
+    response = {"status":"ok"}
+    try:
+        data = request.get_json()
+        print("SS")
+        print(request)
+        response = model.get_shift_from_db(data)
+    except Exception as e:
+        response["status"] = "error"
+        print(str(e))
+    return str(response)
+
+@app.route('/modifyShift', methods=['POST'])
+@login_required
+def modify_shift():
+    error = None
+    success = None
+    response = {"status":"ok"}    
+    try:
+        data = request.get_json()
+        data["start_time"] = datetime.strptime(data["start_time"], '%H:%M')
+        model.modify_shift_from_db(data)
+        success = "修改成功"
+    except Exception as e:
+        response["status"] = "error"
+        response["error"] = str(e)
+        error = "修改失敗"    
+    if response["status"] == "ok":
+        return redirect(url_for('add_or_revise_shift',  success = success))
+    return redirect(url_for('add_or_revise_shift', error = error))
+
+@app.route('/delShift', methods=['POST'])
+@login_required
+def del_shift():
+    error = None
+    success = None
+    response = {"status":"ok"}
+    try:
+        data = request.get_json()
+        data["_id"] = ObjectId(data['_id'])
+        model.del_shift_from_db(data)
+        print(data)
+        success = "刪除成功"
+    except Exception as e:
+        response["status"] = "error"
+        response["error"] = str(e)
+        error = "刪除失敗"
+        print(response)
+    if response['status'] == "ok":
+        return redirect(url_for('add_or_revise_shift',  success = success))
+    return redirect(url_for('add_or_revise_shift', error = error))
+
+@app.route('/addShift', methods=['POST'])
+@login_required
+def add_shift():
+    error = None
+    success = None
+    inserted_id = None
+    response = {"status":"ok"}
+    print(request)
+    try:
+        # 傳進來的 JSON String 轉成 LIST json decode
+        data = request.get_json()
+        # 傳進來的 Date String 轉成 Datetime 類別
+        data["start_time"] = datetime.strptime(data["start_time"], '%H:%M')
+        print(data)
+        # 把 DICT 加到資料庫
+        result = model.add_shift_to_db(data)
+        result_dict = json.loads(result)
+        print(result_dict)
+        inserted_id = result_dict['inserted_id']
+        print(inserted_id)
+        success = "新增成功"
+    except Exception as e:
+        response["status"] = "error"
+        response["error"] = str(e)
+        error = "新增失敗"
+        print(response, str(e))
+
+    if response['status'] == "ok":
+        return redirect(url_for('add_or_revise_shift', success = success, inserted_id = inserted_id))
+    return redirect(url_for('add_or_revise_shift', error = error))
+    
+@app.route('/changePassword', methods=['POST'])
+def changePassword():
+    error = None
+    success = None
+    response = {"status":"ok"}
+    try:
+        data = request.get_json()
+        identity = model.change_password_to_db(data)
+        success = "修改成功"
+        print(identity)
+    except Exception as e:
+        response["status"] = "error"
+        response["error"] = str(e)
+        error = "修改失敗"
+        print(response)
+    
+    return str(response)
+"""
+    if identity == 0:
+        if response['status'] == "ok":
+            return redirect(url_for('change_password',success = success))
+        else:
+            return redirect(url_for('change_password',error = error))
+    elif identity == 1:
+        if response['status'] == "ok":
+            return redirect(url_for('bus_driver_change_password',success = success))
+        else:
+            return redirect(url_for('bus_driver_change_password',error = error))
+"""
 @app.route('/bus_driver_change_password', methods=['GET'])
 @login_required
 def bus_driver_change_password():
@@ -255,17 +424,76 @@ def bus_driver_people_number_return():
 @app.route('/bus_driver_personal_basic_information', methods=['GET'])
 @login_required
 def bus_driver_personal_basic_information():
-    return render_template('bus_driver_personal_basic_information.html')
+    success = None
+    error = None
+    try:
+        success = request.args.get('success')
+        error = request.args.get('error')
+    except:
+        pass
+    return render_template('bus_driver_personal_basic_information.html', success = success, error = error, methods=['GET'])
+    
 
 @app.route('/add_busdriver', methods=['GET'])
 @login_required
 def add_busdriver():
-    return render_template('add_busdriver.html', methods=['GET'])
+    success = None
+    error = None
+    try:
+        success = request.args.get('success')
+        error = request.args.get('error')
+    except:
+        pass
+    return render_template('add_busdriver.html', success = success, error = error, methods=['GET'])
 
 @app.route('/add_or_revise_shift', methods=['GET'])
-@login_required
 def add_or_revise_shift():
-    return render_template('add_or_revise_shift.html', methods=['GET'])
+    success = None
+    error = None
+    inserted_id = None
+    try:
+        success = request.args.get('success')
+        inserted_id =  request.args.get('inserted_id')
+        error = request.args.get('error')
+    except:
+        pass
+    return render_template('add_or_revise_shift.html', success = success,  inserted_id = inserted_id, error = error, methods=['GET'])
+
+@app.route('/busGps_to_db',methods=['POST'])
+@login_required
+def busGps_to_db():
+    error = None
+    success = None
+    response = {"status":"ok"}
+    data = dict()
+    upload(data)
+    try:
+        csv_rows = dict()
+        csv_dir = 'csv/'+request.files['myfile'].filename
+        with open(csv_dir) as csvfile:
+            reader = csv.DictReader(csvfile)
+            title = reader.fieldnames
+            csv_rows = [{title[i]:row[title[i]] for i in range(3)}  for row in reader]
+        
+        for data in csv_rows:
+            data['a'] = float(data['a'])
+            data['b'] = float(data['b'])
+                
+        print(csv_rows)
+
+        #json_data = dict()
+        #json_data = json.dumps(csv_rows, sort_keys=False, indent=4, separators=(',', ': '),ensure_ascii=False)
+        #print(json_data)
+        model.busGps_to_db(csv_rows)
+        success = "上傳成功"
+    except Exception as e:
+        response["status"] = "error"
+        response["error"] = str(e)
+        error = "上傳失敗"
+        print(response,str(e))
+    if response['status'] == "ok":
+        return redirect(url_for('revise_path',success = success))
+    return redirect(url_for('revise_path',error = error))
 
 @app.route('/bus_information', methods=['GET'])
 @login_required
@@ -295,7 +523,15 @@ def Human_dispatch():
 @app.route('/Personal_basic_information', methods=['GET'])
 @login_required
 def Personal_basic_information():
-    return render_template('Personal_basic_information.html')
+    success = None
+    error = None
+    try:
+        success = request.args.get('success')
+        error = request.args.get('error')
+    except:
+        pass
+    return render_template('Personal_basic_information.html', success = success, error = error, methods=['GET'])
+
 
 @app.route('/revise_path', methods=['GET'])
 @login_required
@@ -312,9 +548,43 @@ def timely_bus_information():
 @app.route('/manager_index', methods=['GET'])
 @login_required
 def manager_index():
-    return render_template('manager_index.html')
+    account = None
+    try:
+        account = request.args.get('account')
+    except:
+        pass
+    return render_template('manager_index.html',account = account, methods=['GET'])
 
+@app.route('/getRoute', methods=['POST'])
+def get_route():
+    response = {"status":"ok"}
+    try:
+        getRoute = request.get_json()
+        response = model.get_route_from_db(getRoute)
 
+    except Exception as e:
+        response["status"] = "error"
+        print(str(e))
+    return jsonify(response)
+
+#--------------------------------------------------------------------------
+@app.route('/upload_file',methods=['GET','POST'])
+@login_required
+def upload_file():
+  if request.method =='POST':
+    #獲取post過來的檔名稱，從name=file引數中獲取
+    file = request.files['customeFile']
+    if file and allowed_file(file.filename):
+      # secure_filename方法會去掉檔名中的中文
+      filename = secure_filename(file.filename)
+      #因為上次的檔案可能有重名，因此使用uuid儲存檔案
+      file_name = str(uuid.uuid4()) + '.' + filename.rsplit('.', 1)[1]
+      file.save(os.path.join(app.config['UPLOAD_FOLDER2'],file_name))
+      base_path = os.getcwd()
+      file_path = base_path + slash + app.config['UPLOAD_FOLDER2'] + slash + file_name
+      print(file_path)
+      return redirect(url_for('upload_file',filename = file_name))
+#--------------------------------------------------------------------------
 
 #--------------------------------------------------------------------------
 @app.route('/revise_path',methods=['GET','POST'])
