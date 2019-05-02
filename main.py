@@ -436,8 +436,8 @@ def get_routelist(data):
     temp = []
     temp = copy.deepcopy(data)
     for one in temp:
-        one.pop('a')
-        one.pop('b')
+        one.pop('lat')
+        one.pop('lng')
     
     routelist = []
     routename = temp[0].keys()
@@ -468,14 +468,24 @@ def busGps_to_db():
             reader = csv.DictReader(csvfile)
             title = reader.fieldnames
             csv_data = [{title[i]:row[title[i]] for i in range(5)}  for row in reader]
+			
         print(csv_data)
         for data in csv_data:
-            data['a'] = float(data['a'])
-            data['b'] = float(data['b'])
+            data['lat'] = float(data['lat'])
+            data['lng'] = float(data['lng'])
         
         routelist = dict()
         routelist = get_routelist(csv_data)
-
+		
+        csvkey = csv_data[0].keys()
+        routename = []
+        for name in csvkey:
+            if name.isdigit():
+                routename.append(name)
+        for data in csv_data:
+            for name in routename:
+                data.pop(name)
+                
         model.busGps_to_db(csv_data,routelist)
 
         success = "上傳成功"
