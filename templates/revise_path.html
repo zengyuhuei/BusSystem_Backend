@@ -69,19 +69,27 @@
 				<h1>修改路線</h1>
 				
 			</div>
+			<form method = "post" action = "http://127.0.0.1:3000/busGps_to_db"  enctype = "multipart/form-data">
 			<div class="form-group row">
 
 				
 				<div class="custom-file col-xs-9 col-md-auto">
-				  <input type="file" class="custom-file-input" id="customFile">
-				  <label class="custom-file-label" for="customFile" accept=".csv">Choose file</label>
+				
+					{% if error %}
+					<script>window.alert("上傳失敗");</script>
+					{% endif %}
+					{% if success %}
+						<script>window.alert("上傳成功");</script>
+					{% endif %}
+				  <input type="file" class="custom-file-input" id="customFile" accept=".csv" name = "myfile">
+				  <label class="custom-file-label" for="customFile" >Choose file</label>
 				</div>
 				<div class = "col-xs-3 col-md-auto mt-3">
 					<input id = "upload" type="submit" class="btn btn-primary" onclick='upload_file()'>
 				</div>
 				
 			</div>
-
+			</form>
 
 		</div>
 

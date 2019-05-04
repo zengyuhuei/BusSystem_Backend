@@ -30,3 +30,21 @@ $(document).ready(function(){
 		$('.count2').val(parseInt($('.count').val()) - parseInt($('.count1').val()) );
 	});
 });
+
+function start()
+{
+	/*$.ajax({
+		type: "POST",
+		data: "json",
+		dataType: "json",
+		contentType : 'application/json',
+		url: "http://127.0.0.1:3000/setbusGPS",
+		data:JSON.stringify({
+		}),
+		success: function(response) {
+		},
+		error: function(xhr, type) {
+			console.log("hehehe");
+		}
+	});*/
+}

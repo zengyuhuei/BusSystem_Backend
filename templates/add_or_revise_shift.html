@@ -78,7 +78,7 @@
 			 {% if success %}
 			  	<script>
 						window.alert("{{ success }}");
-						setid('{{inserted_id}}')
+						setid('{{inserted_id}}');
 					</script>
 			 {% endif %}
 			<label for="input1" class="col-xs-3 col-md-auto col-form-label">
@@ -134,10 +134,10 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<td></td>
-							<td></td>
-							<td>
+						<tr style="display:none">
+							<td id="driver"></td>
+							<td id="time"></td>
+							<td >
 								<a class="add" title="Add"><i class="material-icons">&#xE03B;</i></a>
 								<a class="edit" title="Edit"><i class="material-icons">&#xE254;</i></a>
 								<a class="delete" title="Delete"><i class="material-icons">&#xE872;</i></a>

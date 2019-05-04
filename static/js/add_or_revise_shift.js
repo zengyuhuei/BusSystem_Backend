@@ -1,6 +1,8 @@
 function setTable(response)
 {
 	var i = 0;
+	var x = 0;
+	while(response[x++]!=null);
 	while(response[i]!=null)
 	{
 		$('[data-toggle="tooltip"]').tooltip();
@@ -13,20 +15,21 @@ function setTable(response)
 				'<td>' + actions + '</td>' +
 					'</tr>';
 				$("table").append(row);		
-				$("table tbody tr").eq(index + 1).find(".add, .edit").toggle();
+				$("table tbody tr").eq(x).find(".add,.edit").toggle();
 					$('[data-toggle="tooltip"]').tooltip();			
 		i=i+1;
 	}	
 }
 function addTable(driver,time)
 {
+	var xhr = new XMLHttpRequest();
 	$route = $("#inputRoute").val();
 		$day = $("#inputDate").val();
 		// For Success/Failure Message
       	// Check for white space in name for Success/Fail message
 		$.ajax({
 			type: 'POST',
-			dataType : 'json',
+			data : 'json',
 			contentType : 'application/json',
 			url: "http://127.0.0.1:3000/addShift",
 			data:JSON.stringify({
@@ -35,9 +38,13 @@ function addTable(driver,time)
 				"driver":driver,
 				"start_time":time
 			}),
+			xhr: function() {
+				return xhr;
+			 },
 			  error: function (xhr) { },      // 錯誤後執行的函數
 			  success: function (response) {
-				console.log(response);
+					window.location.href = xhr.responseURL;
+					//window.location.href = response.redirect;
 			}// 成功後要執行的函數
 		  });
 
@@ -45,38 +52,52 @@ function addTable(driver,time)
 function delTable(id)
 {
 		// For Success/Failure Message
-      	// Check for white space in name for Success/Fail message
+				// Check for white space in name for Success/Fail message
+		var xhr = new XMLHttpRequest();
 		$.ajax({
 			type: 'POST',
-			dataType : 'json',
+			data : 'json',
 			contentType : 'application/json',
 			url: "http://127.0.0.1:3000/delShift",
 			data:JSON.stringify({
 				"_id" : id
 			}),
-			  error: function (xhr) { },      // 錯誤後執行的函數
+			xhr: function() {
+				return xhr;
+			 },
+			  error: function (xhr) {
+						console.log("AAAA")
+				 },      // 錯誤後執行的函數
 			  success: function (response) {
-				console.log(response);
+					console.log(response)
+				window.location.href = xhr.responseURL;
 			}// 成功後要執行的函數
 		  });
 }
 function modifyTable(id,driver,time)
 {
-		$.ajax({
-			type: 'POST',
-			dataType : 'json',
-			contentType : 'application/json',
-			url: "http://127.0.0.1:3000/delShift",
-			data:JSON.stringify({
-				"_id":id,
-				"driver":driver,
-				"start_time":time
-			}),
-			  error: function (xhr) { },      // 錯誤後執行的函數
-			  success: function (response) {
-				console.log(response);
-			}// 成功後要執行的函數
-		  });
+	var xhr = new XMLHttpRequest();
+	$.ajax({
+		type: 'POST',
+		data: 'json',
+		contentType : 'application/json',
+		url: "http://127.0.0.1:3000/modifyShift",
+		data:JSON.stringify({
+			'_id' : id,
+			'driver' : driver,
+			'start_time' : time
+		}),
+		xhr: function() {
+			return xhr;
+ 		},
+			error: function (xhr) { 
+			},      // 錯誤後執行的函數
+			success: function (response) {
+			//console.log(response);
+			console.log(xhr.responseURL);
+			window.location.href = xhr.responseURL;
+		}// 成功後要執行的函數
+		});
 }
 function setid(id)
 {
@@ -85,7 +106,13 @@ function setid(id)
 }
 $(document).ready(function(){
 	$(".yes").click(function() {
-		$("#bus").show();
+		$("#bus").show();		
+		var tr_length = $('.table tbody tr').length; 
+		for(var i=tr_length; i > 1; i--)
+		{
+			var td_length = $('.table tr')[i].childElementCount; //當下td長度
+			$('.table tr:eq('+i+')').remove();
+		}
 		$route = $("#inputRoute").val();
 		$day = $("#inputDate").val();
 		// For Success/Failure Message
@@ -106,30 +133,77 @@ $(document).ready(function(){
 			}// 成功後要執行的函數
 		  });
 	})
-	
-	$('[data-toggle="tooltip"]').tooltip();
+	function makeOption()
+	{
+		var optionString = '';
+		var i = 0;
+		$.ajax({
+			type: 'POST',
+			dataType : 'json',
+			contentType : 'application/json',
+			url: "http://127.0.0.1:3000/getShift",
+			data:JSON.stringify({
+				"route":$route,
+				"day": $day
+			}),
+			  error: function (xhr) { },      // 錯誤後執行的函數
+			  success: function (response) {
+				while(response[i]!=null)
+				{
+					optionString+='<Option>'+response[i]["driver"]+'</Option>';
+					i++;
+				}
+				console.log(optionString);
+				return optionString;
+			}// 成功後要執行的函數
+			});
+			return optionString;
+	}
 	var actions = $("table td:last-child").html();
 	// Append table with add row form on add new button click
     $(".add-new").click(function(){
 		$(this).attr("disabled", "disabled");
-		var index = $("table tbody tr:last-child").index();
-				var row = '<tr>' +
-						'<td style="display: none;"></td>' +
-            '<td><input type="text" class="form-control" name="name" id="name"></td>' +
-            '<td><input type="text" class="form-control" name="department" id="department"></td>' +
-			'<td>' + actions + '</td>' +
-        '</tr>';
-    	$("table").append(row);		
-		$("table tbody tr").eq(index + 1).find(".add, .edit").toggle();
-        $('[data-toggle="tooltip"]').tooltip();
-    });
+		console.log("AAAA");
+		var optionString = '';
+		var i = 0;
+		$.ajax({
+			type: 'POST',
+			dataType : 'json',
+			contentType : 'application/json',
+			url: "http://127.0.0.1:3000/getShift",
+			data:JSON.stringify({
+				"route":$route,
+				"day": $day
+			}),
+				error: function (xhr) { },      // 錯誤後執行的函數
+				success: function (response) {
+				while(response[i]!=null)
+				{
+					optionString+='<Option>'+response[i]["driver"]+'</Option>';
+					i++;
+				}
+				var index = $("table tbody tr:last-child").index();
+				console.log("BBBB");
+				var row = '<tr>' + '<td style="display: none;"></td>' +
+								'<td><select type="text" class="form-control" name="driver" id="driver">'+optionString+'</select></td>' +
+								'<td><select type="text" class="form-control" name="time" id="time"><option>7:00</option><option>7:20</option><option>7:40</option><option>8:00</option><option>8:20</option><option>8:40</option><option>9:00</option><option>9:20</option>'+
+					'<option>9:40</option><option>10:00</option><option>10:20</option><option>10:40</option><option>11:00</option><option>11:20</option><option>11:40</option><option>12:00</option><option>12:20</option><option>12:40</option>'+
+					'<option>13:00</option><option>13:20</option><option>13:40</option><option>14:00</option><option>14:20</option><option>14:40</option><option>15:00</option><option>15:20</option><option>15:40</option><option>16:00</option></select></td>' +
+					'<td>' + actions + '</td>' +
+						'</tr>';
+					$("table").append(row);		
+				$("table tbody tr").eq(index+1).find(".add, .edit").toggle();
+			}// 成功後要執行的函數
+		});	
+	});
 	// Add row on add button click
-	var check = 0;
+	var checkTable = 0;
 	$(document).on("click", ".add", function(){
 		var empty = false;
+		check = 1;
 		var driver;
 		var time;
-		var input = $(this).parents("tr").find('input[type="text"]');
+		var input = $(this).parents("tr").find('select[type="text"]');
         input.each(function(){
 			if(!$(this).val()){
 				driver = $(this).val();
@@ -148,19 +222,49 @@ $(document).ready(function(){
 			$(this).parents("tr").find(".add, .edit").toggle();
 			$(".add-new").removeAttr("disabled");
 		}	
+		
 		if(check == 1)
 		{
-			var id = $(this).parent("tr").find("td:nth-child(1)");
+			var id = $(this).closest("tr").find("td:nth-child(1)").text();
+			var driver = $(this).closest("tr").find("td:nth-child(2)").text();
+			var time = $(this).closest("tr").find("td:nth-child(3)").text();
 			modifyTable(id,driver,time);
 			check = 0;
 		}
 		else
+			var driver = $(this).closest("tr").find("td:nth-child(2)").text();
+			var time = $(this).closest("tr").find("td:nth-child(3)").text();
 			addTable(driver,time);		
     });
 	// Edit row on edit button click
 	$(document).on("click", ".edit", function(){		
-        $(this).parents("tr").find("td:not(:last-child)").each(function(){
-			$(this).html('<input type="text" class="form-control" value="' + $(this).text() + '">');
+  $(this).parents("tr").find("td:not(:last-child)").each(function(){
+		var x = $(this).parents("tr").find("td:nth-child(2)")
+		var optionString = '';
+		var i = 0;
+		$.ajax({
+			type: 'POST',
+			dataType : 'json',
+			contentType : 'application/json',
+			url: "http://127.0.0.1:3000/getShift",
+			data:JSON.stringify({
+				"route":$route,
+				"day": $day
+			}),
+				error: function (xhr) { },      // 錯誤後執行的函數
+				success: function (response) {
+				console.log(response);
+				while(response[i]!=null)
+				{
+					optionString+='<Option>'+response[i]["driver"]+'</Option>';
+					i++;
+				}
+				x.html('<select type="text" class="form-control" name="driver" id="driver">'+optionString+'</select>');
+			}// 成功後要執行的函數
+		});	
+			$(this).parents("tr").find("td:nth-child(3)").html('<select type="text" class="form-control" name="time" id="time"><option>7:00</option><option>7:20</option><option>7:40</option><option>8:00</option><option>8:20</option><option>8:40</option><option>9:00</option><option>9:20</option>'+
+			'<option>9:40</option><option>10:00</option><option>10:20</option><option>10:40</option><option>11:00</option><option>11:20</option><option>11:40</option><option>12:00</option><option>12:20</option><option>12:40</option>'+
+			'<option>13:00</option><option>13:20</option><option>13:40</option><option>14:00</option><option>14:20</option><option>14:40</option><option>15:00</option><option>15:20</option><option>15:40</option><option>16:00</option></select>');
 		});		
 		$(this).parents("tr").find(".add, .edit").toggle();
 		$(".add-new").attr("disabled", "disabled");
@@ -168,7 +272,6 @@ $(document).ready(function(){
     });
 	// Delete row on delete button click
 	$(document).on("click", ".delete", function(){
-			console.log("AAA")
 			var id = $(this).closest('tr').find('td:nth-child(1)').text();
 			delTable(id);
         $(this).parents("tr").remove();
