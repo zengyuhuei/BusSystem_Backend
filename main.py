@@ -20,7 +20,7 @@ import uuid  # 為了上傳csv檔import
 #---------------------------------------------------
 import uuid  # 為了上傳csv檔import
 import platform
-import pandas
+#import pandas
 import csv
 #-----------------------------------------------------
 if platform.system() == "Windows":
@@ -566,6 +566,31 @@ def get_route():
     try:
         getRoute = request.get_json()
         response = model.get_route_from_db(getRoute)
+
+    except Exception as e:
+        response["status"] = "error"
+        print(str(e))
+    return jsonify(response)
+
+@app.route('/getbusGPS', methods=['POST'])
+def get_busGPS():
+    response = {"status":"ok"}
+    try:
+        getRoute = request.get_json()
+        response = model.get_busGPS_from_db(getRoute)
+
+    except Exception as e:
+        response["status"] = "error"
+        print(str(e))
+    return jsonify(response)
+
+@app.route('/setbusGPS', methods=['POST'])
+def set_busGPS():
+    response = {"status":"ok"}
+    try:
+        gettime = request.get_json() #拿時間
+        #還要拿司機姓名
+        response = model.get_busGPS_from_db(gettime)
 
     except Exception as e:
         response["status"] = "error"
