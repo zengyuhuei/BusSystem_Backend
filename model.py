@@ -4,12 +4,18 @@ import json
 import time
 from datetime import datetime
 from bson import ObjectId
-        
+import configparser   
 class Model:
-        
+
+    def __init__(self):
+        self._config = configparser.ConfigParser()
+        self._config.read('mongodb.ini')
+        self._user = self._config['mongodb']['User']
+        self._password = self._config['mongodb']['Password']
+
     # add_driver_to_db
     def add_driver_to_db(self, data, acc_data):
-        client = pymongo.MongoClient('mongodb://user:870215@140.121.198.84:27017/')
+        client = pymongo.MongoClient('mongodb://'+self._user+':'+self._password+'@140.121.198.84:27017/')
         db = client["KeelungBusSystem"]
         info_result = db['info'].insert_one(data)
         account_result = db['auth'].insert_one(acc_data)
@@ -21,7 +27,7 @@ class Model:
     def modify_info_to_db(self, data):
         email = dict()
         result = dict()
-        client = pymongo.MongoClient('mongodb://user:870215@140.121.198.84:27017/')
+        client = pymongo.MongoClient('mongodb://'+self._user+':'+self._password+'@140.121.198.84:27017/')
         db = client["KeelungBusSystem"]
         email['email'] = data['email']
         account = data['email']
@@ -37,7 +43,7 @@ class Model:
     def change_password_to_db(self, data):
         email = dict()
         new_password = dict()
-        client = pymongo.MongoClient('mongodb://user:870215@140.121.198.84:27017/')
+        client = pymongo.MongoClient('mongodb://'+self._user+':'+self._password+'@140.121.198.84:27017/')
         db = client["KeelungBusSystem"]
         email['account'] = data['account']
         email['password'] = data['password']
@@ -54,7 +60,7 @@ class Model:
     
     #get info from db    
     def get_info_from_db(self, email):
-        client = pymongo.MongoClient('mongodb://user:870215@140.121.198.84:27017/')
+        client = pymongo.MongoClient('mongodb://'+self._user+':'+self._password+'@140.121.198.84:27017/')
         db = client['KeelungBusSystem']
         #collection = db['list']
         result = db["info"].find_one({"email" : email})
@@ -66,7 +72,7 @@ class Model:
     # modify shift from db
     def modify_shift_from_db(self, data):
         info = dict()
-        client = pymongo.MongoClient('mongodb://user:870215@140.121.198.84:27017/')
+        client = pymongo.MongoClient('mongodb://'+self._user+':'+self._password+'@140.121.198.84:27017/')
         db = client["KeelungBusSystem"]
         info['_id'] = ObjectId(data['_id'])
         print(info)
@@ -78,7 +84,7 @@ class Model:
     # del shft from db
     def del_shift_from_db(self, data):
         info = dict()
-        client = pymongo.MongoClient('mongodb://user:870215@140.121.198.84:27017/')
+        client = pymongo.MongoClient('mongodb://'+self._user+':'+self._password+'@140.121.198.84:27017/')
         db = client["KeelungBusSystem"]
         
         print(data)
@@ -88,7 +94,7 @@ class Model:
     #get shift from db    
     def get_shift_from_db(self, data):
         print("AA")
-        client = pymongo.MongoClient('mongodb://user:870215@140.121.198.84:27017/')
+        client = pymongo.MongoClient('mongodb://'+self._user+':'+self._password+'@140.121.198.84:27017/')
         db = client['KeelungBusSystem']
         #collection = db['list']
         result = list(db["shift"].find({"route" : data['route'], "day" : data['day']}))
@@ -102,7 +108,7 @@ class Model:
 
     # add_shift_to_db
     def add_shift_to_db(self, data):
-        client = pymongo.MongoClient('mongodb://user:870215@140.121.198.84:27017/')
+        client = pymongo.MongoClient('mongodb://'+self._user+':'+self._password+'@140.121.198.84:27017/')
         db = client["KeelungBusSystem"]
         print(data)
         result = db['shift'].insert_one(data)
@@ -112,7 +118,7 @@ class Model:
 
 
     def get_info_from_db_all(self):
-        client = pymongo.MongoClient('mongodb://user:870215@140.121.198.84:27017/')
+        client = pymongo.MongoClient('mongodb://'+self._user+':'+self._password+'@140.121.198.84:27017/')
         db = client['KeelungBusSystem']
         #collection = db['list']
         result = db["auth"]
@@ -131,7 +137,7 @@ class Model:
     #get driver from db    
     def get_driver_from_db(self):
         name = list()
-        client = pymongo.MongoClient('mongodb://user:870215@140.121.198.84:27017/')
+        client = pymongo.MongoClient('mongodb://'+self._user+':'+self._password+'@140.121.198.84:27017/')
         db = client['KeelungBusSystem']
         result = list(db["auth"].find({"identity" : 1},{ "_id": 0 , "password": 0, "identity": 0 }))
         print(result)
@@ -142,7 +148,7 @@ class Model:
 
     # auth
     def authentication(self, account, password):
-        client = pymongo.MongoClient('mongodb://user:870215@140.121.198.84:27017/')
+        client = pymongo.MongoClient('mongodb://'+self._config['mongodb']['User']+':'+self._config['mongodb']['Password']+'@140.121.198.84:27017/')
         db = client["KeelungBusSystem"]
         print(account, password)
         result = list(db['auth'].find({'account' : account}))

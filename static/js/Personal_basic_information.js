@@ -1,4 +1,5 @@
 function load(){
+	
 	$.ajax({
 		type: 'GET',
 		url: "http://127.0.0.1:3000/getInfo?",
@@ -30,7 +31,6 @@ function loaddata(js)
 		employee.value = js._id;
 		account.value = js.account;
 		address.value = js.address;
-		//customFile.value = js.picture;
 }
 
 $(function () {
