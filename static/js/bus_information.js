@@ -133,7 +133,7 @@ function returnRoute(json)
 					position: obj[i],
 					map: map,
 					label: { text: ''+i, color: "#fff" },
-					data: obj[i].name
+					data: obj[i].route
 					});
 					// 加入資訊視窗
 					var infowindow = new google.maps.InfoWindow();

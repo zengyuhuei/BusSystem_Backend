@@ -183,7 +183,31 @@ class Model:
             bus_stop=route_result[str(i)]
             print(bus_stop)
             print(len(route_result))
-            position.append(db["bus"].find_one({"name" : bus_stop},{"_id" : 0, "name": 1, "lat": 1, "lng": 1 }))
+            position.append(db["busRoad_coor"].find_one({"route" : bus_stop},{"_id" : 0, "route": 1, "lat": 1, "lng": 1 }))
         print(position)
         return position
         #return json.dumps(result)
+
+    #get busGPS from db    
+    def get_busGPS_from_db(self, bus_route):
+        position = list()
+        client = pymongo.MongoClient('mongodb://user:870215@140.121.198.84:27017/')
+        db = client['KeelungBusSystem']
+        mycol = db['shift']
+        print(bus_route)
+        route_name = bus_route["route"]
+        print(route_name) #拿到路線值
+        for x in mycol.find({"route" : route_name}, {"_id" : 0, "route": 1, "driver": 1 }):
+            print(x)
+            position.append(x)
+        print("hey")
+        print(position)
+        return position
+
+    #get busGPS from db    
+    def set_busGPS_into_db(self, time):
+        client = pymongo.MongoClient('mongodb://user:870215@140.121.198.84:27017/')
+        db = client['KeelungBusSystem']
+        mycol = db['shift']
+        #把時間姓名進去找 符合存進去 //判斷是否符合
+        return position
