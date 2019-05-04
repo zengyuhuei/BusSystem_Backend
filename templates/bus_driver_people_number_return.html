@@ -8,15 +8,11 @@
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
-		
+				<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 		<link href="{{ url_for('static', filename='css/bus_driver.css') }}" rel="stylesheet">
 		<link href="{{ url_for('static', filename='css/main.css') }}" rel="stylesheet">
 		<script src="{{url_for('static', filename='js/bus_driver_people_number_return.js')}}"></script>
 		<script src = "{{url_for('static', filename='js/websocket_open.js')}}"></script>
-		<style type="text/css">
-			html, body { height: 70%; margin: 20; padding: 20; }
-			#map { height: 100%; }
-		</style>
     </head>
     
     <body onload="websocket_init()">
@@ -54,7 +50,7 @@
 					</label>
 					<div class="qty col-xs-6 col-md-6 col-lg-6">
 						<span class="minus bg-dark">-</span>
-						<input type="number" class="count" name="qty" value="1" id="get_on">
+						<input type="number" class="count" name="qty" value="0" id="get_on">
 						<span class="plus bg-dark">+</span>
 					</div>
 				</div>
@@ -65,7 +61,7 @@
 					</label>
 					<div class="qty col-xs-6 col-md-6 col-lg-6">
 						<span class="minus1 bg-dark">-</span>
-						<input type="number" class="count1" name="qty" value="1" id="get_off">
+						<input type="number" class="count1" name="qty" value="0" id="get_off">
 						<span class="plus1 bg-dark">+</span>
 					</div>
 				</div>
@@ -74,7 +70,7 @@
 				</div>
 				
 				<div class="col-xs-12 col-md-12 col-lg-6 mt-3 text-center">
-					<button type="button" class="btn btn-secondary btn-lg"  onclick='display()'>到站按鈕</button>
+					<button type="button" class="btn btn-secondary btn-lg"  onclick='start()'>到站按鈕</button>
 				</div>
 				
 				<div class = "row my-4">

@@ -4,6 +4,7 @@ $(document).ready(function(){
 		$("#bus").show();
 		$route = $("#inputState").val();
 		load($route);
+		busGPS($route);
 	})
 });
 
@@ -28,6 +29,33 @@ function load(route){
 	});
 }
 
+function busGPS(route){
+	$.ajax({
+		type: "POST",
+		data: "json",
+		dataType: "json",
+		contentType : 'application/json',
+		url: "http://127.0.0.1:3000/getbusGPS",
+		data:JSON.stringify({
+			"route": route
+		}),
+		success: function(response) {
+			console.log(response);
+			//returnGPS(response);
+		},
+		error: function(xhr, type) {
+			console.log("hehehe");
+		}
+	});
+}
+
+function returnGPS(bus_coor)
+{
+	var coor = Object.keys(bus_coor).map(function(_) { return bus_coor[_]; });
+	console.log(coor.length);
+	return coor;
+}
+
 function returnRoute(json)
 {
 	var map;
@@ -36,16 +64,15 @@ function returnRoute(json)
 	console.log(obj);
 	console.log(obj.length);
 
-	var jjson = {
-		bus1:{lat: 25.135139, lng: 121.782333},
-		bus2:{lat: 25.139583, lng: 121.789444},
-		bus3:{lat: 25.135306, lng: 121.784750},
-		bus4:{lat: 25.142389, lng: 121.789306},
-	}
+	var bus_coor = [
+		{lat: 25.135139, lng: 121.782333},
+		{lat: 25.139583, lng: 121.789444},
+		{lat: 25.135306, lng: 121.784750},
+		{lat: 25.142389, lng: 121.789306}
+	]
 	
-	console.log(JSON.stringify(json));
-	var jj = Object.keys(jjson).map(function(_) { return jjson[_]; });
-	console.log(jj.length);
+	var jj = returnGPS(bus_coor);
+	console.log(jj);
 	
 	// 載入路線服務與路線顯示圖層
 	var directionsService = new google.maps.DirectionsService();
@@ -90,7 +117,7 @@ function returnRoute(json)
 						position: obj[i],
 						map: map,
 						label: { text: ''+i, color: "#fff" },
-						data: obj[i].name,
+						data: obj[i].route,
 						data2: "https://www.google.com.tw/", //影像連結 一起從json拿出
 						zIndex:1
 					});
@@ -128,7 +155,6 @@ function returnRoute(json)
 							
 					});
 			}
-			console.log("ouo");
 		}
 		
 		setInterval(busInformation(),2000);
