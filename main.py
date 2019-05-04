@@ -20,7 +20,6 @@ import uuid  # 為了上傳csv檔import
 #---------------------------------------------------
 import uuid  # 為了上傳csv檔import
 import platform
-import pandas
 import csv
 #-----------------------------------------------------
 if platform.system() == "Windows":
