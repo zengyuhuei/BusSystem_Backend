@@ -260,6 +260,20 @@ def get_info():
     try:
         email = session['store']
         response = model.get_info_from_db(email)
+        print(response)
+
+    except Exception as e:
+        response["status"] = "error"
+        print(str(e))
+    return str(response)
+
+@app.route('/getDriver', methods=['GET'])
+@login_required
+def get_driver():
+    response = {"status":"ok"}
+    try:
+        response = model.get_driver_from_db()
+        print(response)
 
     except Exception as e:
         response["status"] = "error"
@@ -267,6 +281,7 @@ def get_info():
     return str(response)
 
 @app.route('/getShift', methods=['POST'])
+@login_required
 def get_shift():
     response = {"status":"ok"}
     try:
@@ -351,6 +366,7 @@ def add_shift():
     return redirect(url_for('add_or_revise_shift', error = error))
     
 @app.route('/changePassword', methods=['POST'])
+@login_required
 def changePassword():
     error = None
     success = None
@@ -367,7 +383,6 @@ def changePassword():
         print(response)
     
     return str(response)
-"""
     if identity == 0:
         if response['status'] == "ok":
             return redirect(url_for('change_password',success = success))
@@ -378,7 +393,7 @@ def changePassword():
             return redirect(url_for('bus_driver_change_password',success = success))
         else:
             return redirect(url_for('bus_driver_change_password',error = error))
-"""
+
 @app.route('/bus_driver_change_password', methods=['GET'])
 @login_required
 def bus_driver_change_password():
@@ -420,6 +435,7 @@ def add_busdriver():
     return render_template('add_busdriver.html', success = success, error = error, methods=['GET'])
 
 @app.route('/add_or_revise_shift', methods=['GET'])
+@login_required
 def add_or_revise_shift():
     success = None
     error = None
@@ -539,7 +555,6 @@ def Personal_basic_information():
 
 
 @app.route('/revise_path', methods=['GET'])
-@login_required
 @login_required
 def revise_path():
     return render_template('revise_path.html', methods=['GET'])

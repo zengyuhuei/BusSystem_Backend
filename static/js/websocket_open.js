@@ -3,10 +3,6 @@ function websocket_init()
 {
     // Connect to Web Socket
     var i = 0;
-<<<<<<< HEAD
-    localStorage.setItem('Account','yanqing0709');
-=======
->>>>>>> 8e9ef0936ed349ddfcc3e168f4099e2e25bfb291
     ws = new WebSocket("ws://localhost:9001/");
     // Set event handlers.
     ws.onopen = function() 
