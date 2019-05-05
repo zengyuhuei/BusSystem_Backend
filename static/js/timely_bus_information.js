@@ -29,6 +29,7 @@ function load(route){
 	});
 }
 
+var jj;
 function busGPS(route){
 	$.ajax({
 		type: "POST",
@@ -41,7 +42,7 @@ function busGPS(route){
 		}),
 		success: function(response) {
 			console.log(response);
-			//returnGPS(response);
+			jj = returnGPS(response);
 		},
 		error: function(xhr, type) {
 			console.log("hehehe");
@@ -64,14 +65,14 @@ function returnRoute(json)
 	console.log(obj);
 	console.log(obj.length);
 
-	var bus_coor = [
+	/*var bus_coor = [
 		{lat: 25.135139, lng: 121.782333},
 		{lat: 25.139583, lng: 121.789444},
 		{lat: 25.135306, lng: 121.784750},
 		{lat: 25.142389, lng: 121.789306}
-	]
+	]*/
 	
-	var jj = returnGPS(bus_coor);
+	//var jj = returnGPS(bus_coor);
 	console.log(jj);
 	
 	// 載入路線服務與路線顯示圖層

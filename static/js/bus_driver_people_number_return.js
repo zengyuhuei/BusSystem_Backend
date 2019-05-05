@@ -33,7 +33,17 @@ $(document).ready(function(){
 
 function start()
 {
-	/*$.ajax({
+	var date = new Date(); //日期对象 
+	var now = ""; 
+	now = date.getFullYear()+"年"; //读英文就行了 
+	now = now + (date.getMonth()+1)+"月"; //取月的时候取的是当前月-1如果想取当前月+1就可以了 
+	now = now + date.getDate()+"日"; 
+	now = now + date.getHours()+"时"; 
+	now = now + date.getMinutes()+"分";
+	
+	console.log(now);
+	//setInterval("document.getElementById('datetime').innerHTML=new Date().toLocaleString();", 1000);
+	$.ajax({
 		type: "POST",
 		data: "json",
 		dataType: "json",
@@ -46,5 +56,5 @@ function start()
 		error: function(xhr, type) {
 			console.log("hehehe");
 		}
-	});*/
+	});
 }
