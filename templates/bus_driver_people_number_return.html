@@ -70,9 +70,9 @@
 				</div>
 				
 				<div class="col-xs-12 col-md-12 col-lg-6 mt-3 text-center">
-					<button type="button" class="btn btn-secondary btn-lg"  onclick='start()'>到站按鈕</button>
+					<button type="button" class="btn btn-secondary btn-lg" onclick='start()'>到站按鈕</button>
 				</div>
-				
+
 				<div class = "row my-4">
 					<label for="address" class="col-xs-3-md-auto col-form-label">
 						<h4>當前乘客人數：
@@ -90,13 +90,45 @@
 									console.log(position.timestamp);
 									lat = position.coords.latitude;
 									lng = position.coords.longitude;
-									var json = {
-										lat: lat,
-										lng: lng
-									}
-									console.log(JSON.stringify(json));
 
 							});
+					}
+
+					function start()
+					{
+						console.log("ouo");
+						/*var date = new Date(); //日期对象 
+						var now = ""; 
+						now = date.getFullYear()+"-"; //读英文就行了 
+						now = now + (date.getMonth()+1)+"-"; //取月的时候取的是当前月-1如果想取当前月+1就可以了 
+						now = now + date.getDate()+"T"; 
+						now = now + date.getHours()+":"; 
+						now = now + date.getMinutes()+":00.000Z";
+						
+						console.log(now);
+						//setInterval("document.getElementById('datetime').innerHTML=new Date().toLocaleString();", 1000);*/
+
+
+						$.ajax({
+							type: "POST",
+							data: "json",
+							dataType: "json",
+							contentType : 'application/json',
+							url: "http://127.0.0.1:3000/setbusGPS",
+							data:JSON.stringify({
+								"email": localStorage.account,
+								"start_time": "datetime.datetime(1900, 1, 1, 7, 0)",
+								"lat": lat,
+								"lng": lng
+							}),
+							success: function(response) {
+								console.log(response);
+							},
+							error: function(xhr, type) {
+								console.log("hehehe");
+							}
+						});
+						setTimeout("start()",3000); 
 					}
 			</script>
 			<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC3RdvutneSQCHgWDr4t7AAhKNx7jmMFz0&callback=initMap"

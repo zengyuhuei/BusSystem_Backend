@@ -48,6 +48,8 @@ function busGPS(route){
 			console.log("hehehe");
 		}
 	});
+
+	setTimeout("busGPS($route)",5000);
 }
 
 function returnGPS(bus_coor)

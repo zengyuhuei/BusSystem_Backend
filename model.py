@@ -210,10 +210,24 @@ class Model:
         print(position)
         return position
 
-    #get busGPS from db    
-    def set_busGPS_into_db(self, time):
+    #set busGPS to db    
+    def set_busGPS_into_db(self, data):
         client = pymongo.MongoClient('mongodb://user:870215@140.121.198.84:27017/')
         db = client['KeelungBusSystem']
-        mycol = db['shift']
         #把時間姓名進去找 符合存進去 //判斷是否符合
+        time = data["start_time"]
+        name = data["email"]
+        lat = data["lat"]
+        lng = data["lng"]
+        print(time)
+        print(name)
+        print(lat)
+        print(lng)
+        driver_name = db["info"].find_one({'email' : name}, {"_id" : 0, "name": 1})
+        print(driver_name)
+        driver = driver_name["name"]
+        print(driver)
+        position = db["shift"].find_one({"driver" : driver}, {"_id" : 0, "driver": 1, "start_time" : 1})
+        print(position)
+        print("hi")
         return position

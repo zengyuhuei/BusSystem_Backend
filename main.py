@@ -603,9 +603,10 @@ def get_busGPS():
 def set_busGPS():
     response = {"status":"ok"}
     try:
-        gettime = request.get_json() #拿時間
-        #還要拿司機姓名
-        response = model.get_busGPS_from_db(gettime)
+        getdata = request.get_json() #拿時間&姓名
+        print("hahaha")
+        print(getdata)
+        response = model.set_busGPS_into_db(getdata)
 
     except Exception as e:
         response["status"] = "error"
