@@ -169,7 +169,7 @@ class Model:
         client = pymongo.MongoClient('mongodb://user:870215@140.121.198.84:27017/')
         db = client["KeelungBusSystem"]
         print('its db')
-        print(data_coor)
+        print(data_route)
         coor_result = db['busRoad_coor'].insert_many(data_coor)
         coor_result = db['route'].insert_many(data_route)
         #print(coor_result)
@@ -229,10 +229,10 @@ class Model:
         print(driver_name)
         driver = driver_name["name"]
         print(driver)
-        position = db["shift"].find_one({"driver" : driver}, {"_id" : 0, "driver": 1, "start_time" : 1})
+        #時間還沒都進去 不知道格式 **
+        position = db["shift"].update_one({"driver" : driver}, {"$set": { "lat": lat, "lng": lng }}) 
         print(position)
         print("hi")
-        result = db["shift"].update_one({"driver" : driver}, {"$set":  {"lat": lat, "lng": lng}})
         return position
 
     #get busNumber from db    
@@ -245,3 +245,12 @@ class Model:
         print("下面是要輸出的資料長哪樣")
         print(result)
         return json.dumps(result)
+		
+    def buspeople_to_db(self, data):
+        client = pymongo.MongoClient('mongodb://user:870215@140.121.198.84:27017/')
+        db = client["KeelungBusSystem"]
+        print('its db')
+        print(data)
+        coor_result = db['arrivetime'].insert_one(data)
+        #print(coor_result)
+        return coor_result
