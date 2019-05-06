@@ -233,7 +233,7 @@ class Model:
         position = db["shift"].update_one({"driver" : driver}, {"$set": { "lat": lat, "lng": lng }}) 
         print(position)
         print("hi")
-        result = db["shift"].update_one({"driver" : driver}, {"$set":  {"lat": lat, "lng": lng}})
+        position = db["shift"].update_one({"driver" : driver}, {"$set":  {"lat": lat, "lng": lng}})
         return position
 
         
