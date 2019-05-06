@@ -107,7 +107,7 @@ def login_required(f):
 def read_csv():
 
     route_list = []
-    with open('./csv/route.csv', newline='') as csvfile:
+    with open('./csv/route.csv', newline='', encoding="utf-8") as csvfile:
       # 讀取 CSV 檔案內容
       rows = csv.reader(csvfile)
       # 以迴圈輸出每一列
@@ -506,6 +506,7 @@ def busGps_to_db():
     try:
         csv_data = dict()
         csv_dir = 'csv/'+request.files['myfile'].filename
+
         with open(csv_dir) as csvfile:
             reader = csv.DictReader(csvfile)
             title = reader.fieldnames
