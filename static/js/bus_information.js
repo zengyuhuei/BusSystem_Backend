@@ -12,7 +12,7 @@ function setTable(response)
 	console.log("CC");
 	var tr_length = document.getElementById("busTable").rows.length;
 	console.log(tr_length);
-	for(var i=tr_length; i > 1; i--)
+	for(var i=tr_length; i > 2; i--)
 	{
 		document.getElementById("busTable").deleteRow(i);
 	}
@@ -49,7 +49,7 @@ function getTable()
 		data : 'json',
 		dataType : 'json',
 		contentType : 'application/json',
-		url: "http://140.121.198.84:3000/getShift",
+		url: "http://127.0.0.1:3000/getShift",
 		data:JSON.stringify({
 			"route":$route,
 			"day": $day
@@ -68,7 +68,7 @@ function load(route)
 		data: 'json',
 		dataType:'json',
 		contentType : 'application/json',
-		url: "http://140.121.198.84:3000/getRoute",
+		url: "http://127.0.0.1:3000/getRoute",
 		data:JSON.stringify({
 			"route": route
 		}),
@@ -156,13 +156,14 @@ function returnRoute(json)
 		}
 }
 
+var x = document.getElementById("inputRoute");
 var optionString = '';
 var i = 0;
 $.ajax({
 	type: 'POST',
 	dataType : 'json',
 	contentType : 'application/json',
-	url: "http://140.121.198.84:3000/getbusNumber",
+	url: "http://127.0.0.1:3000/getbusNumber",
 	data:JSON.stringify({
 		
 	}),
