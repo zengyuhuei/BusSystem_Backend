@@ -489,11 +489,14 @@ def get_routelist(data):
             route = dict()
             temp.sort(key = lambda temp:int(temp[name]))    
             for one in temp:
+                print(one)
+                print(name)
                 route['bus_route'] = name
                 if(one[name] != '0'):
                     route[one[name]] = one['route']
+            print(route)
             routelist.append(route)
-    print(routelist)
+    print(len(routelist))
     return routelist
 
 @app.route('/busGps_to_db',methods=['POST'])
