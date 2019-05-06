@@ -493,7 +493,7 @@ def get_routelist(data):
                 if(one[name] != '0'):
                     print(one['route'])
                     route[one[name]] = one['route']
-            print(route)
+            print(len(route))
             routelist.append(route)
     print(len(routelist))
     return routelist
