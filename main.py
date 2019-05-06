@@ -107,7 +107,7 @@ def login_required(f):
 def read_csv():
 
     route_list = []
-    with open('./templates/route.csv', newline='', encoding="gbk") as csvfile:
+    with open('./csv/route.csv', newline='', encoding="gbk") as csvfile:
       # 讀取 CSV 檔案內容
       rows = csv.reader(csvfile)
       # 以迴圈輸出每一列
