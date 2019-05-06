@@ -491,6 +491,7 @@ def get_routelist(data):
             for one in temp:
                 route['bus_route'] = name
                 if(one[name] != '0'):
+                    print(one['route'])
                     route[one[name]] = one['route']
             print(route)
             routelist.append(route)
