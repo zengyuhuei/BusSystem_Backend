@@ -76,6 +76,7 @@ class Model:
         db = client["KeelungBusSystem"]
         info['_id'] = ObjectId(data['_id'])
         print(info)
+        print("上面是info")
         del data['_id']
         print(data)
         result = db['shift'].update_one(info, { "$set": data })
@@ -111,6 +112,7 @@ class Model:
         client = pymongo.MongoClient('mongodb://'+self._user+':'+self._password+'@140.121.198.84:27017/')
         db = client["KeelungBusSystem"]
         print(data)
+        print("ouo")
         result = db['shift'].insert_one(data)
         print(result.inserted_id)
 
@@ -203,17 +205,53 @@ class Model:
         print(bus_route)
         route_name = bus_route["route"]
         print(route_name) #拿到路線值
-        for x in mycol.find({"route" : route_name}, {"_id" : 0, "route": 1, "driver": 1 }):
+        for x in mycol.find({"route" : route_name}, {"_id" : 0, "route": 1, "driver": 1, "lat": 1, "lng": 1}):
             print(x)
             position.append(x)
         print("hey")
         print(position)
         return position
 
-    #get busGPS from db    
-    def set_busGPS_into_db(self, time):
+    #set busGPS to db    
+    def set_busGPS_into_db(self, data):
         client = pymongo.MongoClient('mongodb://user:870215@140.121.198.84:27017/')
         db = client['KeelungBusSystem']
-        mycol = db['shift']
         #把時間姓名進去找 符合存進去 //判斷是否符合
+        time = data["start_time"]
+        name = data["email"]
+        lat = data["lat"]
+        lng = data["lng"]
+        print(time)
+        print(name)
+        print(lat)
+        print(lng)
+        driver_name = db["info"].find_one({'email' : name}, {"_id" : 0, "name": 1})
+        print(driver_name)
+        driver = driver_name["name"]
+        print(driver)
+        #時間還沒都進去 不知道格式 **
+        position = db["shift"].update_one({"driver" : driver}, {"$set": { "lat": lat, "lng": lng }}) 
+        print(position)
+        print("hi")
+        position = db["shift"].update_one({"driver" : driver}, {"$set":  {"lat": lat, "lng": lng}})
         return position
+
+    #get busNumber from db    
+    def get_busNumber_from_db(self, data):
+        print("inside busNumber")
+        client = pymongo.MongoClient('mongodb://user:870215@140.121.198.84:27017/')
+        db = client['KeelungBusSystem']
+        result = list(db["route"].find({},{"_id" : 0, "bus_route": 1}))
+        
+        print("下面是要輸出的資料長哪樣")
+        print(result)
+        return json.dumps(result)
+		
+    def buspeople_to_db(self, data):
+        client = pymongo.MongoClient('mongodb://user:870215@140.121.198.84:27017/')
+        db = client["KeelungBusSystem"]
+        print('its db')
+        print(data)
+        coor_result = db['arrivetime'].insert_one(data)
+        #print(coor_result)
+        return coor_result

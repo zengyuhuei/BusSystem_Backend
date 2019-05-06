@@ -267,7 +267,7 @@ def get_info():
         print(str(e))
     return str(response)
 
-@app.route('/getDriver', methods=['GET'])
+@app.route('/getDriver', methods=['POST'])
 @login_required
 def get_driver():
     response = {"status":"ok"}
@@ -278,7 +278,7 @@ def get_driver():
     except Exception as e:
         response["status"] = "error"
         print(str(e))
-    return str(response)
+    return jsonify(response)
 
 @app.route('/getShift', methods=['POST'])
 @login_required
@@ -365,6 +365,31 @@ def add_shift():
         return redirect(url_for('add_or_revise_shift', success = success, inserted_id = inserted_id))
     return redirect(url_for('add_or_revise_shift', error = error))
     
+@app.route('/peoplenum_to_db', methods=['POST'])
+@login_required
+def peoplenum_to_db():
+    error = None
+    success = None
+    response = {"status":"ok"}
+    try:
+        # 傳進來的 JSON String 轉成 LIST json decode
+        data = request.get_json()
+        # 傳進來的 Date String 轉成 Datetime 類別
+        #data["start_time"] = datetime.strptime(data["start_time"], '%H:%M')
+        print(data['peoplenum'])
+        model.buspeople_to_db(data)
+        success = "上傳成功"
+    except Exception as e:
+        response["status"] = "error"
+        response["error"] = str(e)
+        error = "上傳失敗"
+        print(response)
+
+    if response['status'] == "ok":
+        return redirect(url_for('bus_driver_people_number_return',success = success))
+    else:
+        return redirect(url_for('bus_driver_people_number_return',error = error))
+
 @app.route('/changePassword', methods=['POST'])
 @login_required
 def changePassword():
@@ -603,14 +628,29 @@ def get_busGPS():
 def set_busGPS():
     response = {"status":"ok"}
     try:
-        gettime = request.get_json() #拿時間
-        #還要拿司機姓名
-        response = model.get_busGPS_from_db(gettime)
+        getdata = request.get_json() #拿時間&姓名
+        print("hahaha")
+        print(getdata)
+        response = model.set_busGPS_into_db(getdata)
 
     except Exception as e:
         response["status"] = "error"
         print(str(e))
     return jsonify(response)
+
+@app.route('/getbusNumber', methods=['POST'])
+@login_required
+def get_busNumber():
+    response = {"status":"ok"}
+    try:
+        data = request.get_json()
+        print("inside main-getbusNumber")
+        response = model.get_busNumber_from_db(data)
+        print(response)
+    except Exception as e:
+        response["status"] = "error"
+        print(str(e))
+    return response
 
 '''
 #--------------------------------------------------------------------------

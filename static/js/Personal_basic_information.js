@@ -2,7 +2,7 @@ function load(){
 	
 	$.ajax({
 		type: 'GET',
-		url: "http://127.0.0.1:3000/getInfo?",
+		url: "http://140.121.198.84:3000/getInfo?",
 		dataType: 'json',
 		success: function(data) {
 			console.log(data);
@@ -31,6 +31,11 @@ function loaddata(js)
 		employee.value = js._id;
 		account.value = js.account;
 		address.value = js.address;
+		//myfile.value = js.picture;
+		console.log(js.picture);
+		$('#blah').attr('src', "{{url_for（'picture'，filename ='IMG_8003.JPG'）}}");
+		$('#blah').attr("width", "200");
+		$('#blah').attr("height", "400");
 }
 
 $(function () {
@@ -40,10 +45,9 @@ $(function () {
 	});
 
 $(document).ready(function(){
-	$('input[type="file"]').change(function(e){
-		var fileName = e.target.files[0].name;
-		$(this).siblings(".custom-file-label").addClass("selected").html(fileName);
-	});
+	
+	
+
 	$('#birthday > .form-control').prop('readonly', true);
 	$(".fix").click(function() {
 		$(".yes").show();
@@ -61,6 +65,20 @@ $(document).ready(function(){
 	})
 	
 });
+function readURL(input) {
+	if (input.files && input.files[0]) {
+		var reader = new FileReader();
+
+		reader.onload = function (e) {
+			$('#blah')
+				.attr('src', e.target.result)
+				.width(300)
+				.height(400);
+		};
+
+		reader.readAsDataURL(input.files[0]);
+	}
+}
 
 $( "#target" ).click(function() {
   alert( "Handler for .click() called." );

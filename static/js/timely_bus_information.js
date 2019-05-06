@@ -15,7 +15,7 @@ function load(route){
 		data: "json",
 		dataType: "json",
 		contentType : 'application/json',
-		url: "http://127.0.0.1:3000/getRoute",
+		url: "http://140.121.198.84:3000/getRoute",
 		data:JSON.stringify({
 			"route": route
 		}),
@@ -29,24 +29,27 @@ function load(route){
 	});
 }
 
+var jj;
 function busGPS(route){
 	$.ajax({
 		type: "POST",
 		data: "json",
 		dataType: "json",
 		contentType : 'application/json',
-		url: "http://127.0.0.1:3000/getbusGPS",
+		url: "http://140.121.198.84:3000/getbusGPS",
 		data:JSON.stringify({
 			"route": route
 		}),
 		success: function(response) {
 			console.log(response);
-			//returnGPS(response);
+			jj = returnGPS(response);
 		},
 		error: function(xhr, type) {
 			console.log("hehehe");
 		}
 	});
+
+	setTimeout("busGPS($route)",5000);
 }
 
 function returnGPS(bus_coor)
@@ -64,14 +67,14 @@ function returnRoute(json)
 	console.log(obj);
 	console.log(obj.length);
 
-	var bus_coor = [
+	/*var bus_coor = [
 		{lat: 25.135139, lng: 121.782333},
 		{lat: 25.139583, lng: 121.789444},
 		{lat: 25.135306, lng: 121.784750},
 		{lat: 25.142389, lng: 121.789306}
-	]
+	]*/
 	
-	var jj = returnGPS(bus_coor);
+	//var jj = returnGPS(bus_coor);
 	console.log(jj);
 	
 	// 載入路線服務與路線顯示圖層
@@ -166,3 +169,27 @@ function returnRoute(json)
 			map.setCenter(obj[obj.length/2]);
 		}
 }
+
+var optionString = '';
+var i = 0;
+$.ajax({
+	type: 'POST',
+	dataType : 'json',
+	contentType : 'application/json',
+	url: "http://140.121.198.84:3000/getbusNumber",
+	data:JSON.stringify({
+		
+	}),
+		error: function (xhr) { },      // 錯誤後執行的函數
+		success: function (response) {
+		console.log("下拉式選單: "+response);
+		while(response[i]!=null)
+		{
+			optionString +='<Option>'+response[i]["bus_route"]+'</Option>';
+			console.log("下拉式選單: "+response[i]["bus_route"]);
+			i++;
+		}
+		document.getElementById("shift").innerHTML += '<select class="form-control" id="inputState">'+optionString+'</select>';
+		//x.html(optionString);
+	}// 成功後要執行的函數
+});	

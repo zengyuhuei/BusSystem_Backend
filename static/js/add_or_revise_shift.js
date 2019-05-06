@@ -31,7 +31,7 @@ function addTable(driver,time)
 			type: 'POST',
 			data : 'json',
 			contentType : 'application/json',
-			url: "http://127.0.0.1:3000/addShift",
+			url: "http://140.121.198.84:3000/addShift",
 			data:JSON.stringify({
 				"route":$route,
 				"day": $day,
@@ -43,6 +43,7 @@ function addTable(driver,time)
 			 },
 			  error: function (xhr) { },      // 錯誤後執行的函數
 			  success: function (response) {
+					console.log("AAAAA");
 					window.location.href = xhr.responseURL;
 					//window.location.href = response.redirect;
 			}// 成功後要執行的函數
@@ -58,7 +59,7 @@ function delTable(id)
 			type: 'POST',
 			data : 'json',
 			contentType : 'application/json',
-			url: "http://127.0.0.1:3000/delShift",
+			url: "http://140.121.198.84:3000/delShift",
 			data:JSON.stringify({
 				"_id" : id
 			}),
@@ -81,7 +82,7 @@ function modifyTable(id,driver,time)
 		type: 'POST',
 		data: 'json',
 		contentType : 'application/json',
-		url: "http://127.0.0.1:3000/modifyShift",
+		url: "http://140.121.198.84:3000/modifyShift",
 		data:JSON.stringify({
 			'_id' : id,
 			'driver' : driver,
@@ -94,7 +95,6 @@ function modifyTable(id,driver,time)
 			},      // 錯誤後執行的函數
 			success: function (response) {
 			//console.log(response);
-			console.log(xhr.responseURL);
 			window.location.href = xhr.responseURL;
 		}// 成功後要執行的函數
 		});
@@ -121,7 +121,7 @@ $(document).ready(function(){
 			type: 'POST',
 			dataType : 'json',
 			contentType : 'application/json',
-			url: "http://127.0.0.1:3000/getShift",
+			url: "http://140.121.198.84:3000/getShift",
 			data:JSON.stringify({
 				"route":$route,
 				"day": $day
@@ -133,57 +133,32 @@ $(document).ready(function(){
 			}// 成功後要執行的函數
 		  });
 	})
-	function makeOption()
-	{
-		var optionString = '';
-		var i = 0;
-		$.ajax({
-			type: 'POST',
-			dataType : 'json',
-			contentType : 'application/json',
-			url: "http://127.0.0.1:3000/getShift",
-			data:JSON.stringify({
-				"route":$route,
-				"day": $day
-			}),
-			  error: function (xhr) { },      // 錯誤後執行的函數
-			  success: function (response) {
-				while(response[i]!=null)
-				{
-					optionString+='<Option>'+response[i]["driver"]+'</Option>';
-					i++;
-				}
-				console.log(optionString);
-				return optionString;
-			}// 成功後要執行的函數
-			});
-			return optionString;
-	}
 	var actions = $("table td:last-child").html();
 	// Append table with add row form on add new button click
     $(".add-new").click(function(){
 		$(this).attr("disabled", "disabled");
-		console.log("AAAA");
 		var optionString = '';
+		check = 1;
 		var i = 0;
 		$.ajax({
 			type: 'POST',
+			data:'json',
 			dataType : 'json',
 			contentType : 'application/json',
-			url: "http://127.0.0.1:3000/getShift",
+			url: "http://140.121.198.84:3000/getDriver",
 			data:JSON.stringify({
 				"route":$route,
 				"day": $day
 			}),
-				error: function (xhr) { },      // 錯誤後執行的函數
+				error: function (xhr) {
+				 },      // 錯誤後執行的函數
 				success: function (response) {
 				while(response[i]!=null)
 				{
-					optionString+='<Option>'+response[i]["driver"]+'</Option>';
+					optionString+='<Option>'+response[i]+'</Option>';
 					i++;
 				}
 				var index = $("table tbody tr:last-child").index();
-				console.log("BBBB");
 				var row = '<tr>' + '<td style="display: none;"></td>' +
 								'<td><select type="text" class="form-control" name="driver" id="driver">'+optionString+'</select></td>' +
 								'<td><select type="text" class="form-control" name="time" id="time"><option>7:00</option><option>7:20</option><option>7:40</option><option>8:00</option><option>8:20</option><option>8:40</option><option>9:00</option><option>9:20</option>'+
@@ -197,10 +172,8 @@ $(document).ready(function(){
 		});	
 	});
 	// Add row on add button click
-	var checkTable = 0;
 	$(document).on("click", ".add", function(){
 		var empty = false;
-		check = 1;
 		var driver;
 		var time;
 		var input = $(this).parents("tr").find('select[type="text"]');
@@ -221,32 +194,34 @@ $(document).ready(function(){
 			});			
 			$(this).parents("tr").find(".add, .edit").toggle();
 			$(".add-new").removeAttr("disabled");
-		}	
-		
+		}		
+		console.log(check);
 		if(check == 1)
 		{
 			var id = $(this).closest("tr").find("td:nth-child(1)").text();
 			var driver = $(this).closest("tr").find("td:nth-child(2)").text();
 			var time = $(this).closest("tr").find("td:nth-child(3)").text();
-			modifyTable(id,driver,time);
-			check = 0;
+			addTable(driver,time);			
 		}
 		else
+		{
 			var driver = $(this).closest("tr").find("td:nth-child(2)").text();
 			var time = $(this).closest("tr").find("td:nth-child(3)").text();
-			addTable(driver,time);		
+			modifyTable(id,driver,time);			
+		}	
     });
 	// Edit row on edit button click
 	$(document).on("click", ".edit", function(){		
   $(this).parents("tr").find("td:not(:last-child)").each(function(){
 		var x = $(this).parents("tr").find("td:nth-child(2)")
 		var optionString = '';
+		check = 0;
 		var i = 0;
 		$.ajax({
 			type: 'POST',
 			dataType : 'json',
 			contentType : 'application/json',
-			url: "http://127.0.0.1:3000/getShift",
+			url: "http://140.121.198.84:3000/getDriver",
 			data:JSON.stringify({
 				"route":$route,
 				"day": $day
@@ -256,7 +231,7 @@ $(document).ready(function(){
 				console.log(response);
 				while(response[i]!=null)
 				{
-					optionString+='<Option>'+response[i]["driver"]+'</Option>';
+					optionString+='<Option>'+response[i]+'</Option>';
 					i++;
 				}
 				x.html('<select type="text" class="form-control" name="driver" id="driver">'+optionString+'</select>');
@@ -267,8 +242,7 @@ $(document).ready(function(){
 			'<option>13:00</option><option>13:20</option><option>13:40</option><option>14:00</option><option>14:20</option><option>14:40</option><option>15:00</option><option>15:20</option><option>15:40</option><option>16:00</option></select>');
 		});		
 		$(this).parents("tr").find(".add, .edit").toggle();
-		$(".add-new").attr("disabled", "disabled");
-		check = 1;
+		$(".add-new").attr("disabled", "disabled");		
     });
 	// Delete row on delete button click
 	$(document).on("click", ".delete", function(){

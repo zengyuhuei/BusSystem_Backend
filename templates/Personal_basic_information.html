@@ -75,7 +75,7 @@
 				<div class="intro-text my-3">
 					<h1>個人基本資料</h1>
 				</div>
-				<form method = "post" action = "http://127.0.0.1:3000/modify_info_to_db" enctype = "multipart/form-data">
+				<form method = "post" action = "http://140.121.198.84:3000/modify_info_to_db" enctype = "multipart/form-data">
 					<div class = "row">
 					{% if error %}
 					 <script>window.alert("{{error}}");</script>
@@ -175,8 +175,9 @@
 									<h6>上傳大頭照：</h6>
 								</label>
 								<div class="custom-file">
-									<input type="file" class="custom-file-input" id="myfile" name="myfile" accept=".jpg,.gif,.png" disabled>
+									<input type="file" class="custom-file-input" id="myfile" name="myfile" accept=".jpg,.gif,.png" onchange="readURL(this);" disabled>
 									<label class="custom-file-label" for="myfile">Choose file</label>
+									<img id="blah" src="#"/>
 								</div>
 	
 								
