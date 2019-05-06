@@ -493,7 +493,7 @@ def get_routelist(data):
                 if(one[name] != '0'):
                     route[one[name]] = one['route']
             routelist.append(route)
-
+    print(routelist)
     return routelist
 
 @app.route('/busGps_to_db',methods=['POST'])
