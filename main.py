@@ -526,7 +526,9 @@ def busGps_to_db():
         for data in csv_data:
             for name in routename:
                 data.pop(name)
-                
+        print(csv_data)
+        print('/')
+        print(routelist)
         model.busGps_to_db(csv_data,routelist)
 
         success = "上傳成功"
