@@ -235,4 +235,13 @@ class Model:
         result = db["shift"].update_one({"driver" : driver}, {"$set":  {"lat": lat, "lng": lng}})
         return position
 
+    #get busNumber from db    
+    def get_busNumber_from_db(self, data):
+        print("inside busNumber")
+        client = pymongo.MongoClient('mongodb://user:870215@140.121.198.84:27017/')
+        db = client['KeelungBusSystem']
+        result = list(db["route"].find({},{"_id" : 0, "bus_route": 1}))
         
+        print("下面是要輸出的資料長哪樣")
+        print(result)
+        return json.dumps(result)

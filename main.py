@@ -613,6 +613,20 @@ def set_busGPS():
         print(str(e))
     return jsonify(response)
 
+@app.route('/getbusNumber', methods=['POST'])
+@login_required
+def get_busNumber():
+    response = {"status":"ok"}
+    try:
+        data = request.get_json()
+        print("inside main-getbusNumber")
+        response = model.get_busNumber_from_db(data)
+        print(response)
+    except Exception as e:
+        response["status"] = "error"
+        print(str(e))
+    return response
+
 '''
 #--------------------------------------------------------------------------
 @app.route('/upload_file',methods=['GET','POST'])
