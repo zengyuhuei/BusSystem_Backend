@@ -390,7 +390,6 @@ def peoplenum_to_db():
     else:
         return redirect(url_for('bus_driver_people_number_return',error = error))
 
-		
 @app.route('/changePassword', methods=['POST'])
 @login_required
 def changePassword():

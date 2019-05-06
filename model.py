@@ -247,7 +247,7 @@ class Model:
         print(result)
         return json.dumps(result)
 		
-	def buspeople_to_db(self, data):
+    def buspeople_to_db(self, data):
         client = pymongo.MongoClient('mongodb://user:870215@140.121.198.84:27017/')
         db = client["KeelungBusSystem"]
         print('its db')
