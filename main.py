@@ -523,16 +523,17 @@ def busGps_to_db():
         print('j')
         routelist = dict()
         routelist = get_routelist(csv_data)
-		print(routelist)
+		print('k')
         csvkey = csv_data[0].keys()
         routename = []
         for name in csvkey:
             if name.isdigit():
                 routename.append(name)
+        print('l')
         for data in csv_data:
             for name in routename:
                 data.pop(name)
-
+        print('m')
         print(csv_data)
         print('/')
         print(routelist)
