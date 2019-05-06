@@ -75,14 +75,14 @@
                     <h5>路線：</h5>
                 </label>
                 
-                <div class="col-xs-4 col-md-3 col-lg-3">
-                    <select id="inputRoute" class="form-control">
+                <div class="col-xs-4 col-md-3 col-lg-3" id = "shift">
+                    <!--<select id="inputRoute" class="form-control">
                         <option value="101">101</option>
                         <option value="102">102</option>
                         <option value="103">103</option>
                         <option value="104">104</option>
                         <option value="105">105</option>
-                    </select>
+                    </select>-->
                 </div>
                 
                 <label for="input1" class="col-xs-3 col-md-auto col-form-label">
@@ -107,49 +107,50 @@
             </div>
 			
 			
-		    <div class="form-group row">
-					<div class="col-xs-12 col-md-8 col-lg-8" id="map" style="width:55%; height:450px; display: none">
-					</div>
-					</div>
+			<div class="form-group row">
+				<div class="col-xs-12 col-md-8 col-lg-8" id="map" style="width:55%; height:450px; display: none">
+				</div>
+				
+				<div class="col-xs-12 col-md-4 col-lg-4" id = "bus" style = "display: none">
+					<table class="table" id="busTable">
+						<thead class="thead-dark">
+						<tr>
+							<th scope="col">班次</th>
+							<th scope="col">發車時間</th>
+							<th scope="col">司機</th>
+						</tr>
+						</thead>
+						<!--<tbody>
+						<tr>
+							<th scope="row">1</th>
+							<td>Mark</td>
+							<td>Otto</td>
+							<td>@mdo</td>
+						</tr>
+						<tr>
+							<th scope="row">2</th>
+							<td>Jacob</td>
+							<td>Thornton</td>
+							<td>@fat</td>
+						</tr>
+						<tr>
+							<th scope="row">3</th>
+							<td>Larry</td>
+							<td>the Bird</td>
+							<td>@twitter</td>
+						</tr>
+						</tbody>-->
+					</table>
 
-					<div class="col-xs-12 col-md-20 col-lg-4" id = "bus" style = "top:220px;left:830px;position:absolute;display: none">
-						<table class="table" id="busTable">
-							<thead class="thead-dark">
-							<tr>
-								<th scope="col">班次</th>
-								<th scope="col">發車時間</th>
-								<th scope="col">司機</th>
-							</tr>
-							</thead>
-							<!--<tbody>
-							<tr>
-								<th scope="row">1</th>
-								<td>Mark</td>
-								<td>Otto</td>
-								<td>@mdo</td>
-							</tr>
-							<tr>
-								<th scope="row">2</th>
-								<td>Jacob</td>
-								<td>Thornton</td>
-								<td>@fat</td>
-							</tr>
-							<tr>
-								<th scope="row">3</th>
-								<td>Larry</td>
-								<td>the Bird</td>
-								<td>@twitter</td>
-							</tr>
-							</tbody>-->
-						</table>
-	
-					
-					
-					
-					</div>
+				
+				
+				
 				</div>
 				
 				
-					</div>
+			</div>
+
+					
+		</div>
     </body>
 </html>
