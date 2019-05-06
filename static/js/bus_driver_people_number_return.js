@@ -38,7 +38,7 @@ $(document).ready(function(){
 
 $(document).on('click','#start',function(){
 	console.log("oqo");
-
+	start();
 });
 
 function start()
