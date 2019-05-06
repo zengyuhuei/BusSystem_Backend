@@ -170,7 +170,6 @@ function returnRoute(json)
 		}
 }
 
-var x = document.getElementById("inputRoute");
 var optionString = '';
 var i = 0;
 $.ajax({
