@@ -476,12 +476,14 @@ def add_or_revise_shift():
 def get_routelist(data):
     temp = []
     temp = copy.deepcopy(data)
+    print('k')
     for one in temp:
         one.pop('lat')
         one.pop('lng')
-    
+    print('m')
     routelist = []
     routename = temp[0].keys()
+    print('n')
     for name in routename:
         if name.isdigit():
             route = dict()
