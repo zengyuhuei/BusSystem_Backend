@@ -364,6 +364,7 @@ def add_shift():
     if response['status'] == "ok":
         return redirect(url_for('add_or_revise_shift', success = success, inserted_id = inserted_id))
     return redirect(url_for('add_or_revise_shift', error = error))
+    
 @app.route('/peoplenum_to_db', methods=['POST'])
 @login_required
 def peoplenum_to_db():
@@ -377,13 +378,13 @@ def peoplenum_to_db():
         #data["start_time"] = datetime.strptime(data["start_time"], '%H:%M')
         print(data['peoplenum'])
         model.buspeople_to_db(data)
-        success = "修改成功"
+        success = "上傳成功"
     except Exception as e:
         response["status"] = "error"
         response["error"] = str(e)
-        error = "修改失敗"
+        error = "上傳失敗"
         print(response)
-    
+
     if response['status'] == "ok":
         return redirect(url_for('bus_driver_people_number_return',success = success))
     else:

@@ -36,14 +36,6 @@ $(document).ready(function(){
 	});
 });
 
-
-$(document).on('click','#start',function(){
-});
-
-
-
-
-
 $(document).on('click','#end',function(){
 	console.log("ouo");
 
