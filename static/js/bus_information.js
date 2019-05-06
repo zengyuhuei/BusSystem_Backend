@@ -1,15 +1,22 @@
 $(document).ready(function(){
 	$(".yes").click(function() {
-		$("#map").toggle();
-		$("#bus").toggle();
+		$("#map").show();
+		$("#bus").show();
 		$route = $("#inputRoute").val();
 		load($route);
 		getTable();
 	})
 });
 function setTable(response)
-{
-	var i = 0;
+{ 
+	console.log("CC");
+	var tr_length = document.getElementById("busTable").rows.length;
+	console.log(tr_length);
+	for(var i=tr_length; i > 1; i--)
+	{
+		document.getElementById("busTable").deleteRow(i);
+	}
+	i = 0;
 	while(response[i]!=null)
 	{
 		$('[data-toggle="tooltip"]').tooltip();
@@ -28,19 +35,13 @@ function setTable(response)
 				'<td>'+(i)+"個班次"+'</td>'+
 				'<td>  </td>'+
 				'</tr>';
-				$("table").append(row);			
+				$("table").append(row);	
+	row = " ";
 }
 function getTable()
 {
 	$route = $("#inputRoute").val();
 	$day = $("#inputDate").val();
-	var tr_length = $('.table tbody tr').length; 
-	var Tbdata = {}; 
-	for(var i=tr_length; i > 1; i--)
-	{
-		var td_length = $('.table tr')[i].childElementCount; //當下td長度
-		$('.table tr:eq('+i+')').remove();
-	}
 	// For Success/Failure Message
   	// Check for white space in name for Success/Fail message
 	$.ajax({
@@ -55,12 +56,10 @@ function getTable()
 		}),
 		error: function (xhr) { },      // 錯誤後執行的函數
 		success: function (response) {
-			console.log(response);
 			setTable(response);
 		}// 成功後要執行的函數
 	});
 }
-
 
 function load(route)
 {	
@@ -107,8 +106,6 @@ function returnRoute(json)
 	var waypts = [];
 	var markers = [];
 
-	console.log(obj);
-	console.log(obj.length);
 		for (var i = 1; i < obj.length-1; i++) {
 			waypts.push({
 				location: obj[i],
@@ -156,7 +153,6 @@ function returnRoute(json)
 		function myFunction() {
 			map.setZoom(15);
 			map.setCenter(obj[obj.length/2]);
-			getTable();
 		}
 }
 
