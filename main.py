@@ -501,16 +501,21 @@ def busGps_to_db():
     success = None
     response = {"status":"ok"}
     data = dict()
-    upload(data)
+    ans = upload(data)
+    print(ans)
     try:
+        print("a")
         csv_data = dict()
+         print("b")
         csv_dir = 'csv/'+request.files['myfile'].filename
-        print(csv_dir)
+         print("c")
         with open(csv_dir) as csvfile:
+            print("d")
             reader = csv.DictReader(csvfile)
+            print("e")
             title = reader.fieldnames
-            csv_data = [{title[i]:row[title[i]] for i in range(5)}  for row in reader]
-			
+            csv_data = [{title[i]:row[title[i]] for i in range(6)}  for row in reader]
+		print("99")
         print(csv_data)
         for data in csv_data:
             data['lat'] = float(data['lat'])
