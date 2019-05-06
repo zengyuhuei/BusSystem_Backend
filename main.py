@@ -107,7 +107,7 @@ def login_required(f):
 def read_csv():
 
     route_list = []
-    with open('./csv/route.csv', newline='', encoding="gbk") as csvfile:
+    with open('./csv/route.csv', newline='') as csvfile:
       # 讀取 CSV 檔案內容
       rows = csv.reader(csvfile)
       # 以迴圈輸出每一列
@@ -476,7 +476,6 @@ def add_or_revise_shift():
 def get_routelist(data):
     temp = []
     temp = copy.deepcopy(data)
-    print(temp)
     for one in temp:
         one.pop('lat')
         one.pop('lng')
@@ -485,8 +484,7 @@ def get_routelist(data):
     for name in routename:
         if name.isdigit():
             route = dict()
-            temp.sort(key = lambda temp:int(temp[name]))
-            print(temp)    
+            temp.sort(key = lambda temp:int(temp[name]))  
             for one in temp:
                 route['bus_route'] = name
                 if(one[name] != '0'):
@@ -506,19 +504,12 @@ def busGps_to_db():
     ans = upload(data)
     print(ans)
     try:
-        print("a")
         csv_data = dict()
-        print("b")
         csv_dir = 'csv/'+request.files['myfile'].filename
-        print("c")
         with open(csv_dir) as csvfile:
-            print("d")
             reader = csv.DictReader(csvfile)
-            print("e")
             title = reader.fieldnames
-            print('f')
             csv_data = [{title[i]:row[title[i]] for i in range(6)}  for row in reader]
-        print('i')
         for data in csv_data:
             data['lat'] = float(data['lat'])
             data['lng'] = float(data['lng'])
