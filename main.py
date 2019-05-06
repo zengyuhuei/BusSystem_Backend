@@ -505,6 +505,7 @@ def busGps_to_db():
     try:
         csv_data = dict()
         csv_dir = 'csv/'+request.files['myfile'].filename
+        print(csv_dir)
         with open(csv_dir) as csvfile:
             reader = csv.DictReader(csvfile)
             title = reader.fieldnames
@@ -526,6 +527,7 @@ def busGps_to_db():
         for data in csv_data:
             for name in routename:
                 data.pop(name)
+
         print(csv_data)
         print('/')
         print(routelist)
