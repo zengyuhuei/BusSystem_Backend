@@ -481,6 +481,7 @@ def get_routelist(data):
         one.pop('lng')
     routelist = []
     routename = temp[0].keys()
+    route_n_temp = routename[0]
     for name in routename:
         if name.isdigit():
             route = dict()
@@ -488,8 +489,7 @@ def get_routelist(data):
             for one in temp:
                 route['bus_route'] = name
                 if(one[name] != '0'):
-                    print(one['route'])
-                    route[one[name]] = one['route']
+                    route[one[name]] = one[route_n_temp]
             routelist.append(route)
     print(len(routelist))
     return routelist
