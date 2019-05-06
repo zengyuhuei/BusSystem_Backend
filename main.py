@@ -520,10 +520,10 @@ def busGps_to_db():
         for data in csv_data:
             data['lat'] = float(data['lat'])
             data['lng'] = float(data['lng'])
-        
+        print('j')
         routelist = dict()
         routelist = get_routelist(csv_data)
-		
+		print(routelist)
         csvkey = csv_data[0].keys()
         routename = []
         for name in csvkey:
