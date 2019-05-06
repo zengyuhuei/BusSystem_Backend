@@ -37,9 +37,10 @@ $(document).ready(function(){
 });
 
 $(document).on('click','#start',function(){
-	start();
+	console.log("oqo");
 
 });
+
 function start()
 {
 	console.log("ouo");
