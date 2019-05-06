@@ -233,7 +233,6 @@ class Model:
         position = db["shift"].update_one({"driver" : driver}, {"$set": { "lat": lat, "lng": lng }}) 
         print(position)
         print("hi")
-        position = db["shift"].update_one({"driver" : driver}, {"$set":  {"lat": lat, "lng": lng}})
         return position
 
     #get busNumber from db    
