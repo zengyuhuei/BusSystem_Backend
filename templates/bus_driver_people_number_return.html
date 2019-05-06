@@ -66,11 +66,11 @@
 					</div>
 				</div>
 				<div class="col-xs-12 col-md-12 col-lg-6 mt-3 text-center">
-					<button type="submit" class="btn btn-outline-secondary btn-lg save"  onclick='display()'>送出</button>
+					<button type="button" class="btn btn-outline-secondary btn-lg save"  onclick='display_peoplenum()'>送出</button>
 				</div>
 				
 				<div class="col-xs-12 col-md-12 col-lg-6 mt-3 text-center">
-					<button type="button" class="btn btn-secondary btn-lg" onclick='startaaa()'>到站按鈕</button>
+					<button type="button" class="btn btn-secondary btn-lg" onclick='report()'>到站按鈕</button>
 				</div>
 
 				<div class = "row my-4">
@@ -127,7 +127,7 @@
 							data: "json",
 							dataType: "json",
 							contentType : 'application/json',
-							url: "http://127.0.0.1:3000/peoplenum_to_db",
+							url: "http://140.121.198.84:/peoplenum_to_db",
 							data:JSON.stringify({
 								"driver":localStorage.account,
 								"peoplenum": localStorage.getItem('peoplenum'),

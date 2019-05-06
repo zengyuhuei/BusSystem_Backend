@@ -169,7 +169,7 @@ class Model:
         client = pymongo.MongoClient('mongodb://user:870215@140.121.198.84:27017/')
         db = client["KeelungBusSystem"]
         print('its db')
-        print(data_coor)
+        print(data_route)
         coor_result = db['busRoad_coor'].insert_many(data_coor)
         coor_result = db['route'].insert_many(data_route)
         #print(coor_result)
