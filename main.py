@@ -480,7 +480,7 @@ def get_routelist(data):
         one.pop('lat')
         one.pop('lng')
     routelist = []
-    routename = temp[0].keys()
+    routename = list(temp[0].keys())
     route_n_temp = routename[0]
     for name in routename:
         if name.isdigit():
