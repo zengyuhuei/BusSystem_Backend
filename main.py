@@ -267,7 +267,7 @@ def get_info():
         print(str(e))
     return str(response)
 
-@app.route('/getDriver', methods=['GET'])
+@app.route('/getDriver', methods=['POST'])
 @login_required
 def get_driver():
     response = {"status":"ok"}
@@ -278,7 +278,7 @@ def get_driver():
     except Exception as e:
         response["status"] = "error"
         print(str(e))
-    return str(response)
+    return jsonify(response)
 
 @app.route('/getShift', methods=['POST'])
 @login_required
