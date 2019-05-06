@@ -490,10 +490,10 @@ def get_routelist(data):
             temp.sort(key = lambda temp:int(temp[name]))    
             for one in temp:
                 route['bus_route'] = name
+                print(route['bus_route'])
                 if(one[name] != '0'):
                     print(one['route'])
                     route[one[name]] = one['route']
-            print(len(route))
             routelist.append(route)
     print(len(routelist))
     return routelist
