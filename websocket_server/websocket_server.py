@@ -98,7 +98,7 @@ class WebsocketServer(ThreadingMixIn, TCPServer, API):
 
     Args:
         port(int): Port to bind to
-        host(str): Hostname or IP to listen for connections. By default 127.0.0.1
+        host(str): Hostname or IP to listen for connections. By default 140.121.198.84
             is being used. To accept connections from any client, you should use
             0.0.0.0.
         loglevel: Logging level from logging module to use for logging. By default
