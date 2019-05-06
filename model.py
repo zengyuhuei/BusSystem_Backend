@@ -76,6 +76,7 @@ class Model:
         db = client["KeelungBusSystem"]
         info['_id'] = ObjectId(data['_id'])
         print(info)
+        print("上面是info")
         del data['_id']
         print(data)
         result = db['shift'].update_one(info, { "$set": data })
@@ -111,6 +112,7 @@ class Model:
         client = pymongo.MongoClient('mongodb://'+self._user+':'+self._password+'@140.121.198.84:27017/')
         db = client["KeelungBusSystem"]
         print(data)
+        print("ouo")
         result = db['shift'].insert_one(data)
         print(result.inserted_id)
 
@@ -231,4 +233,7 @@ class Model:
         position = db["shift"].update_one({"driver" : driver}, {"$set": { "lat": lat, "lng": lng }}) 
         print(position)
         print("hi")
+        result = db["shift"].update_one({"driver" : driver}, {"$set":  {"lat": lat, "lng": lng}})
         return position
+
+        
