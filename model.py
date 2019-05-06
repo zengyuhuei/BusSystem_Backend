@@ -227,7 +227,8 @@ class Model:
         print(driver_name)
         driver = driver_name["name"]
         print(driver)
-        position = db["shift"].find_one({"driver" : driver}, {"_id" : 0, "driver": 1, "start_time" : 1})
+        #時間還沒都進去 不知道格式 **
+        position = db["shift"].update_one({"driver" : driver}, {"$set": { "lat": lat, "lng": lng }}) 
         print(position)
         print("hi")
         return position
