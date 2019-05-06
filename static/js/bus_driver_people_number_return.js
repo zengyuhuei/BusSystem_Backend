@@ -61,7 +61,7 @@ $.ajax({
 	data: "json",
 	dataType: "json",
 	contentType : 'application/json',
-	url: "http://127.0.0.1:3000/setbusGPS",
+	url: "http://140.121.198.84:3000/setbusGPS",
 	data:JSON.stringify({
 		"email": localStorage.account,
 		"start_time": "datetime.datetime(1900, 1, 1, 7, 0)",

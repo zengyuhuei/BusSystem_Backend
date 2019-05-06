@@ -48,7 +48,7 @@ function getTable()
 		data : 'json',
 		dataType : 'json',
 		contentType : 'application/json',
-		url: "http://127.0.0.1:3000/getShift",
+		url: "http://140.121.198.84:3000/getShift",
 		data:JSON.stringify({
 			"route":$route,
 			"day": $day
@@ -69,7 +69,7 @@ function load(route)
 		data: 'json',
 		dataType:'json',
 		contentType : 'application/json',
-		url: "http://127.0.0.1:3000/getRoute",
+		url: "http://140.121.198.84:3000/getRoute",
 		data:JSON.stringify({
 			"route": route
 		}),
@@ -167,7 +167,7 @@ $.ajax({
 	type: 'POST',
 	dataType : 'json',
 	contentType : 'application/json',
-	url: "http://127.0.0.1:3000/getbusNumber",
+	url: "http://140.121.198.84:3000/getbusNumber",
 	data:JSON.stringify({
 		
 	}),
