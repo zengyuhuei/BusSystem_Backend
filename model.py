@@ -168,6 +168,8 @@ class Model:
     def busGps_to_db(self, data_coor,data_route):
         client = pymongo.MongoClient('mongodb://user:870215@140.121.198.84:27017/')
         db = client["KeelungBusSystem"]
+        db['busRoad_coor'].drop()
+        db['route'].drop()
         print('its db')
         print(data_route)
         coor_result = db['busRoad_coor'].insert_many(data_coor)

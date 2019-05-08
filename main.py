@@ -508,7 +508,7 @@ def busGps_to_db():
         with open(csv_dir) as csvfile:
             reader = csv.DictReader(csvfile)
             title = reader.fieldnames
-            csv_data = [{title[i]:row[title[i]] for i in range(5)}  for row in reader]
+            csv_data = [{title[i]:row[title[i]] for i in range(len(title))}  for row in reader]
 			
         print(csv_data)
         for data in csv_data:
