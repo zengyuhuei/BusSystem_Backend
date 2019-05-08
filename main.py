@@ -107,7 +107,7 @@ def login_required(f):
 def read_csv():
 
     route_list = []
-    with open('./templates/route.csv', newline='') as csvfile:
+    with open('./csv/route.csv', newline='', encoding="utf-8") as csvfile:
       # 讀取 CSV 檔案內容
       rows = csv.reader(csvfile)
       # 以迴圈輸出每一列
@@ -479,19 +479,19 @@ def get_routelist(data):
     for one in temp:
         one.pop('lat')
         one.pop('lng')
-    
     routelist = []
-    routename = temp[0].keys()
+    routename = list(temp[0].keys())
+    route_n_temp = routename[0]
     for name in routename:
         if name.isdigit():
             route = dict()
-            temp.sort(key = lambda temp:int(temp[name]))    
+            temp.sort(key = lambda temp:int(temp[name]))  
             for one in temp:
                 route['bus_route'] = name
                 if(one[name] != '0'):
-                    route[one[name]] = one['route']
+                    route[one[name]] = one[route_n_temp]
             routelist.append(route)
-
+    print(len(routelist))
     return routelist
 
 @app.route('/busGps_to_db',methods=['POST'])
@@ -501,10 +501,12 @@ def busGps_to_db():
     success = None
     response = {"status":"ok"}
     data = dict()
-    upload(data)
+    ans = upload(data)
+    print(ans)
     try:
         csv_data = dict()
         csv_dir = 'csv/'+request.files['myfile'].filename
+
         with open(csv_dir) as csvfile:
             reader = csv.DictReader(csvfile)
             title = reader.fieldnames
@@ -514,19 +516,23 @@ def busGps_to_db():
         for data in csv_data:
             data['lat'] = float(data['lat'])
             data['lng'] = float(data['lng'])
-        
+        print('j')
         routelist = dict()
         routelist = get_routelist(csv_data)
-		
+        print('k')
         csvkey = csv_data[0].keys()
         routename = []
         for name in csvkey:
             if name.isdigit():
                 routename.append(name)
+        print('l')
         for data in csv_data:
             for name in routename:
                 data.pop(name)
-                
+        print('m')
+        print(csv_data)
+        print('/')
+        print(routelist)
         model.busGps_to_db(csv_data,routelist)
 
         success = "上傳成功"
