@@ -223,6 +223,12 @@ class Model:
         name = data["email"]
         lat = data["lat"]
         lng = data["lng"]
+        if lat is " ":
+            flat = lat
+            flng = lng
+        else:
+            flat = float(lat)
+            flng = float(lng)
         print(time)
         print(name)
         print(lat)
@@ -232,7 +238,7 @@ class Model:
         driver = driver_name["name"]
         print(driver)
         #時間還沒都進去 不知道格式 **
-        position = db["shift"].update_one({"driver" : driver}, {"$set": { "lat": lat, "lng": lng }}) 
+        position = db["shift"].update_one({"driver" : driver}, {"$set": { "lat": flat, "lng": flng }}) 
         print(position)
         print("hi")
         return position
