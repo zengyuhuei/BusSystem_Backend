@@ -588,7 +588,14 @@ def Personal_basic_information():
 @app.route('/revise_path', methods=['GET'])
 @login_required
 def revise_path():
-    return render_template('revise_path.html', methods=['GET'])
+    success = None
+    error = None
+    try:
+        success = request.args.get('success')
+        error = request.args.get('error')
+    except:
+        pass
+    return render_template('revise_path.html', success = success, error = error, methods=['GET'])
 
 @app.route('/timely_bus_information', methods=['GET'])
 @login_required
