@@ -168,6 +168,8 @@ class Model:
     def busGps_to_db(self, data_coor,data_route):
         client = pymongo.MongoClient('mongodb://user:870215@140.121.198.84:27017/')
         db = client["KeelungBusSystem"]
+        db['busRoad_coor'].drop()
+        db['route'].drop()
         print('its db')
         print(data_route)
         coor_result = db['busRoad_coor'].insert_many(data_coor)
@@ -221,6 +223,12 @@ class Model:
         name = data["email"]
         lat = data["lat"]
         lng = data["lng"]
+        if lat is " ":
+            flat = lat
+            flng = lng
+        else:
+            flat = float(lat)
+            flng = float(lng)
         print(time)
         print(name)
         print(lat)
@@ -230,7 +238,7 @@ class Model:
         driver = driver_name["name"]
         print(driver)
         #時間還沒都進去 不知道格式 **
-        position = db["shift"].update_one({"driver" : driver}, {"$set": { "lat": lat, "lng": lng }}) 
+        position = db["shift"].update_one({"driver" : driver}, {"$set": { "lat": flat, "lng": flng }}) 
         print(position)
         print("hi")
         return position
