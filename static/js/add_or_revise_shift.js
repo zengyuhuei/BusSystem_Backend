@@ -31,7 +31,7 @@ function addTable(driver,time)
 			type: 'POST',
 			data : 'json',
 			contentType : 'application/json',
-			url: "http://140.121.198.84:3000/addShift",
+			url: "http://127.0.0.1:3000/addShift",
 			data:JSON.stringify({
 				"route":$route,
 				"day": $day,
@@ -59,7 +59,7 @@ function delTable(id)
 			type: 'POST',
 			data : 'json',
 			contentType : 'application/json',
-			url: "http://140.121.198.84:3000/delShift",
+			url: "http://127.0.0.1:3000/delShift",
 			data:JSON.stringify({
 				"_id" : id
 			}),
@@ -83,7 +83,7 @@ function modifyTable(id,driver,time)
 		type: 'POST',
 		data: 'json',
 		contentType : 'application/json',
-		url: "http://140.121.198.84:3000/modifyShift",
+		url: "http://127.0.0.1:3000/modifyShift",
 		data:JSON.stringify({
 			'_id' : id,
 			'driver' : driver,
@@ -122,7 +122,7 @@ $(document).ready(function(){
 			type: 'POST',
 			dataType : 'json',
 			contentType : 'application/json',
-			url: "http://140.121.198.84:3000/getShift",
+			url: "http://127.0.0.1:3000/getShift",
 			data:JSON.stringify({
 				"route":$route,
 				"day": $day
@@ -146,7 +146,7 @@ $(document).ready(function(){
 			data:'json',
 			dataType : 'json',
 			contentType : 'application/json',
-			url: "http://140.121.198.84:3000/getDriver",
+			url: "http://127.0.0.1:3000/getDriver",
 			data:JSON.stringify({
 				"route":$route,
 				"day": $day
@@ -222,7 +222,7 @@ $(document).ready(function(){
 			type: 'POST',
 			dataType : 'json',
 			contentType : 'application/json',
-			url: "http://140.121.198.84:3000/getDriver",
+			url: "http://127.0.0.1:3000/getDriver",
 			data:JSON.stringify({
 				"route":$route,
 				"day": $day
@@ -260,7 +260,7 @@ $.ajax({
 	type: 'POST',
 	dataType : 'json',
 	contentType : 'application/json',
-	url: "http://140.121.198.84:3000/getbusNumber",
+	url: "http://127.0.0.1:3000/getbusNumber",
 	data:JSON.stringify({
 		
 	}),

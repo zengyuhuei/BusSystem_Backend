@@ -3,7 +3,7 @@ function upload_file() {
     var formData = new FormData($('#customFile')[0]); 
     $.ajax({
         type: 'POST',
-        url: "http://140.121.198.84:3000/upload_file",
+        url: "http://127.0.0.1:3000/upload_file",
         data:formData,
         cache:false,
         processData:false,

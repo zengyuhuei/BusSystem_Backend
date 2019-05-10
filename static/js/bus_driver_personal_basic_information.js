@@ -25,7 +25,7 @@ function display(){
 
 		$.ajax({
 				type: 'POST',
-				url: "http://140.121.198.84:3000/add_info_to_db",
+				url: "http://127.0.0.1:3000/add_info_to_db",
 				dataType: 'json',
 				data: JSON.stringify({
 						'name': InputName.value,
@@ -63,7 +63,7 @@ function display(){
 function load(){
 	$.ajax({
 			type: 'GET',
-			url: "http://140.121.198.84:3000/getInfo?",
+			url: "http://127.0.0.1:3000/getInfo?",
 			dataType: 'json',
 			success: function(data) {
 				console.log(data);
