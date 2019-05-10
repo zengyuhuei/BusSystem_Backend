@@ -14,8 +14,9 @@
 
 	  <link href="{{ url_for('static', filename='css/main.css') }}" rel="stylesheet">
 	  <link href="{{ url_for('static', filename='js/websocket_open.js') }}" rel="stylesheet">
-	  <script src = "{{url_for('static', filename='js/websocket_open.js')}}"></script>
-	  <script src="{{url_for('static', filename='js/add_or_revise_shift.js')}}"></script>
+		<script src = "{{url_for('static', filename='js/websocket_open.js')}}"></script>
+		
+	  <script async src="{{url_for('static', filename='js/add_or_revise_shift.js')}}" onload ="start()"></script>
 	  
 	  <link href="{{ url_for('static', filename='css/add_or_revise_shift.css') }}" rel="stylesheet">
 	  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round|Open+Sans">

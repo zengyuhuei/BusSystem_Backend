@@ -511,7 +511,9 @@ def busGps_to_db():
         with open(csv_dir) as csvfile:
             reader = csv.DictReader(csvfile)
             title = reader.fieldnames
-            csv_data = [{title[i]:row[title[i]] for i in range(6)}  for row in reader]
+            csv_data = [{title[i]:row[title[i]] for i in range(len(title))}  for row in reader]
+			
+        print(csv_data)
         for data in csv_data:
             data['lat'] = float(data['lat'])
             data['lng'] = float(data['lng'])
@@ -587,7 +589,14 @@ def Personal_basic_information():
 @app.route('/revise_path', methods=['GET'])
 @login_required
 def revise_path():
-    return render_template('revise_path.html', methods=['GET'])
+    success = None
+    error = None
+    try:
+        success = request.args.get('success')
+        error = request.args.get('error')
+    except:
+        pass
+    return render_template('revise_path.html', success = success, error = error, methods=['GET'])
 
 @app.route('/timely_bus_information', methods=['GET'])
 @login_required

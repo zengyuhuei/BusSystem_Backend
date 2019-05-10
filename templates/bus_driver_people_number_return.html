@@ -81,10 +81,10 @@
 				</div>
 				<div class = "row">
 					<div class="col-6 col-xs-3 col-md-3 col-lg-3 mt-3 text-center">
-						<button type="button" class="btn btn-primary btn-lg" id="start" onclick="start()">開始</button>
+						<button type="button" class="btn btn-primary btn-lg" onclick='start()'>開始</button>
 					</div>
 					<div class="col-6 col-xs-3 col-md-3 col-lg-3 mt-3 text-center">
-						<button type="button" class="btn btn-danger btn-lg" id="end">結束</button>
+						<button type="button" class="btn btn-danger btn-lg" onclick='end()'>結束</button>
 					</div>
 				</div>
 			</form>
@@ -180,6 +180,30 @@
 						}
 					});
 				}
+
+				function end()
+    			{
+     				console.log("owo");
+     				$.ajax({
+     					type: "POST",
+						data: "json",
+						dataType: "json",
+						contentType : 'application/json',
+						url: "http://140.121.198.84:3000/setbusGPS",
+						data:JSON.stringify({
+						"email": localStorage.account,
+						"start_time": "datetime.datetime(1900, 1, 1, 7, 0)",
+						"lat": " ",
+						"lng": " "
+						}),
+						success: function(response) {
+						console.log(response);
+						},
+						error: function(xhr, type) {
+						console.log("hehe");
+						}
+					});
+    			}
 					function initMap() {
 						navigator.geolocation.watchPosition((position) => {
 								console.log(position.coords);
