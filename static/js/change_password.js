@@ -2,19 +2,14 @@ $(document).ready(function(){
 	$(document).on('click','#btnSave',function(){
 		if($('#pwd1').val()==$('#pwd2').val())
 		{
+			var xhr = new XMLHttpRequest();
 			$password = $("#uname1").val();
 			$new_password = $("#pwd1").val();
 			//window.alert($("#uname1").val());
-			console.log(localStorage.getItem("account"));
-			console.log($password);
-			console.log($new_password);
 			account=localStorage.getItem("account");
-			console.log(account);
 			$.ajax({	
 				type: 'POST',
 				data: 'json',
-				//dataType: 'json',
-				//dataType: 'json',
 				contentType : 'application/json',
 				url: "http://127.0.0.1:3000/changePassword",
 				data:JSON.stringify({
@@ -22,6 +17,9 @@ $(document).ready(function(){
 					'password' : $password,
 					'new_password' : $new_password
 				}),
+				xhr: function() {
+					return xhr;
+				 },
 				error: function (jqXHR, exception) {
 					var msg = '';
 					if (jqXHR.status === 0) {
@@ -40,8 +38,11 @@ $(document).ready(function(){
 						msg = 'Uncaught Error.\n' + jqXHR.responseText;
 					}
 					console.log(msg);
+					alert("修改失敗");
 				},// 錯誤後執行的函數
 				success: function (response) {
+					alert("修改成功");
+					window.location.href = xhr.responseURL;
 					//window.location.href = xhr.responseURL;
 				}// 成功後要執行的函數
 			});

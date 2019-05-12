@@ -393,7 +393,6 @@ def peoplenum_to_db():
 @app.route('/changePassword', methods=['POST'])
 @login_required
 def changePassword():
-    print("aaaaaaaaaaaaa")
     error = None
     success = None
     response = {"status":"ok"}
@@ -407,7 +406,7 @@ def changePassword():
         response["error"] = str(e)
         error = "修改失敗"
         
-    
+    print(response["status"])
     #return str(response)
     if identity == 0:
         if response['status'] == "ok":
