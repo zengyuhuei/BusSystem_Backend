@@ -174,7 +174,7 @@ class Model:
 
     #add the bus stop coordinate
     def busGps_to_db(self, data_coor,data_route):
-        client = pymongo.MongoClient('mongodb://user:870215@140.121.198.84:27017/')
+        client = pymongo.MongoClient('mongodb://'+self._user+':'+self._password+'@140.121.198.84:27017/')
         db = client["KeelungBusSystem"]
         db['busRoad_coor'].drop()
         db['route'].drop()
@@ -189,7 +189,7 @@ class Model:
     def get_route_from_db(self, bus_route):
         position = list()
         print("hi welcome")
-        client = pymongo.MongoClient('mongodb://user:870215@140.121.198.84:27017/')
+        client = pymongo.MongoClient('mongodb://'+self._user+':'+self._password+'@140.121.198.84:27017/')
         db = client['KeelungBusSystem']
         print(bus_route)
         route_name = bus_route["route"]
@@ -209,7 +209,7 @@ class Model:
     #get busGPS from db    
     def get_busGPS_from_db(self, bus_route):
         position = list()
-        client = pymongo.MongoClient('mongodb://user:870215@140.121.198.84:27017/')
+        client = pymongo.MongoClient('mongodb://'+self._user+':'+self._password+'@140.121.198.84:27017/')
         db = client['KeelungBusSystem']
         mycol = db['shift']
         print(bus_route)
@@ -224,7 +224,7 @@ class Model:
 
     #set busGPS to db    
     def set_busGPS_into_db(self, data):
-        client = pymongo.MongoClient('mongodb://user:870215@140.121.198.84:27017/')
+        client = pymongo.MongoClient('mongodb://'+self._user+':'+self._password+'@140.121.198.84:27017/')
         db = client['KeelungBusSystem']
         #把時間姓名進去找 符合存進去 //判斷是否符合
         time = data["start_time"]
@@ -254,7 +254,7 @@ class Model:
     #get busNumber from db    
     def get_busNumber_from_db(self, data):
         print("inside busNumber")
-        client = pymongo.MongoClient('mongodb://user:870215@140.121.198.84:27017/')
+        client = pymongo.MongoClient('mongodb://'+self._user+':'+self._password+'@140.121.198.84:27017/')
         db = client['KeelungBusSystem']
         result = list(db["route"].find({},{"_id" : 0, "bus_route": 1}))
         
@@ -263,7 +263,7 @@ class Model:
         return json.dumps(result)
 		
     def buspeople_to_db(self, data):
-        client = pymongo.MongoClient('mongodb://user:870215@140.121.198.84:27017/')
+        client = pymongo.MongoClient('mongodb://'+self._user+':'+self._password+'@140.121.198.84:27017/')
         db = client["KeelungBusSystem"]
         print('its db')
         print(data)

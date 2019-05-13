@@ -155,7 +155,7 @@ def login():
             session['logged_in'] = True
             account = result['account']
             session['store'] = account
-            return render_template('driver_index.html', account = account)
+            return redirect(url_for('driver_index', account = account))
     return render_template('login.html',error = error)
     
  
