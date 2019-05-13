@@ -31,9 +31,8 @@ function loaddata(js)
 		employee.value = js._id;
 		account.value = js.account;
 		address.value = js.address;
-		//myfile.value = js.picture;
 		console.log(js.picture);
-		$('#blah').attr('src', "{{url_for（'picture'，filename ='IMG_8003.JPG'）}}");
+		$('#blah').attr('src', '/static/picture/'+js.picture);
 		$('#blah').attr("width", "200");
 		$('#blah').attr("height", "400");
 }
