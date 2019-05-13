@@ -51,6 +51,7 @@ $(document).ready(function(){
 	$(".fix").click(function() {
 		$(".yes").show();
 		$(".fix").hide();
+		$('.custom-file').show();
 		$('#InputPhone1').prop('readonly', false);
 		$('#address').prop('readonly', false);
 		$('#myfile').prop('disabled', false);
