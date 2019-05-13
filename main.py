@@ -202,8 +202,12 @@ def add_driver_to_db():
         acc_data['identity'] = 1
         print(acc_data)
         # 把 DICT 加到資料庫
-        model.add_driver_to_db(data,acc_data)
-        success = "新增成功"
+        result = model.add_driver_to_db(data,acc_data)
+        if result == False:
+            response["status"] = "error"
+            error = "帳號重複"
+        else:
+            success = "新增成功"
     except Exception as e:
         response["status"] = "error"
         response["error"] = str(e)
@@ -286,7 +290,6 @@ def get_shift():
     response = {"status":"ok"}
     try:
         data = request.get_json()
-        print("SS")
         print(request)
         response = model.get_shift_from_db(data)
     except Exception as e:
@@ -391,16 +394,19 @@ def peoplenum_to_db():
         return redirect(url_for('bus_driver_people_number_return',error = error))
 
 @app.route('/changePassword', methods=['POST'])
-@login_required
 def changePassword():
     error = None
     success = None
     response = {"status":"ok"}
     try:
         data = request.get_json()
-        identity = model.change_password_to_db(data)
-        success = "修改成功"
-        print(identity)
+        result = model.change_password_to_db(data)
+        if result["exist"] == False:
+            response["status"] = "error"
+            error = "舊密碼輸入錯誤"
+        else: 
+            success = "修改成功"
+
     except Exception as e:
         response["status"] = "error"
         response["error"] = str(e)
@@ -408,12 +414,12 @@ def changePassword():
         
     print(response["status"])
     #return str(response)
-    if identity == 0:
+    if result["identity"] == 0:
         if response['status'] == "ok":
             return redirect(url_for('change_password',success = success))
         else:
             return redirect(url_for('change_password',error = error))
-    elif identity == 1:
+    elif result["identity"] == 1:
         if response['status'] == "ok":
             return redirect(url_for('bus_driver_change_password',success = success))
         else:
@@ -553,7 +559,6 @@ def bus_information():
     return render_template('bus_information.html')
 
 @app.route('/change_password', methods=['GET'])
-@login_required
 def change_password():
     return render_template('change_password.html', methods=['GET'])
 

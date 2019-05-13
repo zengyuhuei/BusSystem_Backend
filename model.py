@@ -17,11 +17,12 @@ class Model:
     def add_driver_to_db(self, data, acc_data):
         client = pymongo.MongoClient('mongodb://'+self._user+':'+self._password+'@140.121.198.84:27017/')
         db = client["KeelungBusSystem"]
-        info_result = db['info'].insert_one(data)
-        account_result = db['auth'].insert_one(acc_data)
-        print(info_result)
-        print(account_result)
-        return info_result
+        print(db["auth"].find_one({"account" : acc_data["account"]}))
+        if db["auth"].find_one({"account" : acc_data["account"]}) == None:
+            info_result = db['info'].insert_one(data)
+            account_result = db['auth'].insert_one(acc_data)
+            return True
+        return False
 
      # modify info
     def modify_info_to_db(self, data):
@@ -43,6 +44,7 @@ class Model:
     def change_password_to_db(self, data):
         email = dict()
         new_password = dict()
+        result = dict()
         client = pymongo.MongoClient('mongodb://'+self._user+':'+self._password+'@140.121.198.84:27017/')
         db = client["KeelungBusSystem"]
         email['account'] = data['account']
@@ -53,10 +55,16 @@ class Model:
         del data['password']
         print(data)
         new_password['password'] = data['new_password']
-        db['auth'].update_one(email , { "$set": new_password })
-        result =  db["auth"].find_one({"account" : account})
-        print(result['identity'])
-        return result['identity']
+        is_exist = db['auth'].update_one(email , { "$set": new_password })
+        if is_exist.matched_count == 0:
+            result["exist"] = False
+        else:
+            result["exist"] = True
+        result['identity'] =  db["auth"].find_one({"account" : account})['identity']
+        print(result)
+        return result
+        
+            
     
     #get info from db    
     def get_info_from_db(self, email):
