@@ -39,7 +39,7 @@ CORS(app)
 model = Model()
 app.secret_key = "my precious"
 #上傳文件儲存路徑
-UPLOAD_FOLDER = 'picture'
+UPLOAD_FOLDER = './static/picture'
 UPLOAD_FOLDER_CSV = 'csv'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['UPLOAD_FOLDER_CSV'] = UPLOAD_FOLDER_CSV
