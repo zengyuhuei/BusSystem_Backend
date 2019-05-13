@@ -647,6 +647,7 @@ def set_busGPS():
     response = {"status":"ok"}
     try:
         getdata = request.get_json() #拿時間&姓名
+        getdata["start_time"] = datetime.strptime(getdata["start_time"], '%H:%M')
         print("hahaha")
         print(getdata)
         response = model.set_busGPS_into_db(getdata)

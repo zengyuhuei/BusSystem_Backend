@@ -246,9 +246,9 @@ class Model:
         driver = driver_name["name"]
         print(driver)
         #時間還沒都進去 不知道格式 **
-        position = db["shift"].update_one({"driver" : driver}, {"$set": { "lat": flat, "lng": flng }}) 
-        print(position)
+        db["shift"].update_one({"driver" : "ting"}, {"$set": { "lat": flat, "lng": flng }}) 
         print("hi")
+        position = "good"
         return position
 
     #get busNumber from db    

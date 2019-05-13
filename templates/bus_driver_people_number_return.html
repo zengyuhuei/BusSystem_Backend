@@ -93,6 +93,7 @@
 			<script>
 				var lat, lng;
 				var peoplenum = 0;
+				var myVar;
 				var date = new Date(); //日期对象 
 				var now = ""; 
 				var i = 1;
@@ -118,15 +119,12 @@
 					function start()
 				{
 					console.log("ouo");
-					/*var date = new Date(); //日期对象 
-					var now = ""; 
-					now = date.getFullYear()+"-"; //读英文就行了 
-					now = now + (date.getMonth()+1)+"-"; //取月的时候取的是当前月-1如果想取当前月+1就可以了 
-					now = now + date.getDate()+"T"; 
-					now = now + date.getHours()+":"; 
-					now = now + date.getMinutes()+":00.000Z";
+					var date2 = new Date(); //日期对象 
+					var now2 = "";
+					now2 = now2 + date2.getHours()+":"; 
+					now2 = now2 + date2.getMinutes();
 
-					console.log(now);
+					console.log(now2);
 					//setInterval("document.getElementById('datetime').innerHTML=new Date().toLocaleString();", 1000);*/
 					$.ajax({
 						type: "POST",
@@ -136,7 +134,7 @@
 						url: "http://127.0.0.1:3000/setbusGPS",
 						data:JSON.stringify({
 							"email": localStorage.account,
-							"start_time": "datetime.datetime(1900, 1, 1, 7, 0)",
+							"start_time": "7:00",
 							"lat": "25.12345",
 							"lng": "121.12345"
 						}),
@@ -147,7 +145,7 @@
 							console.log("hehehe");
 						}
 					});
-					setTimeout("start()",3000); 
+					myVar = setTimeout("start()",3000); 
 				}
 
 				function display_peoplenum(e)
@@ -183,16 +181,17 @@
 
 				function end()
     			{
+						clearTimeout(myVar);
      				console.log("owo");
      				$.ajax({
      					type: "POST",
 						data: "json",
 						dataType: "json",
 						contentType : 'application/json',
-						url: "http://140.121.198.84:3000/setbusGPS",
+						url: "http://127.0.0.1:3000/setbusGPS",
 						data:JSON.stringify({
 						"email": localStorage.account,
-						"start_time": "datetime.datetime(1900, 1, 1, 7, 0)",
+						"start_time": "7:00",
 						"lat": " ",
 						"lng": " "
 						}),
