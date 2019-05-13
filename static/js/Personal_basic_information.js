@@ -33,7 +33,7 @@ function loaddata(js)
 		address.value = js.address;
 		console.log(js.picture);
 		$('#blah').attr('src', '/static/picture/'+js.picture);
-		$('#blah').attr("width", "200");
+		$('#blah').attr("width", "300");
 		$('#blah').attr("height", "400");
 }
 
