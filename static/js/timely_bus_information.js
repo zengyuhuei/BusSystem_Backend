@@ -27,7 +27,12 @@ $(document).ready(function(){
 
 	// 放置路線圖層
 	directionsDisplay.setMap(map);
-	intervalControl = setInterval(busInformation(),2000);
+	intervalControl = setInterval(function(){
+		let route = $("#inputState").val();
+		if(route){
+			busGPS(route);
+		}
+	},5000);
 });
 
 function load(route){
@@ -158,7 +163,10 @@ function returnRoute(json)
 function busInformation()
 {
     for(var j = 0; j < marker1.length ; j++){
-        marker1[i].setMap(null);
+		if(marker1[i]){
+			marker1[i].setMap(null);
+		}
+        
 	}
 	marker1 = [];
 	//公車資訊
