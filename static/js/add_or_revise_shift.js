@@ -102,8 +102,7 @@ function modifyTable(id,driver,time)
 }
 function setid(id)
 {
-	var x = document.getElementById("busTable")
-	x.find("tr:nth-child(end)").find("td:nth-child(1)").text() = id;
+	$(".busTable").find("tr:nth-child(end)").find("td:nth-child(1)").text();
 }
 $(document).ready(function(){
 	$(".yes").click(function() {
@@ -156,7 +155,7 @@ $(document).ready(function(){
 				success: function (response) {
 				while(response[i]!=null)
 				{
-					optionString+='<Option>'+response[i]+'</Option>';
+					optionString+='<Option style = "height:80px">'+response[i]+'</Option>';
 					i++;
 				}
 				var index = $("table tbody tr:last-child").index();
@@ -267,7 +266,7 @@ function start()
 			
 		}),
 			error: function (xhr) { 
-				console.log("CCCC");},      // 錯誤後執行的函數
+			},      // 錯誤後執行的函數
 			success: function (response) {
 			console.log("下拉式選單: "+response);
 			while(response[i]!=null)
@@ -280,6 +279,7 @@ function start()
 			//x.html(optionString);
 		}// 成功後要執行的函數
 	});	
+	websocket_init();
 }
 
 

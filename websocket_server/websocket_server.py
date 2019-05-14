@@ -163,7 +163,8 @@ class WebsocketServer(ThreadingMixIn, TCPServer, API):
             'address': handler.client_address,
             
             'accountName':"",
-            'identity': ""
+            'identity': "",
+            'user': ""
         }
         self.clients.append(client)
         self.new_client(client, self)

@@ -12,7 +12,21 @@ function websocket_init()
     
     ws.onmessage = function(e) {
       // e.data contains received string.
-      alert(e.data);
+      var from = new Array(); 
+      from = String(e.data).split(" ",2);
+      console.log(from[0])
+      if(from[0]!="C")
+        from = from[1].split("於",2);
+      console.log(from);
+      if(from[0]=="司機")
+      {
+        var ans = prompt(e.data,"回傳");
+        sendMessageToDriver(" 管理員:"+ans);
+      }
+      else
+      {
+        alert(from[1]);
+      }
     };
     
     ws.onclose = function() {
@@ -25,9 +39,9 @@ function sendMessageToManager()
   ws.send(x)
   text.value = " "
 }
-function sendMessageToDriver()
+function sendMessageToDriver(x)
 {
-  x = "C:已接收到!將會立即處理!"
+  x = "C"+x;
   ws.send(x)
 }
 function start(account)
