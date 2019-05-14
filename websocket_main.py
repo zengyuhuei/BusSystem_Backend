@@ -1,5 +1,7 @@
 from websocket_server import WebsocketServer
-
+from model import Model
+model = Model()
+client_sender_id = list()
 # Called for every client connecting
 def new_client(client, server):
     print("New client connected and was given id %d" % client['id'])
@@ -36,32 +38,46 @@ def message_received(client, server, message):
                 
                 clientList[client['id']-1]['accountName'] = message
                 clientList[client['id']-1]['identity'] = i['identity']
+                clientList[client['id']-1]['user'] = i['user']
         
         print("Afterwards client list:")
         print(clientList)
         print("\n")
                     
     elif x[0] == 'B':
-        print("Client(%d) send message: %s" % (client['id'], message))
-        
-        global client_sender_id
-        client_sender_id = client['id']
-        print("B:Client(%d) 傳訊給管理者" % (client_sender_id))
+        print("(%s) send message: %s" % (client['user'], message))
+        username = client['user']
+        name = client['accountName'].split(":",1)
+        print(name[1])
+        nowposition = model.get_busGPS_from_db_web(name[1])
+        z = " "
+        print(nowposition)
+        for now in nowposition:
+            print(now)
+            z = now
+        print(z)
+        lat = str(z['lat'])
+        lng = str(z['lng'])
+        client_sender_id.append(client['id'])
+        print("B:Client(%d) 傳訊給管理者" % (client_sender_id[-1]))
         # 推播訊息給管理者，不管身分只要send就是指有管理噁能看到訊息
+        print(client_sender_id)
         clientList = server._get_client()
         for client in clientList:
-            print(client['identity'])
             if client['identity'] is 0:
-                print("AAA")
-                server.send_message(client,x[1])
+                server.send_message(client,username+" 司機於:\nlat:"+lat+"\nlng:"+lng+"\n發生意外:\n"+x[1])
+        print(client_sender_id)
     else:    
         #管理者回傳訊息給司機
         #server.send_message(client['id'],"朕知道了")
         clientList = server._get_client()
         
-        print("C:Client(%d) 傳訊給管理者" % (client_sender_id))
-        server.send_message(clientList[client_sender_id-1], "朕知道了")
-        print(clientList[client_sender_id-1])
+        print("C:Client(%d) 傳訊給司機" % (client_sender_id[0]))
+        print(clientList)
+        server.send_message(clientList[client_sender_id[0]-1], message)
+        print(clientList[client_sender_id[0]-1])
+        del(client_sender_id[0])
+        print(client_sender_id)
         #print("Client(%d) sendback message: %s" % (client['id'], "朕知道了")) 
         
    

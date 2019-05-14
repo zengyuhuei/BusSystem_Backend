@@ -14,14 +14,14 @@
 	  <link href="{{ url_for('static', filename='js/websocket_open.js') }}" rel="stylesheet">
 		<script  src = "{{url_for('static', filename='js/websocket_open.js')}}"></script>
 		
-	  <script  src="{{url_for('static', filename='js/add_or_revise_shift.js')}}" onload ="start()"></script>
+	  <script  src="{{url_for('static', filename='js/add_or_revise_shift.js')}}"></script>
 	  
 	  <link href="{{ url_for('static', filename='css/add_or_revise_shift.css') }}" rel="stylesheet">
 	  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round|Open+Sans">
 		<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 	</head>
 	
-    <body onload="websocket_init()">
+    <body onload="start()">
 	  	  <nav class="navbar navbar-expand-xl navbar-dark bg-dark" id="mainNav">
 		  <div class="container">
 			  <a class="navbar-brand" href="{{url_for('manager_index')}}">基隆公車調派系統</a>

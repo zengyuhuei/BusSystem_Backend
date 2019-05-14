@@ -221,7 +221,18 @@ class Model:
         print("hey")
         print(position)
         return position
-
+    def get_busGPS_from_db_web(self,driver):
+        position = list()
+        client = pymongo.MongoClient('mongodb://'+self._user+':'+self._password+'@140.121.198.84:27017/')
+        db = client['KeelungBusSystem']
+        mycol = db['arrivetime']
+        print(driver) #拿到路線值
+        for x in mycol.find({"driver" : driver}, {"_id" : 0, "route": 1, "driver": 1, "lat": 1, "lng": 1}):
+            print(x)
+            position.append(x)
+        print("hey")
+        print(position)
+        return position
     #set busGPS to db    
     def set_busGPS_into_db(self, data):
         client = pymongo.MongoClient('mongodb://'+self._user+':'+self._password+'@140.121.198.84:27017/')
