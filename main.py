@@ -513,11 +513,17 @@ def busGps_to_db():
         csv_data = dict()
         csv_dir = 'csv/'+request.files['myfile'].filename
 
-        with open(csv_dir, newline='', encoding="big5") as csvfile:
-            reader = csv.DictReader(csvfile)
-            title = reader.fieldnames
-            csv_data = [{title[i]:row[title[i]] for i in range(len(title))}  for row in reader]
-			
+        try:
+            with open(csv_dir, newline='', encoding="big5") as csvfile:
+                reader = csv.DictReader(csvfile)
+                title = reader.fieldnames
+                csv_data = [{title[i]:row[title[i]] for i in range(len(title))}  for row in reader]
+        except:
+            with open(csv_dir, newline='', encoding="utf-8") as csvfile:
+                reader = csv.DictReader(csvfile)
+                title = reader.fieldnames
+                csv_data = [{title[i]:row[title[i]] for i in range(len(title))}  for row in reader]
+
         print(csv_data)
         for data in csv_data:
             data['lat'] = float(data['lat'])
