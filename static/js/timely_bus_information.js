@@ -1,3 +1,22 @@
+var map;
+
+// 初始化地圖
+map = new google.maps.Map(document.getElementById('map'), {
+	zoom: 21,
+	center: obj[obj.length/2]
+	});
+// 載入路線服務與路線顯示圖層
+var directionsService = new google.maps.DirectionsService();
+var directionsDisplay = new google.maps.DirectionsRenderer({
+	suppressMarkers: true // 單純畫路線，不要顯示 marker
+});
+
+var intervalControl;
+
+// 放置路線圖層
+directionsDisplay.setMap(map);
+
+
 $(document).ready(function(){
 	$(".yes").click(function() {
 		$("#map").show();
@@ -6,6 +25,7 @@ $(document).ready(function(){
 		load($route);
 		busGPS($route);
 	})
+	intervalControl = setInterval(busInformation(),2000);
 });
 
 function load(route){
@@ -30,6 +50,8 @@ function load(route){
 }
 
 var jj;
+var marker1 = [];
+
 function busGPS(route){
 	$.ajax({
 		type: "POST",
@@ -43,13 +65,14 @@ function busGPS(route){
 		success: function(response) {
 			console.log(response);
 			jj = returnGPS(response);
+			busInformation();
 		},
 		error: function(xhr, type) {
 			console.log("hehehe");
 		}
 	});
 
-	setTimeout("busGPS($route)",5000);
+	//setTimeout("busGPS($route)",5000);
 }
 
 function returnGPS(bus_coor)
@@ -61,12 +84,9 @@ function returnGPS(bus_coor)
 
 function returnRoute(json)
 {
-	var map;
-
 	var obj = Object.keys(json).map(function(_) { return json[_]; });
 	console.log(obj);
 	console.log(obj.length);
-
 	/*var bus_coor = [
 		{lat: 25.135139, lng: 121.782333},
 		{lat: 25.139583, lng: 121.789444},
@@ -77,23 +97,9 @@ function returnRoute(json)
 	//var jj = returnGPS(bus_coor);
 	console.log(jj);
 	
-	// 載入路線服務與路線顯示圖層
-	var directionsService = new google.maps.DirectionsService();
-	var directionsDisplay = new google.maps.DirectionsRenderer({
-		suppressMarkers: true // 單純畫路線，不要顯示 marker
-	});
-
-	// 初始化地圖
-	map = new google.maps.Map(document.getElementById('map'), {
-	zoom: 21,
-	center: obj[obj.length/2]
-	});
-
-	// 放置路線圖層
-	directionsDisplay.setMap(map);
 	var waypts = [];
 	var markers = [];
-	var marker1 = [];
+
 	
 	
 	for (var i = 1; i < obj.length-1; i++) {
@@ -103,72 +109,82 @@ function returnRoute(json)
 		});
 	}
 
-		var point = {
-			origin: obj[0],
-			destination: obj[obj.length-1],
-			waypoints: waypts,
-			optimizeWaypoints: true,
-				travelMode: 'DRIVING'
-		}
-		directionsService.route( point, function(response, status) {
-			if (status == 'OK') {
-				// 回傳路線上每個步驟的細節
-				for(var i = 0; i < obj.length; i++)
-				{
-					// 加入地圖標記
-					markers[i] = new google.maps.Marker({
-						position: obj[i],
-						map: map,
-						label: { text: ''+i, color: "#fff" },
-						data: obj[i].route,
-						data2: "https://www.google.com.tw/", //影像連結 一起從json拿出
-						zIndex:1
-					});
-					// 加入資訊視窗
-					var infowindow = new google.maps.InfoWindow();
-					//infowindows[i].open(map, markers[i]);
+	var point = {
+		origin: obj[0],
+		destination: obj[obj.length-1],
+		waypoints: waypts,
+		optimizeWaypoints: true,
+		travelMode: 'DRIVING'
+	}
 
-					// 加入地圖標記點擊事件
-					markers[i].addListener('click', function () {
-							console.log("ouo");		
-							infowindow.setContent( this.data +'<br><a href='+ this.data2 +' target="_blank">查看即時影像</a>');
-							infowindow.open(map, this);
-					});
-					
-				}
+	directionsService.route( point, function(response, status) {
+		if (status == 'OK') {
+			// 回傳路線上每個步驟的細節
+			for(var i = 0; i < obj.length; i++)
+			{
+				// 加入地圖標記
+				markers[i] = new google.maps.Marker({
+					position: obj[i],
+					map: map,
+					label: { text: ''+i, color: "#fff" },
+					data: obj[i].route,
+					data2: "https://www.google.com.tw/", //影像連結 一起從json拿出
+					zIndex:1
+				});
+				// 加入資訊視窗
+				var infowindow = new google.maps.InfoWindow();
+				//infowindows[i].open(map, markers[i]);
 
-			directionsDisplay.setDirections(response);
-			} else {
-			console.log(status);
+				// 加入地圖標記點擊事件
+				markers[i].addListener('click', function () {
+						console.log("ouo");		
+						infowindow.setContent( this.data +'<br><a href='+ this.data2 +' target="_blank">查看即時影像</a>');
+						infowindow.open(map, this);
+				});
+				
 			}
-		});
 
-		function busInformation()
-		{
-			//公車資訊
-			for(var j = 0; j < jj.length ; j++){
-					marker1[j] = new google.maps.Marker({
-						position: jj[j],
-						map: map,
-						icon:'https://i.ibb.co/s6B8nGn/bb.png',
-						zIndex:2
-					});
-					// 加入地圖標記點擊事件
-					marker1[j].addListener('click', function () {
-							
-					});
-			}
+		directionsDisplay.setDirections(response);
+		} else {
+		console.log(status);
 		}
-		
-		setInterval(busInformation(),2000);
-		document.getElementById("yes").addEventListener("click", myFunction);
-		function myFunction() {
-			document.getElementById("bus").style.display==false;
-			document.getElementById("map").style.display==false;
-			map.setZoom(15);
-			map.setCenter(obj[obj.length/2]);
-		}
+	});
+
+
 }
+
+function busInformation()
+{
+    for(var j = 0; j < marker1.length ; j++){
+        marker1[i].setMap(null);
+	}
+	marker1 = [];
+	//公車資訊
+	for(var j = 0; j < jj.length ; j++){
+		marker1[j] = new google.maps.Marker({
+			position: jj[j],
+			map: map,
+			icon:'https://i.ibb.co/s6B8nGn/bb.png',
+			zIndex:2
+		});
+		// 加入地圖標記點擊事件
+		marker1[j].addListener('click', function () {
+			console.log("bus clicked!");
+		});
+	}
+}
+
+
+// yochien edit here //
+
+/*
+document.getElementById("yes").addEventListener("click", myFunction);
+function myFunction() {
+	document.getElementById("bus").style.display==false;
+	document.getElementById("map").style.display==false;
+	map.setZoom(15);
+	map.setCenter(obj[obj.length/2]);
+}*/
 
 var optionString = '';
 var i = 0;
