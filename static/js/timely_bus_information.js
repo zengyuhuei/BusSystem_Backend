@@ -164,13 +164,10 @@ function returnRoute(json)
 function busInformation()
 {
     for(var j = 0; j < marker1.length ; j++){
-		if(marker1[i]!=null){
-			console.log("set bus marker null");
-			marker1[i].setPosition(null);
-			marker1[i].setMap(null);
-			marker1[i]=null;
-		}
-        
+		console.log("set bus marker null");
+		marker1[j].setPosition(null);
+		marker1[j].setMap(null);
+		marker1[j]=null;
 	}
 	marker1 = [];
 	//公車資訊
