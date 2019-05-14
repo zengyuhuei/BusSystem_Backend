@@ -1,21 +1,29 @@
 var map;
-
-// 初始化地圖
-map = new google.maps.Map(document.getElementById('map'), {
-	zoom: 21,
-	center: obj[obj.length/2]
-	});
-// 載入路線服務與路線顯示圖層
-var directionsService = new google.maps.DirectionsService();
-var directionsDisplay = new google.maps.DirectionsRenderer({
-	suppressMarkers: true // 單純畫路線，不要顯示 marker
-});
-
 var intervalControl;
 
-// 放置路線圖層
-directionsDisplay.setMap(map);
+$(function(){
 
+	$(window).load(function(){
+ 
+
+		// 初始化地圖
+		map = new google.maps.Map(document.getElementById('map'), {
+			zoom: 21,
+			center: obj[obj.length/2]
+			});
+		// 載入路線服務與路線顯示圖層
+		var directionsService = new google.maps.DirectionsService();
+		var directionsDisplay = new google.maps.DirectionsRenderer({
+			suppressMarkers: true // 單純畫路線，不要顯示 marker
+		});
+
+
+
+		// 放置路線圖層
+		directionsDisplay.setMap(map);
+	});
+ 
+ });
 
 $(document).ready(function(){
 	$(".yes").click(function() {
