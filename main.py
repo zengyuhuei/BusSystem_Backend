@@ -513,7 +513,7 @@ def busGps_to_db():
         csv_data = dict()
         csv_dir = 'csv/'+request.files['myfile'].filename
 
-        with open(csv_dir) as csvfile:
+        with open(csv_dir, newline='', encoding="big5") as csvfile:
             reader = csv.DictReader(csvfile)
             title = reader.fieldnames
             csv_data = [{title[i]:row[title[i]] for i in range(len(title))}  for row in reader]
