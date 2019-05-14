@@ -2,6 +2,8 @@ var map;
 var intervalControl;
 var directionsService;
 var directionsDisplay;
+var jj=[];
+var marker1 = [];
 
 $(document).ready(function(){
 	$(".yes").click(function() {
@@ -56,8 +58,7 @@ function load(route){
 	});
 }
 
-var jj=[];
-var marker1 = [];
+
 
 function busGPS(route){
 	$.ajax({
@@ -163,8 +164,11 @@ function returnRoute(json)
 function busInformation()
 {
     for(var j = 0; j < marker1.length ; j++){
-		if(marker1[i]){
+		if(marker1[i]!=null){
+			console.log("set bus marker null");
+			marker1[i].setPosition(null);
 			marker1[i].setMap(null);
+			marker1[i]=null;
 		}
         
 	}
