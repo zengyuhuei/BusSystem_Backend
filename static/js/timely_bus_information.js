@@ -1,5 +1,7 @@
 var map;
 var intervalControl;
+var directionsService;
+var directionsDisplay;
 
 $(document).ready(function(){
 	$(".yes").click(function() {
@@ -16,8 +18,8 @@ $(document).ready(function(){
 		center: new google.maps.LatLng(25.143411, 121.774429),
 		});
 	// 載入路線服務與路線顯示圖層
-	var directionsService = new google.maps.DirectionsService();
-	var directionsDisplay = new google.maps.DirectionsRenderer({
+	directionsService = new google.maps.DirectionsService();
+	directionsDisplay = new google.maps.DirectionsRenderer({
 		suppressMarkers: true // 單純畫路線，不要顯示 marker
 	});
 
