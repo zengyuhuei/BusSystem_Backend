@@ -97,6 +97,7 @@
 				var now = ""; 
 				var i = 1;
 				var stop = i.toString();
+				var count = 0;
 				//addItems.addEventListener('submit', display_peoplenum);
 					function report() {
 						//peoplenum = localStorage.getItem('peoplenum');
@@ -142,12 +143,13 @@
 					var obj = Object.keys(buslocation).map(function(_) { return buslocation[_]; });
 					var count= 0;
 					function start()
-				{
-					console.log("ouo");
-					var date2 = new Date(); //日期对象 
-					var now2 = "";
-					now2 = now2 + date2.getHours()+":"; 
-					now2 = now2 + date2.getMinutes();
+					{
+						console.log("ouo");
+						var date2 = new Date(); //日期对象 
+						var now2 = "";
+						now2 = now2 + date2.getHours()+":"; 
+						now2 = now2 + date2.getMinutes();
+
 
 					console.log(now2);
 					//setInterval("document.getElementById('datetime').innerHTML=new Date().toLocaleString();", 1000);*/
@@ -162,17 +164,17 @@
 							"start_time": "7:00",
 							"lat": obj[count].lat,
 							"lng": obj[count].lng
-						}),
-						success: function(response) {
+							}),
+							success: function(response) {
 							console.log(response);
-						},
-						error: function(xhr, type) {
+							},
+							error: function(xhr, type) {
 							console.log("hehehe");
-						}
-					});
-					count++;
-					myVar = setTimeout("start()",3000); 
-				}
+							}
+						});
+						count++;
+						myVar = setTimeout("start()",5000); 
+					}
 
 				function display_peoplenum(e)
 				{
@@ -206,20 +208,21 @@
 				}
 
 				function end()
-    			{
-						clearTimeout(myVar);
-     				console.log("owo");
-     				$.ajax({
-     					type: "POST",
+				{
+					clearTimeout(myVar);
+					count = 0;
+					console.log("owo");
+					$.ajax({
+					type: "POST",
 						data: "json",
 						dataType: "json",
 						contentType : 'application/json',
-						url: "http://127.0.0.1:3000/setbusGPS",
+						url: "http://140.121.198.84:3000/setbusGPS",
 						data:JSON.stringify({
 						"email": localStorage.account,
 						"start_time": "7:00",
-						"lat": " ",
-						"lng": " "
+						"lat": 0,
+						"lng": 0
 						}),
 						success: function(response) {
 						console.log(response);
@@ -228,7 +231,16 @@
 						console.log("hehe");
 						}
 					});
-    			}
+				}
+     function initMap() {
+      navigator.geolocation.watchPosition((position) => {
+        console.log(position.coords);
+        console.log(position.timestamp);
+        lat = position.coords.latitude;
+        lng = position.coords.longitude;
+
+      });
+    }
 					function initMap() {
 						navigator.geolocation.watchPosition((position) => {
 								console.log(position.coords);
