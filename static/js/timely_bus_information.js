@@ -14,7 +14,6 @@ $(document).ready(function(){
 	busGPS($route);
 
  })
-})
 
  // 初始化地圖
  map = new google.maps.Map(document.getElementById('map'), {
@@ -31,6 +30,7 @@ $(document).ready(function(){
 
  // 放置路線圖層
  directionsDisplay.setMap(map);
+})
  function repeat()
  {
     let route = $("#inputState").val();
@@ -38,7 +38,6 @@ $(document).ready(function(){
     busGPS(route);
     }
 }
-
 
 function load(route){
  
