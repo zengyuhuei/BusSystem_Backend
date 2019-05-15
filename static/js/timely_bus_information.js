@@ -17,7 +17,7 @@ $(document).ready(function(){
 	// 初始化地圖
 	map = new google.maps.Map(document.getElementById('map'), {
 		zoom: 21,
-		center: new google.maps.LatLng(25.143411, 121.774429),
+		center: new google.maps.LatLng(parseFloat("25.143411"), parseFloat("121.774429")),
 		});
 	// 載入路線服務與路線顯示圖層
 	directionsService = new google.maps.DirectionsService();
@@ -29,15 +29,14 @@ $(document).ready(function(){
 
 	// 放置路線圖層
 	directionsDisplay.setMap(map);
+	intervalControl = setInterval(function(){
+		let route = $("#inputState").val();
+		if(route){
+			busGPS(route);
+		}
+	},5000);
 });
 
-function repeat()
-{
-  let route = $("#inputState").val();
-  if(route){
-    busGPS(route);
-  }
-};
 function load(route){
 	
 	$.ajax({
@@ -229,7 +228,6 @@ function starts()
     //x.html(optionString);
    }// 成功後要執行的函數
   }).done(result => resolve(optionString))
- }).then(result => setData(optionString))
- .then(result => setInterval(function(){repeat(),5000}));
+ }).then(result => setData(optionString));
 
 }
