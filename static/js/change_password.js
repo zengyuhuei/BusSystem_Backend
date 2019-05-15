@@ -42,8 +42,6 @@ $(document).ready(function(){
 				},// 錯誤後執行的函數
 				success: function (response) {
 					//alert("修改成功");
-					//window.location.href = xhr.responseURL;
-					//window.location.href = xhr.responseURL;
 				}// 成功後要執行的函數
 			});
 		}
