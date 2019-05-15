@@ -49,7 +49,8 @@ $(document).ready(function(){
 		}
 		else
 		{
-			window.alert("新密碼不一樣喔!!!");
+			document.getElementById("error").innerHTML="新密碼不一樣喔!!!";
+			//window.alert("新密碼不一樣喔!!!");
 		}
 		
 	});
