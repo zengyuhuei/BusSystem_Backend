@@ -49,7 +49,7 @@ def message_received(client, server, message):
         username = client['user']
         name = client['accountName'].split(":",1)
         print(name[1])
-        nowposition = model.get_busGPS_from_db_web(name[1])
+        nowposition = model.get_busGPS_from_db_web(client['user'])
         z = " "
         print(nowposition)
         for now in nowposition:

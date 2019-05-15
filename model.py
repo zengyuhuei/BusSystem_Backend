@@ -227,7 +227,7 @@ class Model:
         position = list()
         client = pymongo.MongoClient('mongodb://'+self._user+':'+self._password+'@140.121.198.84:27017/')
         db = client['KeelungBusSystem']
-        mycol = db['arrivetime']
+        mycol = db['shift']
         print(driver) #拿到路線值
         for x in mycol.find({"driver" : driver}, {"_id" : 0, "route": 1, "driver": 1, "lat": 1, "lng": 1}):
             print(x)
@@ -259,7 +259,7 @@ class Model:
         driver = driver_name["name"]
         print(driver)
         #時間還沒都進去 不知道格式 **
-        db["shift"].update_one({"driver" : "ting"}, {"$set": { "lat": flat, "lng": flng }}) 
+        db["shift"].update_one({"driver" : driver}, {"$set": { "lat": flat, "lng": flng }}) 
         print("hi")
         position = "good"
         return position
