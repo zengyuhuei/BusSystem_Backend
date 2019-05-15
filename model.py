@@ -98,6 +98,8 @@ class Model:
         
         print(data)
         result = db['shift'].delete_one(data)
+        print("result==========")
+        print(result)
         return result
 
     #get shift from db    
