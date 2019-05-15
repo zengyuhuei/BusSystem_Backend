@@ -6,7 +6,7 @@ var jj=[];
 var marker1 = [];
 var busdriver;
 var waypts = [];
-markers = [];
+var markers = [];
 
 $(document).ready(function(){
 	$(".yes").click(function() {
