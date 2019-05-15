@@ -253,7 +253,7 @@ class Model:
         mycol = db['shift']
         for x in mycol.find({"_id" : 0, "route": 1, "driver": 1, "lat": 1, "lng": 1}):
             print(x)
-            if(x['lat']!=0.0 & x['lng']!=0.0):
+            if x['lat']!=0.0 and x['lng']!=0.0:
                 position.append(x)
         print("hey")
         print(position)
