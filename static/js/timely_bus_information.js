@@ -29,13 +29,13 @@ $(document).ready(function(){
 
 	// 放置路線圖層
 	directionsDisplay.setMap(map);
-	intervalControl = setInterval(function(){
+  function repeat()
+  {
 		let route = $("#inputState").val();
 		if(route){
 			busGPS(route);
-		}
-	},5000);
-});
+	}
+}
 
 function load(route){
 	
