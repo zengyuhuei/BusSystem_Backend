@@ -119,8 +119,8 @@ class Model:
     def add_shift_to_db(self, data):
         client = pymongo.MongoClient('mongodb://'+self._user+':'+self._password+'@140.121.198.84:27017/')
         db = client["KeelungBusSystem"]
-        print(data)
-        print("ouo")
+        data["lat"] = 0.0
+        data["lng"] = 0.0
         result = db['shift'].insert_one(data)
         print(result.inserted_id)
 
