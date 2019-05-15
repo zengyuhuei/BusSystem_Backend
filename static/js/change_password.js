@@ -43,7 +43,7 @@ $(document).ready(function(){
 				success: function (response) {
 					//alert("修改成功");
 					console.log(response);
-					//window.location.href = xhr.responseURL;
+					window.location.href = xhr.responseURL;
 				}// 成功後要執行的函數
 			});
 		}
