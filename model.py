@@ -71,7 +71,7 @@ class Model:
         client = pymongo.MongoClient('mongodb://'+self._user+':'+self._password+'@140.121.198.84:27017/')
         db = client['KeelungBusSystem']
         #collection = db['list']
-        result = db["shift"].find_one({"route" : email})
+        result = db["shift"].find_one({"email" : email})
         print(result)
         result['_id'] = str(result['_id'])
         result['birthday'] = result['birthday'].strftime("%Y/%m/%d")
@@ -288,8 +288,9 @@ class Model:
         db = client["KeelungBusSystem"]
         print('its db')
         print(data['driver'])
-        result = db['arrivetime'].update_many({"driver":data['driver']},{"$set": { "peoplenum": data['peoplenum'], "arrive_time": data['arrive_time']}})
-        if result == 'none':
+        if db["arrivetime"].find_one({"driver" : data["driver"]}) == None:
             result = db['arrivetime'].insert_one(data)
+        else:
+            result = db['arrivetime'].update_many({"driver":data['driver']},{"$set": { "peoplenum": data['peoplenum'], "arrive_time": data['arrive_time']}})
         #print(coor_result)
         return result
