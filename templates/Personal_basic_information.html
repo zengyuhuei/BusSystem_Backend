@@ -75,13 +75,13 @@
 					<h1>個人基本資料</h1>
 				</div>
 				<form method = "post" action = "http://140.121.198.84:3000/modify_info_to_db" enctype = "multipart/form-data">
-					<div class = "row">
 						{% if error %}
 							<div class="alert alert-danger" role="alert"><strong>Error:</strong> {{ error }}</div>
 						{% endif %}
 						{% if success %}
 							<div class="alert alert-success" role="alert"><strong>Success:</strong> {{ success }}</div>
 						{% endif %}
+					<div class = "row">
 						<div class="col-sm-7 col-lg-7 col-md-7">
 							<div class="form-group row">
 								<label for="InputName" class="col-xs-3 col-md-auto col-form-label"><h6>姓名：</h6></label>
