@@ -637,7 +637,7 @@ def get_busDriverforWeb():
     except Exception as e:
         response["status"] = "error"
         print(str(e))
-    print(response)
+    print("X"+response)
     return jsonify(response)
 @app.route('/setbusGPS', methods=['POST'])
 def set_busGPS():
