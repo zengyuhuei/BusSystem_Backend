@@ -38,7 +38,8 @@ $(document).ready(function(){
 });
 
 function load(route){
- 
+ console.log("route");
+ console.log(route);
  $.ajax({
   type: "POST",
   data: "json",
