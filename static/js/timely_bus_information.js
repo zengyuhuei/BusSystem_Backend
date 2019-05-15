@@ -223,6 +223,7 @@ $.ajax({
 			i++;
 		}
 		document.getElementById("shift").innerHTML += '<select class="form-control" id="inputState">'+optionString+'</select>';
-		//x.html(optionString);
+    //x.html(optionString);
+    websocket_init();
 	}// 成功後要執行的函數
 });	
