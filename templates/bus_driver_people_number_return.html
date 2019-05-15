@@ -97,6 +97,7 @@
 				var now = ""; 
 				var i = 1;
 				var stop = i.toString();
+				var count = 0;
 				//addItems.addEventListener('submit', display_peoplenum);
 					function report() {
 						//peoplenum = localStorage.getItem('peoplenum');
@@ -208,14 +209,15 @@
 
 				function end()
 				{
-						clearTimeout(myVar);
+					clearTimeout(myVar);
+					count = 0;
 					console.log("owo");
 					$.ajax({
 					type: "POST",
 						data: "json",
 						dataType: "json",
 						contentType : 'application/json',
-						url: "http://127.0.0.1:3000/setbusGPS",
+						url: "http://140.121.198.84:3000/setbusGPS",
 						data:JSON.stringify({
 						"email": localStorage.account,
 						"start_time": "7:00",
