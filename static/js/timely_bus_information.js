@@ -187,9 +187,9 @@ function busInformation()
 		// 加入地圖標記點擊事件
 		marker1[j].addListener('click', function () {
 			console.log("bus clicked!");
-			console.log(jj[j-1]);
-			console.log(j);
-			busdriver = jj[j].driver;
+			// console.log(jj[j-1]);
+			// console.log(j);
+			// busdriver = jj[j].driver;
       console.log("bus clicked!");
       document.getElementById("driver").innerHTML = "<td>"+this.data+"</td>";
       document.getElementById("passenger").innerHTML = "<td>"+"100"+"</td>";
