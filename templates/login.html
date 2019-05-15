@@ -16,7 +16,6 @@
 
 		<link href="{{ url_for('static', filename='css/main.css') }}" rel="stylesheet">
 		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
-		<script src = "{{url_for('static', filename='js/add_busdriver.js')}}"></script>
 	</head>
   <body >	
 		<nav class="navbar navbar-expand-xl navbar-dark bg-dark" id="mainNav">
@@ -42,12 +41,10 @@
 										<div class="form-group">
 											<label for="uname1">Username</label>
 											<input type="text" class="form-control form-control-lg rounded-0" value = "{{request.form.account}}" name="account" id="uname1" required="">
-											<div class="invalid-feedback">Oops, you missed this one.</div>
 										</div>
 										<div class="form-group">
 											<label>Password</label>
 											<input type="password" class="form-control form-control-lg rounded-0" id="pwd1" value = "{{request.form.password}}" name = "password" required="" autocomplete="new-password">
-											<div class="invalid-feedback">Enter your password too!</div>
 										</div>
 
 

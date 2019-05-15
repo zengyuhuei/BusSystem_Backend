@@ -149,6 +149,7 @@
 						now2 = now2 + date2.getHours()+":"; 
 						now2 = now2 + date2.getMinutes();
 
+<<<<<<< HEAD
 						console.log(now2);
 						//setInterval("document.getElementById('datetime').innerHTML=new Date().toLocaleString();", 1000);*/
 						$.ajax({
@@ -158,6 +159,17 @@
 							contentType : 'application/json',
 							url: "http://140.121.198.84:3000/setbusGPS",
 							data:JSON.stringify({
+=======
+					console.log(now2);
+					//setInterval("document.getElementById('datetime').innerHTML=new Date().toLocaleString();", 1000);*/
+					$.ajax({
+						type: "POST",
+						data: "json",
+						dataType: "json",
+						contentType : 'application/json',
+						url: "http://127.0.0.1:3000/setbusGPS",
+						data:JSON.stringify({
+>>>>>>> 09e27b5015fe467162e110eb5d4d82fc551eb4d6
 							"email": localStorage.account,
 							"start_time": "7:00",
 							"lat": obj[count].lat,
@@ -188,7 +200,7 @@
 						data: "json",
 						dataType: "json",
 						contentType : 'application/json',
-						url: "http://140.121.198.84:3000/peoplenum_to_db",
+						url: "http://127.0.0.1:3000/peoplenum_to_db",
 						data:JSON.stringify({
 							"driver":localStorage.account,
 							"peoplenum": localStorage.getItem('peoplenum'),
@@ -214,7 +226,7 @@
 						data: "json",
 						dataType: "json",
 						contentType : 'application/json',
-						url: "http://140.121.198.84:3000/setbusGPS",
+						url: "http://127.0.0.1:3000/setbusGPS",
 						data:JSON.stringify({
 						"email": localStorage.account,
 						"start_time": "7:00",
