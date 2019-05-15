@@ -11,7 +11,8 @@ $(document).ready(function(){
   $("#bus").show();
   $route = $("#inputState").val();
   load($route);
-  busGPS($route);
+	busGPS($route);
+
  })
 
  // 初始化地圖
@@ -253,5 +254,5 @@ function starts()
    }// 成功後要執行的函數
   }).done(result => resolve(optionString))
  }).then(result => setData(optionString)); 
- websocket_init();
+
 }*/
