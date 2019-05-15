@@ -288,6 +288,8 @@ class Model:
         db = client["KeelungBusSystem"]
         print('its db')
         print(data['driver'])
-        coor_result = db['arrivetime'].update_many({"driver":data['driver']},{"$set": { "peoplenum": data['peoplenum'], "arrive_time": data['arrive_time']}})
+        result = db['arrivetime'].update_many({"driver":data['driver']},{"$set": { "peoplenum": data['peoplenum'], "arrive_time": data['arrive_time']}})
+        if result == None:
+            result = db['arrivetime'].insert_one(data)
         #print(coor_result)
-        return coor_result
+        return result
