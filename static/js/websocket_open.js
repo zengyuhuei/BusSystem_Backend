@@ -48,5 +48,4 @@ function start(account)
 {
   localStorage.setItem('account',account)
   websocket_init();
-  setDriver();
 }
