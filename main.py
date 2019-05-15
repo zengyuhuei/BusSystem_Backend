@@ -291,6 +291,7 @@ def del_shift():
         data = request.get_json()
         data["_id"] = ObjectId(data['_id'])
         result = model.del_shift_from_db(data)
+        print(result)
         if result == "notExist":
             exist = "不存在"
             response["status"] = "error"
