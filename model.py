@@ -253,7 +253,7 @@ class Model:
         mycol = db['shift']
         print(driver) #拿到路線值
         for x in mycol.find({"_id" : 0, "route": 1, "driver": 1, "lat": 1, "lng": 1}):
-            if(x['lat']!=0 && x['lng']!=0)
+            if x['lat']!=0.0 and x['lng']!=0.0
                 print(x)
                 position.append(x)
         print("hey")
@@ -306,6 +306,6 @@ class Model:
         print(data['driver'])
         driver_name = db["info"].find_one({'email' : data['driver']}, {"_id" : 0, "name": 1})
         driver = driver_name["name"]
-        result = db['shift'].update_one({"driver":driver},{"$set": { "peoplenum": data['peoplenum'], "arrive_time": data['arrive_time']}})
+        result = db['shift'].update_many({"driver":driver},{"$set": { "peoplenum": data['peoplenum'], "arrive_time": data['arrive_time']}})
         #print(coor_result)
         return result
