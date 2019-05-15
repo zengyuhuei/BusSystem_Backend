@@ -252,7 +252,7 @@ class Model:
         db = client['KeelungBusSystem']
         mycol = db['shift']
         for x in mycol.find({"_id" : 0, "route": 1, "driver": 1, "lat": 1, "lng": 1}):
-            if(x['lat']!=0 & x['lng']!=0):
+            if(x['lat']!=0.0 & x['lng']!=0.0):
                 print(x)
                 position.append(x)
         print("hey")
