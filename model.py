@@ -292,6 +292,7 @@ class Model:
         print('its db')
         print(data['driver'])
         driver_name = db["info"].find_one({'email' : data['driver']}, {"_id" : 0, "name": 1})
-        result = db['shift'].update_many({"driver":driver_name},{"$set": { "peoplenum": data['peoplenum'], "arrive_time": data['arrive_time']}})
+        driver = driver_name["name"]
+        result = db['shift'].update_many({"driver":driver},{"$set": { "peoplenum": data['peoplenum'], "arrive_time": data['arrive_time']}})
         #print(coor_result)
         return result
