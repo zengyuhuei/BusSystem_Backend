@@ -9,7 +9,7 @@ $(document).ready(function(){
  $(".yes").click(function() {
   $("#map").show();
   $("#bus").show();
-	$route = $("#inputState").val();
+	$route = $("#inputRoute").val();
 	
   load($route);
   busGPS($route);
@@ -190,7 +190,7 @@ function busInformation()
 
 function setData(xString)
 {
- document.getElementById("inputState").innerHTML += '<select class="form-control" id="inputRoute">'+xString+'</select>';
+ document.getElementById("shift").innerHTML += '<select class="form-control" id="inputRoute">'+xString+'</select>';
 }
 
 function starts()
