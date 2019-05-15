@@ -38,11 +38,11 @@ $(document).ready(function(){
 						msg = 'Uncaught Error.\n' + jqXHR.responseText;
 					}
 					console.log(msg);
-					alert("修改失敗");
+					//alert("修改失敗");
 				},// 錯誤後執行的函數
 				success: function (response) {
-					alert("修改成功");
-					window.location.href = xhr.responseURL;
+					//alert("修改成功");
+					console.log(response);
 					//window.location.href = xhr.responseURL;
 				}// 成功後要執行的函數
 			});
