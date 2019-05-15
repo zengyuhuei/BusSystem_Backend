@@ -524,14 +524,7 @@ def busGps_to_db():
         error = "上傳失敗"
         print(response,str(e))
     if response['status'] == "ok":
-        return redirect(url_for('success = None
-    error = None
-    try:
-        success = request.args.get('success')
-        error = request.args.get('error')
-    except:
-        pass
-    return render_template('bus_driver_personal_basic_information.html', success = success, error = error, methods=['GET'])',success = success))
+        return redirect(url_for('revise_path',success = success))
     return redirect(url_for('revise_path',error = error))
 
 
