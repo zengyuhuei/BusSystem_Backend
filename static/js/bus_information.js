@@ -184,6 +184,7 @@ function start()
 				}
 				//x.html(optionString);
 			}// 成功後要執行的函數
-		}).done(result => resolve(xString))
-	}).then(result => setData(xString));	
+		}).done(result => resolve(optionString))
+	}).then(result => setData(optionString));	
+	websocket_init();
 }
