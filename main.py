@@ -632,7 +632,7 @@ def get_busGPS():
 def get_busDriverforWeb():
     response = {"status":"ok"}
     try:
-        response = model.get_busDriver_from_db_web("x")
+        response = model.get_busDriver_from_db_web()
 
     except Exception as e:
         response["status"] = "error"

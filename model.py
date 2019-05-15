@@ -246,14 +246,13 @@ class Model:
         print("hey")
         print(position)
         return position
-    def get_busDriver_from_db_web(self,x):
+    def get_busDriver_from_db_web(self):
         position = list()
         client = pymongo.MongoClient('mongodb://'+self._user+':'+self._password+'@140.121.198.84:27017/')
         db = client['KeelungBusSystem']
         mycol = db['shift']
-        print(driver) #拿到路線值
         for x in mycol.find({"_id" : 0, "route": 1, "driver": 1, "lat": 1, "lng": 1}):
-            if x['lat']!=0.0 and x['lng']!=0.0
+            if(x['lat']!=0 & x['lng']!=0):
                 print(x)
                 position.append(x)
         print("hey")
