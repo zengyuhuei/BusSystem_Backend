@@ -160,6 +160,7 @@ def add_driver_to_db():
         # 傳進來的 Date String 轉成 Datetime 類別
         data["birthday"] = datetime.strptime(data["birthday"], '%Y/%m/%d')
         print(data)
+        acc_data['user'] = request.form.get("name")
         acc_data['account'] = request.form.get("email")
         acc_data['password'] = request.form.get("birthday").replace("/", "")
         acc_data['identity'] = 1
