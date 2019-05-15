@@ -5,6 +5,7 @@ import time
 from datetime import datetime
 from bson import ObjectId
 import configparser   
+from datetime import datetime
 class Model:
 
     def __init__(self):
@@ -128,6 +129,8 @@ class Model:
         db = client["KeelungBusSystem"]
         data["lat"] = 0.0
         data["lng"] = 0.0
+        data["peoplenum"] = 0
+        data["arrive_time"] = datetime.now()
         result = db['shift'].insert_one(data)
         print(result.inserted_id)
 
@@ -288,9 +291,7 @@ class Model:
         db = client["KeelungBusSystem"]
         print('its db')
         print(data['driver'])
-        if db["arrivetime"].find_one({"driver" : data["driver"]}) == None:
-            result = db['arrivetime'].insert_one(data)
-        else:
-            result = db['arrivetime'].update_many({"driver":data['driver']},{"$set": { "peoplenum": data['peoplenum'], "arrive_time": data['arrive_time']}})
+        driver_name = db["info"].find_one({'email' : data['driver']}, {"_id" : 0, "name": 1})
+        result = db['shift'].update_many({"driver":driver_name},{"$set": { "peoplenum": data['peoplenum'], "arrive_time": data['arrive_time']}})
         #print(coor_result)
         return result
