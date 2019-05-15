@@ -180,14 +180,15 @@ function busInformation()
 	for(var j = 0; j < jj.length ; j++){
 		marker1[j] = new google.maps.Marker({
 			position: jj[j],
-			map: map,
+      map: map,
+      data: jj[j].driver,
 			icon:'https://i.ibb.co/s6B8nGn/bb.png',
 			zIndex:2
 		});
 		// 加入地圖標記點擊事件
 		marker1[j].addListener('click', function () {
       console.log("bus clicked!");
-      document.getElementById("driver").innerHTML = "<td>"+jj[j].driver+"</td>";
+      document.getElementById("driver").innerHTML = "<td>"+this.data+"</td>";
       document.getElementById("passenger").innerHTML = "<td>"+"100"+"</td>";
 		});
 	}
