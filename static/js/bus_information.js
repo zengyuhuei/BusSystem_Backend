@@ -186,4 +186,5 @@ function start()
 			}// 成功後要執行的函數
 		}).done(result => resolve(optionString))
 	}).then(result => setData(optionString));	
+	websocket_init();
 }
