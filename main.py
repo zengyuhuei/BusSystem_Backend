@@ -285,13 +285,17 @@ def modify_shift():
 def del_shift():
     error = None
     success = None
+    exist = None
     response = {"status":"ok"}
     try:
         data = request.get_json()
         data["_id"] = ObjectId(data['_id'])
-        model.del_shift_from_db(data)
-        print(data)
-        success = "刪除成功"
+        result = model.del_shift_from_db(data)
+        if result == "notExist":
+            exist = "不存在"
+            response["status"] = "error"
+        else:
+            success = "刪除成功"
     except Exception as e:
         response["status"] = "error"
         response["error"] = str(e)
@@ -299,6 +303,9 @@ def del_shift():
         print(response)
     if response['status'] == "ok":
         return redirect(url_for('add_or_revise_shift',  success = success))
+    else:
+        if result == 1:
+            return redirect(url_for('add_or_revise_shift', exist = exist))
     return redirect(url_for('add_or_revise_shift', error = error))
 
 @app.route('/addShift', methods=['POST'])
@@ -441,13 +448,14 @@ def add_or_revise_shift():
     success = None
     error = None
     inserted_id = None
+    exist = None
     try:
         success = request.args.get('success')
         inserted_id =  request.args.get('inserted_id')
         error = request.args.get('error')
     except:
         pass
-    return render_template('add_or_revise_shift.html', success = success,  inserted_id = inserted_id, error = error, methods=['GET'])
+    return render_template('add_or_revise_shift.html',exist = exist, success = success,  inserted_id = inserted_id, error = error, methods=['GET'])
 
 def get_routelist(data):
     temp = []
