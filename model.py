@@ -97,10 +97,13 @@ class Model:
         db = client["KeelungBusSystem"]
         
         print(data)
-        result = db['shift'].delete_one(data)
-        print("result==========")
-        print(result)
-        return result
+        if db['shift'].find_one(data) != None:
+            result = db['shift'].delete_one(data)
+            print("result==========")
+            print(result)
+            return result
+        else:
+            return "notExist"
 
     #get shift from db    
     def get_shift_from_db(self, data):
