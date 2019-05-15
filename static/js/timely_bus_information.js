@@ -9,7 +9,8 @@ $(document).ready(function(){
  $(".yes").click(function() {
   $("#map").show();
   $("#bus").show();
-  $route = $("#inputState").val();
+	$route = $("#shift").val();
+	
   load($route);
   busGPS($route);
  })
