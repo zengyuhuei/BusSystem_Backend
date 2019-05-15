@@ -13,15 +13,7 @@ from bson import ObjectId
 import csv
 import json
 import copy
-#---------------------------------------------------
 import uuid  # 為了上傳csv檔import
-#-----------------------------------------------------
-
-#---------------------------------------------------
-import uuid  # 為了上傳csv檔import
-import platform
-#import pandas
-import csv
 #-----------------------------------------------------
 if platform.system() == "Windows":
   slash = '\\'
@@ -103,35 +95,6 @@ def login_required(f):
             return redirect(url_for('login'))
     return wrap
 
-#-------------------------------------------------------------------------------------
-def read_csv():
-
-    route_list = []
-    with open('./csv/route.csv', newline='', encoding="utf-8") as csvfile:
-      # 讀取 CSV 檔案內容
-      rows = csv.reader(csvfile)
-      # 以迴圈輸出每一列
-      for row in rows:
-        route_list.append({'route':row[0],'a':row[1],'b':row[2]})
-    route_list.remove({'route': 'route', 'a': 'a', 'b': 'b'})
-    print(route_list)
-    
-""" !!!!!!!!!!!!!!!unicode error unsolved!!!!!!!!!!!!!!!!!!
-    with open('./templates/route.csv', 'r', encoding='utf-8', errors='ignore') as infile, open('./templates/final.csv', 'w') as outfile:
-        inputs = csv.reader(infile)
-        output = csv.writer(outfile)
-        for index, row in enumerate(inputs):
-            # Create file with no header
-            if index == 0:
-                continue
-            output.writerow(row)
-
-   data = pandas.read_csv('./templates/final.csv')
-   print(data.head())
-   for i in data.head(0):
-       print(data[i].tolist())
-"""
-    #-------------------------------------------------------------------------------------
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -513,11 +476,17 @@ def busGps_to_db():
         csv_data = dict()
         csv_dir = 'csv/'+request.files['myfile'].filename
 
-        with open(csv_dir) as csvfile:
-            reader = csv.DictReader(csvfile)
-            title = reader.fieldnames
-            csv_data = [{title[i]:row[title[i]] for i in range(len(title))}  for row in reader]
-			
+        try:
+            with open(csv_dir, newline='', encoding="big5") as csvfile:
+                reader = csv.DictReader(csvfile)
+                title = reader.fieldnames
+                csv_data = [{title[i]:row[title[i]] for i in range(len(title))}  for row in reader]
+        except:
+            with open(csv_dir, newline='', encoding="utf-8") as csvfile:
+                reader = csv.DictReader(csvfile)
+                title = reader.fieldnames
+                csv_data = [{title[i]:row[title[i]] for i in range(len(title))}  for row in reader]
+
         print(csv_data)
         for data in csv_data:
             data['lat'] = float(data['lat'])
@@ -670,48 +639,5 @@ def get_busNumber():
         response["status"] = "error"
         print(str(e))
     return response
-
-'''
-#--------------------------------------------------------------------------
-@app.route('/upload_file',methods=['GET','POST'])
-@login_required
-def upload_file():
-  if request.method =='POST':
-    #獲取post過來的檔名稱，從name=file引數中獲取
-    file = request.files['customeFile']
-    if file and allowed_file(file.filename):
-      # secure_filename方法會去掉檔名中的中文
-      filename = secure_filename(file.filename)
-      #因為上次的檔案可能有重名，因此使用uuid儲存檔案
-      file_name = str(uuid.uuid4()) + '.' + filename.rsplit('.', 1)[1]
-      file.save(os.path.join(app.config['UPLOAD_FOLDER2'],file_name))
-      base_path = os.getcwd()
-      file_path = base_path + slash + app.config['UPLOAD_FOLDER2'] + slash + file_name
-      print(file_path)
-      return redirect(url_for('upload_file',filename = file_name))
-#--------------------------------------------------------------------------
-
-#--------------------------------------------------------------------------
-@app.route('/revise_path',methods=['GET','POST'])
-def upload_csv_file():
-  if request.method =='POST':
-    #獲取post過來的檔名稱，從name=file引數中獲取
-    file = request.files['file']
-    if file and allowed_csv_file(file.filename):
-      # secure_filename方法會去掉檔名中的中文
-      filename = secure_filename(file.filename)
-      #因為上次的檔案可能有重名，因此使用uuid儲存檔案
-      file_name = str(uuid.uuid4()) + '.' + filename.rsplit('.', 1)[1]
-      file.save(os.path.join(app.config['UPLOAD_FOLDER_CSV'],file_name))
-      # 抓upload_csv資料夾內的隨便一個csv檔(在上面創一個function)
-      read_csv(file)
-      # 抓到之後把它分成兩個db，一個是路線，另一個是經緯度
-      base_path = os.getcwd()
-      file_path = base_path + slash + app.config['UPLOAD_FOLDER_CSV'] + slash + file_name
-      print("file_path :" + file_path)
-      return redirect(url_for('upload_csv_file',filename = file_name))
-'''
-#--------------------------------------------------------------------------
-
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=3000, debug=True)
