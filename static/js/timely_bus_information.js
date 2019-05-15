@@ -29,14 +29,15 @@ $(document).ready(function(){
 
 	// 放置路線圖層
 	directionsDisplay.setMap(map);
-  function repeat()
-  {
-		let route = $("#inputState").val();
-		if(route){
-			busGPS(route);
-	}
-}
+});
 
+function repeat()
+{
+  let route = $("#inputState").val();
+  if(route){
+    busGPS(route);
+  }
+};
 function load(route){
 	
 	$.ajax({
