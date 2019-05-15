@@ -248,7 +248,7 @@ $(document).ready(function(){
 	$(document).on("click", ".delete", function(){
 		var id = $(this).closest('tr').find('td:nth-child(1)').text();
 		console.log("id====="+id);
-		if(id!=null)
+		if(id!="")
 		{
 			delTable(id);
 		}
