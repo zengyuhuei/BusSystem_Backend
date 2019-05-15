@@ -45,6 +45,7 @@ function load(route){
 		markers[j].setMap(null);
 		markers[j]=null;
 	}
+	console.log(route);
 	$.ajax({
 		type: "POST",
 		data: "json",
