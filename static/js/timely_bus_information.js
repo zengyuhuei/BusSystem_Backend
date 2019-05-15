@@ -4,7 +4,7 @@ var directionsService;
 var directionsDisplay;
 var jj=[];
 var marker1 = [];
-
+var busdriver;
 $(document).ready(function(){
 	$(".yes").click(function() {
 		$("#map").show();
@@ -181,10 +181,14 @@ function busInformation()
 		// 加入地圖標記點擊事件
 		marker1[j].addListener('click', function () {
 			console.log("bus clicked!");
+			busdriver = jj[j].driver
 		});
 	}
 }
 
+function set_info_table()
+{
+}
 
 // yochien edit here //
 
