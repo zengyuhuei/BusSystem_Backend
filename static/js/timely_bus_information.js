@@ -5,7 +5,6 @@ var directionsDisplay;
 var jj=[];
 var marker1 = [];
 var busdriver;
-var waypts = [];
 var markers = [];
 
 $(document).ready(function(){
@@ -112,7 +111,7 @@ function returnRoute(json)
 	
 	//var jj = returnGPS(bus_coor);
 	console.log(jj);
-	
+	var waypts = [];
 	
 	
 	for (var i = 1; i < obj.length-1; i++) {
