@@ -376,7 +376,6 @@ def changePassword():
         error = "修改失敗"
         
     print(response["status"])
-    #return str(response)
     if result["identity"] == 0:
         if response['status'] == "ok":
             return redirect(url_for('change_password',success = success))
@@ -391,7 +390,14 @@ def changePassword():
 @app.route('/bus_driver_change_password', methods=['GET'])
 @login_required
 def bus_driver_change_password():
-    return render_template('bus_driver_change_password.html')
+    success = None
+    error = None
+    try:
+        success = request.args.get('success')
+        error = request.args.get('error')
+    except:
+        pass
+    return render_template('bus_driver_change_password.html', success = success, error = error, methods=['GET'])
 
 @app.route('/bus_driver_emergency_return', methods=['GET'])
 @login_required
@@ -518,7 +524,14 @@ def busGps_to_db():
         error = "上傳失敗"
         print(response,str(e))
     if response['status'] == "ok":
-        return redirect(url_for('revise_path',success = success))
+        return redirect(url_for('success = None
+    error = None
+    try:
+        success = request.args.get('success')
+        error = request.args.get('error')
+    except:
+        pass
+    return render_template('bus_driver_personal_basic_information.html', success = success, error = error, methods=['GET'])',success = success))
     return redirect(url_for('revise_path',error = error))
 
 
@@ -529,7 +542,14 @@ def bus_information():
 
 @app.route('/change_password', methods=['GET'])
 def change_password():
-    return render_template('change_password.html', methods=['GET'])
+    success = None
+    error = None
+    try:
+        success = request.args.get('success')
+        error = request.args.get('error')
+    except:
+        pass
+    return render_template('change_password.html', success = success, error = error, methods=['GET'])
 
 @app.route('/Emergency_reception', methods=['GET'])
 @login_required
