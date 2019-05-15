@@ -31,7 +31,7 @@ $(document).ready(function(){
 	// 放置路線圖層
 	directionsDisplay.setMap(map);
 	intervalControl = setInterval(function(){
-		let route = $("#inputState").val();
+		let route = $("#inputRoute").val();
 		if(route){
 			busGPS(route);
 		}
@@ -86,7 +86,6 @@ function busGPS(route){
 			console.log("hehehe");
 		}
 	});
-
 	//setTimeout("busGPS($route)",5000);
 }
 
