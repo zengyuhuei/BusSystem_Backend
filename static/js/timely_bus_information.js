@@ -9,7 +9,7 @@ $(document).ready(function(){
 	$(".yes").click(function() {
 		$("#map").show();
 		$("#bus").show();
-		$route = $("#inputState").val();
+		$route = $("#inputRoute").val();
 		load($route);
 		busGPS($route);
 	})
@@ -44,6 +44,7 @@ function load(route){
 		markers[j].setMap(null);
 		markers[j]=null;
 	}
+	console.log(route);
 	$.ajax({
 		type: "POST",
 		data: "json",
