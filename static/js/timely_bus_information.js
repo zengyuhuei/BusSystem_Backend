@@ -201,8 +201,9 @@ function setData(xString)
 	document.getElementById("shift").innerHTML += '<select class="form-control" id="inputRoute">'+xString+'</select>';
 }
 
-function start()
+function starts()
 {
+	console.log("DDDDDD");
 	var optionString = '';
 	var i = 0;
 	const p = new Promise(
