@@ -13,7 +13,7 @@ function setDriver()
     $.ajax({
         type: 'POST',
         url: "http://140.121.198.84:3000/getbusDriverforWeb",
-        data:formData,
+        data:'json',
         cache:false,
         processData:false,
         contentType:false,
