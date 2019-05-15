@@ -5,7 +5,6 @@ var directionsDisplay;
 var jj=[];
 var marker1 = [];
 var busdriver;
-var waypts = [];
 var markers = [];
 
 $(document).ready(function(){
@@ -112,7 +111,7 @@ function returnRoute(json)
 	
 	//var jj = returnGPS(bus_coor);
 	console.log(jj);
-	
+	var waypts = [];
 	
 	
 	for (var i = 1; i < obj.length-1; i++) {
@@ -187,11 +186,8 @@ function busInformation()
 		// 加入地圖標記點擊事件
 		marker1[j].addListener('click', function () {
 			console.log("bus clicked!");
-			// console.log(jj[j-1]);
-			// console.log(j);
-			// busdriver = jj[j].driver;
-      console.log("bus clicked!");
-      document.getElementById("driver").innerHTML = "<td>"+this.data+"</td>";
+			console.log(this.data);
+			document.getElementById("driver").innerHTML = "<td>"+this.data+"</td>";
       document.getElementById("passenger").innerHTML = "<td>"+"100"+"</td>";
 		});
 	}
