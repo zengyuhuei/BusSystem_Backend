@@ -14,6 +14,7 @@ $(document).ready(function(){
 	busGPS($route);
 
  })
+})
 
  // 初始化地圖
  map = new google.maps.Map(document.getElementById('map'), {
@@ -161,10 +162,7 @@ function returnRoute(json)
   console.log(status);
   }
  });
-
-
 }
-
 function busInformation()
 {
     for(var j = 0; j < marker1.length ; j++){
@@ -201,7 +199,7 @@ function myFunction() {
  map.setCenter(obj[obj.length/2]);
 }*/
 
-var optionString = '';
+/*var optionString = '';
 var i = 0;
 $.ajax({
  type: 'POST',
@@ -223,8 +221,8 @@ $.ajax({
   document.getElementById("shift").innerHTML += '<select class="form-control" id="inputState">'+optionString+'</select>';
   //x.html(optionString);
  }// 成功後要執行的函數
-});
-/*
+});*/
+
 function setData(xString)
 {
  document.getElementById("shift").innerHTML += '<select class="form-control" id="inputRoute">'+xString+'</select>';
@@ -256,6 +254,7 @@ function starts()
     //x.html(optionString);
    }// 成功後要執行的函數
   }).done(result => resolve(optionString))
- }).then(result => setData(optionString)); 
+ }).then(result => setData(optionString))
+ .then(result=>repeat()); 
 
-}*/
+}
