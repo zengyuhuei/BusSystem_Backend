@@ -178,6 +178,8 @@ class Model:
         db = client["KeelungBusSystem"]
         db['busRoad_coor'].drop()
         db['route'].drop()
+        db['arrivetime'].drop()
+        db['shift'].drop()
         print('its db')
         print(data_route)
         coor_result = db['busRoad_coor'].insert_many(data_coor)
@@ -277,7 +279,7 @@ class Model:
         client = pymongo.MongoClient('mongodb://'+self._user+':'+self._password+'@140.121.198.84:27017/')
         db = client["KeelungBusSystem"]
         print('its db')
-        print(data)
-        coor_result = db['arrivetime'].insert_one(data)
+        print(data['driver'])
+        coor_result = db['arrivetime'].update_many({"driver":data['driver']},{"$set": { "peoplenum": data['peoplenum'], "arrive_time": data['arrive_time']}})
         #print(coor_result)
         return coor_result
