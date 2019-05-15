@@ -71,11 +71,13 @@ class Model:
         client = pymongo.MongoClient('mongodb://'+self._user+':'+self._password+'@140.121.198.84:27017/')
         db = client['KeelungBusSystem']
         #collection = db['list']
-        result = db["info"].find_one({"email" : email})
+        result = db["shift"].find_one({"route" : email})
         print(result)
         result['_id'] = str(result['_id'])
         result['birthday'] = result['birthday'].strftime("%Y/%m/%d")
         return json.dumps(result)
+
+
     
     # modify shift from db
     def modify_shift_from_db(self, data):
@@ -228,6 +230,7 @@ class Model:
         print("hey")
         print(position)
         return position
+        
     def get_busGPS_from_db_web(self,driver):
         position = list()
         client = pymongo.MongoClient('mongodb://'+self._user+':'+self._password+'@140.121.198.84:27017/')
@@ -285,6 +288,8 @@ class Model:
         db = client["KeelungBusSystem"]
         print('its db')
         print(data['driver'])
-        coor_result = db['arrivetime'].update_many({"driver":data['driver']},{"$set": { "peoplenum": data['peoplenum'], "arrive_time": data['arrive_time']}})
+        result = db['arrivetime'].update_many({"driver":data['driver']},{"$set": { "peoplenum": data['peoplenum'], "arrive_time": data['arrive_time']}})
+        if result == None:
+            result = db['arrivetime'].insert_one(data)
         #print(coor_result)
-        return coor_result
+        return result
