@@ -17,7 +17,7 @@ $(document).ready(function(){
 	// 初始化地圖
 	map = new google.maps.Map(document.getElementById('map'), {
 		zoom: 21,
-		center: new google.maps.LatLng(25.143411, 121.774429),
+		center: new google.maps.LatLng(parseFloat("25.143411"), parseFloat("121.774429")),
 		});
 	// 載入路線服務與路線顯示圖層
 	directionsService = new google.maps.DirectionsService();
