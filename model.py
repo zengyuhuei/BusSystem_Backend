@@ -119,8 +119,8 @@ class Model:
     def add_shift_to_db(self, data):
         client = pymongo.MongoClient('mongodb://'+self._user+':'+self._password+'@140.121.198.84:27017/')
         db = client["KeelungBusSystem"]
-        print(data)
-        print("ouo")
+        data["lat"] = 0.0
+        data["lng"] = 0.0
         result = db['shift'].insert_one(data)
         print(result.inserted_id)
 
@@ -178,6 +178,8 @@ class Model:
         db = client["KeelungBusSystem"]
         db['busRoad_coor'].drop()
         db['route'].drop()
+        db['arrivetime'].drop()
+        db['shift'].drop()
         print('its db')
         print(data_route)
         coor_result = db['busRoad_coor'].insert_many(data_coor)
@@ -225,7 +227,7 @@ class Model:
         position = list()
         client = pymongo.MongoClient('mongodb://'+self._user+':'+self._password+'@140.121.198.84:27017/')
         db = client['KeelungBusSystem']
-        mycol = db['arrivetime']
+        mycol = db['shift']
         print(driver) #拿到路線值
         for x in mycol.find({"driver" : driver}, {"_id" : 0, "route": 1, "driver": 1, "lat": 1, "lng": 1}):
             print(x)
@@ -257,7 +259,7 @@ class Model:
         driver = driver_name["name"]
         print(driver)
         #時間還沒都進去 不知道格式 **
-        db["shift"].update_one({"driver" : "ting"}, {"$set": { "lat": flat, "lng": flng }}) 
+        db["shift"].update_one({"driver" : driver}, {"$set": { "lat": flat, "lng": flng }}) 
         print("hi")
         position = "good"
         return position
@@ -277,7 +279,7 @@ class Model:
         client = pymongo.MongoClient('mongodb://'+self._user+':'+self._password+'@140.121.198.84:27017/')
         db = client["KeelungBusSystem"]
         print('its db')
-        print(data)
-        coor_result = db['arrivetime'].insert_one(data)
+        print(data['driver'])
+        coor_result = db['arrivetime'].update_many({"driver":data['driver']},{"$set": { "peoplenum": data['peoplenum'], "arrive_time": data['arrive_time']}})
         #print(coor_result)
         return coor_result
