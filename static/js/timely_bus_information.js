@@ -4,6 +4,7 @@ var directionsService;
 var directionsDisplay;
 var jj=[];
 var marker1 = [];
+var markers = [];
 
 $(document).ready(function(){
 	$(".yes").click(function() {
@@ -38,7 +39,12 @@ $(document).ready(function(){
 });
 
 function load(route){
-	
+  for(var j = 0; j < markers.length ; j++){
+		console.log("set busstop marker null");
+		markers[j].setPosition(null);
+		markers[j].setMap(null);
+		markers[j]=null;
+	}
 	$.ajax({
 		type: "POST",
 		data: "json",
@@ -106,7 +112,7 @@ function returnRoute(json)
 	console.log(jj);
 	
 	var waypts = [];
-	var markers = [];
+  markers = [];
 
 	
 	
