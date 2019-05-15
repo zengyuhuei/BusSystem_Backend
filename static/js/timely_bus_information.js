@@ -186,7 +186,9 @@ function busInformation()
 		});
 		// 加入地圖標記點擊事件
 		marker1[j].addListener('click', function () {
-			console.log("bus clicked!");
+      console.log("bus clicked!");
+      document.getElementById("driver").innerHTML = "<td>"+jj[j].driver+"</td>";
+      document.getElementById("passenger").innerHTML = "<td>"+"100"+"</td>";
 		});
 	}
 }
