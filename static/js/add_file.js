@@ -29,7 +29,6 @@ function starts()
     //x.html(optionString);
    }// 成功後要執行的函數
   }).done(result => resolve(optionString))
- }).then(result => setData(optionString))
- .then(result => setInterval(function(){repeat(),5000}));
+ }).then(result => setData(optionString));
 
 }
