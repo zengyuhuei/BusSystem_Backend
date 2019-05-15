@@ -60,10 +60,10 @@
 				<form method = "post" action = "http://127.0.0.1:3000/modify_info_to_db" enctype = "multipart/form-data">
 					<div class = "row">
 						{% if error %}
-						<script>window.alert("{{error}}");</script>
+							<div class="alert alert-danger" role="alert"><strong>Error:</strong> {{ error }}</div>
 						{% endif %}
 						{% if success %}
-						<script>window.alert("{{success}}");</script>
+							<div class="alert alert-success" role="alert"><strong>Success:</strong> {{ success }}</div>
 						{% endif %}
 						<div class="col-sm-7 col-lg-7 col-md-7">
 							<div class="form-group row">

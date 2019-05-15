@@ -72,14 +72,11 @@
 		   
 		<div class="form-group row">
 			{% if error %}
-			 <script>window.alert("{{ error }}");</script>
-			 {% endif %}
-			 {% if success %}
-			  	<script>
-						window.alert("{{ success }}");
-						setid('{{inserted_id}}');
-					</script>
-			 {% endif %}
+				<div class="alert alert-danger" role="alert"><strong>Error:</strong> {{ error }}</div>
+			{% endif %}
+			{% if success %}
+				<div class="alert alert-success" role="alert"><strong>Success:</strong> {{ success }}</div>
+			{% endif %}
 			<label for="input1" class="col-xs-3 col-md-auto col-form-label">
 				<h5>路線：</h5>
 			</label>

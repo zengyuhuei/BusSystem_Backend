@@ -74,10 +74,10 @@
 				<div class="custom-file col-xs-9 col-md-auto">
 				
 					{% if error %}
-					<script>window.alert("上傳失敗");</script>
+						<div class="alert alert-danger" role="alert"><strong>上傳失敗:</strong> {{ error }}</div>
 					{% endif %}
 					{% if success %}
-						<script>window.alert("上傳成功");</script>
+						<div class="alert alert-success" role="alert"><strong>上傳成功:</strong> {{ success }}</div>
 					{% endif %}
 				  <input type="file" class="custom-file-input" id="customFile" accept=".csv" name = "myfile">
 				  <label class="custom-file-label" for="customFile" >Choose file</label>
