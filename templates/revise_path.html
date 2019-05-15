@@ -68,17 +68,16 @@
 				
 			</div>
 			<form method = "post" action = "http://140.121.198.84:3000/busGps_to_db"  enctype = "multipart/form-data">
+			{% if error %}
+				<div class="alert alert-danger" role="alert"><strong>上傳失敗:</strong> {{ error }}</div>
+			{% endif %}
+			{% if success %}
+				<div class="alert alert-success" role="alert"><strong>上傳成功:</strong> {{ success }}</div>
+			{% endif %}
 			<div class="form-group row">
 
 				
 				<div class="custom-file col-xs-9 col-md-auto">
-				
-					{% if error %}
-						<div class="alert alert-danger" role="alert"><strong>上傳失敗:</strong> {{ error }}</div>
-					{% endif %}
-					{% if success %}
-						<div class="alert alert-success" role="alert"><strong>上傳成功:</strong> {{ success }}</div>
-					{% endif %}
 				  <input type="file" class="custom-file-input" id="customFile" accept=".csv" name = "myfile">
 				  <label class="custom-file-label" for="customFile" >Choose file</label>
 				</div>
