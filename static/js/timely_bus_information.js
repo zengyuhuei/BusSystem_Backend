@@ -5,6 +5,9 @@ var directionsDisplay;
 var jj=[];
 var marker1 = [];
 var busdriver;
+var waypts = [];
+markers = [];
+
 $(document).ready(function(){
 	$(".yes").click(function() {
 		$("#map").show();
@@ -110,9 +113,6 @@ function returnRoute(json)
 	//var jj = returnGPS(bus_coor);
 	console.log(jj);
 	
-	var waypts = [];
-  markers = [];
-
 	
 	
 	for (var i = 1; i < obj.length-1; i++) {
