@@ -295,7 +295,7 @@ def del_shift():
             exist = "不存在"
             response["status"] = "error"
         print(data)
-        else :
+        else:
             success = "刪除成功"
     except Exception as e:
         response["status"] = "error"
