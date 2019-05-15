@@ -69,14 +69,13 @@
 		<div class="intro-text my-4">  
 			<h1>新增/修改班次</h1>
 		</div>
-		   
+	   {% if error %}
+			<div class="alert alert-danger" role="alert"><strong>Error:</strong> {{ error }}</div>
+		{% endif %}
+		{% if success %}
+			<div class="alert alert-success" role="alert"><strong>Success:</strong> {{ success }}</div>
+		{% endif %}
 		<div class="form-group row">
-			{% if error %}
-				<div class="alert alert-danger" role="alert"><strong>Error:</strong> {{ error }}</div>
-			{% endif %}
-			{% if success %}
-				<div class="alert alert-success" role="alert"><strong>Success:</strong> {{ success }}</div>
-			{% endif %}
 			<label for="input1" class="col-xs-3 col-md-auto col-form-label">
 				<h5>路線：</h5>
 			</label>
@@ -99,7 +98,7 @@
 				<select id="inputDate" class="form-control">
 					<option value="SUN">星期日 SUN</option>
 					<option value="MON">星期一 MON</option>
-					<option value="TUE">星期二 TUR</option>
+					<option value="TUE">星期二 TUE</option>
 					<option value="WED">星期三 WED</option>
 					<option value="THU">星期四 THU</option>
 					<option value="FRI">星期五 FRI</option>

@@ -246,9 +246,13 @@ $(document).ready(function(){
     });
 	// Delete row on delete button click
 	$(document).on("click", ".delete", function(){
-			var id = $(this).closest('tr').find('td:nth-child(1)').text();
+		var id = $(this).closest('tr').find('td:nth-child(1)').text();
+		console.log("id====="+id);
+		if(id!="")
+		{
 			delTable(id);
-        $(this).parents("tr").remove();
+		}
+		$(this).parents("tr").remove();
 		$(".add-new").removeAttr("disabled");
     });
 })

@@ -42,14 +42,15 @@ $(document).ready(function(){
 				},// 錯誤後執行的函數
 				success: function (response) {
 					//alert("修改成功");
-					//window.location.href = xhr.responseURL;
-					//window.location.href = xhr.responseURL;
+					console.log(response);
+					window.location.href = xhr.responseURL;
 				}// 成功後要執行的函數
 			});
 		}
 		else
 		{
-			window.alert("新密碼不一樣喔!!!");
+			document.getElementById("error").innerHTML+='<strong>'+"新密碼不一樣喔!!!"+'</strong>';
+			//window.alert("新密碼不一樣喔!!!");
 		}
 		
 	});

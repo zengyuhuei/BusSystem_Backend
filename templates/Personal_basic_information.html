@@ -74,13 +74,13 @@
 				<div class="intro-text my-3">
 					<h1>個人基本資料</h1>
 				</div>
+				{% if error %}
+					<div class="alert alert-danger" role="alert"><strong>Error:</strong> {{ error }}</div>
+				{% endif %}
+				{% if success %}
+					<div class="alert alert-success" role="alert"><strong>Success:</strong> {{ success }}</div>
+				{% endif %}
 				<form method = "post" action = "http://140.121.198.84:3000/modify_info_to_db" enctype = "multipart/form-data">
-						{% if error %}
-							<div class="alert alert-danger" role="alert"><strong>Error:</strong> {{ error }}</div>
-						{% endif %}
-						{% if success %}
-							<div class="alert alert-success" role="alert"><strong>Success:</strong> {{ success }}</div>
-						{% endif %}
 					<div class = "row">
 						<div class="col-sm-7 col-lg-7 col-md-7">
 							<div class="form-group row">
@@ -170,7 +170,7 @@
 										<h6>上傳大頭照：</h6>
 									</label>
 									<div class="custom-file" style="display:none;">
-										<input type="file" class="custom-file-input" id="myfile" name="myfile" accept=".jpg,.gif,.png" onchange="readURL(this);" disabled>
+										<input type="file" class="custom-file-input" id="myfile" name="myfile" accept=".jpg,.JPEG,.JPG,.png,.PNG,.jpeg" onchange="readURL(this);" disabled>
 										<label class="custom-file-label" for="myfile">Choose file</label>
 									</div>
 									
