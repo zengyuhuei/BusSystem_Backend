@@ -289,7 +289,7 @@ class Model:
         print('its db')
         print(data['driver'])
         result = db['arrivetime'].update_many({"driver":data['driver']},{"$set": { "peoplenum": data['peoplenum'], "arrive_time": data['arrive_time']}})
-        if result == None:
+        if result == 'none':
             result = db['arrivetime'].insert_one(data)
         #print(coor_result)
         return result
