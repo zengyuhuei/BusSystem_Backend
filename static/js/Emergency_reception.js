@@ -1,13 +1,13 @@
 
 var i = 0;
 var xString = ""
+var driverList = new Array();
 function setData()
 {
     document.getElementById("busdriver").innerHTML += '<select class="form-control" id="inputRoute">'+xString+'</select>';
 }
 function setDriver()
 {
-    driverList = getDriver();
     const p =new Promise(
 		(resolve,reject)=>{
     $.ajax({
