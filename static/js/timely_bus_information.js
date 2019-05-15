@@ -33,12 +33,10 @@ $(document).ready(function(){
  directionsDisplay.setMap(map);
  function repeat()
  {
-  intervalControl = setInterval(function(){
     let route = $("#inputState").val();
     if(route){
     busGPS(route);
     }
-  },5000);
 }
 
 
@@ -255,6 +253,6 @@ function starts()
    }// 成功後要執行的函數
   }).done(result => resolve(optionString))
  }).then(result => setData(optionString))
- .then(result=>repeat()); 
+ .then(result => setInterval(function(){repeat(),5000}));
 
 }
