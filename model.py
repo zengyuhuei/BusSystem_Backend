@@ -320,8 +320,6 @@ class Model:
     def start_set_busStop_from_db(self, data):
         client = pymongo.MongoClient('mongodb://'+self._user+':'+self._password+'@140.121.198.84:27017/')
         db = client['KeelungBusSystem']
-        #把時間姓名進去找 符合存進去 //判斷是否符合
-        print("----------------")
         print(data)
         time = data["start_time"]
         name = data["email"]

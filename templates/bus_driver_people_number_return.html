@@ -22,51 +22,22 @@
 			var i = 1;
 			var stop = i.toString();
 			var count = 0;
-			//addItems.addEventListener('submit', display_peoplenum);
-				function report() {
-					//peoplenum = localStorage.getItem('peoplenum');
-					console.log("report");
-					console.log(peoplenum);
-					
-					now = date.getFullYear()+"-"; //读英文就行了 
-					now = now + (date.getMonth()+1)+"-"; //取月的时候取的是当前月-1如果想取当前月+1就可以了 
-					now = now + date.getDate()+"T"; 
-					now = now + date.getHours()+":"; 
-					now = now + date.getMinutes()+":00.000Z";
-					
-					console.log(now);
-					
-					
-					//setInterval("document.getElementById('datetime').innerHTML=new Date().toLocaleString();", 1000);
-				}
+			function report() {
+				//peoplenum = localStorage.getItem('peoplenum');
+				console.log("report");
+				console.log(peoplenum);
+				
+				now = date.getFullYear()+"-"; //读英文就行了 
+				now = now + (date.getMonth()+1)+"-"; //取月的时候取的是当前月-1如果想取当前月+1就可以了 
+				now = now + date.getDate()+"T"; 
+				now = now + date.getHours()+":"; 
+				now = now + date.getMinutes()+":00.000Z";
+				
+				console.log(now);
+				
+			}
 				var busLocation = [];
 				var count= 0;
-				/*var buslocation = [
-					{lat:25.136333,lng:121.778361},
-					{lat:25.135139,lng:121.782333},
-					{lat:25.135306,lng:121.78475},
-					{lat:25.135611,lng:121.785639},
-					{lat:25.136333,lng:121.787778},
-					{lat:25.137444,lng:121.788667},
-					{lat:25.139583,lng:121.789444},
-					{lat:25.142389,lng:121.789306},
-					{lat:25.145056,lng:121.7855},
-					{lat:25.14675,lng:121.783556},
-					{lat:25.148355,lng:121.782811},
-					{lat:25.150237,lng:121.780909},
-					{lat:25.150982,lng:121.775624},
-					{lat:25.15114,lng:121.772985},
-					{lat:25.151194,lng:121.771875},
-					{lat:25.151756,lng:121.770607},
-					{lat:25.152256,lng:121.76793},
-					{lat:25.151149,lng:121.766927},
-					{lat:25.150581,lng:121.765452},
-					{lat:25.149328,lng:121.763623},
-					{lat:25.14739,lng:121.761509},
-					{lat:25.142444,lng:121.760667},
-					{lat:25.143111,lng:121.761111}
-				]
-				var obj = Object.keys(buslocation).map(function(_) { return buslocation[_]; });*/
 				function callBusStop()
 				{
 					$.ajax({
@@ -182,17 +153,6 @@
 					myVar = setTimeout("start()",5000); 
 				}
 
-			function display_peoplenum(e)
-			{
-				event.preventDefault();
-				/*peoplenum = peoplenum + (document.getElementById("get_on").value - document.getElementById("get_off").value);
-				localStorage.setItem('peoplenum',peoplenum);
-				document.getElementById("people_number").value = peoplenum;
-				console.log("report people num"+document.getElementById("people_mber").value);
-				console.log(localStorage.getItem('peoplenum'));*/
-				
-				
-			}
 
 			function end()
 			{
