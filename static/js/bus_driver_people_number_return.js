@@ -32,10 +32,12 @@ $(document).ready(function(){
 
 
 $(document).ready(function(){
-	$('.count2').prop('disabled', true);
+	$('#people_number').prop('disabled', true);
 	$(document).on('click','.save',function(){
-		$('.count2').val(parseInt(localStorage.getItem('peoplenum') + $('.count').val()) - parseInt($('.count1').val()) )
-		localStorage.setItem('peoplenum',$('.count2').val());
+		var people_number = parseInt(localStorage.getItem('peoplenum') + $('.count').val()) - parseInt($('.count1').val())
+		//$('#people_number').val(parseInt(localStorage.getItem('peoplenum') + $('.count').val()) - parseInt($('.count1').val()) )
+		document.getElementById("people_number").innerHTML = people_number;
+		localStorage.setItem('peoplenum',people_number);
 		$('.count1').val(0);
 		$('.count').val(0);
 	});
