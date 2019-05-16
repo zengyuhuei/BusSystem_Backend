@@ -35,7 +35,7 @@ $(document).ready(function(){
 	$('#people_number').prop('disabled', true);
 	$(document).on('click','.save',function(){
 		$('#people_number').val(parseInt(localStorage.getItem('peoplenum') + $('.count').val()) - parseInt($('.count1').val()) )
-		localStorage.setItem('peoplenum',$('.count2').val());
+		localStorage.setItem('peoplenum',$('#people_number').val());
 		$('.count1').val(0);
 		$('.count').val(0);
 	});
