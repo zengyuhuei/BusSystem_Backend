@@ -369,7 +369,9 @@ class Model:
             start = "haveNotStart"
             return start
         else:
-            for i in range(0,len(route_result)-2):
+            for i in range(0,len(route_result)-1):
+                print("lat")
+                print(lat)
                 if position[0]["lat"] is lat:
                     print("position is going to ruturn")
                     print(position)
