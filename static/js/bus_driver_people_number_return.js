@@ -8,10 +8,10 @@ $(document).ready(function(){
 	});
 	$(document).on('click','.minus',function(){
 		$('.count').val(parseInt($('.count').val()) - 1 );
-			if ($('.count').val() == -1) {
-				$('.count').val(0);
-			}
-		});
+		if ($('.count').val() < 0) {
+			$('.count').val(0);
+		}
+	});
 });
 
 $(document).ready(function(){
@@ -21,8 +21,8 @@ $(document).ready(function(){
 	});
 	$(document).on('click','.minus1',function(){
 	$('.count1').val(parseInt($('.count1').val()) - 1 );
-		if ($('.count1').val() == -1) {
-			$('.count1').val(0);
+		if ($('.count1').val() < 0) {
+			$('.count').val(0);
 		}
 	});
 });
