@@ -10,6 +10,9 @@ $(document).ready(function(){
 		$("#map").show();
 		$("#bus").show();
 		$route = $("#inputRoute").val();
+		
+	console.log("---------------");
+		console.log($route);
 		load($route);
 		busGPS($route);
 	})
@@ -38,6 +41,8 @@ $(document).ready(function(){
 });
 
 function load(route){
+	console.log("---------------");
+	console.log(route);
 	
 	$.ajax({
 		type: "POST",
