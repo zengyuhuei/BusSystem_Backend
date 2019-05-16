@@ -17,37 +17,37 @@
     <body onload="websocket_init()">
         <nav class="navbar navbar-expand-xl navbar-dark bg-dark" id="mainNav">
 		  <div class="container">
-			  <a class="navbar-brand" href="{{url_for('driver_index')}}">基隆公車調派系統</a>
+			  <a class="navbar-brand" href="{{url_for('driver_index')}}"><h1>基隆公車調派系統</h1></a>
 			  <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
 			  </button>
 			
 			<div class="navbar-collapse collapse" id="navbarText">
 			  <ul class="nav navbar-nav mr-auto">
-					<li class="nav-item active"><a class = "nav-link" href="{{url_for('bus_driver_people_number_return')}}">乘客人數回報</a></li>
-					<li class="nav-item"><a class = "nav-link" href="{{url_for('bus_driver_emergency_return')}}"> 突發狀況回報</a></li>
-					<li class="nav-item"><a class = "nav-link" href="{{url_for('bus_driver_personal_basic_information')}}"> 個人基本資料</a></li>
-					<li class="nav-item"><a class = "nav-link" href="#"> 導航模式</a></li>
-					<li class="nav-item"><a class = "nav-link" href="{{url_for('bus_driver_change_password')}}"> 修改密碼</a></li>
+					<li class="nav-item active"><a class = "nav-link" href="{{url_for('bus_driver_people_number_return')}}"><h3>乘客人數回報</h3></a></li>
+					<li class="nav-item"><a class = "nav-link" href="{{url_for('bus_driver_emergency_return')}}"> <h3>突發狀況回報</h3></a></li>
+					<li class="nav-item"><a class = "nav-link" href="{{url_for('bus_driver_personal_basic_information')}}"> <h3>個人基本資料</h3></a></li>
+					<li class="nav-item"><a class = "nav-link" href="#"> <h3>導航模式</h3></a></li>
+					<li class="nav-item"><a class = "nav-link" href="{{url_for('bus_driver_change_password')}}"> <h3>修改密碼</h3></a></li>
 				</ul>
 				<ul class="navbar-nav">
-					<a href="{{url_for('logout')}}" class="btn btn-outline-primary navbar-btn" role="button" aria-pressed="true">登出</a>
+					<a href="{{url_for('logout')}}" class="btn btn-outline-primary navbar-btn" role="button" aria-pressed="true"><h3>登出</h3></a>
                 </ul>
 				
 			</div>
 		  </div>
 	    </nav>
         
-        <div class="container">
+        <div class="container-fluid">
 			<div class="intro-text my-4">  
-				<h1>乘客人數回報</h1>
+				乘客人數回報
 			</div>
 			<form>
 				<div class = "row">
-					<label for="address" class="col-xs-3 col-md-auto col-form-label">
-						<h4>上車人數：</h4>
+					<label for="address" class="col-4 col-xs-4 col-md-auto col-form-label">
+						<h1>上車人數：</h1>
 					</label>
-					<div class="qty col-xs-6 col-md-6 col-lg-6">
+					<div class="qty col-6 col-xs-6 col-md-6 col-lg-6">
 						<span class="minus bg-dark">-</span>
 						<input type="number" class="count" name="qty" value="0" id="get_on">
 						<span class="plus bg-dark">+</span>
@@ -55,35 +55,35 @@
 				</div>
 				
 				<div class = "row my-4">
-					<label for="address" class="col-xs-3 col-md-auto col-form-label">
-						<h4>下車人數：</h4>
+					<label for="address" class="col-4 col-xs-4 col-md-auto col-form-label">
+						<h1>下車人數：</h1>
 					</label>
-					<div class="qty col-xs-6 col-md-6 col-lg-6">
+					<div class="qty col-6 col-xs-6 col-md-6 col-lg-6">
 						<span class="minus1 bg-dark">-</span>
 						<input type="number" class="count1" name="qty" value="0" id="get_off">
 						<span class="plus1 bg-dark">+</span>
 					</div>
 				</div>
-				<div class="col-xs-12 col-md-12 col-lg-6 mt-3 text-center">
-					<button type="button" class="btn btn-outline-secondary btn-lg save"  onclick='display_peoplenum()'>送出</button>
+				<div class="col-12 col-xs-12 col-md-8 col-lg-6 mt-3 text-center">
+					<button type="button" class="btn btn-outline-secondary btn-lg save"  onclick='display_peoplenum()'><h1>送出</h1></button>
 				</div>
 				
-				<div class="col-xs-12 col-md-12 col-lg-6 mt-3 text-center">
-					<button type="button" class="btn btn-secondary btn-lg" onclick='report()'>到站按鈕</button>
+				<div class="col-12 col-xs-12 col-md-8 col-lg-6 mt-3 text-center">
+					<button type="button" class="btn btn-secondary btn-lg" onclick='report()'><h1>到站按鈕</h1></button>
 				</div>
 
-				<div class = "row my-4">
-					<label for="address" class="col-xs-3-md-auto col-form-label">
-						<h4>當前乘客人數：
-						<input type="number" class="count2" value="0" id="people_number"></h4>
+				<div class = "row my-4 qty">
+					<label for="address" class="col-8 col-xs-8 col-md-auto col-form-label">
+						<h1>當前乘客人數：
+						<input type="number" class="count2" value="0" id="people_number"></h1>
 					</label>
 				</div>
-				<div class = "row">
-					<div class="col-6 col-xs-3 col-md-3 col-lg-3 mt-3 text-center">
-						<button type="button" class="btn btn-primary btn-lg" onclick='start()'>開始</button>
+				<div class = "row col-8 col-xs-8 col-md-8 col-lg-8 mt-3">
+					<div class="col-6 col-xs-6 col-md-6 col-lg-6 text-center">
+						<button type="button" class="btn btn-primary btn-lg" onclick='start()'><h1>開始</h1></button>
 					</div>
-					<div class="col-6 col-xs-3 col-md-3 col-lg-3 mt-3 text-center">
-						<button type="button" class="btn btn-danger btn-lg" onclick='end()'>結束</button>
+					<div class="col-6 col-xs-6 col-md-6 col-lg-6 text-center">
+						<button type="button" class="btn btn-danger btn-lg" onclick='end()'><h1>結束</h1></button>
 					</div>
 				</div>
 			</form>
@@ -158,7 +158,7 @@
 							data: "json",
 							dataType: "json",
 							contentType : 'application/json',
-							url: "http://140.121.198.84:3000/setbusGPS",
+							url: "http://127.0.0.1:3000/setbusGPS",
 							data:JSON.stringify({
 								"email": localStorage.account,
 								"start_time": "7:00",
@@ -181,7 +181,7 @@
 							data: "json",
 							dataType: "json",
 							contentType : 'application/json',
-							url: "http://140.121.198.84:3000/setbusGPS",
+							url: "http://127.0.0.1:3000/setbusGPS",
 							data:JSON.stringify({
 								"email": localStorage.account,
 								"start_time": "7:00",
