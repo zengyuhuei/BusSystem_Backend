@@ -83,6 +83,8 @@
 							console.log(response);
 							var obj = Object.keys(response).map(function(_) { return response[_]; });
 							busLocation = obj;
+							console.log("busLocation")
+							console.log(busLocation);
 							start();
 							},
 							error: function(xhr, type) {
