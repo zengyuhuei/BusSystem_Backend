@@ -688,6 +688,7 @@ def start_set_bus_stop():
 def set_bus_stop():
     response = {"status":"ok"}
     try:
+        print("---------------------")
         getdata = request.get_json() #拿時間&姓名
         getdata["start_time"] = datetime.strptime(getdata["start_time"], '%H:%M')
         print(getdata)
