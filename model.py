@@ -331,7 +331,7 @@ class Model:
         print(driver_info)
         driver = driver_info["name"]
         print(driver)
-        driver_route = db["shift"].find_one({'driver' : name}, {"route" : 1, "lat" : 1})
+        driver_route = db["shift"].find_one({'driver' : driver}, {"route" : 1, "lat" : 1})
         route = driver_route["route"]
         lat = driver_route["lat"]
         f_lat = float(lat)
