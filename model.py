@@ -358,11 +358,13 @@ class Model:
         lat = float(driver_route["lat"])
         position = list()
         route_result = db["route"].find_one({'bus_route' : route})
-        return route_result
-        """
+  
+        
         for i in range(1,len(route_result)-1):
             bus_stop=route_result[str(i)]
             position.append(db["busRoad_coor"].find_one({"route" : bus_stop},{"_id" : 0, "route": 1, "lat": 1, "lng": 1 }))
+        return position
+        """    
         if lat is 0:
             start = "haveNotStart"
             return start
@@ -375,6 +377,7 @@ class Model:
                 else:
                     position.pop(0)
         """
+        
         
 
        

@@ -697,7 +697,7 @@ def set_bus_stop():
     except Exception as e:
         response["status"] = "error"
         print(str(e))
-    return str(response)
+    return jsonify(response)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=3000, debug=True)
