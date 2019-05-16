@@ -349,17 +349,12 @@ class Model:
         #把時間姓名進去找 符合存進去 //判斷是否符合
         time = data["start_time"]
         name = data["email"]
-        return data
-        """
-        print(time)
-        print(name)
         driver_info = db["info"].find_one({'email' : name}, {"_id" : 0, "name": 1})
-        print(driver_info)
         driver = driver_info["name"]
-        
        
-        print(driver)
         driver_route = db["shift"].find_one({'driver' : driver}, {"_id" : 0,"route" : 1, "lat" : 1})
+        return driver_route
+        """
         route = driver_route["route"]
         lat = float(driver_route["lat"])
         position = list()
