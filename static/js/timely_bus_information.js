@@ -6,12 +6,12 @@ var jj=[];
 var marker1 = [];
 
 $(document).ready(function(){
-	$(".yes").click(function() {
+	$("#yes").click(function() {
 		$("#map").show();
 		$("#bus").show();
 		$route = $("#inputRoute").val();
 		
-	console.log("---------------");
+		console.log("---------------");
 		console.log($route);
 		load($route);
 		busGPS($route);
