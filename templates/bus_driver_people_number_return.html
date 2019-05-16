@@ -113,7 +113,9 @@
 						
 						//setInterval("document.getElementById('datetime').innerHTML=new Date().toLocaleString();", 1000);
 					}
-					var buslocation = [
+					var busLocation = [];
+					var count= 0;
+					/*var buslocation = [
 						{lat:25.136333,lng:121.778361},
 						{lat:25.135139,lng:121.782333},
 						{lat:25.135306,lng:121.78475},
@@ -138,8 +140,63 @@
 						{lat:25.142444,lng:121.760667},
 						{lat:25.143111,lng:121.761111}
 					]
-					var obj = Object.keys(buslocation).map(function(_) { return buslocation[_]; });
-					var count= 0;
+					var obj = Object.keys(buslocation).map(function(_) { return buslocation[_]; });*/
+					function callBusStop()
+					{
+						$.ajax({
+							type: "POST",
+							data: "json",
+							dataType: "json",
+							contentType : 'application/json',
+							url: "http://140.121.198.84:3000/startSetbusStop",
+							data:JSON.stringify({
+								"email": localStorage.account,
+								"start_time": "7:00"
+								}),
+								success: function(response) {
+								console.log(response);
+								var obj = Object.keys(response).map(function(_) { return response[_]; });
+								busLocation = obj;
+								},
+								error: function(xhr, type) {
+								console.log("gr nb");
+								}
+							});
+							count = 0;
+					}
+					function loadingBusGPS() //定期更新Bus狀況
+					{
+						$.ajax({
+							type: "POST",
+							data: "json",
+							dataType: "json",
+							contentType : 'application/json',
+							url: "http://140.121.198.84:3000/setbusStop",
+							data:JSON.stringify({
+								"email": localStorage.account,
+								"start_time": "7:00"
+								}),
+								success: function(response) {
+								console.log(response);
+								var obj = Object.keys(response).map(function(_) { return response[_]; });
+								if(obj == "haveNotStart"){
+									busLocation = 0;
+								}
+								else{
+									busLocation = obj;
+								}
+								},
+								error: function(xhr, type) {
+								console.log("gr nb");
+								}
+							});
+							count = 0;
+					}
+					function clickStart()
+					{
+						callBusStop();
+						start();
+					}
 					function start()
 					{
 						console.log("ouo");
@@ -149,7 +206,7 @@
 						now2 = now2 + date2.getMinutes();
 
 
-						if(count<obj.length){
+						if(count<busLocation.length){
 							$.ajax({
 							
 							type: "POST",
@@ -160,8 +217,8 @@
 							data:JSON.stringify({
 								"email": localStorage.account,
 								"start_time": "7:00",
-								"lat": obj[count].lat,
-								"lng": obj[count].lng
+								"lat": busLocation[count].lat,
+								"lng": busLocation[count].lng
 								}),
 								success: function(response) {
 								console.log(response);
@@ -244,7 +301,8 @@
 						"email": localStorage.account,
 						"start_time": "7:00",
 						"lat": 0,
-						"lng": 0
+						"lng": 0,
+						"peoplenum": 0
 						}),
 						success: function(response) {
 						console.log(response);

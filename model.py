@@ -267,6 +267,8 @@ class Model:
         name = data["email"]
         lat = data["lat"]
         lng = data["lng"]
+        peoplenum = data["peoplenum"]
+        fpeoplenum = float(peoplenum)
         if lat is " ":
             flat = lat
             flng = lng
@@ -282,7 +284,7 @@ class Model:
         driver = driver_name["name"]
         print(driver)
         #時間還沒都進去 不知道格式 **
-        db["shift"].update_one({"driver" : driver}, {"$set": { "lat": flat, "lng": flng }}) 
+        db["shift"].update_one({"driver" : driver}, {"$set": { "lat": flat, "lng": flng, "peoplenum": fpeoplenum}}) 
         print("hi")
         position = "good"
         return position
@@ -309,6 +311,30 @@ class Model:
         #print(coor_result)
         return result
 
+    #set startBusStop   (找司機名字 然後進shift找資料)
+    def start_set_busStop_from_db(self, data):
+        client = pymongo.MongoClient('mongodb://'+self._user+':'+self._password+'@140.121.198.84:27017/')
+        db = client['KeelungBusSystem']
+        #把時間姓名進去找 符合存進去 //判斷是否符合
+        time = data["start_time"]
+        name = data["email"]
+        print(time)
+        print(name)
+        driver_info = db["info"].find_one({'email' : name}, {"_id" : 0, "name": 1})
+        print(driver_info)
+        driver = driver_info["name"]
+        print(driver)
+        driver_route = db["shift"].find_one({'driver' : name}, {"route" : 1, "lat" : 1})
+        route = driver_route["route"]
+        lat = driver_route["lat"]
+        f_lat = float(lat)
+        position = list()
+        route_result = db["route"].find_one({'bus_route' : route})
+        for i in range(1,len(route_result)-1):
+            bus_stop=route_result[str(i)]
+            position.append(db["busRoad_coor"].find_one({"route" : bus_stop},{"_id" : 0, "route": 1, "lat": 1, "lng": 1 }))
+        return position
+
     #set busStop   (找司機名字 然後進shift找資料)
     def set_busStop_from_db(self, data):
         client = pymongo.MongoClient('mongodb://'+self._user+':'+self._password+'@140.121.198.84:27017/')
@@ -332,10 +358,11 @@ class Model:
             bus_stop=route_result[str(i)]
             position.append(db["busRoad_coor"].find_one({"route" : bus_stop},{"_id" : 0, "route": 1, "lat": 1, "lng": 1 }))
         if f_lat is 0:
-            return position
+            start = "haveNotStart"
+            return start
         else:
             for i in range(0,len(route_result)-2):
-                if position[0]["lat"] is lat:
+                if position[0]["lat"] is f_lat:
                     print("position is going to ruturn")
                     print(position)
                     return position
