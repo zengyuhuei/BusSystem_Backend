@@ -175,11 +175,15 @@ function busInformation()
 			position: jj[j],
 			map: map,
 			icon:'https://i.ibb.co/s6B8nGn/bb.png',
+			data:jj[j].driver,
+			data2:jj[j].peoplenum,
 			zIndex:2
 		});
 		// 加入地圖標記點擊事件
 		marker1[j].addListener('click', function () {
 			console.log("bus clicked!");
+			document.getElementById("driver").innerHTML = "<td>"+this.data+"</td>";
+			document.getElementById("passenger").innerHTML = "<td>"+this.data2+"</td>";
 		});
 	}
 }
