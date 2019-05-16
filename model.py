@@ -272,24 +272,24 @@ class Model:
         name = data["email"]
         lat = data["lat"]
         lng = data["lng"]
-        peoplenum = data["peoplenum"]
-        fpeoplenum = float(peoplenum)
+        if 'peoplenum' in data.keys():
+            peoplenum = int(data["peoplenum"])
         if lat is " ":
             flat = lat
             flng = lng
         else:
             flat = float(lat)
             flng = float(lng)
-        print(time)
-        print(name)
-        print(lat)
-        print(lng)
+    
         driver_name = db["info"].find_one({'email' : name}, {"_id" : 0, "name": 1})
         print(driver_name)
         driver = driver_name["name"]
         print(driver)
         #時間還沒都進去 不知道格式 **
-        db["shift"].update_one({"driver" : driver}, {"$set": { "lat": flat, "lng": flng, "peoplenum": fpeoplenum}}) 
+        if 'peoplenum' in data.keys():
+            db["shift"].update_one({"driver" : driver}, {"$set": { "lat": flat, "lng": flng, "peoplenum": peoplenum}}) 
+        else:
+            db["shift"].update_one({"driver" : driver}, {"$set": { "lat": flat, "lng": flng}}) 
         print("hi")
         position = "good"
         return position
