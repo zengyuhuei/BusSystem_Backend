@@ -688,16 +688,17 @@ def start_set_bus_stop():
 def set_bus_stop():
     response = {"status":"ok"}
     try:
-        print("---------------------")
         getdata = request.get_json() #拿時間&姓名
         getdata["start_time"] = datetime.strptime(getdata["start_time"], '%H:%M')
         print(getdata)
         response = model.set_busStop_from_db(getdata)
-
     except Exception as e:
         response["status"] = "error"
         print(str(e))
-    return jsonify(response)
+    if response  != "haveNotStart":
+        return jsonify(response)
+    else:
+        return "haveNotStart"
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=3000, debug=True)
