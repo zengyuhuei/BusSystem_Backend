@@ -106,3 +106,12 @@ span{
     -moz-user-select: none;
     -ms-user-select: none;
 }
+
+nput::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+input:disabled{
+    background-color:white;
+}
