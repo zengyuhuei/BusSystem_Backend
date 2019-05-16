@@ -363,20 +363,22 @@ class Model:
         for i in range(1,len(route_result)-1):
             bus_stop=route_result[str(i)]
             position.append(db["busRoad_coor"].find_one({"route" : bus_stop},{"_id" : 0, "route": 1, "lat": 1, "lng": 1 }))
-        return position
-        """    
-        if lat is 0:
+       
+        fuck = dict()  
+        fuck['fuck'] = "fuck"
+        if abs(lat - 0) < 1.0e-9:
             start = "haveNotStart"
             return start
         else:
             for i in range(0,len(route_result)-2):
-                if position[0]["lat"] is lat:
-                    print("position is going to ruturn")
-                    print(position)
+                print()
+                if abs(float(position[0]["lat"])-lat) < 1.0e-9:
+                    position.pop(0)
                     return position
                 else:
                     position.pop(0)
-        """
+            return fuck
+        
         
         
 

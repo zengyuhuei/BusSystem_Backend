@@ -90,11 +90,13 @@
 						}),
 						success: function(response) {
 								console.log(response);
-								var obj = Object.keys(response).map(function(_) { return response[_]; });
-								if(obj == "haveNotStart"){
+								if(response == "haveNotStart")
+								{
 									busLocation = null;
-								}
+								} 
+								
 								else{
+									var obj = Object.keys(response).map(function(_) { return response[_]; });
 									busLocation = obj;
 									start();
 								}
