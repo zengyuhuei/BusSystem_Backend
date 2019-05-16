@@ -13,8 +13,100 @@
 	  <link href="{{ url_for('static',filename='css/main.css') }}" rel="stylesheet">
 	</head>
 
-	
-    <body onload="websocket_init();">
+		<script>
+			let count = 0;
+			function load()
+			{
+				websocket_init();
+				loadingBusGPS();
+			}
+			function start()
+			{
+				console.log("ouo");
+				var date2 = new Date(); //日期对象 
+				var now2 = "";
+				now2 = now2 + date2.getHours()+":"; 
+				now2 = now2 + date2.getMinutes();
+
+
+				if(count<busLocation.length){
+					$.ajax({
+					
+					type: "POST",
+					data: "json",
+					dataType: "json",
+					contentType : 'application/json',
+					url: "http://140.121.198.84:3000/setbusGPS",
+					data:JSON.stringify({
+						"email": localStorage.account,
+						"start_time": "7:00",
+						"lat": busLocation[count].lat,
+						"lng": busLocation[count].lng
+						}),
+						success: function(response) {
+						console.log(response);
+						},
+						error: function(xhr, type) {
+						console.log("hehehe");
+						}
+					});
+					count++;
+				}
+				else{
+					$.ajax({
+					
+					type: "POST",
+					data: "json",
+					dataType: "json",
+					contentType : 'application/json',
+					url: "http://140.121.198.84:3000/setbusGPS",
+					data:JSON.stringify({
+						"email": localStorage.account,
+						"start_time": "7:00",
+						"lat": 0,
+						"lng": 0
+						}),
+						success: function(response) {
+						console.log(response);
+						},
+						error: function(xhr, type) {
+						console.log("hehehe");
+						}
+					});
+				}
+				myVar = setTimeout("start()",5000); 
+			}
+			function loadingBusGPS() //定期更新Bus狀況
+			{
+				$.ajax({
+					type: "POST",
+					data: "json",
+					dataType: "json",
+					contentType : 'application/json',
+					url: "http://140.121.198.84:3000/setbusStop",
+					data:JSON.stringify({
+								"email": localStorage.account,
+								"start_time": "7:00"
+						}),
+						success: function(response) {
+								console.log(response);
+								var obj = Object.keys(response).map(function(_) { return response[_]; });
+								if(obj == "haveNotStart"){
+									busLocation = null;
+								}
+								else{
+									busLocation = obj;
+									start();
+								}
+						},
+						error: function(xhr, type) {
+								console.log("gr nb");
+						}
+					});
+					count = 0;
+			}
+		</script>
+    <body onload="load();">
 
 		<nav class="navbar navbar-expand-xl navbar-dark bg-dark" id="mainNav">
 		  <div class="container">
