@@ -119,7 +119,7 @@ class Model:
         for info in result:
             info['start_time'] = info['start_time'].strftime("%H:%M")
             info['_id'] = str(info['_id'])
-          
+            info['arrive_time'] = info['arrive_time'].strftime("%H:%M")
         print(result)
         return json.dumps(result)
 
