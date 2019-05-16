@@ -606,14 +606,14 @@ def get_route():
     response = {"status":"ok"}
     try:
         print("....")
-        print(request)
+        #print(request)
         getRoute = request.get_json()
-        print(getRoute)
+        #print(getRoute)
         response = model.get_route_from_db(getRoute)
-        print(response)
+        #print(response)
     except Exception as e:
         response["status"] = "error"
-        print(str(e))
+        #print(str(e))
     return jsonify(response)
 
 @app.route('/getbusGPS', methods=['POST'])
@@ -625,7 +625,7 @@ def get_busGPS():
 
     except Exception as e:
         response["status"] = "error"
-        print(str(e))
+        #print(str(e))
     return jsonify(response)
 
 @app.route('/getbusDriverforWeb', methods=['POST'])
