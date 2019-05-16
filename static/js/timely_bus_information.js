@@ -4,14 +4,12 @@ var directionsService;
 var directionsDisplay;
 var jj=[];
 var marker1 = [];
-var busdriver;
-var markers = [];
 
 $(document).ready(function(){
 	$(".yes").click(function() {
 		$("#map").show();
 		$("#bus").show();
-		$route = $("#inputRoute").val();
+		$route = $("#inputState").val();
 		load($route);
 		busGPS($route);
 	})
@@ -32,7 +30,7 @@ $(document).ready(function(){
 	// 放置路線圖層
 	directionsDisplay.setMap(map);
 	intervalControl = setInterval(function(){
-		let route = $("#inputRoute").val();
+		let route = $("#inputState").val();
 		if(route){
 			busGPS(route);
 		}
@@ -40,13 +38,7 @@ $(document).ready(function(){
 });
 
 function load(route){
-  for(var j = 0; j < markers.length ; j++){
-		console.log("set busstop marker null");
-		markers[j].setPosition(null);
-		markers[j].setMap(null);
-		markers[j]=null;
-	}
-	console.log(route);
+	
 	$.ajax({
 		type: "POST",
 		data: "json",
@@ -87,6 +79,7 @@ function busGPS(route){
 			console.log("hehehe");
 		}
 	});
+
 	//setTimeout("busGPS($route)",5000);
 }
 
@@ -111,7 +104,10 @@ function returnRoute(json)
 	
 	//var jj = returnGPS(bus_coor);
 	console.log(jj);
+	
 	var waypts = [];
+	var markers = [];
+
 	
 	
 	for (var i = 1; i < obj.length-1; i++) {
@@ -178,25 +174,17 @@ function busInformation()
 	for(var j = 0; j < jj.length ; j++){
 		marker1[j] = new google.maps.Marker({
 			position: jj[j],
-      map: map,
-			data: jj[j].driver,
-			data2: jj[j].peoplenum,
+			map: map,
 			icon:'https://i.ibb.co/s6B8nGn/bb.png',
 			zIndex:2
 		});
 		// 加入地圖標記點擊事件
 		marker1[j].addListener('click', function () {
 			console.log("bus clicked!");
-			console.log(this.data);
-			document.getElementById("driver").innerHTML = "<td>"+this.data+"</td>";
-      document.getElementById("passenger").innerHTML = "<td>"+this.data2+"</td>";
 		});
 	}
 }
 
-function set_info_table()
-{
-}
 
 // yochien edit here //
 
@@ -208,3 +196,38 @@ function myFunction() {
 	map.setZoom(15);
 	map.setCenter(obj[obj.length/2]);
 }*/
+
+function setData(xString)
+{
+ document.getElementById("shift").innerHTML += '<select class="form-control" id="inputRoute">'+xString+'</select>';
+}
+
+function starts()
+{
+ console.log("DDDDDD");
+ var optionString = '';
+ var i = 0;
+ const p = new Promise(
+  (resolve,reject)=>{$.ajax({
+   type: 'POST',
+   dataType : 'json',
+   contentType : 'application/json',
+   url: "http://140.121.198.84:3000/getbusNumber",
+   data:JSON.stringify({
+    
+   }),
+    error: function (xhr) { },      // 錯誤後執行的函數
+    success: function (response) {
+    console.log("下拉式選單: "+response);
+    while(response[i]!=null)
+    {
+     optionString +='<Option>'+response[i]["bus_route"]+'</Option>';
+     console.log("下拉式選單: "+response[i]["bus_route"]);
+     i++;
+    }
+    //x.html(optionString);
+   }// 成功後要執行的函數
+  }).done(result => resolve(optionString))
+ }).then(result => setData(optionString));
+
+}
