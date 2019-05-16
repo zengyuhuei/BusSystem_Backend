@@ -191,26 +191,7 @@
 				console.log("report people num"+document.getElementById("people_mber").value);
 				console.log(localStorage.getItem('peoplenum'));*/
 				
-				$.ajax({
-					type: "POST",
-					data: "json",
-					dataType: "json",
-					contentType : 'application/json',
-					url: "http://140.121.198.84:3000/peoplenum_to_db",
-					data:JSON.stringify({
-						"driver":localStorage.account,
-						"peoplenum": localStorage.getItem('peoplenum'),
-						"arrive_time": now,
-						"lat": lat,
-						"lng": lng
-					}),
-					success: function(response) {
-						console.log(response);
-					},
-					error: function(xhr, type) {
-						console.log("hehehe");
-					}
-				});
+				
 			}
 
 			function end()
@@ -313,7 +294,7 @@
 					</div>
 				</div>
 				<div class="col-12 col-xs-12 col-md-8 col-lg-6 mt-3 text-center">
-					<button type="button" class="btn btn-outline-secondary btn-lg save"  onclick='display_peoplenum()'><h1>送出</h1></button>
+					<button type="button" class="btn btn-outline-secondary btn-lg save"><h1>送出</h1></button>
 				</div>
 				
 				<div class="col-12 col-xs-12 col-md-8 col-lg-6 mt-3 text-center">

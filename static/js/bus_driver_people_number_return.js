@@ -54,6 +54,27 @@ $(document).ready(function(){
 		
 		$('.count1').val(0);
 		$('.count').val(0);
+
+		$.ajax({
+			type: "POST",
+			data: "json",
+			dataType: "json",
+			contentType : 'application/json',
+			url: "http://140.121.198.84:3000/peoplenum_to_db",
+			data:JSON.stringify({
+				"driver":localStorage.account,
+				"peoplenum": people_number1,
+				"arrive_time": now,
+				"lat": lat,
+				"lng": lng
+			}),
+			success: function(response) {
+				console.log(response);
+			},
+			error: function(xhr, type) {
+				console.log("hehehe");
+			}
+		});
 	});
 });
 
