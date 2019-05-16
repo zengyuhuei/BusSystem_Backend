@@ -32,12 +32,25 @@ $(document).ready(function(){
 
 
 $(document).ready(function(){
-	$('#people_number').prop('disabled', true);
+	//$('#people_number').prop('disabled', true);
 	$(document).on('click','.save',function(){
-		var people_number = parseInt(localStorage.getItem('peoplenum') + $('.count').val()) - parseInt($('.count1').val())
+		var people_number1 = 0;
+		console.log(people_number1);
+		people_number1 += parseInt($('.count').val()) - parseInt($('.count1').val());
+		console.log(localStorage.getItem('peoplenum'));
+		console.log(people_number1);
+		console.log($('.count').val());
+		console.log($('.count1').val());
 		//$('#people_number').val(parseInt(localStorage.getItem('peoplenum') + $('.count').val()) - parseInt($('.count1').val()) )
-		document.getElementById("people_number").innerHTML = people_number;
-		localStorage.setItem('peoplenum',people_number);
+		if(localStorage.getItem('peoplenum')>0)
+			document.getElementById("people_number").innerHTML = localStorage.getItem('peoplenum');
+		else
+		{
+			document.getElementById("people_number").innerHTML = "0";
+			localStorage.setItem('peoplenum',0);
+			people_number1 = 0;
+		}
+		localStorage.setItem('peoplenum',people_number1);
 		$('.count1').val(0);
 		$('.count').val(0);
 	});

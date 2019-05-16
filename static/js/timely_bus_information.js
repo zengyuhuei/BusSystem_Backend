@@ -43,7 +43,7 @@ function load(route){
 		data: "json",
 		dataType: "json",
 		contentType : 'application/json',
-		url: "http://140.121.198.84:3000/getRoute",
+		url: "http://127.0.0.1:3000/getRoute",
 		data:JSON.stringify({
 			"route": route
 		}),
@@ -65,7 +65,7 @@ function busGPS(route){
 		data: "json",
 		dataType: "json",
 		contentType : 'application/json',
-		url: "http://140.121.198.84:3000/getbusGPS",
+		url: "http://127.0.0.1:3000/getbusGPS",
 		data:JSON.stringify({
 			"route": route
 		}),

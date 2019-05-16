@@ -12,7 +12,7 @@ function starts()
    type: 'POST',
    dataType : 'json',
    contentType : 'application/json',
-   url: "http://140.121.198.84:3000/getbusNumber",
+   url: "http://127.0.0.1:3000/getbusNumber",
    data:JSON.stringify({
     
    }),
