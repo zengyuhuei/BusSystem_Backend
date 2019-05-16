@@ -22,16 +22,9 @@
 	min-width: 60px;
     text-align: center;
 }
-.qty .count2 {
-    color: #000;
-    display: inline-block;
-    vertical-align: top;
+.count2 {
     font-size: 60px;
-    font-weight: 1000;
-    line-height: 80px;
     padding: 0 4px;
-	min-width: 60px;
-    text-align: center;
 }
 .intro-text{
 	font-size: 60px;
@@ -43,8 +36,8 @@
     display: inline-block;
     vertical-align: top;
     color: white;
-    width: 80px;
-    height: 80px;
+    width: 70px;
+    height: 70px;
     font: 50px/1 Arial,sans-serif;
     text-align: center;
     border-radius: 50%;
@@ -55,8 +48,8 @@
     display: inline-block;
     vertical-align: top;
     color: white;
-    width: 80px;
-    height: 80px;
+    width: 70px;
+    height: 70px;
     font: 45px/1 Arial,sans-serif;
     text-align: center;
     border-radius: 50%;
@@ -69,8 +62,8 @@
     display: inline-block;
     vertical-align: top;
     color: white;
-    width: 80px;
-    height: 80px;
+    width: 70px;
+    height: 70px;
     font: 50px/1 Arial,sans-serif;
     text-align: center;
     border-radius: 50%;
@@ -81,8 +74,8 @@
     display: inline-block;
     vertical-align: top;
     color: white;
-    width: 80px;
-    height: 80px;
+    width: 70px;
+    height: 70px;
     font: 45px/1 Arial,sans-serif;
     text-align: center;
     border-radius: 50%;

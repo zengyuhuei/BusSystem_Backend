@@ -22,7 +22,7 @@ $(document).ready(function(){
 	$(document).on('click','.minus1',function(){
 	$('.count1').val(parseInt($('.count1').val()) - 1 );
 		if ($('.count1').val() < 0) {
-			$('.count').val(0);
+			$('.count1').val(0);
 		}
 	});
 });
