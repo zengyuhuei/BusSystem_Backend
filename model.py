@@ -366,14 +366,14 @@ class Model:
        
         fuck = dict()  
         fuck['fuck'] = "fuck"
-        if str(lat) is str(0.0):
+        if abs(float(position[0]["lat"])- 0) < 1.0e-9:
             start = "haveNotStart"
             return start
         else:
             for i in range(0,len(route_result)-2):
                 print("lat")
                 print(lat)
-                if str(position[0]["lat"]) is str(lat):
+                if abs(float(position[0]["lat"])-lat) < 1.0e-9:
                     print("position is going to ruturn")
                     print(position)
                     return position
