@@ -241,7 +241,7 @@ class Model:
         mycol = db['shift']
         #print(driver) #拿到路線值
         for x in mycol.find({"driver" : driver}, {"_id" : 0, "route": 1, "driver": 1, "lat": 1, "lng": 1}):
-            print(x)
+            #print(x)
             position.append(x)
         #print("hey")
         #print(position)
