@@ -216,7 +216,6 @@ class Model:
             position.append(db["busRoad_coor"].find_one({"route" : bus_stop},{"_id" : 0, "route": 1, "lat": 1, "lng": 1 }))
         #print(position)
         return position
-        #return json.dumps(result)
 
     #get busGPS from db    
     def get_busGPS_from_db(self, bus_route):

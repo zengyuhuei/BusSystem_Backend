@@ -607,9 +607,8 @@ def get_route():
     response = {"status":"ok"}
     try:
         print("....")
-        #print(request)
         getRoute = request.get_json()
-        #print(getRoute)
+        print(getRoute)
         response = model.get_route_from_db(getRoute)
         #print(response)
     except Exception as e:
