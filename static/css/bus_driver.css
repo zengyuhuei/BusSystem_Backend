@@ -7,7 +7,7 @@
     font-weight: 1000;
     line-height: 80px;
     padding: 0 4px;
-	min-width: 60px;
+	min-width: 80px;
     text-align: center;
 
 }
@@ -19,12 +19,8 @@
     font-weight: 1000;
     line-height: 80px;
     padding: 0 4px;
-	min-width: 60px;
+	min-width: 80px;
     text-align: center;
-}
-.count2 {
-    font-size: 60px;
-    padding: 0 4px;
 }
 .intro-text{
 	font-size: 60px;
