@@ -361,7 +361,7 @@ class Model:
         route = driver_route["route"]
         lat = float(driver_route["lat"])
         position = list()
-        route_result = db["route"].find_one({'bus_route' : route})
+        route_result = db["route"].find_one({"_id" : 0,'bus_route' : route})
         return route_result
         """
         for i in range(1,len(route_result)-1):
