@@ -13,7 +13,246 @@
 		<script src="{{url_for('static', filename='js/bus_driver_people_number_return.js')}}"></script>
 		<script src = "{{url_for('static', filename='js/websocket_open.js')}}"></script>
     </head>
-    
+    <script>
+			var lat, lng;
+			var peoplenum = 0;
+			var myVar;
+			var date = new Date(); //日期对象 
+			var now = ""; 
+			var i = 1;
+			var stop = i.toString();
+			var count = 0;
+			//addItems.addEventListener('submit', display_peoplenum);
+				function report() {
+					//peoplenum = localStorage.getItem('peoplenum');
+					console.log("report");
+					console.log(peoplenum);
+					
+					now = date.getFullYear()+"-"; //读英文就行了 
+					now = now + (date.getMonth()+1)+"-"; //取月的时候取的是当前月-1如果想取当前月+1就可以了 
+					now = now + date.getDate()+"T"; 
+					now = now + date.getHours()+":"; 
+					now = now + date.getMinutes()+":00.000Z";
+					
+					console.log(now);
+					
+					
+					//setInterval("document.getElementById('datetime').innerHTML=new Date().toLocaleString();", 1000);
+				}
+				var busLocation = [];
+				var count= 0;
+				/*var buslocation = [
+					{lat:25.136333,lng:121.778361},
+					{lat:25.135139,lng:121.782333},
+					{lat:25.135306,lng:121.78475},
+					{lat:25.135611,lng:121.785639},
+					{lat:25.136333,lng:121.787778},
+					{lat:25.137444,lng:121.788667},
+					{lat:25.139583,lng:121.789444},
+					{lat:25.142389,lng:121.789306},
+					{lat:25.145056,lng:121.7855},
+					{lat:25.14675,lng:121.783556},
+					{lat:25.148355,lng:121.782811},
+					{lat:25.150237,lng:121.780909},
+					{lat:25.150982,lng:121.775624},
+					{lat:25.15114,lng:121.772985},
+					{lat:25.151194,lng:121.771875},
+					{lat:25.151756,lng:121.770607},
+					{lat:25.152256,lng:121.76793},
+					{lat:25.151149,lng:121.766927},
+					{lat:25.150581,lng:121.765452},
+					{lat:25.149328,lng:121.763623},
+					{lat:25.14739,lng:121.761509},
+					{lat:25.142444,lng:121.760667},
+					{lat:25.143111,lng:121.761111}
+				]
+				var obj = Object.keys(buslocation).map(function(_) { return buslocation[_]; });*/
+				function callBusStop()
+				{
+					$.ajax({
+						type: "POST",
+						data: "json",
+						dataType: "json",
+						contentType : 'application/json',
+						url: "http://140.121.198.84:3000/startSetbusStop",
+						data:JSON.stringify({
+							"email": localStorage.account,
+							"start_time": "7:00"
+							}),
+							success: function(response) {
+							console.log(response);
+							var obj = Object.keys(response).map(function(_) { return response[_]; });
+							busLocation = obj;
+							},
+							error: function(xhr, type) {
+							console.log("gr nb");
+							}
+						});
+						count = 0;
+				}
+				function loadingBusGPS() //定期更新Bus狀況
+				{
+					$.ajax({
+						type: "POST",
+						data: "json",
+						dataType: "json",
+						contentType : 'application/json',
+						url: "http://140.121.198.84:3000/setbusStop",
+						data:JSON.stringify({
+							"email": localStorage.account,
+							"start_time": "7:00"
+							}),
+							success: function(response) {
+							console.log(response);
+							var obj = Object.keys(response).map(function(_) { return response[_]; });
+							if(obj == "haveNotStart"){
+								busLocation = 0;
+							}
+							else{
+								busLocation = obj;
+							}
+							},
+							error: function(xhr, type) {
+							console.log("gr nb");
+							}
+						});
+						count = 0;
+				}
+				function clickStart()
+				{
+					callBusStop();
+					start();
+				}
+				function start()
+				{
+					console.log("ouo");
+					var date2 = new Date(); //日期对象 
+					var now2 = "";
+					now2 = now2 + date2.getHours()+":"; 
+					now2 = now2 + date2.getMinutes();
+
+
+					if(count<busLocation.length){
+						$.ajax({
+						
+						type: "POST",
+						data: "json",
+						dataType: "json",
+						contentType : 'application/json',
+						url: "http://140.121.198.84:3000/setbusGPS",
+						data:JSON.stringify({
+							"email": localStorage.account,
+							"start_time": "7:00",
+							"lat": busLocation[count].lat,
+							"lng": busLocation[count].lng
+							}),
+							success: function(response) {
+							console.log(response);
+							},
+							error: function(xhr, type) {
+							console.log("hehehe");
+							}
+						});
+						count++;
+					}
+					else{
+						$.ajax({
+						
+						type: "POST",
+						data: "json",
+						dataType: "json",
+						contentType : 'application/json',
+						url: "http://140.121.198.84:3000/setbusGPS",
+						data:JSON.stringify({
+							"email": localStorage.account,
+							"start_time": "7:00",
+							"lat": 0,
+							"lng": 0
+							}),
+							success: function(response) {
+							console.log(response);
+							},
+							error: function(xhr, type) {
+							console.log("hehehe");
+							}
+						});
+					}
+					myVar = setTimeout("start()",5000); 
+				}
+
+			function display_peoplenum(e)
+			{
+				event.preventDefault();
+				peoplenum = peoplenum + (document.getElementById("get_on").value - document.getElementById("get_off").value);
+				localStorage.setItem('peoplenum',peoplenum);
+				document.getElementById("people_number").value = peoplenum;
+				console.log("report people num"+document.getElementById("people_number").value);
+				console.log(localStorage.getItem('peoplenum'));
+				
+				$.ajax({
+					type: "POST",
+					data: "json",
+					dataType: "json",
+					contentType : 'application/json',
+					url: "http://140.121.198.84:3000/peoplenum_to_db",
+					data:JSON.stringify({
+						"driver":localStorage.account,
+						"peoplenum": localStorage.getItem('peoplenum'),
+						"arrive_time": now,
+						"lat": lat,
+						"lng": lng
+					}),
+					success: function(response) {
+						console.log(response);
+					},
+					error: function(xhr, type) {
+						console.log("hehehe");
+					}
+				});
+			}
+
+			function end()
+			{
+				clearTimeout(myVar);
+				count = 0;
+				console.log("owo");
+				$.ajax({
+				type: "POST",
+					data: "json",
+					dataType: "json",
+					contentType : 'application/json',
+
+					url: "http://140.121.198.84:3000/setbusGPS",
+					data:JSON.stringify({
+					"email": localStorage.account,
+					"start_time": "7:00",
+					"lat": 0,
+					"lng": 0,
+					"peoplenum": 0
+					}),
+					success: function(response) {
+					console.log(response);
+					},
+					error: function(xhr, type) {
+					console.log("hehe");
+					}
+				});
+			}
+
+			//抓GPS當前裝置定位
+			function initMap() {
+				navigator.geolocation.watchPosition((position) => {
+						console.log(position.coords);
+						console.log(position.timestamp);
+						lat = position.coords.latitude;
+						lng = position.coords.longitude;
+
+				});
+			}
+
+			
+			
+		</script>
     <body onload="websocket_init()">
         <nav class="navbar navbar-expand-xl navbar-dark bg-dark" id="mainNav">
 		  <div class="container">
@@ -78,7 +317,7 @@
 				</div>
 				<div class = "row col-8 col-xs-8 col-md-8 col-lg-8 mt-3">
 					<div class="col-6 col-xs-6 col-md-6 col-lg-6 text-center">
-						<button type="button" class="btn btn-primary btn-lg" onclick='start()'><h1>開始</h1></button>
+						<button type="button" class="btn btn-primary btn-lg" onclick='clickStart()'><h1>開始</h1></button>
 					</div>
 					<div class="col-6 col-xs-6 col-md-6 col-lg-6 text-center">
 						<button type="button" class="btn btn-danger btn-lg" onclick='end()'><h1>結束</h1></button>
@@ -87,246 +326,7 @@
 			</form>
 
 			<div id="map"></div>
-			<script>
-				var lat, lng;
-				var peoplenum = 0;
-				var myVar;
-				var date = new Date(); //日期对象 
-				var now = ""; 
-				var i = 1;
-				var stop = i.toString();
-				var count = 0;
-				//addItems.addEventListener('submit', display_peoplenum);
-					function report() {
-						//peoplenum = localStorage.getItem('peoplenum');
-						console.log("report");
-						console.log(peoplenum);
-						
-						now = date.getFullYear()+"-"; //读英文就行了 
-						now = now + (date.getMonth()+1)+"-"; //取月的时候取的是当前月-1如果想取当前月+1就可以了 
-						now = now + date.getDate()+"T"; 
-						now = now + date.getHours()+":"; 
-						now = now + date.getMinutes()+":00.000Z";
-						
-						console.log(now);
-						
-						
-						//setInterval("document.getElementById('datetime').innerHTML=new Date().toLocaleString();", 1000);
-					}
-					var busLocation = [];
-					var count= 0;
-					/*var buslocation = [
-						{lat:25.136333,lng:121.778361},
-						{lat:25.135139,lng:121.782333},
-						{lat:25.135306,lng:121.78475},
-						{lat:25.135611,lng:121.785639},
-						{lat:25.136333,lng:121.787778},
-						{lat:25.137444,lng:121.788667},
-						{lat:25.139583,lng:121.789444},
-						{lat:25.142389,lng:121.789306},
-						{lat:25.145056,lng:121.7855},
-						{lat:25.14675,lng:121.783556},
-						{lat:25.148355,lng:121.782811},
-						{lat:25.150237,lng:121.780909},
-						{lat:25.150982,lng:121.775624},
-						{lat:25.15114,lng:121.772985},
-						{lat:25.151194,lng:121.771875},
-						{lat:25.151756,lng:121.770607},
-						{lat:25.152256,lng:121.76793},
-						{lat:25.151149,lng:121.766927},
-						{lat:25.150581,lng:121.765452},
-						{lat:25.149328,lng:121.763623},
-						{lat:25.14739,lng:121.761509},
-						{lat:25.142444,lng:121.760667},
-						{lat:25.143111,lng:121.761111}
-					]
-					var obj = Object.keys(buslocation).map(function(_) { return buslocation[_]; });*/
-					function callBusStop()
-					{
-						$.ajax({
-							type: "POST",
-							data: "json",
-							dataType: "json",
-							contentType : 'application/json',
-							url: "http://140.121.198.84:3000/startSetbusStop",
-							data:JSON.stringify({
-								"email": localStorage.account,
-								"start_time": "7:00"
-								}),
-								success: function(response) {
-								console.log(response);
-								var obj = Object.keys(response).map(function(_) { return response[_]; });
-								busLocation = obj;
-								},
-								error: function(xhr, type) {
-								console.log("gr nb");
-								}
-							});
-							count = 0;
-					}
-					function loadingBusGPS() //定期更新Bus狀況
-					{
-						$.ajax({
-							type: "POST",
-							data: "json",
-							dataType: "json",
-							contentType : 'application/json',
-							url: "http://140.121.198.84:3000/setbusStop",
-							data:JSON.stringify({
-								"email": localStorage.account,
-								"start_time": "7:00"
-								}),
-								success: function(response) {
-								console.log(response);
-								var obj = Object.keys(response).map(function(_) { return response[_]; });
-								if(obj == "haveNotStart"){
-									busLocation = 0;
-								}
-								else{
-									busLocation = obj;
-								}
-								},
-								error: function(xhr, type) {
-								console.log("gr nb");
-								}
-							});
-							count = 0;
-					}
-					function clickStart()
-					{
-						callBusStop();
-						start();
-					}
-					function start()
-					{
-						console.log("ouo");
-						var date2 = new Date(); //日期对象 
-						var now2 = "";
-						now2 = now2 + date2.getHours()+":"; 
-						now2 = now2 + date2.getMinutes();
-
-
-						if(count<busLocation.length){
-							$.ajax({
-							
-							type: "POST",
-							data: "json",
-							dataType: "json",
-							contentType : 'application/json',
-							url: "http://140.121.198.84:3000/setbusGPS",
-							data:JSON.stringify({
-								"email": localStorage.account,
-								"start_time": "7:00",
-								"lat": busLocation[count].lat,
-								"lng": busLocation[count].lng
-								}),
-								success: function(response) {
-								console.log(response);
-								},
-								error: function(xhr, type) {
-								console.log("hehehe");
-								}
-							});
-							count++;
-						}
-						else{
-							$.ajax({
-							
-							type: "POST",
-							data: "json",
-							dataType: "json",
-							contentType : 'application/json',
-							url: "http://140.121.198.84:3000/setbusGPS",
-							data:JSON.stringify({
-								"email": localStorage.account,
-								"start_time": "7:00",
-								"lat": 0,
-								"lng": 0
-								}),
-								success: function(response) {
-								console.log(response);
-								},
-								error: function(xhr, type) {
-								console.log("hehehe");
-								}
-							});
-						}
-						myVar = setTimeout("start()",5000); 
-					}
-
-				function display_peoplenum(e)
-				{
-					event.preventDefault();
-					peoplenum = peoplenum + (document.getElementById("get_on").value - document.getElementById("get_off").value);
-					localStorage.setItem('peoplenum',peoplenum);
-					document.getElementById("people_number").value = peoplenum;
-					console.log("report people num"+document.getElementById("people_number").value);
-					console.log(localStorage.getItem('peoplenum'));
-					
-					$.ajax({
-						type: "POST",
-						data: "json",
-						dataType: "json",
-						contentType : 'application/json',
-						url: "http://140.121.198.84:3000/peoplenum_to_db",
-						data:JSON.stringify({
-							"driver":localStorage.account,
-							"peoplenum": localStorage.getItem('peoplenum'),
-							"arrive_time": now,
-							"lat": lat,
-							"lng": lng
-						}),
-						success: function(response) {
-							console.log(response);
-						},
-						error: function(xhr, type) {
-							console.log("hehehe");
-						}
-					});
-				}
-
-				function end()
-				{
-					clearTimeout(myVar);
-					count = 0;
-					console.log("owo");
-					$.ajax({
-					type: "POST",
-						data: "json",
-						dataType: "json",
-						contentType : 'application/json',
-
-						url: "http://140.121.198.84:3000/setbusGPS",
-						data:JSON.stringify({
-						"email": localStorage.account,
-						"start_time": "7:00",
-						"lat": 0,
-						"lng": 0,
-						"peoplenum": 0
-						}),
-						success: function(response) {
-						console.log(response);
-						},
-						error: function(xhr, type) {
-						console.log("hehe");
-						}
-					});
-				}
-
-				//抓GPS當前裝置定位
-				function initMap() {
-					navigator.geolocation.watchPosition((position) => {
-							console.log(position.coords);
-							console.log(position.timestamp);
-							lat = position.coords.latitude;
-							lng = position.coords.longitude;
-
-					});
-				}
-
-				
-				
-			</script>
+			
 			<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBFm04vWkAn3r9Y07onUqyqI6v_8thzG78&callback=initMap">
 			</script>
     </body>

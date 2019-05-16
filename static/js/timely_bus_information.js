@@ -6,7 +6,7 @@ var jj=[];
 var marker1 = [];
 
 $(document).ready(function(){
-	$(".yes").click(function() {
+	$("#yes").click(function() {
 		$("#map").show();
 		$("#bus").show();
 		$route = $("#inputRoute").val();
@@ -38,7 +38,6 @@ $(document).ready(function(){
 });
 
 function load(route){
-	
 	$.ajax({
 		type: "POST",
 		data: "json",
