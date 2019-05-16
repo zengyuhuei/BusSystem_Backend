@@ -247,17 +247,23 @@ class Model:
         print(position)
         return position
     def get_busDriver_from_db_web(self):
-        position = list()
+        driver = list()
         client = pymongo.MongoClient('mongodb://'+self._user+':'+self._password+'@140.121.198.84:27017/')
         db = client['KeelungBusSystem']
+        print("XXXXXXXXXXXXXXXXXXXX")
         mycol = db['shift']
-        for x in mycol.find({}):
-            print(x)
-            if x['lat']!=0.0 and x['lng']!=0.0:
-                position.append(x)
-        print("hey")
-        print(position)
-        return position
+        all_driver = list(mycol.find({})) # 原本含有pwd的list
+        for i in range(0,len(all_driver)):
+            x = all_driver[i]
+            x.pop('_id')
+            x.pop('day')
+            x.pop('start_time')
+            x.pop('arrive_time')
+            x.pop('peoplenum')
+            if x['lat'] != 0.0 and x['lng']!=0.0:
+                driver.append(x)
+        
+        return driver
     #set busGPS to db    
     def set_busGPS_into_db(self, data):
         client = pymongo.MongoClient('mongodb://'+self._user+':'+self._password+'@140.121.198.84:27017/')
