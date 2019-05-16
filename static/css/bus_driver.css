@@ -117,3 +117,6 @@ input::-webkit-inner-spin-button {
 input:disabled{
     background-color:white;
 }
+input {
+    padding: 2px 5px;
+}
