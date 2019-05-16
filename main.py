@@ -343,7 +343,8 @@ def peoplenum_to_db():
         data = request.get_json()
         # 傳進來的 Date String 轉成 Datetime 類別
         #data["start_time"] = datetime.strptime(data["start_time"], '%H:%M')
-        print(data['peoplenum'])
+        print("========================")
+        print(data)
         model.buspeople_to_db(data)
         success = "上傳成功"
     except Exception as e:
@@ -606,14 +607,13 @@ def get_route():
     response = {"status":"ok"}
     try:
         print("....")
-        print(request)
         getRoute = request.get_json()
         print(getRoute)
         response = model.get_route_from_db(getRoute)
-        print(response)
+        #print(response)
     except Exception as e:
         response["status"] = "error"
-        print(str(e))
+        #print(str(e))
     return jsonify(response)
 
 @app.route('/getbusGPS', methods=['POST'])
@@ -625,7 +625,7 @@ def get_busGPS():
 
     except Exception as e:
         response["status"] = "error"
-        print(str(e))
+        #print(str(e))
     return jsonify(response)
 
 @app.route('/getbusDriverforWeb', methods=['POST'])
@@ -646,7 +646,6 @@ def set_busGPS():
     try:
         getdata = request.get_json() #拿時間&姓名
         getdata["start_time"] = datetime.strptime(getdata["start_time"], '%H:%M')
-        print("hahaha")
         print(getdata)
         response = model.set_busGPS_into_db(getdata)
 
@@ -668,16 +667,29 @@ def get_busNumber():
         response["status"] = "error"
         print(str(e))
     return response
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=3000, debug=True)
 
-@app.route('/setbusStop', methods=['POST'])
-def set_busGPS():
+
+@app.route('/startSetbusStop', methods=['POST'])
+def start_set_bus_stop():
     response = {"status":"ok"}
     try:
         getdata = request.get_json() #拿時間&姓名
         getdata["start_time"] = datetime.strptime(getdata["start_time"], '%H:%M')
         print("hahaha")
+        print(getdata)
+        response = model.start_set_busStop_from_db(getdata)
+
+    except Exception as e:
+        response["status"] = "error"
+        print(str(e))
+    return jsonify(response)
+
+@app.route('/setbusStop', methods=['POST'])
+def set_bus_stop():
+    response = {"status":"ok"}
+    try:
+        getdata = request.get_json() #拿時間&姓名
+        getdata["start_time"] = datetime.strptime(getdata["start_time"], '%H:%M')
         print(getdata)
         response = model.set_busStop_from_db(getdata)
 
@@ -685,3 +697,6 @@ def set_busGPS():
         response["status"] = "error"
         print(str(e))
     return jsonify(response)
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=3000, debug=True)
+

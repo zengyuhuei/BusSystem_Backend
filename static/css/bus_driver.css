@@ -7,7 +7,7 @@
     font-weight: 1000;
     line-height: 80px;
     padding: 0 4px;
-	min-width: 60px;
+	min-width: 80px;
     text-align: center;
 
 }
@@ -19,12 +19,14 @@
     font-weight: 1000;
     line-height: 80px;
     padding: 0 4px;
-	min-width: 60px;
+	min-width: 80px;
     text-align: center;
 }
 .count2 {
-    font-size: 60px;
-    padding: 0 4px;
+	font-weight:bold;
+	color: #000;
+	padding: 0 4px;
+	font-size: 60px;
 }
 .intro-text{
 	font-size: 60px;
@@ -113,7 +115,6 @@ input{
 nput::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
     -webkit-appearance: none;
-    margin: 0;
 }
 input:disabled{
     background-color:white;
