@@ -108,6 +108,7 @@ span{
 }
 input{  
     border: 0;
+    width: 5%;
 }
 nput::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
