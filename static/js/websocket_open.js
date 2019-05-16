@@ -21,7 +21,7 @@ function websocket_init()
       if(from[0]=="司機")
       {
         var ans = prompt(e.data,"回傳");
-        sendMessageToDriver(" 管理員:"+ans);
+        returnMessageToDriver(" 管理員:"+ans);
       }
       else
       {
@@ -39,10 +39,23 @@ function sendMessageToManager()
   ws.send(x)
   text.value = " "
 }
-function sendMessageToDriver(x)
+function returnMessageToDriver(x)
 {
   x = "C"+x;
   ws.send(x);
+}
+function sendMessageToDriver()
+{
+  text = document.getElementById("exampleFormControlTextarea1")
+  driverName = $("#driverName").val()
+  var driver = new Array()
+  console.log(driverName)
+  var driver = driverName.split(" ",2)
+  console.log(driver[1])
+  x = "D:Manager send message to "+driver[1] + ":"+ text.value
+  console.log(x);
+  ws.send(x);
+  text.value = " "
 }
 function start(account)
 {

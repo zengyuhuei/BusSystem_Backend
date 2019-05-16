@@ -226,7 +226,9 @@ $(document).ready(function(){
 				"route":$route,
 				"day": $day
 			}),
-				error: function (xhr) { },      // 錯誤後執行的函數
+				error: function (xhr) { 
+					console.log("CCC")
+				},      // 錯誤後執行的函數
 				success: function (response) {
 				console.log(response);
 				while(response[i]!=null)

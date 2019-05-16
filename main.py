@@ -638,6 +638,7 @@ def get_busDriverforWeb():
         response["status"] = "error"
         print(str(e))
     print(response)
+    print("XXXX")
     return jsonify(response)
 @app.route('/setbusGPS', methods=['POST'])
 def set_busGPS():
