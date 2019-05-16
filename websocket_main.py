@@ -2,6 +2,7 @@ from websocket_server import WebsocketServer
 from model import Model
 model = Model()
 client_sender_id = list()
+sayHello_to_driver_List = list()
 # Called for every client connecting
 def new_client(client, server):
     print("New client connected and was given id %d" % client['id'])
@@ -17,7 +18,7 @@ def message_received(client, server, message):
         message = message[0:200]+'..'
     x=message.split(":",1)
     print(x)
-    if x[0] == 'A':        
+    if x[0] == 'A':  #登入用      
         # Whenever message received, server send message to client2
         clientList = server._get_client()
         #new = clientList[1]
@@ -44,7 +45,7 @@ def message_received(client, server, message):
         print(clientList)
         print("\n")
                     
-    elif x[0] == 'B':
+    elif x[0] == 'B': #登入完成後，司機傳訊息給管理者用
         print("(%s) send message: %s" % (client['user'], message))
         username = client['user']
         name = client['accountName'].split(":",1)
@@ -58,30 +59,70 @@ def message_received(client, server, message):
         print(z)
         lat = str(z['lat'])
         lng = str(z['lng'])
-        client_sender_id.append(client['id'])
-        print("B:Client(%d) 傳訊給管理者" % (client_sender_id[-1]))
-        # 推播訊息給管理者，不管身分只要send就是指有管理噁能看到訊息
+        
+        print("before")
         print(client_sender_id)
+        client_sender_id.append(client['id'])
+
+        print("B:Client(%d) 傳訊給管理者" % (client_sender_id[-1]))
+        # 推播訊息給管理者，不管身分只要send就是指有管理者能看到訊息
+        print("after")
+        print(client_sender_id)
+        
         clientList = server._get_client()
         for client in clientList:
-            if client['identity'] is 0:
-                server.send_message(client,username+" 司機於:\nlat:"+lat+"\nlng:"+lng+"\n發生意外:\n"+x[1])
-        print(client_sender_id)
-    else:    
-        #管理者回傳訊息給司機
+            if client['identity'] == 0:
+                server.send_message(client,"B:"+username+" 司機於:\nlat:"+lat+"\nlng:"+lng+"\n發生意外:\n"+x[1])
+        #print(client_sender_id)
+        
+    elif x[0] == 'C': #管理者回覆訊息給司機
         #server.send_message(client['id'],"朕知道了")
         clientList = server._get_client()
         
-        print("C:Client(%d) 傳訊給司機" % (client_sender_id[0]))
-        print(clientList)
+        print("C:管理者Client(%d) 回覆 司機Client(%d) 的緊急訊息" % (client['id'], client_sender_id[0]))
+        
         server.send_message(clientList[client_sender_id[0]-1], message)
+        
+        print("印出clientList")
+        print(clientList)
+        
+        print("印出回覆對象的詳細資料")
         print(clientList[client_sender_id[0]-1])
+        
+        print("管理者尚未回覆的司機清單client_sender_id")
         del(client_sender_id[0])
         print(client_sender_id)
         #print("Client(%d) sendback message: %s" % (client['id'], "朕知道了")) 
         
-   
-    
+    else: #管理員主動傳訊息給司機x[0] == 'D'
+        #處理x[1]的訊息，取出司機名稱的字串出來比較，相符才能傳訊息
+        #print(x[1])
+        driverName = x[1][24:27]
+        print(driverName)
+        y = x[1].split(":",1)
+        # 記得管理者的名字跟id
+        manager_id = client['id']
+        
+        clientList = server._get_client()
+        for client in clientList:
+            if client['identity'] == 1:
+                driver = {
+                        'driver_id': client['id'],
+                        'driver_name': client['user']
+                }
+                sayHello_to_driver_List.append(driver)
+                print(client)
+                print(sayHello_to_driver_List)
+        
+        
+        for driver in sayHello_to_driver_List:
+            if driver['driver_name'] == driverName:
+                print(driver)
+                print("D:管理者Client(%s) 主動跟 司機Client(%s) 傳訊息" % (manager_id, driver['driver_id']))
+                server.send_message(clientList[driver['driver_id']-1], "D:"+y[1])
+        sayHello_to_driver_List.clear()
+
+
 PORT=9001
 server = WebsocketServer(PORT)
 server.set_fn_new_client(new_client)

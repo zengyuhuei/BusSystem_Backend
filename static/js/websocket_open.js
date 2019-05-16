@@ -13,17 +13,20 @@ function websocket_init()
     ws.onmessage = function(e) {
       // e.data contains received string.
       var from = new Array(); 
-      from = String(e.data).split(" ",2);
+      console.log(e.data)
+      from = String(e.data).split(":",1);
       console.log(from[0])
-      if(from[0]!="C")
-        from = from[1].split("於",2);
-      console.log(from);
-      if(from[0]=="司機")
+      console.log("CCC");
+      if(from[0]=="B")
       {
         var ans = prompt(e.data,"回傳");
         returnMessageToDriver(" 管理員:"+ans);
       }
-      else
+      else if(from[0] == "C")
+      {
+        alert(e.data);
+      }
+      else if(from[0] == "D")
       {
         alert(from[1]);
       }
@@ -41,7 +44,7 @@ function sendMessageToManager()
 }
 function returnMessageToDriver(x)
 {
-  x = "C"+x;
+  x = "C:"+x;
   ws.send(x);
 }
 function sendMessageToDriver()
