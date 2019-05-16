@@ -191,7 +191,7 @@
 				console.log("report people num"+document.getElementById("people_mber").value);
 				console.log(localStorage.getItem('peoplenum'));*/
 				
-				$.ajax(
+				$.ajax({
 					type: "POST",
 					data: "json",
 					dataType: "json",
@@ -254,6 +254,7 @@
 
 			function load()
 			{
+				localStorage.setItem('peoplenum',0);
 				websocket_init();
 				loadingBusGPS();
 			}
