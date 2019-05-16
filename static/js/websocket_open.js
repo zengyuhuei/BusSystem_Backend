@@ -42,7 +42,7 @@ function sendMessageToManager()
 function sendMessageToDriver(x)
 {
   x = "C"+x;
-  ws.send(x)
+  ws.send(x);
 }
 function start(account)
 {

@@ -4,13 +4,14 @@ var directionsService;
 var directionsDisplay;
 var jj=[];
 var marker1 = [];
+var busdriver;
 var markers = [];
 
 $(document).ready(function(){
 	$(".yes").click(function() {
 		$("#map").show();
 		$("#bus").show();
-		$route = $("#inputState").val();
+		$route = $("#inputRoute").val();
 		load($route);
 		busGPS($route);
 	})
@@ -18,7 +19,7 @@ $(document).ready(function(){
 	// 初始化地圖
 	map = new google.maps.Map(document.getElementById('map'), {
 		zoom: 21,
-		center: new google.maps.LatLng(parseFloat("25.143411"), parseFloat("121.774429")),
+		center: new google.maps.LatLng(25.143411, 121.774429),
 		});
 	// 載入路線服務與路線顯示圖層
 	directionsService = new google.maps.DirectionsService();
@@ -31,7 +32,7 @@ $(document).ready(function(){
 	// 放置路線圖層
 	directionsDisplay.setMap(map);
 	intervalControl = setInterval(function(){
-		let route = $("#inputState").val();
+		let route = $("#inputRoute").val();
 		if(route){
 			busGPS(route);
 		}
@@ -45,6 +46,7 @@ function load(route){
 		markers[j].setMap(null);
 		markers[j]=null;
 	}
+	console.log(route);
 	$.ajax({
 		type: "POST",
 		data: "json",
@@ -85,7 +87,6 @@ function busGPS(route){
 			console.log("hehehe");
 		}
 	});
-
 	//setTimeout("busGPS($route)",5000);
 }
 
@@ -110,10 +111,7 @@ function returnRoute(json)
 	
 	//var jj = returnGPS(bus_coor);
 	console.log(jj);
-	
 	var waypts = [];
-  markers = [];
-
 	
 	
 	for (var i = 1; i < obj.length-1; i++) {
@@ -180,17 +178,25 @@ function busInformation()
 	for(var j = 0; j < jj.length ; j++){
 		marker1[j] = new google.maps.Marker({
 			position: jj[j],
-			map: map,
+      map: map,
+			data: jj[j].driver,
+			data2: jj[j].peoplenum,
 			icon:'https://i.ibb.co/s6B8nGn/bb.png',
 			zIndex:2
 		});
 		// 加入地圖標記點擊事件
 		marker1[j].addListener('click', function () {
 			console.log("bus clicked!");
+			console.log(this.data);
+			document.getElementById("driver").innerHTML = "<td>"+this.data+"</td>";
+      document.getElementById("passenger").innerHTML = "<td>"+this.data2+"</td>";
 		});
 	}
 }
 
+function set_info_table()
+{
+}
 
 // yochien edit here //
 

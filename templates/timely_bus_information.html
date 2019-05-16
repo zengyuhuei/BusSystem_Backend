@@ -18,6 +18,7 @@
 	  <script src = "{{url_for('static', filename='js/timely_bus_information.js')}}"></script>
 		<link href="{{ url_for('static', filename='css/main.css') }}" rel="stylesheet">
 		<script src = "{{url_for('static', filename='js/websocket_open.js')}}"></script>
+		<script src = "{{url_for('static', filename='js/add_file.js')}}"></script>
 		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC3RdvutneSQCHgWDr4t7AAhKNx7jmMFz0"></script>
 	</head>
 
@@ -99,16 +100,12 @@
 					  </thead>
 					  <tbody>
 						<tr>
-						  <th scope="row">車牌</th>
-						  <td>00</td>
-						</tr>
-						<tr>
 						  <th scope="row">乘客數量</th>
-						  <td>0</td>
+						  <td id="passenger"></td>
 						</tr>
 						<tr>
 						  <th scope="row">司機</th>
-						  <td>ting</td>
+						  <td id="driver"></td>
 						</tr>
 					  </tbody>
 					</table>

@@ -5,6 +5,7 @@ import time
 from datetime import datetime
 from bson import ObjectId
 import configparser   
+from datetime import datetime
 class Model:
 
     def __init__(self):
@@ -76,6 +77,8 @@ class Model:
         result['_id'] = str(result['_id'])
         result['birthday'] = result['birthday'].strftime("%Y/%m/%d")
         return json.dumps(result)
+
+
     
     # modify shift from db
     def modify_shift_from_db(self, data):
@@ -126,6 +129,8 @@ class Model:
         db = client["KeelungBusSystem"]
         data["lat"] = 0.0
         data["lng"] = 0.0
+        data["peoplenum"] = 0
+        data["arrive_time"] = datetime.now()
         result = db['shift'].insert_one(data)
         print(result.inserted_id)
 
@@ -222,12 +227,13 @@ class Model:
         print(bus_route)
         route_name = bus_route["route"]
         print(route_name) #拿到路線值
-        for x in mycol.find({"route" : route_name}, {"_id" : 0, "route": 1, "driver": 1, "lat": 1, "lng": 1}):
+        for x in mycol.find({"route" : route_name}, {"_id" : 0, "route": 1, "driver": 1, "lat": 1, "lng": 1, "peoplenum": 1}):
             print(x)
             position.append(x)
         print("hey")
         print(position)
         return position
+        
     def get_busGPS_from_db_web(self,driver):
         position = list()
         client = pymongo.MongoClient('mongodb://'+self._user+':'+self._password+'@140.121.198.84:27017/')
@@ -237,6 +243,18 @@ class Model:
         for x in mycol.find({"driver" : driver}, {"_id" : 0, "route": 1, "driver": 1, "lat": 1, "lng": 1}):
             print(x)
             position.append(x)
+        print("hey")
+        print(position)
+        return position
+    def get_busDriver_from_db_web(self):
+        position = list()
+        client = pymongo.MongoClient('mongodb://'+self._user+':'+self._password+'@140.121.198.84:27017/')
+        db = client['KeelungBusSystem']
+        mycol = db['shift']
+        for x in mycol.find({}):
+            print(x)
+            if x['lat']!=0.0 and x['lng']!=0.0:
+                position.append(x)
         print("hey")
         print(position)
         return position
@@ -285,6 +303,8 @@ class Model:
         db = client["KeelungBusSystem"]
         print('its db')
         print(data['driver'])
-        coor_result = db['arrivetime'].update_many({"driver":data['driver']},{"$set": { "peoplenum": data['peoplenum'], "arrive_time": data['arrive_time']}})
+        driver_name = db["info"].find_one({'email' : data['driver']}, {"_id" : 0, "name": 1})
+        driver = driver_name["name"]
+        result = db['shift'].update_many({"driver":driver},{"$set": { "peoplenum": data['peoplenum'], "arrive_time": data['arrive_time']}})
         #print(coor_result)
-        return coor_result
+        return result

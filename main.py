@@ -628,6 +628,17 @@ def get_busGPS():
         print(str(e))
     return jsonify(response)
 
+@app.route('/getbusDriverforWeb', methods=['POST'])
+def get_busDriverforWeb():
+    response = {"status":"ok"}
+    try:
+        response = model.get_busDriver_from_db_web()
+
+    except Exception as e:
+        response["status"] = "error"
+        print(str(e))
+    print(response)
+    return jsonify(response)
 @app.route('/setbusGPS', methods=['POST'])
 def set_busGPS():
     response = {"status":"ok"}
