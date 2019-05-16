@@ -355,14 +355,13 @@ class Model:
         print(driver_info)
         driver = driver_info["name"]
         print(driver)
-        driver_route = db["shift"].find_one({'driver' : name}, {"route" : 1, "lat" : 1})
+        driver_route = db["shift"].find_one({'driver' : driver}, {"route" : 1, "lat" : 1})
         route = driver_route["route"]
         lat = driver_route["lat"]
         f_lat = float(lat)
         position = list()
         route_result = db["route"].find_one({'bus_route' : route})
-        return route_result
-        '''
+        
         for i in range(1,len(route_result)-1):
             bus_stop=route_result[str(i)]
             position.append(db["busRoad_coor"].find_one({"route" : bus_stop},{"_id" : 0, "route": 1, "lat": 1, "lng": 1 }))
@@ -377,6 +376,6 @@ class Model:
                     return position
                 else:
                     position.pop(0)
-        '''
+        
 
        
