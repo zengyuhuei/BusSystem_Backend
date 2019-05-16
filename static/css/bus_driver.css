@@ -5,7 +5,7 @@
     vertical-align: top;
     font-size: 60px;
     font-weight: 1000;
-    line-height: 50px;
+    line-height: 80px;
     padding: 0 4px;
 	min-width: 60px;
     text-align: center;
@@ -17,7 +17,18 @@
     vertical-align: top;
     font-size: 60px;
     font-weight: 1000;
-    line-height: 50px;
+    line-height: 80px;
+    padding: 0 4px;
+	min-width: 60px;
+    text-align: center;
+}
+.qty .count2 {
+    color: #000;
+    display: inline-block;
+    vertical-align: top;
+    font-size: 60px;
+    font-weight: 1000;
+    line-height: 80px;
     padding: 0 4px;
 	min-width: 60px;
     text-align: center;
