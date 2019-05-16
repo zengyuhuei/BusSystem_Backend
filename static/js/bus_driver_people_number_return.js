@@ -26,6 +26,10 @@ $(document).ready(function(){
 		}
 
 	});
+	$(document).on('click','.delete',function(){
+		$('.count1').val(0);
+		$('.count').val(0);
+	});
 });
 
 
