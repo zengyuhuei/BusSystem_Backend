@@ -22,6 +22,10 @@
 	min-width: 80px;
     text-align: center;
 }
+.count2 {
+	font-weight:bold;
+	color: #000;
+}
 .intro-text{
 	font-size: 60px;
 	font-weight:bold;
