@@ -667,8 +667,7 @@ def get_busNumber():
         response["status"] = "error"
         print(str(e))
     return response
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=3000, debug=True)
+
 
 @app.route('/startSetbusStop', methods=['POST'])
 def start_set_bus_stop():
@@ -698,3 +697,6 @@ def set_bus_stop():
         response["status"] = "error"
         print(str(e))
     return jsonify(response)
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=3000, debug=True)
+
