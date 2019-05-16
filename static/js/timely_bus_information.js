@@ -179,7 +179,8 @@ function busInformation()
 		marker1[j] = new google.maps.Marker({
 			position: jj[j],
       map: map,
-      data: jj[j].driver,
+			data: jj[j].driver,
+			data2: jj[j].peoplenum,
 			icon:'https://i.ibb.co/s6B8nGn/bb.png',
 			zIndex:2
 		});
@@ -188,7 +189,7 @@ function busInformation()
 			console.log("bus clicked!");
 			console.log(this.data);
 			document.getElementById("driver").innerHTML = "<td>"+this.data+"</td>";
-      document.getElementById("passenger").innerHTML = "<td>"+"100"+"</td>";
+      document.getElementById("passenger").innerHTML = "<td>"+this.data2+"</td>";
 		});
 	}
 }

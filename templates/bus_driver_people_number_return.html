@@ -150,29 +150,51 @@
 						now2 = now2 + date2.getHours()+":"; 
 						now2 = now2 + date2.getMinutes();
 
-
-					console.log(now2);
-					//setInterval("document.getElementById('datetime').innerHTML=new Date().toLocaleString();", 1000);*/
-					$.ajax({
-						type: "POST",
-						data: "json",
-						dataType: "json",
-						contentType : 'application/json',
-						url: "http://140.121.198.84:3000/setbusGPS",
-						data:JSON.stringify({
-							"email": localStorage.account,
-							"start_time": "7:00",
-							"lat": obj[count].lat,
-							"lng": obj[count].lng
-							}),
-							success: function(response) {
-							console.log(response);
-							},
-							error: function(xhr, type) {
-							console.log("hehehe");
-							}
-						});
-						count++;
+						if(count<obj.length){
+							$.ajax({
+							
+							type: "POST",
+							data: "json",
+							dataType: "json",
+							contentType : 'application/json',
+							url: "http://140.121.198.84:3000/setbusGPS",
+							data:JSON.stringify({
+								"email": localStorage.account,
+								"start_time": "7:00",
+								"lat": obj[count].lat,
+								"lng": obj[count].lng
+								}),
+								success: function(response) {
+								console.log(response);
+								},
+								error: function(xhr, type) {
+								console.log("hehehe");
+								}
+							});
+							count++;
+						}
+						else{
+							$.ajax({
+							
+							type: "POST",
+							data: "json",
+							dataType: "json",
+							contentType : 'application/json',
+							url: "http://140.121.198.84:3000/setbusGPS",
+							data:JSON.stringify({
+								"email": localStorage.account,
+								"start_time": "7:00",
+								"lat": 0,
+								"lng": 0
+								}),
+								success: function(response) {
+								console.log(response);
+								},
+								error: function(xhr, type) {
+								console.log("hehehe");
+								}
+							});
+						}
 						myVar = setTimeout("start()",5000); 
 					}
 
@@ -233,23 +255,16 @@
 						}
 					});
 				}
-     function initMap() {
-      navigator.geolocation.watchPosition((position) => {
-        console.log(position.coords);
-        console.log(position.timestamp);
-        lat = position.coords.latitude;
-        lng = position.coords.longitude;
 
-      });
-    }
-					function initMap() {
-						navigator.geolocation.watchPosition((position) => {
-								console.log(position.coords);
-								console.log(position.timestamp);
-								lat = position.coords.latitude;
-								lng = position.coords.longitude;
+				//抓GPS當前裝置定位
+				function initMap() {
+					navigator.geolocation.watchPosition((position) => {
+							console.log(position.coords);
+							console.log(position.timestamp);
+							lat = position.coords.latitude;
+							lng = position.coords.longitude;
 
-						});
+					});
 				}
 
 				

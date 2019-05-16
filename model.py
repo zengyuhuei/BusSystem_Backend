@@ -227,7 +227,7 @@ class Model:
         print(bus_route)
         route_name = bus_route["route"]
         print(route_name) #拿到路線值
-        for x in mycol.find({"route" : route_name}, {"_id" : 0, "route": 1, "driver": 1, "lat": 1, "lng": 1}):
+        for x in mycol.find({"route" : route_name}, {"_id" : 0, "route": 1, "driver": 1, "lat": 1, "lng": 1, "peoplenum": 1}):
             print(x)
             position.append(x)
         print("hey")
