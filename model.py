@@ -354,28 +354,30 @@ class Model:
         driver_info = db["info"].find_one({'email' : name}, {"_id" : 0, "name": 1})
         print(driver_info)
         driver = driver_info["name"]
+        return driver
+        """
         print(driver)
         driver_route = db["shift"].find_one({'driver' : driver}, {"route" : 1, "lat" : 1})
         route = driver_route["route"]
-        lat = driver_route["lat"]
-        f_lat = float(lat)
+        lat = float(driver_route["lat"])
         position = list()
         route_result = db["route"].find_one({'bus_route' : route})
         
         for i in range(1,len(route_result)-1):
             bus_stop=route_result[str(i)]
             position.append(db["busRoad_coor"].find_one({"route" : bus_stop},{"_id" : 0, "route": 1, "lat": 1, "lng": 1 }))
-        if f_lat is 0:
+        if lat is 0:
             start = "haveNotStart"
             return start
         else:
             for i in range(0,len(route_result)-2):
-                if position[0]["lat"] is f_lat:
+                if position[0]["lat"] is lat:
                     print("position is going to ruturn")
                     print(position)
                     return position
                 else:
                     position.pop(0)
+        """
         
 
        
