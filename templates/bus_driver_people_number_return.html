@@ -102,21 +102,24 @@
 						contentType : 'application/json',
 						url: "http://140.121.198.84:3000/setbusStop",
 						data:JSON.stringify({
-							"email": localStorage.account,
-							"start_time": "7:00"
+									"email": localStorage.account,
+									"start_time": "7:00"
 							}),
 							success: function(response) {
-							console.log(response);
-							var obj = Object.keys(response).map(function(_) { return response[_]; });
-							if(obj == "haveNotStart"){
-								busLocation = 0;
-							}
-							else{
-								busLocation = obj;
-							}
+									console.log(response);
+									if(response == "haveNotStart")
+									{
+										busLocation = null;
+									} 
+									
+									else{
+										var obj = Object.keys(response).map(function(_) { return response[_]; });
+										busLocation = obj;
+										start();
+									}
 							},
 							error: function(xhr, type) {
-							console.log("gr nb");
+									console.log("gr nb");
 							}
 						});
 						count = 0;
@@ -249,10 +252,16 @@
 				});
 			}
 
+			function load()
+			{
+				websocket_init();
+				loadingBusGPS();
+			}
+
 			
 			
 		</script>
-    <body onload="websocket_init()">
+    <body onload="load()">
         <nav class="navbar navbar-expand-xl navbar-dark bg-dark" id="mainNav">
 		  <div class="container">
 			  <a class="navbar-brand" href="{{url_for('driver_index')}}"><h1>基隆公車調派系統</h1></a>
