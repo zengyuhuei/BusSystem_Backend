@@ -200,21 +200,21 @@ class Model:
     #get route from db    
     def get_route_from_db(self, bus_route):
         position = list()
-        print("hi welcome")
+        print("this is getRoute")
         client = pymongo.MongoClient('mongodb://'+self._user+':'+self._password+'@140.121.198.84:27017/')
         db = client['KeelungBusSystem']
-        print(bus_route)
+        #print(bus_route)
         route_name = bus_route["route"]
-        print(route_name)
+        #print(route_name)
         route_result = db["route"].find_one({'bus_route' : route_name})
-        print(route_result)
-        print(len(route_result))
+        #print(route_result)
+        #print(len(route_result))
         for i in range(1,len(route_result)-1):
             bus_stop=route_result[str(i)]
-            print(bus_stop)
-            print(len(route_result))
+            #print(bus_stop)
+            #print(len(route_result))
             position.append(db["busRoad_coor"].find_one({"route" : bus_stop},{"_id" : 0, "route": 1, "lat": 1, "lng": 1 }))
-        print(position)
+        #print(position)
         return position
         #return json.dumps(result)
 
@@ -224,14 +224,14 @@ class Model:
         client = pymongo.MongoClient('mongodb://'+self._user+':'+self._password+'@140.121.198.84:27017/')
         db = client['KeelungBusSystem']
         mycol = db['shift']
-        print(bus_route)
+        #print(bus_route)
         route_name = bus_route["route"]
-        print(route_name) #拿到路線值
+        #print(route_name) #拿到路線值
         for x in mycol.find({"route" : route_name}, {"_id" : 0, "route": 1, "driver": 1, "lat": 1, "lng": 1, "peoplenum": 1}):
             print(x)
             position.append(x)
-        print("hey")
-        print(position)
+        #print("hey")
+        #print(position)
         return position
         
     def get_busGPS_from_db_web(self,driver):
@@ -239,12 +239,12 @@ class Model:
         client = pymongo.MongoClient('mongodb://'+self._user+':'+self._password+'@140.121.198.84:27017/')
         db = client['KeelungBusSystem']
         mycol = db['shift']
-        print(driver) #拿到路線值
+        #print(driver) #拿到路線值
         for x in mycol.find({"driver" : driver}, {"_id" : 0, "route": 1, "driver": 1, "lat": 1, "lng": 1}):
             print(x)
             position.append(x)
-        print("hey")
-        print(position)
+        #print("hey")
+        #print(position)
         return position
     def get_busDriver_from_db_web(self):
         driver = list()
