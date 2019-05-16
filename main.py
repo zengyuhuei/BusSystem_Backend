@@ -646,7 +646,6 @@ def set_busGPS():
     try:
         getdata = request.get_json() #拿時間&姓名
         getdata["start_time"] = datetime.strptime(getdata["start_time"], '%H:%M')
-        print("hahaha")
         print(getdata)
         response = model.set_busGPS_into_db(getdata)
 
@@ -668,8 +667,7 @@ def get_busNumber():
         response["status"] = "error"
         print(str(e))
     return response
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=3000, debug=True)
+
 
 @app.route('/startSetbusStop', methods=['POST'])
 def start_set_bus_stop():
@@ -692,7 +690,6 @@ def set_bus_stop():
     try:
         getdata = request.get_json() #拿時間&姓名
         getdata["start_time"] = datetime.strptime(getdata["start_time"], '%H:%M')
-        print("hahaha")
         print(getdata)
         response = model.set_busStop_from_db(getdata)
 
@@ -700,3 +697,6 @@ def set_bus_stop():
         response["status"] = "error"
         print(str(e))
     return jsonify(response)
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=3000, debug=True)
+
