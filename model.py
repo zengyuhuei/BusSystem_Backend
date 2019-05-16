@@ -371,11 +371,8 @@ class Model:
             return start
         else:
             for i in range(0,len(route_result)-2):
-                print("lat")
-                print(lat)
                 if abs(float(position[0]["lat"])-lat) < 1.0e-9:
-                    print("position is going to ruturn")
-                    print(position)
+                    position.pop(0)
                     return position
                 else:
                     position.pop(0)
