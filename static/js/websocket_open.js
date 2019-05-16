@@ -19,12 +19,12 @@ function websocket_init()
       console.log("CCC");
       if(from[0]=="B")
       {
-        var ans = prompt(e.data,"回傳");
+        var ans = prompt(e.data.slice(2),"回傳");
         returnMessageToDriver(" 管理員:"+ans);
       }
       else if(from[0] == "C")
       {
-        alert(e.data);
+        alert(e.data.slice(2));
       }
       else if(from[0] == "D")
       {
