@@ -363,7 +363,7 @@ class Model:
         for i in range(1,len(route_result)-1):
             bus_stop=route_result[str(i)]
             position.append(db["busRoad_coor"].find_one({"route" : bus_stop},{"_id" : 0, "route": 1, "lat": 1, "lng": 1 }))
-        return position
+       
           
         if lat is 0:
             start = "haveNotStart"
