@@ -669,3 +669,18 @@ def get_busNumber():
     return response
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=3000, debug=True)
+
+@app.route('/setbusStop', methods=['POST'])
+def set_busGPS():
+    response = {"status":"ok"}
+    try:
+        getdata = request.get_json() #拿時間&姓名
+        getdata["start_time"] = datetime.strptime(getdata["start_time"], '%H:%M')
+        print("hahaha")
+        print(getdata)
+        response = model.set_busStop_from_db(getdata)
+
+    except Exception as e:
+        response["status"] = "error"
+        print(str(e))
+    return jsonify(response)
