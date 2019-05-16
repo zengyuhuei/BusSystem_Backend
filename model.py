@@ -349,6 +349,8 @@ class Model:
         #把時間姓名進去找 符合存進去 //判斷是否符合
         time = data["start_time"]
         name = data["email"]
+        return data
+        """
         print(time)
         print(name)
         driver_info = db["info"].find_one({'email' : name}, {"_id" : 0, "name": 1})
@@ -361,9 +363,9 @@ class Model:
         route = driver_route["route"]
         lat = float(driver_route["lat"])
         position = list()
-        route_result = db["route"].find_one({"_id" : 0,'bus_route' : route})
+        route_result = db["route"].find_one({'bus_route' : route})
         return route_result
-        """
+        
         for i in range(1,len(route_result)-1):
             bus_stop=route_result[str(i)]
             position.append(db["busRoad_coor"].find_one({"route" : bus_stop},{"_id" : 0, "route": 1, "lat": 1, "lng": 1 }))
