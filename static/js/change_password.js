@@ -49,7 +49,7 @@ $(document).ready(function(){
 		}
 		else
 		{
-			document.getElementById("error").innerHTML+='<strong>'+"新密碼不一樣喔!!!"+'</strong>';
+			document.getElementById("error").innerHTML ='<strong>'+"新密碼不一樣喔!!!"+'</strong>';
 			//window.alert("新密碼不一樣喔!!!");
 		}
 		
