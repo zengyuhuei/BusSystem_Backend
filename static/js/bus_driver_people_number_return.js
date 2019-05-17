@@ -68,7 +68,6 @@ $(document).ready(function(){
 			data:JSON.stringify({
 				"driver":localStorage.account,
 				"peoplenum": people_number1,
-				"arrive_time": "7:00",
 				"lat": lat,
 				"lng": lng
 			}),
@@ -80,6 +79,7 @@ $(document).ready(function(){
 			}
 		});
 	});
+	
 });
 
 $(document).on('click','#end',function(){
