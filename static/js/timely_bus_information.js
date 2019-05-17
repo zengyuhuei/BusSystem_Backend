@@ -12,6 +12,8 @@ $(document).ready(function(){
 		$route = $("#inputRoute").val();
 		load($route);
 		busGPS($route);
+		document.getElementById("driver").innerHTML = "<td></td>";
+		document.getElementById("passenger").innerHTML = "<td></td>";
 	})
 
 	// 初始化地圖
