@@ -342,7 +342,7 @@ def peoplenum_to_db():
         # 傳進來的 JSON String 轉成 LIST json decode
         data = request.get_json()
         # 傳進來的 Date String 轉成 Datetime 類別
-        #data["start_time"] = datetime.strptime(data["start_time"], '%H:%M')
+        data["start_time"] = datetime.strptime(data["start_time"], '%H:%M')
         print("..................")
         print(data)
         model.buspeople_to_db(data)

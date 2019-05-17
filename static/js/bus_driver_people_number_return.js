@@ -68,7 +68,7 @@ $(document).ready(function(){
 			data:JSON.stringify({
 				"driver":localStorage.account,
 				"peoplenum": people_number1,
-				"arrive_time": now,
+				"arrive_time": "7:00",
 				"lat": lat,
 				"lng": lng
 			}),
