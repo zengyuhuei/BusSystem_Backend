@@ -14,3 +14,31 @@ function setTable(response)
 	newCell3.innerHTML = '<button>編輯</button>'; //單元格內的內容
 	newCell3.innerHTML = '<button>刪除</button>'; //單元格內的內容
 }
+
+
+function getDriverState()
+{
+	$.ajax({
+        type: "POST",
+        data: "json",
+        dataType: "json",
+        contentType : 'application/json',
+        url: "http://127.0.0.1:3000/humanDispatch",
+        data:JSON.stringify({
+            "day": "SUN"
+        }),
+        success: function(response) {
+            console.log(response);
+        },
+        error: function(xhr, type) {
+                console.log("gr nb");
+        }
+    });
+}
+
+
+function load()
+{
+	websocket_init();
+	getDriverState();
+}
