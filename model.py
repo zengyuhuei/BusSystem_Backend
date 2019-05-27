@@ -381,11 +381,11 @@ class Model:
         
 ###################################芷婷###########################################################
     def get_driver_name_from_db(self, data):
-        print("AAA")
+        print("AAAaaaaaaaaaaaaaaaaaaaaaaaa")
         name = list()
         client = pymongo.MongoClient('mongodb://'+self._user+':'+self._password+'@140.121.198.84:27017/')
         db = client['KeelungBusSystem']
-        name.append(db["info"].find_one({"email" : data['mail']}))
+        name.append(db["info"].find_one({"email" : data['email']}))
         
         print(name)
         return name
