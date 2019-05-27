@@ -67,8 +67,6 @@ def upload(data):
     #take the file from frontend 
     f = request.files['myfile']
     #判斷文件是否存在且類型符合
-    print(f)
-    print(allowed_file(f.filename))
     if f and allowed_file(f.filename):
         fname = secure_filename(f.filename)
         data['picture'] = fname
@@ -105,14 +103,12 @@ def login():
         password = request.form['password']
         ans = model.authentication(account,password)
         result = model.authentication(request.form['account'],request.form['password'])
-        print("account = "+account)
         if  result == False:
             error = "帳號或密碼錯誤，請重新輸入!"
         elif result['identity'] == 0:
             session['logged_in'] = True
             account = result['account']
             session['store'] = account
-            print("account0 = "+account)
             return redirect(url_for('manager_index', account = account))
         elif result['identity'] == 1:
             session['logged_in'] = True
@@ -159,12 +155,10 @@ def add_driver_to_db():
         upload(data)
         # 傳進來的 Date String 轉成 Datetime 類別
         data["birthday"] = datetime.strptime(data["birthday"], '%Y/%m/%d')
-        print(data)
         acc_data['user'] = request.form.get("name")
         acc_data['account'] = request.form.get("email")
         acc_data['password'] = request.form.get("birthday").replace("/", "")
         acc_data['identity'] = 1
-        print(acc_data)
         # 把 DICT 加到資料庫
         result = model.add_driver_to_db(data,acc_data)
         if result == False:
@@ -198,12 +192,9 @@ def modify_info_to_db():
         data['account'] = request.form.get("account")
         data['address'] = request.form.get("address")
         upload(data)
-        print(data)
         # 傳進來的 Date String 轉成 Datetime 類別
-        print(data)
         # 把 DICT 加到資料庫
         identity = model.modify_info_to_db(data)
-        print(identity)
         success = "修改成功"
     except Exception as e:
         response["status"] = "error"
@@ -229,7 +220,6 @@ def get_info():
     try:
         email = session['store']
         response = model.get_info_from_db(email)
-        print(response)
 
     except Exception as e:
         response["status"] = "error"
@@ -243,11 +233,9 @@ def get_driver():
     try:
         data = request.get_json()
         response = model.get_driver_from_db(data)
-        print(response)
 
     except Exception as e:
         response["status"] = "error"
-        print(str(e))
     return jsonify(response)
 
 @app.route('/getDriverModify', methods=['POST'])
@@ -257,7 +245,6 @@ def get_modify_driver():
     try:
         data = request.get_json()
         response = model.get_modify_driver_from_db(data)
-        print(response)
 
     except Exception as e:
         response["status"] = "error"
@@ -270,7 +257,6 @@ def get_shift():
     response = {"status":"ok"}
     try:
         data = request.get_json()
-        print(request)
         response = model.get_shift_from_db(data)
     except Exception as e:
         response["status"] = "error"
@@ -306,7 +292,6 @@ def del_shift():
         data = request.get_json()
         data["_id"] = ObjectId(data['_id'])
         model.del_shift_from_db(data)
-        print(data)
         success = "刪除成功"
     except Exception as e:
         response["status"] = "error"
@@ -324,19 +309,15 @@ def add_shift():
     success = None
     inserted_id = None
     response = {"status":"ok"}
-    print(request)
     try:
         # 傳進來的 JSON String 轉成 LIST json decode
         data = request.get_json()
         # 傳進來的 Date String 轉成 Datetime 類別
         data["start_time"] = datetime.strptime(data["start_time"], '%H:%M')
-        print(data)
         # 把 DICT 加到資料庫
         result = model.add_shift_to_db(data)
         result_dict = json.loads(result)
-        print(result_dict)
         inserted_id = result_dict['inserted_id']
-        print(inserted_id)
         success = "新增成功"
     except Exception as e:
         response["status"] = "error"
@@ -358,15 +339,12 @@ def peoplenum_to_db():
         # 傳進來的 JSON String 轉成 LIST json decode
         data = request.get_json()
         # 傳進來的 Date String 轉成 Datetime 類別
-        print("..................")
-        print(data)
         model.buspeople_to_db(data)
         success = "上傳成功"
     except Exception as e:
         response["status"] = "error"
         response["error"] = str(e)
         error = "上傳失敗"
-        print(response)
 
     if response['status'] == "ok":
         return redirect(url_for('bus_driver_people_number_return',success = success))
@@ -391,8 +369,6 @@ def changePassword():
         response["status"] = "error"
         response["error"] = str(e)
         error = "修改失敗"
-        
-    print(response["status"])
     if result["identity"] == 0:
         if response['status'] == "ok":
             return redirect(url_for('change_password',success = success))
@@ -483,7 +459,6 @@ def get_routelist(data):
                 if(one[name] != '0'):
                     route[one[name]] = one[route_n_temp]
             routelist.append(route)
-    print(len(routelist))
     return routelist
 
 @app.route('/busGps_to_db',methods=['POST'])
@@ -494,7 +469,6 @@ def busGps_to_db():
     response = {"status":"ok"}
     data = dict()
     ans = upload(data)
-    print(ans)
     try:
         csv_data = dict()
         csv_dir = 'csv/'+request.files['myfile'].filename
@@ -510,27 +484,19 @@ def busGps_to_db():
                 title = reader.fieldnames
                 csv_data = [{title[i]:row[title[i]] for i in range(len(title))}  for row in reader]
 
-        print(csv_data)
         for data in csv_data:
             data['lat'] = float(data['lat'])
             data['lng'] = float(data['lng'])
-        print('j')
         routelist = dict()
         routelist = get_routelist(csv_data)
-        print('k')
         csvkey = csv_data[0].keys()
         routename = []
         for name in csvkey:
             if name.isdigit():
                 routename.append(name)
-        print('l')
         for data in csv_data:
             for name in routename:
                 data.pop(name)
-        print('m')
-        print(csv_data)
-        print('/')
-        print(routelist)
         model.busGps_to_db(csv_data,routelist)
 
         success = "上傳成功"
@@ -621,14 +587,10 @@ def manager_index():
 def get_route():
     response = {"status":"ok"}
     try:
-        print("....")
         getRoute = request.get_json()
-        print(getRoute)
         response = model.get_route_from_db(getRoute)
-        #print(response)
     except Exception as e:
         response["status"] = "error"
-        #print(str(e))
     return jsonify(response)
 
 @app.route('/getbusGPS', methods=['POST'])
@@ -640,7 +602,6 @@ def get_busGPS():
 
     except Exception as e:
         response["status"] = "error"
-        #print(str(e))
     return jsonify(response)
 
 @app.route('/getbusDriverforWeb', methods=['POST'])
@@ -651,9 +612,6 @@ def get_busDriverforWeb():
 
     except Exception as e:
         response["status"] = "error"
-        print(str(e))
-    print(response)
-    print("XXXX")
     return jsonify(response)
 @app.route('/setbusGPS', methods=['POST'])
 def set_busGPS():
@@ -661,12 +619,10 @@ def set_busGPS():
     try:
         getdata = request.get_json() #拿時間&姓名
         getdata["start_time"] = datetime.strptime(getdata["start_time"], '%H:%M')
-        print(getdata)
         response = model.set_busGPS_into_db(getdata)
 
     except Exception as e:
         response["status"] = "error"
-        print(str(e))
     return jsonify(response)
 
 @app.route('/getbusNumber', methods=['POST'])
@@ -675,9 +631,7 @@ def get_busNumber():
     response = {"status":"ok"}
     try:
         data = request.get_json()
-        print("inside main-getbusNumber")
         response = model.get_busNumber_from_db(data)
-        print(response)
     except Exception as e:
         response["status"] = "error"
         print(str(e))
@@ -690,13 +644,10 @@ def start_set_bus_stop():
     try:
         getdata = request.get_json() #拿時間&姓名
         getdata["start_time"] = datetime.strptime(getdata["start_time"], '%H:%M')
-        print("hahaha")
-        print(getdata)
         response = model.start_set_busStop_from_db(getdata)
 
     except Exception as e:
         response["status"] = "error"
-        print(str(e))
     return jsonify(response)
 
 @app.route('/setbusStop', methods=['POST'])
@@ -705,7 +656,6 @@ def set_bus_stop():
     try:
         getdata = request.get_json() #拿時間&姓名
         getdata["start_time"] = datetime.strptime(getdata["start_time"], '%H:%M')
-        print(getdata)
         response = model.set_busStop_from_db(getdata)
     except Exception as e:
         response["status"] = "error"
