@@ -3,7 +3,7 @@ function websocket_init()
 {
     // Connect to Web Socket
     var i = 0;
-    ws = new WebSocket("ws://127.0.0.1:9001/");
+    ws = new WebSocket("ws://140.121.198.84:9001/");
     // Set event handlers.
     ws.onopen = function() 
     {
@@ -86,6 +86,6 @@ function returnMessageToManager(x)
 }
 function start(account)
 {
-  localStorage.setItem('account',account)';
+  localStorage.setItem('account',account);
   websocket_init();
 }
