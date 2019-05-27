@@ -12,16 +12,13 @@
 
 		<link href="{{ url_for('static', filename='css/main.css') }}" rel="stylesheet">
 		<script src = "{{url_for('static', filename='js/websocket_open.js')}}"></script>
+		<script src = "{{url_for('static', filename='js/manager_index.js')}}"></script>
 		<link href="{{ url_for('static', filename='css/main.css') }}" rel="stylesheet">
-		
-		<script>
-			console.log("account = ");
-		</script>
 	</head>
 
     
 	
-	<body onload="start('{{account}}')">
+	<body onload="setName()">
 	  	  <nav class="navbar navbar-expand-xl navbar-dark bg-dark" id="mainNav">
 		  <div class="container">
 			  <a class="navbar-brand" href="{{url_for('manager_index')}}">基隆公車調派系統</a>

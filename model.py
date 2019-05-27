@@ -177,6 +177,9 @@ class Model:
             if count >= 8:
                 name.pop(i)
         return name
+    
+    
+    
 
     #get driver from db    
     def get_modify_driver_from_db(self, data):
@@ -451,5 +454,15 @@ class Model:
         #print("driver_state:%s" % (driver_state))
         return driver_state    
         
-
+###################################芷婷###########################################################
+    def get_driver_name_from_db(self, data):
+        print("AAA")
+        name = list()
+        client = pymongo.MongoClient('mongodb://'+self._user+':'+self._password+'@140.121.198.84:27017/')
+        db = client['KeelungBusSystem']
+        name.append(db["info"].find_one({"email" : data['mail']}))
+        
+        print(name)
+        return name
+########################################################################
        

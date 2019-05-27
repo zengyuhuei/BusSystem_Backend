@@ -51,6 +51,9 @@ function websocket_init()
     ws.onclose = function() {
     };
 }
+
+
+
 function sendMessageToManager()
 {
   text = document.getElementById("exampleFormControlTextarea1")
@@ -83,6 +86,6 @@ function returnMessageToManager(x)
 }
 function start(account)
 {
-  localStorage.setItem('account',account)
+  localStorage.setItem('account',account)';
   websocket_init();
 }

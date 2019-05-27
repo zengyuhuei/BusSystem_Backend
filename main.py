@@ -132,6 +132,8 @@ def driver_index():
         pass
     return render_template('driver_index.html',account = account, methods=['GET'])
 
+
+
 @app.route('/logout', methods=['GET'])
 @login_required
 def logout():
@@ -727,7 +729,20 @@ def get_driver_state():
 
     return jsonify(response)
 
+@app.route('/get_name', methods=['POST'])
+@login_required
+def get_name():   
+   print("ting ting ting ting ting ting")
+   response = {"status":"ok"}
+   print(response) 
+   try:
+        data = request.get_json()
+        response = model.get_driver_name_from_db(data)
+   except Exception as e:
+        response["status"] = "error"
+        print(str(e))
+        
+   return jsonify(response)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=3000, debug=True)
-
