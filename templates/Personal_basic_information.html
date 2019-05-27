@@ -30,7 +30,7 @@
 
 	   <nav class="navbar navbar-expand-xl navbar-dark bg-dark" id="mainNav">
 		  <div class="container">
-			  <a class="navbar-brand" href="{{url_for('manager_index')}}">基隆公車調派系統</a>
+			  <a class="navbar-brand" href="{{url_for('manager_index')}}">基隆公車調派系統-管理者</a>
 			  <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
 			  </button>
@@ -180,11 +180,13 @@
 						
 						</div>
 					</div>
-			
-				<input type="submit" class="btn btn-primary mb-3 yes"  style="display:none;">
-			  
-			</form>
-			<button class="btn btn-success mb-3 fix" >修改</button>
+						<input type="submit" class="btn btn-primary mb-3 yes"  style="display:none;">
+						<button type="button"class="btn btn-success mb-3 cancel" style="display:none;">取消</button>
+						<button type="button"  class="btn btn-success mb-3 fix" >修改</button>
+				</form>
+	
+				</div>
+
 		</div>
 	</body>
 </html>
