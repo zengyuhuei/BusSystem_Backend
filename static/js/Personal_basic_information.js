@@ -69,6 +69,11 @@ $(document).ready(function(){
 		$(".yes").hide();
 		$(".cancel").hide();
 		$(".fix").show();
+		$('#InputPhone1').prop('required', false);
+		$('#address').prop('required', false);
+		$('#myfile').prop('required', false);
+		$('#account').prop('required', false);
+		
 		$('#InputPhone1').prop('readonly', true);
 		$('#address').prop('readonly', true);
 		$('#myfile').prop('disabled', true);
