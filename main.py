@@ -187,6 +187,7 @@ def add_driver_to_db():
 @login_required
 def modify_info_to_db():
     error = None
+    identity = 0
     success = None
     response = {"status":"ok"}
     try:
