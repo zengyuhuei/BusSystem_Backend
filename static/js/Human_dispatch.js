@@ -18,6 +18,10 @@ function setTable(response)
 
 function getDriverState()
 {
+    var day_list = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
+    var date = new Date();
+    var day  = date.getDay();
+    console.log(day_list[day])
 	$.ajax({
         type: "POST",
         data: "json",
@@ -25,15 +29,43 @@ function getDriverState()
         contentType : 'application/json',
         url: "http://127.0.0.1:3000/humanDispatch",
         data:JSON.stringify({
-            "day": "SUN"
+            "day": day_list[day]
         }),
         success: function(response) {
             console.log(response);
+            var i = 0;
+            while(response[i]!=null)
+            {
+                console.log("SS")
+                var actions = $("table td:last-child").html();
+                var index = $("table tbody tr:last-child").index();
+                            if(response[i]['state'] == 1)
+                            {
+                                response[i]['state'] = "待命中"
+                            }
+                            else if(response[i]['state'] == 2)
+                            {
+                                response[i]['state'] = "駕駛中"
+                            }
+                            else
+                            {
+                                response[i]['state'] = "休假中"
+                            }
+                            var row = '<tr>' +
+                                    '<td style="display: none;">'+response[i]['_id']+'</td>' +
+                                    '<td>'+response[i]['driverName']+'</td>' +
+                                    '<td>'+response[i]['state']+'</td>' +
+                                    '<td>' + response[i]['workTime'] + '</td>' +
+                            '</tr>';
+                        $("table").append(row);      
+                i=i+1;
+            }   
         },
         error: function(xhr, type) {
                 console.log("gr nb");
         }
     });
+
 }
 
 
