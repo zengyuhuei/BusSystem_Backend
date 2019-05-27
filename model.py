@@ -196,6 +196,8 @@ class Model:
         for i in range(0,len(name)-1):
             count = db["shift"].find({"day" : date, "driver" : name[i]}).count()
             #print(count)
+            if name[i] == driver:
+                name[0],name[i] = name[i], name[0]
             if count >= 8 and name[i] != driver:
                 name.pop(i)
         return name
