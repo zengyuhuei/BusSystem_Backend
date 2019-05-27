@@ -86,6 +86,6 @@ function returnMessageToManager(x)
 }
 function start(account)
 {
-  localStorage.setItem('account',account)';
+  localStorage.setItem('account',account);
   websocket_init();
 }
