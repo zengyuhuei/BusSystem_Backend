@@ -47,7 +47,7 @@ function setDriver()
         var marker = new google.maps.Marker({
 					position: myLatLng,
           map: map,
-          icon:'../static/picture/FotoJet.PNG'
+          icon:'../static/picture/FotoJet.png'
 				});     
       }
       var message = "發生事故<br>司機:"+localStorage.getItem("driver")+"<br>時間:<br>位於:<br>狀況:";
