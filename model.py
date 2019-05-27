@@ -407,7 +407,49 @@ class Model:
                     position.pop(0)
             return fuck
         
+    def get_driver_state_from_db(self, data):
+        driver_name = list()
+        driver_state = list()
+        work_time = 0
+        temp_state = 1
+        client = pymongo.MongoClient('mongodb://'+self._user+':'+self._password+'@140.121.198.84:27017/')
+        db = client['KeelungBusSystem']
+        print(data)#時間
+        day = str(data["day"])
+        #找所有司機mail
+        for x in db["auth"].find({'identity' : 1}, {"_id" : 0, "user" : 1}):
+            driver_name.append(x)
         
+        #print("length:%s" % len(driver_name))
+        #print("driver_name(0).user:%s" %(driver_name[0]["user"]))
+        
+        for i in range(0,len(driver_name)-1):
+            for y in db["shift"].find({"driver" : driver_name[i]["user"], "day" : day}, {"_id" : 0, "lat" : 1}):
+                #print("y:%s" % y)
+                if y['lat'] != 0.0:
+                    temp_state = 2
+                    
+                work_time = work_time + 1
+                #print("work_time:%d" % work_time)
+            if work_time == 0:
+                driver_dict = {
+                    "driverName" : driver_name[i]["user"],
+                    "workTime" : work_time,
+                    "state" : 0 #休假
+                }
+            else: #開車和待命
+                driver_dict = {
+                    "driverName" : driver_name[i]["user"],
+                    "workTime" : work_time,
+                    "state" : temp_state #有排班
+                }
+            driver_state.append(driver_dict)
+            
+            #print("temp_state:%d" %temp_state)
+            work_time = 0
+            temp_state = 1
+        #print("driver_state:%s" % (driver_state))
+        return driver_state    
         
 
        

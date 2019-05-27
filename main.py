@@ -713,6 +713,19 @@ def set_bus_stop():
         return jsonify(response)
     else:
         return "haveNotStart"
+    
+@app.route('/humanDispatch', methods=['POST'])
+def get_driver_state():
+    response = {"status":"ok"}
+    try:
+        getdata = request.get_json()
+        response = model.get_driver_state_from_db(getdata)
+    except Exception as e:
+        response["status"] = "error"
+        print(str(e))
+
+    return jsonify(response)
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=3000, debug=True)
