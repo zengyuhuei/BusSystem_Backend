@@ -4,6 +4,7 @@ var directionsService;
 var directionsDisplay;
 var jj=[];
 var marker1 = [];
+var markers = [];
 
 $(document).ready(function(){
 	$("#yes").click(function() {
@@ -45,7 +46,7 @@ function load(route){
 		data: "json",
 		dataType: "json",
 		contentType : 'application/json',
-		url: "http://140.121.198.84:3000/getRoute",
+		url: "http://127.0.0.1:3000/getRoute",
 		data:JSON.stringify({
 			"route": route
 		}),
@@ -67,7 +68,7 @@ function busGPS(route){
 		data: "json",
 		dataType: "json",
 		contentType : 'application/json',
-		url: "http://140.121.198.84:3000/getbusGPS",
+		url: "http://127.0.0.1:3000/getbusGPS",
 		data:JSON.stringify({
 			"route": route
 		}),
@@ -107,8 +108,13 @@ function returnRoute(json)
 	console.log(jj);
 	
 	var waypts = [];
-	var markers = [];
-
+	for(var j = 0; j < markers.length ; j++){
+		console.log("set bus stop marker null");
+		markers[j].setPosition(null);
+		markers[j].setMap(null);
+		markers[j]=null;
+	}
+	markers = [];
 	
 	
 	for (var i = 1; i < obj.length-1; i++) {
