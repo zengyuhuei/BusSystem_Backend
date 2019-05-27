@@ -185,7 +185,9 @@ class Model:
         db['arrivetime'].drop()
         db['shift'].drop()
         coor_result = db['busRoad_coor'].insert_many(data_coor)
+        coor_result = db[str(datetime.now())+'_busRoad_coor'].insert_many(data_coor)
         coor_result = db['route'].insert_many(data_route)
+        coor_result = db[str(datetime.now())+'_route'].insert_many(data_route)
         return coor_result
 
     #get route from db    
