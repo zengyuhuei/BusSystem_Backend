@@ -10,12 +10,11 @@
 	 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
 	  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
 		<script src = "{{url_for('static', filename='js/websocket_open.js')}}"></script>
-		<script  src = "{{url_for('static', filename='js/Human_dispatch.js')}}"></script>
 	  <link href="{{ url_for('static', filename='css/main.css') }}" rel="stylesheet">
 	</head>
 
 	
-    <body onload="load()">
+    <body onload="websocket_init()">
 
 		<nav class="navbar navbar-expand-xl navbar-dark bg-dark" id="mainNav">
 		  <div class="container">
@@ -78,7 +77,7 @@
 			<div id = "bus">
 				
 			
-				<table class="table" id = "table">
+				<table class="table">
 				  <thead class="thead-dark">
 					<tr>
 					  <th scope="col">姓名</th>
