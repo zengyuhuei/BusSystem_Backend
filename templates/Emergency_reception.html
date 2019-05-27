@@ -11,6 +11,7 @@
 	  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
 		<script src = "{{url_for('static', filename='js/websocket_open.js')}}"></script>
 		<script src = "{{url_for('static', filename='js/Emergency_reception.js')}}"></script>
+		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC3RdvutneSQCHgWDr4t7AAhKNx7jmMFz0"></script>
 	  <link href="{{ url_for('static', filename='css/main.css') }}" rel="stylesheet">
 	</head>
 
@@ -64,23 +65,29 @@
 			<div class="intro-text my-4">
 				<h1>突發狀況接收</h1>
 			</div>
-
 			<div class="form-group row">
 				<label for="input1" class="col-xs-3 col-md-auto col-lg-auto col-form-label">
 					<h5>司機：</h5>
 				</label>
 				
-				<div class="col-xs-4 col-md-3 col-lg-3" id="busdriver">
+			<div class="col-xs-4 col-md-3 col-lg-3" id="busdriver">
 
-				</div>	
+			</div>	
 			</div>
 			<div class="form-group row">
-				<label for="input1" class="col-xs-3 col-md-auto col-lg-auto col-form-label">
-					<h5>緊急通知：</h5>
-				</label>
-				<textarea class="form-control" id="exampleFormControlTextarea1" rows="5"></textarea>
+				<div class="col-xs-12 col-md-8 col-lg-8" id="map" style="width:55%; height:450px">
+				</div>
+				<div class="col-xs-12 col-md-4 col-lg-4" id = "bus">					
+					<div class="form-group row">
+						<label for="input1" class="col-xs-3 col-md-auto col-lg-auto col-form-label">
+							<h5>緊急通知：</h5>
+						</label>
+						<textarea class="form-control" id="exampleFormControlTextarea1" rows="5"></textarea>
+					</div>
+					<button type="submit" class="btn btn-primary yes" onclick = sendMessageToDriver()>確認</button>
+				</div>	
 			</div>
-			<button type="submit" class="btn btn-primary yes" onclick = sendMessageToDriver()>確認</button>
+			
 			
 
 			<div class="col-xs-12 col-md-8 col-lg-8" id = "googlemap">

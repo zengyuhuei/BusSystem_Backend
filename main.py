@@ -240,7 +240,22 @@ def get_info():
 def get_driver():
     response = {"status":"ok"}
     try:
-        response = model.get_driver_from_db()
+        data = request.get_json()
+        response = model.get_driver_from_db(data)
+        print(response)
+
+    except Exception as e:
+        response["status"] = "error"
+        print(str(e))
+    return jsonify(response)
+
+@app.route('/getDriverModify', methods=['POST'])
+@login_required
+def get_modify_driver():
+    response = {"status":"ok"}
+    try:
+        data = request.get_json()
+        response = model.get_modify_driver_from_db(data)
         print(response)
 
     except Exception as e:

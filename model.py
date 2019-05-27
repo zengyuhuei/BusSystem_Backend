@@ -110,7 +110,6 @@ class Model:
 
     #get shift from db    
     def get_shift_from_db(self, data):
-        print("AA")
         client = pymongo.MongoClient('mongodb://'+self._user+':'+self._password+'@140.121.198.84:27017/')
         db = client['KeelungBusSystem']
         #collection = db['list']
@@ -159,15 +158,46 @@ class Model:
         return tempList
     
     #get driver from db    
-    def get_driver_from_db(self):
+    def get_driver_from_db(self, data):
         name = list()
+        date = data["day"]
+        print("date = ")
+        print(date)
         client = pymongo.MongoClient('mongodb://'+self._user+':'+self._password+'@140.121.198.84:27017/')
         db = client['KeelungBusSystem']
         result = list(db["auth"].find({"identity" : 1},{ "_id": 0 , "password": 0, "identity": 0 }))
         print(result)
         for mail in result:
             name.append(db["info"].find_one({"email" : mail['account']},{"_id" : 0, "name": 1 })['name'])
+        print("下面是 driver name :")
         print(name)
+        for i in range(0,len(name)-1):
+            count = db["shift"].find({"day" : date, "driver" : name[i]}).count()
+            print(count)
+            if count >= 8:
+                name.pop(i)
+        return name
+
+    #get driver from db    
+    def get_modify_driver_from_db(self, data):
+        name = list()
+        date = data["day"]
+        driver = data["driver"]
+        print("driver = ")
+        print(driver)
+        client = pymongo.MongoClient('mongodb://'+self._user+':'+self._password+'@140.121.198.84:27017/')
+        db = client['KeelungBusSystem']
+        result = list(db["auth"].find({"identity" : 1},{ "_id": 0 , "password": 0, "identity": 0 }))
+        print(result)
+        for mail in result:
+            name.append(db["info"].find_one({"email" : mail['account']},{"_id" : 0, "name": 1 })['name'])
+        print("下面是 driver name :")
+        print(name)
+        for i in range(0,len(name)-1):
+            count = db["shift"].find({"day" : date, "driver" : name[i]}).count()
+            #print(count)
+            if count >= 8 and name[i] != driver:
+                name.pop(i)
         return name
 
     # auth

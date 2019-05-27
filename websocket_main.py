@@ -62,9 +62,8 @@ def message_received(client, server, message):
         
         print("before")
         print(client_sender_id)
-        client_sender_id.append(client['id'])
+        client_sender_id.append(client['user'])
 
-        print("B:Client(%d) 傳訊給管理者" % (client_sender_id[-1]))
         # 推播訊息給管理者，不管身分只要send就是指有管理者能看到訊息
         print("after")
         print(client_sender_id)
@@ -78,23 +77,24 @@ def message_received(client, server, message):
     elif x[0] == 'C': #管理者回覆訊息給司機
         #server.send_message(client['id'],"朕知道了")
         clientList = server._get_client()
-        
-        print("C:管理者Client(%d) 回覆 司機Client(%d) 的緊急訊息" % (client['id'], client_sender_id[0]))
-        
-        server.send_message(clientList[client_sender_id[0]-1], message)
-        
+        check = 0
+        for cli in clientList:
+            if cli['user'] == client_sender_id[0]:
+                server.send_message(cli, message)
+                check = 1
+        if  check == 0:#假設websocket server查詢不到此司機 將會將此司機放置欲回傳Listㄉ最後一ㄍ位置
+            client_sender_id.append(cli)
         print("印出clientList")
         print(clientList)
         
-        print("印出回覆對象的詳細資料")
-        print(clientList[client_sender_id[0]-1])
+        #print("印出回覆對象的詳細資料")
+        #print(clientList[client_sender_id[0]-1])
         
         print("管理者尚未回覆的司機清單client_sender_id")
-        del(client_sender_id[0])
         print(client_sender_id)
         #print("Client(%d) sendback message: %s" % (client['id'], "朕知道了")) 
         
-    else: #管理員主動傳訊息給司機x[0] == 'D'
+    elif x[0] == 'D': #管理員主動傳訊息給司機x[0] == 'D'
         #處理x[1]的訊息，取出司機名稱的字串出來比較，相符才能傳訊息
         #print(x[1])
         driverName = x[1][24:27]
@@ -119,8 +119,19 @@ def message_received(client, server, message):
             if driver['driver_name'] == driverName:
                 print(driver)
                 print("D:管理者Client(%s) 主動跟 司機Client(%s) 傳訊息" % (manager_id, driver['driver_id']))
-                server.send_message(clientList[driver['driver_id']-1], "D:"+y[1])
+                server.send_message(clientList[driver['driver_id']-1], "D:管理者發出緊急通知!\n"+y[1])
         sayHello_to_driver_List.clear()
+    else: #D的回傳 x[0] = E
+        driverNameE = client['user']
+        clientList = server._get_client()
+        for client in clientList:
+            if client['identity'] == 0:
+                server.send_message(client,"E:"+driverNameE+" 司機已接到訊息!")
+        
+        
+
+        
+
 
 
 PORT=9001

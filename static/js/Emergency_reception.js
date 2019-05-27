@@ -12,7 +12,7 @@ function setDriver()
 		(resolve,reject)=>{
     $.ajax({
         type: 'POST',
-        url: "http://140.121.198.84:3000/getbusDriverforWeb",
+        url: "http://127.0.0.1:3000/getbusDriverforWeb",
         data:'json',
         dataType:'json',
         contentType:'json',
@@ -27,6 +27,38 @@ function setDriver()
             }
         }// 成功後要執行的函數
       }).done(result => resolve(xString))
-    }).then(result => setData(xString));
-    websocket_init();
+    }).then(result => setData(xString))
+    .then(result=>initialize())
+    .then(result=> websocket_init());
 }
+
+
+    function initialize() {
+      var mapOptions = {
+        center: { lat:25.143411,lng:121.774429}, 
+        zoom: 14
+      };
+      var map = new google.maps.Map(
+          document.getElementById('map'),
+          mapOptions);
+      var myLatLng = {lat:parseFloat(localStorage.getItem('lat')),lng:parseFloat(localStorage.getItem('lng'))};
+      if(myLatLng['lat'] != 0.0 && myLatLng['lng'] != 0.0)
+      {
+        var marker = new google.maps.Marker({
+					position: myLatLng,
+          map: map,
+          icon:'../static/picture/FotoJet.PNG'
+				});     
+      }
+      var message = "發生事故<br>司機:"+localStorage.getItem("driver")+"<br>時間:<br>位於:<br>狀況:";
+      var infowindow = new google.maps.InfoWindow({
+        content: message
+      });
+      google.maps.event.addListener(marker, 'mouseover', function() {
+        infowindow.open(marker.get('map'), marker);
+      });
+      google.maps.event.addListener(marker, 'mouseout', function() {
+        infowindow.close(marker.get('map'), marker);
+      });
+    }
+		

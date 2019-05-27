@@ -12,7 +12,7 @@ function starts()
    type: 'POST',
    dataType : 'json',
    contentType : 'application/json',
-   url: "http://140.121.198.84:3000/getbusNumber",
+   url: "http://127.0.0.1:3000/getbusNumber",
    data:JSON.stringify({
     
    }),
@@ -26,6 +26,7 @@ function starts()
     //x.html(optionString);
    }// 成功後要執行的函數
   }).done(result => resolve(optionString))
- }).then(result => setData(optionString));
+ }).then(result => setData(optionString))
+ .then(result=>websocket_init());
 
 }
