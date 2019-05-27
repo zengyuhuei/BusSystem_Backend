@@ -18,6 +18,10 @@ function setTable(response)
 
 function getDriverState()
 {
+    var day_list = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
+    var date = new Date();
+    var day  = date.getDay();
+    console.log(day_list[day])
 	$.ajax({
         type: "POST",
         data: "json",
@@ -25,7 +29,7 @@ function getDriverState()
         contentType : 'application/json',
         url: "http://127.0.0.1:3000/humanDispatch",
         data:JSON.stringify({
-            "day": "SUN"
+            "day": day_list[day]
         }),
         success: function(response) {
             console.log(response);
