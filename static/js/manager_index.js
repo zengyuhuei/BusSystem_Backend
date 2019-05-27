@@ -5,7 +5,7 @@ function setName()
 		type: 'POST',
 		dataType : 'json',
 		contentType : 'application/json',
-		url: "http://127.0.0.1:3000/get_name",
+		url: "http://140.121.198.84:3000/get_name",
 		data:JSON.stringify({
 			"email":localStorage.getItem("account")
 		}),
