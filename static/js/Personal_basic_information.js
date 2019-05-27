@@ -2,7 +2,7 @@ function load(){
 	
 	$.ajax({
 		type: 'GET',
-		url: "http://140.121.198.84:3000/getInfo?",
+		url: "http://127.0.0.1:3000/getInfo?",
 		dataType: 'json',
 		success: function(data) {
 			console.log(data);
@@ -50,6 +50,7 @@ $(document).ready(function(){
 	$('#birthday > .form-control').prop('readonly', true);
 	$(".fix").click(function() {
 		$(".yes").show();
+		$(".cancel").show();
 		$(".fix").hide();
 		$('.custom-file').show();
 		$('#InputPhone1').prop('readonly', false);
@@ -63,7 +64,16 @@ $(document).ready(function(){
 		$('#account').prop('required', true);
 		
 	})
-	
+	$(".cancel").click(function() {
+		load();
+		$(".yes").hide();
+		$(".cancel").hide();
+		$(".fix").show();
+		$('#InputPhone1').prop('readonly', true);
+		$('#address').prop('readonly', true);
+		$('#myfile').prop('disabled', true);
+		$('#account').prop('readonly', true);
+	})
 });
 function readURL(input) {
 	if (input.files && input.files[0]) {

@@ -30,7 +30,7 @@
 
 	   <nav class="navbar navbar-expand-xl navbar-dark bg-dark" id="mainNav">
 		  <div class="container">
-			  <a class="navbar-brand" href="{{url_for('manager_index')}}">基隆公車調派系統</a>
+			  <a class="navbar-brand" href="{{url_for('manager_index')}}">基隆公車調派系統-管理者</a>
 			  <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
 			  </button>
@@ -80,7 +80,7 @@
 				{% if success %}
 					<div class="alert alert-success" role="alert"><strong>Success:</strong> {{ success }}</div>
 				{% endif %}
-				<form method = "post" action = "http://140.121.198.84:3000/modify_info_to_db" enctype = "multipart/form-data">
+				<form method = "post" action = "http://127.0.0.1:3000/modify_info_to_db" enctype = "multipart/form-data">
 					<div class = "row">
 						<div class="col-sm-7 col-lg-7 col-md-7">
 							<div class="form-group row">
@@ -182,6 +182,7 @@
 					</div>
 			
 				<input type="submit" class="btn btn-primary mb-3 yes"  style="display:none;">
+				<button class="btn btn-success mb-3 cancel" style="display:none;">取消</button>
 			  
 			</form>
 			<button class="btn btn-success mb-3 fix" >修改</button>
