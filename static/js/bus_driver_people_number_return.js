@@ -56,7 +56,7 @@ $(document).ready(function(){
 			people_number1 = 0;
 		}
 
-		/*$.ajax({
+		$.ajax({
 			type: "POST",
 			data: "json",
 			dataType: "json",
@@ -74,7 +74,7 @@ $(document).ready(function(){
 			error: function(xhr, type) {
 				console.log("hehehe");
 			}
-		});*/
+		});
 
 		$.ajax({
 			type: "POST",
@@ -91,7 +91,6 @@ $(document).ready(function(){
 			}),
 			success: function(response) {
 				console.log(response);
-				now = "";
 			},
 			error: function(xhr, type) {
 				console.log("bus is wrong");

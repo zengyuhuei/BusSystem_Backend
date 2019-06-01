@@ -345,7 +345,7 @@ def peoplenum_to_db():
     except Exception as e:
         response["status"] = "error"
 
-    return str(response)
+    return jsonify(response)
 
 @app.route('/changePassword', methods=['POST'])
 def changePassword():

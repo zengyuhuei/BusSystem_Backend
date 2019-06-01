@@ -17,20 +17,32 @@
 			var lat, lng;
 			var peoplenum = 0;
 			var myVar;
-			var date = new Date(); //日期对象 
-			var now = ""; 
+			var date;
+			var now; 
 			var i = 1;
 			var stop = i.toString();
 			var count = 0;
 			var restartCheck = 0;
 			function report() {
 				//peoplenum = localStorage.getItem('peoplenum');
+				date = new Date(); //日期对象 
+				now = "";
 				console.log("report");
 				console.log(peoplenum);
+				if(date.getHours()<10){
+					now = now + "0"+date.getHours()+":"; 
+				}
+				else{
+					now = now + date.getHours()+":"; 
+				}
 				
-				now = now + date.getHours()+":"; 
-				now = now + date.getMinutes();
 				
+				if(date.getMinutes()<10){
+					now = now + "0"+date.getMinutes();
+				}
+				else{
+					now = now + date.getMinutes();
+				}
 				console.log(now);
 				
 			}
@@ -119,7 +131,6 @@
 					now2 = now2 + date2.getHours()+":"; 
 					now2 = now2 + date2.getMinutes();
 
-
 					if(count<busLocation.length){
 						$.ajax({
 						
@@ -176,7 +187,6 @@
 				count = 0;
 				document.getElementById("people_number").innerHTML = "0";
 				localStorage.setItem('peoplenum',0);
-				now = "";
 				console.log("owo");
 				$.ajax({
 				type: "POST",

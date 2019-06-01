@@ -267,9 +267,9 @@ class Model:
         driver = driver_name["name"]
         #時間還沒都進去 不知道格式 **
         if 'peoplenum' in data.keys():
-            db["shift"].update_one({"driver" : driver, "day" : day}, {"$set": { "lat": flat, "lng": flng, "peoplenum": peoplenum}}) 
+            db["shift"].update_one({"driver" : driver, "day" : day, 'start_time' : time}, {"$set": { "lat": flat, "lng": flng, "peoplenum": peoplenum}}) 
         else:
-            db["shift"].update_one({"driver" : driver, "day" : day}, {"$set": { "lat": flat, "lng": flng}}) 
+            db["shift"].update_one({"driver" : driver, "day" : day, 'start_time' : time}, {"$set": { "lat": flat, "lng": flng}}) 
         position = "good"
         return position
 
@@ -287,7 +287,7 @@ class Model:
         driver_name = db["info"].find_one({'email' : data['driver']}, {"_id" : 0, "name": 1})
         driver = driver_name["name"]
         db['shift'].update_one({"driver":driver, "day":day},{"$set": { "peoplenum": data['peoplenum']}})
-        result = "buspeople is update"
+        result = {"state" : "buspeople is update"}
         return result
 
     #set startBusStop   (剛開始拿站牌經緯度當司機GPS)
@@ -299,7 +299,7 @@ class Model:
         email = data["email"]
         driver_info = db["info"].find_one({'email' : email}, {"_id" : 0, "name": 1})
         driver = driver_info["name"]
-        driver_route = db["shift"].find_one({'driver' : driver, 'day' : day}, {"route" : 1, "lat" : 1, "start_time" : 1})
+        driver_route = db["shift"].find_one({'driver' : driver, 'day' : day, 'start_time' : time}, {"route" : 1, "lat" : 1, "start_time" : 1})
         start_time = driver_route["start_time"]
         route = driver_route["route"]
         lat = driver_route["lat"]
@@ -338,7 +338,7 @@ class Model:
         driver_info = db["info"].find_one({'email' : name}, {"_id" : 0, "name": 1})
         driver = driver_info["name"]
        
-        driver_route = db["shift"].find_one({'driver' : driver, 'day' : day}, {"_id" : 0,"route" : 1, "lat" : 1})
+        driver_route = db["shift"].find_one({'driver' : driver, 'day' : day, 'start_time' : time}, {"_id" : 0,"route" : 1, "lat" : 1})
         
         route = driver_route["route"]
         lat = float(driver_route["lat"])
@@ -373,11 +373,20 @@ class Model:
         onbus = data["onbus"]
         offbus = data["offbus"]
         arrivaltime = data["arrivaltime"]
-
         driver_info = db["info"].find_one({'email' : email}, {"_id" : 0, "name": 1})
         driver = driver_info["name"]
         history_info = db["history"].find_one({'Driver' : driver, "Start_time" : time}, {"_id" : 0, "onBus" : 1, "offBus" : 1, "Arrival_time" : 1})
         #把陣列取出 存值 再update
+        on = []
+        off = []
+        arri = []
+        on = history_info['onBus']
+        off = history_info['offBus']
+        arri = history_info['Arrival_time']
+        on.append(onbus)
+        off.append(offbus)
+        arri.append(arrivaltime)
+        db["history"].update_one({'Driver' : driver, "Start_time" : time}, {"$set": { "onBus": on, "offBus": off, "Arrival_time": arri }})
         position = {"state" : "good"}
         return position
 
