@@ -55,21 +55,18 @@ $(document).ready(function(){
 			localStorage.setItem('peoplenum',0);
 			people_number1 = 0;
 		}
-		
-		$('.count1').val(0);
-		$('.count').val(0);
 
-		$.ajax({
+		/*$.ajax({
 			type: "POST",
 			data: "json",
 			dataType: "json",
 			contentType : 'application/json',
-			url: "http://140.121.198.84:3000/peoplenum_to_db",
+			url: "http://127.0.0.1:3000/peoplenum_to_db",
 			data:JSON.stringify({
 				"driver":localStorage.account,
+				"day": "SUN",
+				"start_time": "7:00",
 				"peoplenum": people_number1,
-				"lat": lat,
-				"lng": lng
 			}),
 			success: function(response) {
 				console.log(response);
@@ -77,13 +74,35 @@ $(document).ready(function(){
 			error: function(xhr, type) {
 				console.log("hehehe");
 			}
+		});*/
+
+		$.ajax({
+			type: "POST",
+			data: "json",
+			dataType: "json",
+			contentType : 'application/json',
+			url: "http://127.0.0.1:3000/setonBusoffBus",
+			data:JSON.stringify({
+				"email":localStorage.account,
+				"start_time": "7:00",
+				"onbus": parseInt($('.count').val()),
+				"offbus": parseInt($('.count1').val()),
+				"arrivaltime": now
+			}),
+			success: function(response) {
+				console.log(response);
+				now = "";
+			},
+			error: function(xhr, type) {
+				console.log("bus is wrong");
+			}
 		});
+
+		$('.count1').val(0);
+		$('.count').val(0);
+
 	});
 	
 });
 
-$(document).on('click','#end',function(){
-	console.log("ouo");
-
-});
 

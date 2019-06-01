@@ -2,10 +2,9 @@ from pymongo import MongoClient
 import pymongo
 import json
 import time
-from datetime import datetime
+from datetime import datetime, date
 from bson import ObjectId
-import configparser   
-from datetime import datetime
+import configparser
 class Model:
 
     def __init__(self):
@@ -208,7 +207,7 @@ class Model:
             position.append(db["busRoad_coor"].find_one({"route" : bus_stop},{"_id" : 0, "route": 1, "lat": 1, "lng": 1 }))
         return position
 
-    #get busGPS from db    
+    #get busGPS from db (拿車子GPS)       
     def get_busGPS_from_db(self, bus_route):
         position = list()
         client = pymongo.MongoClient('mongodb://'+self._user+':'+self._password+'@140.121.198.84:27017/')
@@ -245,11 +244,12 @@ class Model:
                 driver.append(x)
         
         return driver
-    #set busGPS to db    
+    #set busGPS to db  (存GPS到DB)  
     def set_busGPS_into_db(self, data):
         client = pymongo.MongoClient('mongodb://'+self._user+':'+self._password+'@140.121.198.84:27017/')
         db = client['KeelungBusSystem']
         #把時間姓名進去找 符合存進去 //判斷是否符合
+        day = data["day"]
         time = data["start_time"]
         name = data["email"]
         lat = data["lat"]
@@ -267,13 +267,13 @@ class Model:
         driver = driver_name["name"]
         #時間還沒都進去 不知道格式 **
         if 'peoplenum' in data.keys():
-            db["shift"].update_one({"driver" : driver}, {"$set": { "lat": flat, "lng": flng, "peoplenum": peoplenum}}) 
+            db["shift"].update_one({"driver" : driver, "day" : day}, {"$set": { "lat": flat, "lng": flng, "peoplenum": peoplenum}}) 
         else:
-            db["shift"].update_one({"driver" : driver}, {"$set": { "lat": flat, "lng": flng}}) 
+            db["shift"].update_one({"driver" : driver, "day" : day}, {"$set": { "lat": flat, "lng": flng}}) 
         position = "good"
         return position
 
-    #get busNumber from db    
+    #get busNumber from db 
     def get_busNumber_from_db(self, data):
         client = pymongo.MongoClient('mongodb://'+self._user+':'+self._password+'@140.121.198.84:27017/')
         db = client['KeelungBusSystem']
@@ -283,20 +283,24 @@ class Model:
     def buspeople_to_db(self, data):
         client = pymongo.MongoClient('mongodb://'+self._user+':'+self._password+'@140.121.198.84:27017/')
         db = client["KeelungBusSystem"]
+        day = data["day"]
         driver_name = db["info"].find_one({'email' : data['driver']}, {"_id" : 0, "name": 1})
         driver = driver_name["name"]
-        result = db['shift'].update_one({"driver":driver},{"$set": { "peoplenum": data['peoplenum']}})
+        db['shift'].update_one({"driver":driver, "day":day},{"$set": { "peoplenum": data['peoplenum']}})
+        result = "buspeople is update"
         return result
 
-    #set startBusStop   (找司機名字 然後進shift找資料)
+    #set startBusStop   (剛開始拿站牌經緯度當司機GPS)
     def start_set_busStop_from_db(self, data):
         client = pymongo.MongoClient('mongodb://'+self._user+':'+self._password+'@140.121.198.84:27017/')
         db = client['KeelungBusSystem']
+        day = data["day"]
         time = data["start_time"]
-        name = data["email"]
-        driver_info = db["info"].find_one({'email' : name}, {"_id" : 0, "name": 1})
+        email = data["email"]
+        driver_info = db["info"].find_one({'email' : email}, {"_id" : 0, "name": 1})
         driver = driver_info["name"]
-        driver_route = db["shift"].find_one({'driver' : driver}, {"route" : 1, "lat" : 1})
+        driver_route = db["shift"].find_one({'driver' : driver, 'day' : day}, {"route" : 1, "lat" : 1, "start_time" : 1})
+        start_time = driver_route["start_time"]
         route = driver_route["route"]
         lat = driver_route["lat"]
         f_lat = float(lat)
@@ -305,19 +309,36 @@ class Model:
         for i in range(1,len(route_result)-1):
             bus_stop=route_result[str(i)]
             position.append(db["busRoad_coor"].find_one({"route" : bus_stop},{"_id" : 0, "route": 1, "lat": 1, "lng": 1 }))
+        
+        #增加一列到history
+        newdata = {}
+        newdata["Route"] = route
+        newdata["Date"] = datetime.now()
+        newdata["Bus_shift"] = 0 #前端表格再標就行了，後端應該不用存
+        newdata["Driver"] = driver_info["name"]
+        newdata["Start_time"] = start_time
+        newdata["onBus"] = []
+        newdata["offBus"] = []
+        newdata["Arrival_time"] = []
+        newdata["totalNumOfPassengers"] = 0
+        newdata["FuelConsumption"] = 0
+        newdata["surplus"] = 0
+        result = db['history'].insert_one(newdata)
+
         return position
 
-    #set busStop   (找司機名字 然後進shift找資料)
+    #set busStop   (跑到一半拿站牌經緯度當司機GPS)
     def set_busStop_from_db(self, data):
         client = pymongo.MongoClient('mongodb://'+self._user+':'+self._password+'@140.121.198.84:27017/')
         db = client['KeelungBusSystem']
         #把時間姓名進去找 符合存進去 //判斷是否符合
+        day = data["day"]
         time = data["start_time"]
         name = data["email"]
         driver_info = db["info"].find_one({'email' : name}, {"_id" : 0, "name": 1})
         driver = driver_info["name"]
        
-        driver_route = db["shift"].find_one({'driver' : driver}, {"_id" : 0,"route" : 1, "lat" : 1})
+        driver_route = db["shift"].find_one({'driver' : driver, 'day' : day}, {"_id" : 0,"route" : 1, "lat" : 1})
         
         route = driver_route["route"]
         lat = float(driver_route["lat"])
@@ -342,7 +363,24 @@ class Model:
                 else:
                     position.pop(0)
             return fuck
-        
+
+    #回傳上下車跟到站時間
+    def set_on_bus_off_bus(self, data):
+        client = pymongo.MongoClient('mongodb://'+self._user+':'+self._password+'@140.121.198.84:27017/')
+        db = client['KeelungBusSystem']
+        time = data["start_time"]
+        email = data["email"]
+        onbus = data["onbus"]
+        offbus = data["offbus"]
+        arrivaltime = data["arrivaltime"]
+
+        driver_info = db["info"].find_one({'email' : email}, {"_id" : 0, "name": 1})
+        driver = driver_info["name"]
+        history_info = db["history"].find_one({'Driver' : driver, "Start_time" : time}, {"_id" : 0, "onBus" : 1, "offBus" : 1, "Arrival_time" : 1})
+        #把陣列取出 存值 再update
+        position = {"state" : "good"}
+        return position
+
     def get_driver_state_from_db(self, data):
         driver_name = list()
         driver_state = list()

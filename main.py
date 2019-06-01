@@ -341,17 +341,11 @@ def peoplenum_to_db():
         # 傳進來的 JSON String 轉成 LIST json decode
         data = request.get_json()
         # 傳進來的 Date String 轉成 Datetime 類別
-        model.buspeople_to_db(data)
-        success = "上傳成功"
+        response = model.buspeople_to_db(data)
     except Exception as e:
         response["status"] = "error"
-        response["error"] = str(e)
-        error = "上傳失敗"
 
-    if response['status'] == "ok":
-        return redirect(url_for('bus_driver_people_number_return',success = success))
-    else:
-        return redirect(url_for('bus_driver_people_number_return',error = error))
+    return str(response)
 
 @app.route('/changePassword', methods=['POST'])
 def changePassword():
@@ -615,6 +609,7 @@ def get_busDriverforWeb():
     except Exception as e:
         response["status"] = "error"
     return jsonify(response)
+
 @app.route('/setbusGPS', methods=['POST'])
 def set_busGPS():
     response = {"status":"ok"}
@@ -677,6 +672,19 @@ def get_driver_state():
         response["status"] = "error"
         print(str(e))
 
+    return jsonify(response)
+
+@app.route('/setonBusoffBus', methods=['POST'])
+def set_on_bus_off_bus():
+    response = {"status":"ok"}
+    try:
+        getdata = request.get_json()
+        getdata["start_time"] = datetime.strptime(getdata["start_time"], '%H:%M')
+        print(getdata)
+        response = model.set_on_bus_off_bus(getdata)
+
+    except Exception as e:
+        response["status"] = "error"
     return jsonify(response)
 
 @app.route('/get_name', methods=['POST'])

@@ -22,16 +22,14 @@
 			var i = 1;
 			var stop = i.toString();
 			var count = 0;
+			var restartCheck = 0;
 			function report() {
 				//peoplenum = localStorage.getItem('peoplenum');
 				console.log("report");
 				console.log(peoplenum);
 				
-				now = date.getFullYear()+"-"; //读英文就行了 
-				now = now + (date.getMonth()+1)+"-"; //取月的时候取的是当前月-1如果想取当前月+1就可以了 
-				now = now + date.getDate()+"T"; 
 				now = now + date.getHours()+":"; 
-				now = now + date.getMinutes()+":00.000Z";
+				now = now + date.getMinutes();
 				
 				console.log(now);
 				
@@ -45,9 +43,10 @@
 						data: "json",
 						dataType: "json",
 						contentType : 'application/json',
-						url: "http://140.121.198.84:3000/startSetbusStop",
+						url: "http://127.0.0.1:3000/startSetbusStop",
 						data:JSON.stringify({
 							"email": localStorage.account,
+							"day": "SUN",
 							"start_time": "7:00"
 							}),
 							success: function(response) {
@@ -71,9 +70,10 @@
 						data: "json",
 						dataType: "json",
 						contentType : 'application/json',
-						url: "http://140.121.198.84:3000/setbusStop",
+						url: "http://127.0.0.1:3000/setbusStop",
 						data:JSON.stringify({
 									"email": localStorage.account,
+									"day": "SUN",
 									"start_time": "7:00"
 							}),
 							success: function(response) {
@@ -95,6 +95,21 @@
 						});
 						count = 0;
 				}
+
+				//建議把暫停紐寫到突發狀況那裏
+				function pause()
+				{
+					if(restartCheck==0){
+						clearTimeout(myVar);
+						restartCheck = 1;
+					}
+					else{
+						start();
+						restartCheck = 0;
+					}
+					
+					console.log("pause run");
+				}
 				
 				function start()
 				{
@@ -112,9 +127,10 @@
 						data: "json",
 						dataType: "json",
 						contentType : 'application/json',
-						url: "http://140.121.198.84:3000/setbusGPS",
+						url: "http://127.0.0.1:3000/setbusGPS",
 						data:JSON.stringify({
 							"email": localStorage.account,
+							"day": "SUN",
 							"start_time": "7:00",
 							"lat": busLocation[count].lat,
 							"lng": busLocation[count].lng
@@ -135,7 +151,7 @@
 						data: "json",
 						dataType: "json",
 						contentType : 'application/json',
-						url: "http://140.121.198.84:3000/setbusGPS",
+						url: "http://127.0.0.1:3000/setbusGPS",
 						data:JSON.stringify({
 							"email": localStorage.account,
 							"start_time": "7:00",
@@ -158,6 +174,9 @@
 			{
 				clearTimeout(myVar);
 				count = 0;
+				document.getElementById("people_number").innerHTML = "0";
+				localStorage.setItem('peoplenum',0);
+				now = "";
 				console.log("owo");
 				$.ajax({
 				type: "POST",
@@ -165,9 +184,10 @@
 					dataType: "json",
 					contentType : 'application/json',
 
-					url: "http://140.121.198.84:3000/setbusGPS",
+					url: "http://127.0.0.1:3000/setbusGPS",
 					data:JSON.stringify({
 					"email": localStorage.account,
+					"day": "SUN",
 					"start_time": "7:00",
 					"lat": 0,
 					"lng": 0,
@@ -267,7 +287,7 @@
 						<button type="button" class="btn btn-secondary btn-lg" onclick='report()'><h1>到站按鈕</h1></button>
 					</div>
 					<div class="col-6 col-xs-6 col-md-6 col-lg-6 text-center">
-						<button type="button" class="btn btn-secondary btn-lg"><h1>暫停</h1></button>
+						<button type="button" class="btn btn-secondary btn-lg" onclick='pause()'><h1>暫停</h1></button>
 					</div>
 				</div>
 

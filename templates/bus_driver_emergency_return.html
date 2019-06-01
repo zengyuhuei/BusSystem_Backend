@@ -36,9 +36,10 @@
 					data: "json",
 					dataType: "json",
 					contentType : 'application/json',
-					url: "http://140.121.198.84:3000/setbusGPS",
+					url: "http://127.0.0.1:3000/setbusGPS",
 					data:JSON.stringify({
 						"email": localStorage.account,
+						"day": "SUN",
 						"start_time": "7:00",
 						"lat": busLocation[count].lat,
 						"lng": busLocation[count].lng
@@ -59,9 +60,10 @@
 					data: "json",
 					dataType: "json",
 					contentType : 'application/json',
-					url: "http://140.121.198.84:3000/setbusGPS",
+					url: "http://127.0.0.1:3000/setbusGPS",
 					data:JSON.stringify({
 						"email": localStorage.account,
+						"day": "SUN",
 						"start_time": "7:00",
 						"lat": 0,
 						"lng": 0
@@ -83,9 +85,10 @@
 					data: "json",
 					dataType: "json",
 					contentType : 'application/json',
-					url: "http://140.121.198.84:3000/setbusStop",
+					url: "http://127.0.0.1:3000/setbusStop",
 					data:JSON.stringify({
 								"email": localStorage.account,
+								"day": "SUN",
 								"start_time": "7:00"
 						}),
 						success: function(response) {
