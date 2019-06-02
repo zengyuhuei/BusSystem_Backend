@@ -268,6 +268,7 @@ class Model:
         #時間還沒都進去 不知道格式 **
         if 'peoplenum' in data.keys():
             db["shift"].update_one({"driver" : driver, "day" : day, 'start_time' : time}, {"$set": { "lat": flat, "lng": flng, "peoplenum": peoplenum}}) 
+            db["history"].update_one({'Driver' : driver, "Start_time" : time, "Bus_shift" : 0}, {"$set": { "Bus_shift" : 1}})
         else:
             db["shift"].update_one({"driver" : driver, "day" : day, 'start_time' : time}, {"$set": { "lat": flat, "lng": flng}}) 
         position = "good"
@@ -313,8 +314,8 @@ class Model:
         #增加一列到history
         newdata = {}
         newdata["Route"] = route
-        newdata["Date"] = datetime.now()
-        newdata["Bus_shift"] = 0 #前端表格再標就行了，後端應該不用存
+        newdata["Date"] = datetime.today()
+        newdata["Bus_shift"] = 0 #前端表格再標就行了，後端應該不用存 #目前當車是否跑完的依據
         newdata["Driver"] = driver_info["name"]
         newdata["Start_time"] = start_time
         newdata["onBus"] = []
@@ -323,6 +324,7 @@ class Model:
         newdata["totalNumOfPassengers"] = 0
         newdata["FuelConsumption"] = 0
         newdata["surplus"] = 0
+        print(newdata)
         result = db['history'].insert_one(newdata)
 
         return position
@@ -367,6 +369,7 @@ class Model:
     #回傳上下車跟到站時間
     def set_on_bus_off_bus(self, data):
         client = pymongo.MongoClient('mongodb://'+self._user+':'+self._password+'@140.121.198.84:27017/')
+        now = datetime.today()
         db = client['KeelungBusSystem']
         print(data)
         time = data["start_time"]
@@ -377,7 +380,7 @@ class Model:
         print("SSSSSSS")
         driver_info = db["info"].find_one({'email' : email}, {"_id" : 0, "name": 1})
         driver = driver_info["name"]
-        history_info = db["history"].find_one({'Driver' : driver, "Start_time" : time}, {"_id" : 0, "onBus" : 1, "offBus" : 1, "Arrival_time" : 1})
+        history_info = db["history"].find_one({'Driver' : driver, "Start_time" : time, "Bus_shift" : 0}, {"_id" : 0, "onBus" : 1, "offBus" : 1})
         #把陣列取出 存值 再update
         on = []
         off = []
