@@ -5,3 +5,7 @@ $(document).ready(function(){
 	});
 });
 
+function checkForm(data)
+{
+	return confirm('Are you sure you want to proceed?');
+}

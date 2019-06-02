@@ -413,10 +413,10 @@ class Model:
         db = client['KeelungBusSystem']
         day = str(data["day"])
         #找所有司機mail
-        for x in db["auth"].find({'identity' : 1}, {"_id" : 0, "user" : 1}):
+        for x in db["auth"].find({'identity' : 1,'user': {'$regex': data['keyword']}}, {"_id" : 0, "user" : 1}):
             driver_name.append(x)
         
-        for i in range(0,len(driver_name)-1):
+        for i in range(len(driver_name)):
             for y in db["shift"].find({"driver" : driver_name[i]["user"], "day" : day}, {"_id" : 0, "lat" : 1}):
                 if y['lat'] != 0.0:
                     temp_state = 2
@@ -439,7 +439,7 @@ class Model:
             work_time = 0
             temp_state = 1
         return driver_state    
-        
+    
 ###################################芷婷###########################################################
     def get_driver_name_from_db(self, data):
         print("AAAaaaaaaaaaaaaaaaaaaaaaaaa")

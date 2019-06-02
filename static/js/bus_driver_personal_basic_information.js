@@ -91,3 +91,8 @@ $(document).ready(function(){
 $( "#target" ).click(function() {
   alert( "Handler for .click() called." );
 });
+
+function checkForm(data)
+{
+	return confirm('Are you sure you want to proceed?');
+}
