@@ -121,12 +121,19 @@ def message_received(client, server, message):
                 print("D:管理者Client(%s) 主動跟 司機Client(%s) 傳訊息" % (manager_id, driver['driver_id']))
                 server.send_message(clientList[driver['driver_id']-1], "D:管理者發出緊急通知!\n"+y[1])
         sayHello_to_driver_List.clear()
-    else: #D的回傳 x[0] = E
+    elif x[0] == 'E': #D的回傳 x[0] = E
         driverNameE = client['user']
         clientList = server._get_client()
         for client in clientList:
             if client['identity'] == 0:
                 server.send_message(client,"E:"+driverNameE+" 司機已接到訊息!")
+    elif x[0] == 'F': #狀況排除
+        print("S")
+        driverNameE = client['user']
+        clientList = server._get_client()
+        for client in clientList:
+            if client['identity'] == 0:
+                server.send_message(client,"F:"+driverNameE+" 狀況已排除!")
         
         
 

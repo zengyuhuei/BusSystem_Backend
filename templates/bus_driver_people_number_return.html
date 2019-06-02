@@ -188,7 +188,8 @@
 				document.getElementById("people_number").innerHTML = "0";
 				localStorage.setItem('peoplenum',0);
 				console.log("owo");
-				$.ajax({
+				const p =new Promise(
+				(resolve,reject)=>{$.ajax({
 				type: "POST",
 					data: "json",
 					dataType: "json",
@@ -209,7 +210,8 @@
 					error: function(xhr, type) {
 					console.log("hehe");
 					}
-				});
+				}).done(result => resolve())
+				}).then(result => setNumberToDB())
 			}
 
 			//抓GPS當前裝置定位

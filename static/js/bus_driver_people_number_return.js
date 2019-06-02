@@ -104,4 +104,30 @@ $(document).ready(function(){
 	
 });
 
-
+function setNumberToDB()
+{
+	$.ajax({
+		type: "POST",
+		data: "json",
+		dataType: "json",
+		contentType : 'application/json',
+		url: "http://127.0.0.1:3000/startSetbusStop",
+		data:JSON.stringify({
+			"email": localStorage.account,
+			"day": "SUN",
+			"start_time": "7:00"
+			}),
+			success: function(response) {
+			console.log(response);
+			var obj = Object.keys(response).map(function(_) { return response[_]; });
+			busLocation = obj;
+			console.log("busLocation")
+			console.log(busLocation);
+			start();
+			},
+			error: function(xhr, type) {
+			console.log("gr nb");
+			}
+		});
+		count = 0;
+}

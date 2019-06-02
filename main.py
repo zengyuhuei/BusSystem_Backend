@@ -679,6 +679,7 @@ def set_on_bus_off_bus():
     response = {"status":"ok"}
     try:
         getdata = request.get_json()
+        print("SSSS")
         getdata["start_time"] = datetime.strptime(getdata["start_time"], '%H:%M')
         print(getdata)
         response = model.set_on_bus_off_bus(getdata)
@@ -686,6 +687,18 @@ def set_on_bus_off_bus():
     except Exception as e:
         response["status"] = "error"
     return jsonify(response)
+
+@app.route('/setPeopleTimely', methods=['POST'])
+@login_required
+def set_People_Timely():   
+   response = {"status":"ok"}
+   try:
+        data = request.get_json()
+        model.set_busPeople_toDB_timely(data)
+   except Exception as e:
+        response["status"] = "error"
+        print(str(e))        
+   return jsonify(response)
 
 @app.route('/get_name', methods=['POST'])
 @login_required

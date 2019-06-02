@@ -2,6 +2,7 @@
 var i = 0;
 var xString = ""
 var driverList = new Array();
+var marker;
 function setData()
 {
     document.getElementById("busdriver").innerHTML += '<select class="form-control" id="driverName">'+xString+'</select>';
@@ -12,7 +13,7 @@ function setDriver()
 		(resolve,reject)=>{
     $.ajax({
         type: 'POST',
-        url: "http://140.121.198.84:3000/getbusDriverforWeb",
+        url: "http://127.0.0.1:3000/getbusDriverforWeb",
         data:'json',
         dataType:'json',
         contentType:'json',
@@ -44,7 +45,7 @@ function setDriver()
       var myLatLng = {lat:parseFloat(localStorage.getItem('lat')),lng:parseFloat(localStorage.getItem('lng'))};
       if(myLatLng['lat'] != 0.0 && myLatLng['lng'] != 0.0)
       {
-        var marker = new google.maps.Marker({
+         marker = new google.maps.Marker({
 					position: myLatLng,
           map: map,
           icon:'../static/picture/FotoJet.png'
@@ -60,5 +61,9 @@ function setDriver()
       google.maps.event.addListener(marker, 'mouseout', function() {
         infowindow.close(marker.get('map'), marker);
       });
+    }
+    function deleteMarkers() //單個marker 將新增新的marker
+    {
+      marker.setMap(null);
     }
 		

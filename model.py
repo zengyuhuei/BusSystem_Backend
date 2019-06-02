@@ -368,11 +368,13 @@ class Model:
     def set_on_bus_off_bus(self, data):
         client = pymongo.MongoClient('mongodb://'+self._user+':'+self._password+'@140.121.198.84:27017/')
         db = client['KeelungBusSystem']
+        print(data)
         time = data["start_time"]
         email = data["email"]
         onbus = data["onbus"]
         offbus = data["offbus"]
         arrivaltime = data["arrivaltime"]
+        print("SSSSSSS")
         driver_info = db["info"].find_one({'email' : email}, {"_id" : 0, "name": 1})
         driver = driver_info["name"]
         history_info = db["history"].find_one({'Driver' : driver, "Start_time" : time}, {"_id" : 0, "onBus" : 1, "offBus" : 1, "Arrival_time" : 1})
@@ -437,4 +439,22 @@ class Model:
         print(name)
         return name
 ########################################################################
-       
+
+    def set_busPeople_toDB_End(self, data):
+        client = pymongo.MongoClient('mongodb://'+self._user+':'+self._password+'@140.121.198.84:27017/')
+        db = client['KeelungBusSystem']
+        db["history"]
+
+    def set_busPeople_toDB_timely(self,data):
+        client = pymongo.MongoClient('mongodb://'+self._user+':'+self._password+'@140.121.198.84:27017/')
+        db = client['KeelungBusSystem']
+        now = db["history"].find_one({'Driver':data['driver']})
+        print("Before")
+        print(now)
+        print(data)
+        now["onBus"].append(data["on"])
+        now["offBus"].append(data["off"])
+        db["history"].update_one({'Driver' : data['driver']}, {"$set": { "onBus": now["onBus"], "offBus": now["offBus"],"totalNumOfPassengers":data["total"]}})
+        now = db["history"].find_one({'Driver':data['driver']})
+        print("update")
+        print(now)
