@@ -5,6 +5,7 @@ import time
 from datetime import datetime, date
 from bson import ObjectId
 import configparser
+from math import sin,cos,sqrt,atan2,radians
 class Model:
 
     def __init__(self):
@@ -293,6 +294,7 @@ class Model:
 
     #set startBusStop   (剛開始拿站牌經緯度當司機GPS)
     def start_set_busStop_from_db(self, data):
+        
         client = pymongo.MongoClient('mongodb://'+self._user+':'+self._password+'@140.121.198.84:27017/')
         db = client['KeelungBusSystem']
         day = data["day"]
@@ -306,10 +308,30 @@ class Model:
         lat = driver_route["lat"]
         f_lat = float(lat)
         position = list()
+        oil = 0
+        R = 6373.0
         route_result = db["route"].find_one({'bus_route' : route})
         for i in range(1,len(route_result)-1):
             bus_stop=route_result[str(i)]
             position.append(db["busRoad_coor"].find_one({"route" : bus_stop},{"_id" : 0, "route": 1, "lat": 1, "lng": 1 }))
+            if(i > 1):
+                lat1 = radians(position[i-2]['lat'])
+                lon1 = radians(position[i-2]['lng'])
+                lat2 = radians(position[i-1]['lat'])
+                lon2 = radians(position[i-1]['lng'])
+
+                dlon = lon2 - lon1
+                dlat = lat2 - lat1
+
+                a = sin(dlat / 2)**2 + cos(lat1) * cos(lat2) * sin(dlon / 2)**2
+                c = 2 * atan2(sqrt(a), sqrt(1 - a))
+                distance = R * c
+                oil = oil + distance
+            
+        print(oil)
+        oil = oil * 30
+
+
         
         #增加一列到history
         newdata = {}
@@ -322,7 +344,7 @@ class Model:
         newdata["offBus"] = []
         newdata["Arrival_time"] = []
         newdata["totalNumOfPassengers"] = 0
-        newdata["FuelConsumption"] = 0
+        newdata["FuelConsumption"] = oil
         newdata["surplus"] = 0
         print(newdata)
         result = db['history'].insert_one(newdata)
@@ -377,7 +399,6 @@ class Model:
         onbus = data["onbus"]
         offbus = data["offbus"]
         arrivaltime = data["arrivaltime"]
-        print("SSSSSSS")
         driver_info = db["info"].find_one({'email' : email}, {"_id" : 0, "name": 1})
         driver = driver_info["name"]
         history_info = db["history"].find_one({'Driver' : driver, 'Start_time' : time, "Bus_shift" : 0}, {"_id" : 0, "onBus" : 1, "offBus" : 1, "Arrival_time": 1})
@@ -445,21 +466,3 @@ class Model:
         return name
 ########################################################################
 
-    def set_busPeople_toDB_End(self, data):
-        client = pymongo.MongoClient('mongodb://'+self._user+':'+self._password+'@140.121.198.84:27017/')
-        db = client['KeelungBusSystem']
-        db["history"]
-
-    def set_busPeople_toDB_timely(self,data):
-        client = pymongo.MongoClient('mongodb://'+self._user+':'+self._password+'@140.121.198.84:27017/')
-        db = client['KeelungBusSystem']
-        now = db["history"].find_one({'Driver':data['driver']})
-        print("Before")
-        print(now)
-        print(data)
-        now["onBus"].append(data["on"])
-        now["offBus"].append(data["off"])
-        db["history"].update_one({'Driver' : data['driver']}, {"$set": { "onBus": now["onBus"], "offBus": now["offBus"],"totalNumOfPassengers":data["total"]}})
-        now = db["history"].find_one({'Driver':data['driver']})
-        print("update")
-        print(now)

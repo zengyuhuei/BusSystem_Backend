@@ -13,7 +13,7 @@ function setDriver()
 		(resolve,reject)=>{
     $.ajax({
         type: 'POST',
-        url: "http://127.0.0.1:3000/getbusDriverforWeb",
+        url: "http://140.121.198.84:3000/getbusDriverforWeb",
         data:'json',
         dataType:'json',
         contentType:'json',
@@ -35,6 +35,23 @@ function setDriver()
 
 
     function initialize() {
+      $.ajax({
+        type: 'POST',
+        url: "http://140.121.198.84:3000/getbusDriverforWeb",
+        data:'json',
+        dataType:'json',
+        contentType:'json',
+          error: function (xhr) { },      // 錯誤後執行的函數
+          success: function (response) {
+            console.log(response);
+            while(response[i]!=null)
+            {
+                xString +='<Option>'+response[i]["route"]+" "+response[i]["driver"]+'</Option>';
+                console.log("下拉式選單: "+response[i]["route"]+" "+response[i]["driver"]);
+                i++;
+            }
+        }// 成功後要執行的函數
+      })
       var mapOptions = {
         center: { lat:25.143411,lng:121.774429}, 
         zoom: 14
