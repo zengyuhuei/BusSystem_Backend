@@ -67,13 +67,13 @@
 				
 			</div>
 		
-			<form method = "post" action = "http://140.121.198.84:3000/busGps_to_db"  enctype = "multipart/form-data" id = "form">
-			{% if error %}
-				<div class="alert alert-danger" role="alert"><strong>Error:</strong> {{ error }}</div>
-			{% endif %}
-			{% if success %}
-				<div class="alert alert-success" role="alert"><strong>Success:</strong> {{ success }}</div>
-			{% endif %}
+			<form method = "post" action = "http://127.0.0.1:3000/busGps_to_db" onsubmit="return checkForm(this);"  enctype = "multipart/form-data" id = "form">
+				{% if error %}
+					<div class="alert alert-danger" role="alert"><strong>Error:</strong> {{ error }}</div>
+				{% endif %}
+				{% if success %}
+					<div class="alert alert-success" role="alert"><strong>Success:</strong> {{ success }}</div>
+				{% endif %}
 			<div class="form-group row">
 
 				

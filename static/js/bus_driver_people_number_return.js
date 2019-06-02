@@ -1,5 +1,6 @@
 console.log(localStorage.account);
-
+var people_number1 = 0;
+var busoff_people;
 $(document).ready(function(){
 	localStorage.setItem('peoplenum',0);
 	$('.count').prop('disabled', true);
@@ -38,8 +39,8 @@ $(document).ready(function(){
 $(document).ready(function(){
 	//$('#people_number').prop('disabled', true);
 	$(document).on('click','.save',function(){
-		var people_number1 = 0;
-		console.log(people_number1);
+		
+		/*console.log(people_number1);
 		people_number1 = parseInt(localStorage.getItem('peoplenum')) + parseInt($('.count').val()) - parseInt($('.count1').val());
 		console.log(localStorage.getItem('peoplenum'));
 		console.log(people_number1);
@@ -54,8 +55,18 @@ $(document).ready(function(){
 			document.getElementById("people_number").innerHTML = "0";
 			localStorage.setItem('peoplenum',0);
 			people_number1 = 0;
+		}*/
+		if((people_number1 + parseInt($('.count').val()) - parseInt($('.count1').val()))>0){
+			people_number1 = people_number1 + parseInt($('.count').val()) - parseInt($('.count1').val());
+			busoff_people = parseInt($('.count1').val());
 		}
-
+		else{
+			busoff_people = people_number1;
+			people_number1 = 0;
+		}
+		console.log("qqqqq" + people_number1);
+		console.log("sssssssss" + busoff_people);
+		
 		$.ajax({
 			type: "POST",
 			data: "json",
@@ -70,6 +81,8 @@ $(document).ready(function(){
 			}),
 			success: function(response) {
 				console.log(response);
+				document.getElementById("people_number").innerHTML = response.peoplenum;
+				people_number1 = response.peoplenum;
 			},
 			error: function(xhr, type) {
 				console.log("hehehe");
@@ -86,7 +99,7 @@ $(document).ready(function(){
 				"email":localStorage.account,
 				"start_time": "7:00",
 				"onbus": parseInt($('.count').val()),
-				"offbus": parseInt($('.count1').val()),
+				"offbus": busoff_people,
 				"arrivaltime": now
 			}),
 			success: function(response) {

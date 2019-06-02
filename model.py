@@ -268,8 +268,16 @@ class Model:
         driver = driver_name["name"]
         #時間還沒都進去 不知道格式 **
         if 'peoplenum' in data.keys():
-            db["shift"].update_one({"driver" : driver, "day" : day, 'start_time' : time}, {"$set": { "lat": flat, "lng": flng, "peoplenum": peoplenum}}) 
-            db["history"].update_one({'Driver' : driver, "Start_time" : time, "Bus_shift" : 0}, {"$set": { "Bus_shift" : 1}})
+            db["shift"].update_one({"driver" : driver, "day" : day, 'start_time' : time}, {"$set": { "lat": flat, "lng": flng, "peoplenum": peoplenum}})
+            history_info = db["history"].find_one({'Driver' : driver, 'Start_time' : time, "Bus_shift" : 0}, {"_id" : 0, "onBus" : 1})
+            total = 0
+            on = []
+            on = history_info['onBus']
+            for i in range(0,len(on)-1):
+                total = total + on[i]
+            print("total")
+            print(total)
+            db["history"].update_one({'Driver' : driver, "Start_time" : time, "Bus_shift" : 0}, {"$set": { "Bus_shift" : 1, "totalNumOfPassengers" : total}})
         else:
             db["shift"].update_one({"driver" : driver, "day" : day, 'start_time' : time}, {"$set": { "lat": flat, "lng": flng}}) 
         position = "good"
@@ -289,7 +297,7 @@ class Model:
         driver_name = db["info"].find_one({'email' : data['driver']}, {"_id" : 0, "name": 1})
         driver = driver_name["name"]
         db['shift'].update_one({"driver":driver, "day":day},{"$set": { "peoplenum": data['peoplenum']}})
-        result = {"state" : "buspeople is update"}
+        result =  db['shift'].find_one({"driver":driver, "day":day},{"_id" : 0, "peoplenum": 1})
         return result
 
     #set startBusStop   (剛開始拿站牌經緯度當司機GPS)
@@ -414,6 +422,7 @@ class Model:
         on.append(onbus)
         off.append(offbus)
         arri.append(arrivaltime)
+        print(off)
         db["history"].update_one({'Driver' : driver, 'Start_time' : time, "Bus_shift" : 0}, {"$set": { "onBus": on, "offBus": off, "Arrival_time": arri }})
         position = {"state" : "good"}
         return position
@@ -427,10 +436,10 @@ class Model:
         db = client['KeelungBusSystem']
         day = str(data["day"])
         #找所有司機mail
-        for x in db["auth"].find({'identity' : 1}, {"_id" : 0, "user" : 1}):
+        for x in db["auth"].find({'identity' : 1,'user': {'$regex': data['keyword']}}, {"_id" : 0, "user" : 1}):
             driver_name.append(x)
         
-        for i in range(0,len(driver_name)-1):
+        for i in range(len(driver_name)):
             for y in db["shift"].find({"driver" : driver_name[i]["user"], "day" : day}, {"_id" : 0, "lat" : 1}):
                 if y['lat'] != 0.0:
                     temp_state = 2
@@ -453,7 +462,7 @@ class Model:
             work_time = 0
             temp_state = 1
         return driver_state    
-        
+    
 ###################################芷婷###########################################################
     def get_driver_name_from_db(self, data):
         print("AAAaaaaaaaaaaaaaaaaaaaaaaaa")
