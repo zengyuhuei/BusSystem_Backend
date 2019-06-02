@@ -4,17 +4,17 @@
 	<head>
       <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	  <title>基隆公車調派系統-人力調派</title>
-	  
 	  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
 		<script src="{{ url_for('static', filename='js/jquery-3.4.1.min.js') }}"></script>
 	 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
 	  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
 		<script src = "{{url_for('static', filename='js/websocket_open.js')}}"></script>
+		<script src = "{{url_for('static', filename='js/Human_dispatch.js')}}"></script>
 	  <link href="{{ url_for('static', filename='css/main.css') }}" rel="stylesheet">
 	</head>
 
 	
-    <body onload="websocket_init()">
+    <body onload="load()">
 
 		<nav class="navbar navbar-expand-xl navbar-dark bg-dark" id="mainNav">
 		  <div class="container">
@@ -67,10 +67,10 @@
 			<div class="form-group row">
 				<div class="col-xs-3 col-lg-3 col-md-2 mt-2 mt-md-2">
 				  <label class="sr-only" for="inlineFormInput">Name</label>
-				  <input type="text" class="form-control mb-2" id="inlineFormInput" placeholder="輸入司機姓名">
+				  <input type="text" class="form-control mb-2" id="name" placeholder="輸入司機姓名">
 				</div>
 				<div class="col-auto mt-2 mt-md-2">
-				  <input type="submit" class="btn btn-primary">
+				  <input type="submit" class="btn btn-primary" onclick = "getDriverState()">
 				</div>
 			</div>
 			
@@ -84,26 +84,9 @@
 					  <th scope="col">狀態</th>
 					  <th scope="col">當日工時</th>
 					</tr>
-				  </thead>
-				  <!--
-				  <tbody>
-					<tr>
-					  <th scope="row"></th>
-					  <td></td>
-					  <td></td>
-					</tr>
-					<tr>
-					  <th scope="row"></th>
-					  <td></td>
-					  <td></td>
-					</tr>
-					<tr>
-					  <th scope="row"></th>
-					  <td></td>
-					  <td></td>
-					</tr>
-				  </tbody>
-				  -->
+					</thead>
+					<tbody  id = "driverBody">
+					</tbody>
 				</table>
 
 			

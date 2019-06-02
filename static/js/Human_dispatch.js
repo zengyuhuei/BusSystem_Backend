@@ -18,18 +18,21 @@ function setTable(response)
 
 function getDriverState()
 {
+    $('#driverBody > tr ').remove();
     var day_list = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
     var date = new Date();
     var day  = date.getDay();
+    var key = document.getElementById("name");
     console.log(day_list[day])
 	$.ajax({
         type: "POST",
         data: "json",
         dataType: "json",
         contentType : 'application/json',
-        url: "http://140.121.198.84:3000/humanDispatch",
+        url: "http://127.0.0.1:3000/humanDispatch",
         data:JSON.stringify({
-            "day": day_list[day]
+            "day": day_list[day],
+            "keyword":key.value
         }),
         success: function(response) {
             console.log(response);
@@ -51,7 +54,7 @@ function getDriverState()
                             {
                                 response[i]['state'] = "休假中"
                             }
-                            var row = '<tr>' +
+                            var row = '<tr id = "tableCell">' +
                                     '<td style="display: none;">'+response[i]['_id']+'</td>' +
                                     '<td>'+response[i]['driverName']+'</td>' +
                                     '<td>'+response[i]['state']+'</td>' +
@@ -67,6 +70,8 @@ function getDriverState()
     });
 
 }
+
+
 
 
 function load()

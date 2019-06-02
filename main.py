@@ -136,6 +136,7 @@ def logout():
     session.pop('logged_in', None)
     return redirect(url_for('login'))           
 
+
 #add driver to db
 @app.route('/add_driver_to_db', methods=['POST'])
 @login_required
@@ -663,6 +664,7 @@ def set_bus_stop():
         return "haveNotStart"
     
 @app.route('/humanDispatch', methods=['POST'])
+@login_required
 def get_driver_state():
     response = {"status":"ok"}
     try:
