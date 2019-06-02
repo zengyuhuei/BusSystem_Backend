@@ -136,6 +136,7 @@ def logout():
     session.pop('logged_in', None)
     return redirect(url_for('login'))           
 
+
 #add driver to db
 @app.route('/add_driver_to_db', methods=['POST'])
 @login_required
@@ -667,6 +668,7 @@ def set_bus_stop():
         return "haveNotStart"
     
 @app.route('/humanDispatch', methods=['POST'])
+@login_required
 def get_driver_state():
     response = {"status":"ok"}
     try:
@@ -683,6 +685,7 @@ def set_on_bus_off_bus():
     response = {"status":"ok"}
     try:
         getdata = request.get_json()
+        print("SSSS")
         getdata["start_time"] = datetime.strptime(getdata["start_time"], '%H:%M')
         print(getdata)
         response = model.set_on_bus_off_bus(getdata)
@@ -690,7 +693,7 @@ def set_on_bus_off_bus():
     except Exception as e:
         response["status"] = "error"
     return jsonify(response)
-
+    
 @app.route('/get_name', methods=['POST'])
 @login_required
 def get_name():   

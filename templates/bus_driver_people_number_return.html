@@ -55,7 +55,7 @@
 						data: "json",
 						dataType: "json",
 						contentType : 'application/json',
-						url: "http://127.0.0.1:3000/startSetbusStop",
+						url: "http://140.121.198.84:3000/startSetbusStop",
 						data:JSON.stringify({
 							"email": localStorage.account,
 							"day": "SUN",
@@ -82,7 +82,7 @@
 						data: "json",
 						dataType: "json",
 						contentType : 'application/json',
-						url: "http://127.0.0.1:3000/setbusStop",
+						url: "http://140.121.198.84:3000/setbusStop",
 						data:JSON.stringify({
 									"email": localStorage.account,
 									"day": "SUN",
@@ -138,7 +138,7 @@
 						data: "json",
 						dataType: "json",
 						contentType : 'application/json',
-						url: "http://127.0.0.1:3000/setbusGPS",
+						url: "http://140.121.198.84:3000/setbusGPS",
 						data:JSON.stringify({
 							"email": localStorage.account,
 							"day": "SUN",
@@ -162,7 +162,7 @@
 						data: "json",
 						dataType: "json",
 						contentType : 'application/json',
-						url: "http://127.0.0.1:3000/setbusGPS",
+						url: "http://140.121.198.84:3000/setbusGPS",
 						data:JSON.stringify({
 							"email": localStorage.account,
 							"day": "SUN",
@@ -186,16 +186,16 @@
 			{
 				clearTimeout(myVar);
 				count = 0;
+				people_number1 = 0;
 				document.getElementById("people_number").innerHTML = "0";
 				localStorage.setItem('peoplenum',0);
-				console.log("owo");
-				$.ajax({
+				console.log("owo");$.ajax({
 				type: "POST",
 					data: "json",
 					dataType: "json",
 					contentType : 'application/json',
 
-					url: "http://127.0.0.1:3000/setbusGPS",
+					url: "http://140.121.198.84:3000/setbusGPS",
 					data:JSON.stringify({
 					"email": localStorage.account,
 					"day": "SUN",

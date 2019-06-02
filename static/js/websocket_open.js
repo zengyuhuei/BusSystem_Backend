@@ -17,6 +17,7 @@ function websocket_init()
       from = String(e.data).split(":",1);
       console.log(from[0])
       console.log("CCC");
+      console.log()
       if(from[0]=="B")
       {
         var ans = prompt(e.data.slice(2),"回傳");
@@ -42,9 +43,14 @@ function websocket_init()
         var ans = prompt(e.data.slice(2),"收到");
         returnMessageToManager(" 司機:"+ans);
       }
-      else
+      else if(from[0] == "E")
       {
         alert(e.data.slice(2));
+      }
+      else if(from[0] == "F")
+      {
+        alert(e.data.slice(2));
+        deleteMarkers()
       }
     };
     
@@ -82,6 +88,11 @@ function sendMessageToDriver()
 function returnMessageToManager(x)
 {
   x = "E:"+x;
+  ws.send(x);
+}
+function solveEmergency()
+{
+  var x = "F:狀況已排除!";
   ws.send(x);
 }
 function start(account)
