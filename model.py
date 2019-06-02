@@ -378,8 +378,10 @@ class Model:
         arrivaltime = data["arrivaltime"]
         driver_info = db["info"].find_one({'email' : email}, {"_id" : 0, "name": 1})
         driver = driver_info["name"]
-        history_info = db["history"].find_one({'Driver' : driver, "Start_time" : time, "Bus_shift" : 0}, {"_id" : 0, "onBus" : 1, "offBus" : 1})
+        history_info = db["history"].find_one({'Driver' : driver, 'Start_time' : time, "Bus_shift" : 0}, {"_id" : 0, "onBus" : 1, "offBus" : 1, "Arrival_time": 1})
         #把陣列取出 存值 再update
+        print("history_info")
+        print(history_info)
         on = []
         off = []
         arri = []
@@ -389,7 +391,7 @@ class Model:
         on.append(onbus)
         off.append(offbus)
         arri.append(arrivaltime)
-        db["history"].update_one({'Driver' : driver, "Start_time" : time}, {"$set": { "onBus": on, "offBus": off, "Arrival_time": arri }})
+        db["history"].update_one({'Driver' : driver, 'Start_time' : time, "Bus_shift" : 0}, {"$set": { "onBus": on, "offBus": off, "Arrival_time": arri }})
         position = {"state" : "good"}
         return position
 
