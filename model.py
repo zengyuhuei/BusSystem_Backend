@@ -288,7 +288,7 @@ class Model:
         driver_name = db["info"].find_one({'email' : data['driver']}, {"_id" : 0, "name": 1})
         driver = driver_name["name"]
         db['shift'].update_one({"driver":driver, "day":day},{"$set": { "peoplenum": data['peoplenum']}})
-        result = {"state" : "buspeople is update"}
+        result =  db['shift'].find_one({"driver":driver, "day":day},{"_id" : 0, "peoplenum": 1})
         return result
 
     #set startBusStop   (剛開始拿站牌經緯度當司機GPS)
