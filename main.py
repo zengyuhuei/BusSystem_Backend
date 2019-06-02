@@ -274,8 +274,12 @@ def modify_shift():
     try:
         data = request.get_json()
         data["start_time"] = datetime.strptime(data["start_time"], '%H:%M')
-        model.modify_shift_from_db(data)
-        success = "修改成功"
+        check = model.modify_shift_from_db(data)
+        if check == 1:
+            success = "修改成功"
+        else:
+            response["status"] = "我要搞爆他"
+            error = "修改失敗" 
     except Exception as e:
         response["status"] = "error"
         response["error"] = str(e)

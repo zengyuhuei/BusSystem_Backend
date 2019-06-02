@@ -76,10 +76,21 @@ class Model:
         info = dict()
         client = pymongo.MongoClient('mongodb://'+self._user+':'+self._password+'@140.121.198.84:27017/')
         db = client["KeelungBusSystem"]
+        time = data["start_time"]
+        name = data["driver"]
+        day = data["day"]
+        print(ObjectId(data['_id']))
+        result = list(db["shift"].find({"day" : day, "driver" : name}))
+        for i in range(0,len(result)-1):
+            print(result[i]['_id'])
+            if result[i]['_id'] != ObjectId(data['_id']):
+                print("挖哩勒")
+                if abs(result[i]['start_time']-time).seconds/3600 < 1:
+                    return 0
         info['_id'] = ObjectId(data['_id'])
         del data['_id']
         result = db['shift'].update_one(info, { "$set": data })
-        return result
+        return 1
     
     # del shft from db
     def del_shift_from_db(self, data):
@@ -109,6 +120,13 @@ class Model:
     def add_shift_to_db(self, data):
         client = pymongo.MongoClient('mongodb://'+self._user+':'+self._password+'@140.121.198.84:27017/')
         db = client["KeelungBusSystem"]
+        time = data["start_time"]
+        name = data["driver"]
+        day = data["day"]
+        result = list(db["shift"].find({"day" : day, "driver" : name},{ "start_time": 1}))
+        for i in range(0,len(result)-1):
+            if abs(result[i]['start_time']-time).seconds/3600 < 1:
+                return 0
         data["lat"] = 0.0
         data["lng"] = 0.0
         data["peoplenum"] = 0
