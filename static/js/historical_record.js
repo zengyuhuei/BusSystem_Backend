@@ -1,9 +1,3 @@
-$(function () {
-	$('#datetimepicker4').datetimepicker({
-		format: 'DD/MM/YYYY'
-	});
-});
-
 $(document).ready(function(){
 	$(".yes").click(function() {
 		$("#map").show();
@@ -12,6 +6,9 @@ $(document).ready(function(){
 		load($route);
 	})
 	$(".manager_name").html(localStorage.getItem("name"));
+	$('#birthday').datetimepicker({
+		format: 'YYYY/MM/DD'
+	});
 });
 
 function load(route){
