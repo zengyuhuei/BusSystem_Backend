@@ -3,6 +3,7 @@ $(document).ready(function(){
 		var fileName = e.target.files[0].name;
 		$(this).siblings(".custom-file-label").addClass("selected").html(fileName);
 	});
+	$(".manager_name").html(localStorage.getItem("name"));
 });
 
 function checkForm(data)

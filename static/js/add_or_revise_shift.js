@@ -106,6 +106,7 @@ function setid(id)
 	$(".busTable").find("tr:nth-child(end)").find("td:nth-child(1)").text();
 }
 $(document).ready(function(){
+	$(".manager_name").html(localStorage.getItem("name"));
 	$(".yes").click(function() {
 		$("#bus").show();		
 		var tr_length = $('.table tbody tr').length; 

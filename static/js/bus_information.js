@@ -6,6 +6,7 @@ $(document).ready(function(){
 		load($route);
 		getTable();
 	})
+	$(".manager_name").html(localStorage.getItem("name"));
 });
 function setTable(response)
 { 

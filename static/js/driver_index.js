@@ -34,10 +34,10 @@ function setName()
 		success: function (response) {
 				console.log(response[0]);
 				localStorage.setItem("name",response[0]['user'])
-				$(".manager_name").html(localStorage.getItem("name"));
+				$(".driver_name").html(localStorage.getItem("name"));
 				//window.location.href = response.redirect;
 		}// 成功後要執行的函數
 	});
-	$(".manager_name").html(localStorage.getItem("name"));
+	$(".driver_name").html(localStorage.getItem("name"));
 	
 }

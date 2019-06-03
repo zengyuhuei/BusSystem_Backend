@@ -1,4 +1,5 @@
 $(document).ready(function(){
+	$(".driver_name").html(localStorage.getItem("name"));
 	$(document).on('click','#btnSave',function(){
 		if($('#pwd1').val()==$('#pwd2').val())
 		{
