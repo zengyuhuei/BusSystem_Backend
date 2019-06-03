@@ -17,7 +17,7 @@
     <body onload="start('{{account}}')">
 	  	<nav class="navbar navbar-expand-xl navbar-dark bg-dark" id="mainNav">
 		
-		 <div class="container-fluid ">
+		 <div class="container">
 			  <a class="navbar-brand" href="{{url_for('driver_index')}}"><h1>基隆公車調派系統</h1></a>
 			  <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
@@ -29,8 +29,8 @@
 				<li class="nav-item"><a class = "nav-link" href="{{url_for('bus_driver_emergency_return')}}"> <h3>突發狀況回報</h3></a></li>
 				
 				<li class="nav-item dropdown">
-					<b class="nav-link dropdown-toggle driver_name" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-					</b>
+					<h3 class="nav-link dropdown-toggle driver_name" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					</h3>
 					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
 					  <a class = "dropdown-item" href="{{url_for('bus_driver_personal_basic_information')}}"> <h3>個人基本資料</h3></a>
 					  <a class = "dropdown-item" href="{{url_for('bus_driver_change_password')}}"> <h3>修改密碼</h3></a>

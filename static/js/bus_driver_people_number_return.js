@@ -16,7 +16,7 @@ $(document).ready(function(){
 });
 
 $(document).ready(function(){
-	$("#driver_name").html("司機："+localStorage.getItem("name"));
+	$(".driver_name").html(localStorage.getItem("name"));
 	$('.count1').prop('disabled', true);
 	$(document).on('click','.plus1',function(){
 		$('.count1').val(parseInt($('.count1').val()) + 1 );
