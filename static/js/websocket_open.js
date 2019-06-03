@@ -15,20 +15,11 @@ function websocket_init()
       var from = new Array(); 
       console.log(e.data)
       from = String(e.data).split(":",1);
-      console.log(from[0])
-      console.log("CCC");
-      console.log()
       if(from[0]=="B")
       {
         var ans = prompt(e.data.slice(2),"回傳");
         returnMessageToDriver(" 管理員:"+ans);
         var x = e.data.split(/[:\n]/);
-        var driver = x[1].split(" ",1);
-        console.log(x);
-        console.log(driver)
-        localStorage.setItem("driver",driver);
-        localStorage.setItem("lat",x[4]);
-        localStorage.setItem("lng",x[6]);
         
         var answer = confirm("是否要跳轉至突發接收頁面?") //把確認框賦值給answer
         if(answer) //判斷是否點選確定
@@ -66,6 +57,19 @@ function sendMessageToManager()
   x = "B:"+text.value
   ws.send(x)
   text.value = " "
+  $.ajax({
+    type: 'POST',
+    data : 'json',
+    contentType : 'application/json',
+    url: "http://140.121.198.84:3000/updateDriverState",
+    data:JSON.stringify({
+      "driver":localStorage.getItem("driver"),
+      "state1":"1",
+      "state2":"2"
+    }),
+      error: function (xhr) { },      // 錯誤後執行的函數
+      success: function (response) { }// 成功後要執行的函數
+    });
 }
 function returnMessageToDriver(x)
 {
@@ -74,16 +78,13 @@ function returnMessageToDriver(x)
 }
 function sendMessageToDriver()
 {
-  text = document.getElementById("exampleFormControlTextarea1")
-  driverName = $("#driverName").val()
-  var driver = new Array()
-  console.log(driverName)
-  var driver = driverName.split(" ",2)
-  console.log(driver[1])
-  x = "D:Manager send message to "+driver[1] + ":"+ text.value
-  console.log(x);
+  text = document.getElementById("exampleFormControlTextarea1");
+  driverName = $("#driverName").val();
+  var driver = new Array();
+  var driver = driverName.split(" ",2);
+  x = "D:Manager send message to "+driver[1] + ":"+ text.value;
   ws.send(x);
-  text.value = " "
+  text.value = " ";
 }
 function returnMessageToManager(x)
 {
@@ -94,6 +95,20 @@ function solveEmergency()
 {
   var x = "F:狀況已排除!";
   ws.send(x);
+  $.ajax({
+    type: 'POST',
+    data : 'json',
+    contentType : 'application/json',
+    url: "http://140.121.198.84:3000/updateDriverState",
+    data:JSON.stringify({
+      "driver":localStorage.getItem("driver"),
+      "state1":"2",
+      "state2":"1"
+    }),
+      error: function (xhr) { },      // 錯誤後執行的函數
+      success: function (response) {
+    }// 成功後要執行的函數
+    });
 }
 function start(account)
 {
