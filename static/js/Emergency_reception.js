@@ -3,6 +3,7 @@ var i = 0;
 var xString = ""
 var driverList = new Array();
 var marker1 = [];
+var marker;
 $(document).ready(function(){
 	$(".manager_name").html(localStorage.getItem("name"));
 });
