@@ -10,11 +10,14 @@ $(document).ready(function(){
 	$("#yes").click(function() {
 		$("#map").show();
 		$("#bus").show();
-		$route = $("#inputRoute").val();
-		load($route);
+		let route = $("#inputRoute").val();
+		let time = $("#time").val();
+		console.log(route);
+		console.log(time);
+		/*load($route);
 		busGPS($route);
 		document.getElementById("driver").innerHTML = "<td></td>";
-		document.getElementById("passenger").innerHTML = "<td></td>";
+		document.getElementById("passenger").innerHTML = "<td></td>";*/
 	})
 
 	// 初始化地圖
