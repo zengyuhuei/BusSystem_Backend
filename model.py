@@ -414,6 +414,7 @@ class Model:
                     position.pop(0)
             return fuck
 
+
     #回傳上下車跟到站時間
     def set_on_bus_off_bus(self, data):
         client = pymongo.MongoClient('mongodb://'+self._user+':'+self._password+'@140.121.198.84:27017/')
@@ -490,4 +491,21 @@ class Model:
         
         print(user)
         return user
+        
+    def get_history_info_from_db(self, data):
+        client = pymongo.MongoClient('mongodb://'+self._user+':'+self._password+'@140.121.198.84:27017/')
+        db = client["KeelungBusSystem"]
+        result = db["history"].find({"Route" : data['route'],"Bus_shift" : 1})
+        history_info = list()
+        for history in result:
+            sec = (history['Date'] - data['time']).total_seconds()
+            print(sec)
+            if sec <= 86400 and sec >= 0:
+                del history['_id']
+                del history['Date']
+                del history['Bus_shift']
+                history['Start_time'] = str(history['Start_time']).split(' ', 1 )[1]
+                history_info.append(history)
+                print(history)
+        return history_info
 

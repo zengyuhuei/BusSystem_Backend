@@ -534,7 +534,6 @@ def Emergency_reception():
     return render_template('Emergency_reception.html')
 
 @app.route('/historical_record', methods=['GET'])
-@login_required
 def historical_record():
     return render_template('historical_record.html')
 
@@ -711,5 +710,17 @@ def get_name():
         
    return jsonify(response)
 
+@app.route('/getHistory', methods=['POST'])
+def get_history_info():
+    response = {"status":"ok"}
+    try:
+        data = request.get_json()
+        data["time"] = datetime.strptime(data["time"], '%Y-%m-%d')
+        print(data)
+        response = model.get_history_info_from_db(data)
+
+    except Exception as e:
+        response["status"] = "error"
+    return jsonify(response)
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=3000, debug=True)
