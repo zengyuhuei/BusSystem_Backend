@@ -1,4 +1,5 @@
 $(document).ready(function(){
+	$("#manager_name").html("管理者："+localStorage.getItem("name"));
 	$(document).on('click','#btnSave',function(){
 		if($('#pwd1').val()==$('#pwd2').val())
 		{

@@ -5,6 +5,7 @@ import time
 from datetime import datetime, date
 from bson import ObjectId
 import configparser
+from math import sin,cos,sqrt,atan2,radians
 class Model:
 
     def __init__(self):
@@ -76,10 +77,21 @@ class Model:
         info = dict()
         client = pymongo.MongoClient('mongodb://'+self._user+':'+self._password+'@140.121.198.84:27017/')
         db = client["KeelungBusSystem"]
+        time = data["start_time"]
+        name = data["driver"]
+        day = data["day"]
+        print(ObjectId(data['_id']))
+        result = list(db["shift"].find({"day" : day, "driver" : name}))
+        for i in range(0,len(result)-1):
+            print(result[i]['_id'])
+            if result[i]['_id'] != ObjectId(data['_id']):
+                print("挖哩勒")
+                if abs(result[i]['start_time']-time).seconds/3600 < 1:
+                    return 0
         info['_id'] = ObjectId(data['_id'])
         del data['_id']
         result = db['shift'].update_one(info, { "$set": data })
-        return result
+        return 1
     
     # del shft from db
     def del_shift_from_db(self, data):
@@ -109,6 +121,13 @@ class Model:
     def add_shift_to_db(self, data):
         client = pymongo.MongoClient('mongodb://'+self._user+':'+self._password+'@140.121.198.84:27017/')
         db = client["KeelungBusSystem"]
+        time = data["start_time"]
+        name = data["driver"]
+        day = data["day"]
+        result = list(db["shift"].find({"day" : day, "driver" : name},{ "start_time": 1}))
+        for i in range(0,len(result)-1):
+            if abs(result[i]['start_time']-time).seconds/3600 < 1:
+                return 0
         data["lat"] = 0.0
         data["lng"] = 0.0
         data["peoplenum"] = 0
@@ -267,8 +286,16 @@ class Model:
         driver = driver_name["name"]
         #時間還沒都進去 不知道格式 **
         if 'peoplenum' in data.keys():
-            db["shift"].update_one({"driver" : driver, "day" : day, 'start_time' : time}, {"$set": { "lat": flat, "lng": flng, "peoplenum": peoplenum}}) 
-            db["history"].update_one({'Driver' : driver, "Start_time" : time, "Bus_shift" : 0}, {"$set": { "Bus_shift" : 1}})
+            db["shift"].update_one({"driver" : driver, "day" : day, 'start_time' : time}, {"$set": { "lat": flat, "lng": flng, "peoplenum": peoplenum}})
+            history_info = db["history"].find_one({'Driver' : driver, 'Start_time' : time, "Bus_shift" : 0}, {"_id" : 0, "onBus" : 1})
+            total = 0
+            on = []
+            on = history_info['onBus']
+            for i in range(0,len(on)-1):
+                total = total + on[i]
+            print("total")
+            print(total)
+            db["history"].update_one({'Driver' : driver, "Start_time" : time, "Bus_shift" : 0}, {"$set": { "Bus_shift" : 1, "totalNumOfPassengers" : total}})
         else:
             db["shift"].update_one({"driver" : driver, "day" : day, 'start_time' : time}, {"$set": { "lat": flat, "lng": flng}}) 
         position = "good"
@@ -293,6 +320,7 @@ class Model:
 
     #set startBusStop   (剛開始拿站牌經緯度當司機GPS)
     def start_set_busStop_from_db(self, data):
+        
         client = pymongo.MongoClient('mongodb://'+self._user+':'+self._password+'@140.121.198.84:27017/')
         db = client['KeelungBusSystem']
         day = data["day"]
@@ -306,10 +334,30 @@ class Model:
         lat = driver_route["lat"]
         f_lat = float(lat)
         position = list()
+        oil = 0
+        R = 6373.0
         route_result = db["route"].find_one({'bus_route' : route})
         for i in range(1,len(route_result)-1):
             bus_stop=route_result[str(i)]
             position.append(db["busRoad_coor"].find_one({"route" : bus_stop},{"_id" : 0, "route": 1, "lat": 1, "lng": 1 }))
+            if(i > 1):
+                lat1 = radians(position[i-2]['lat'])
+                lon1 = radians(position[i-2]['lng'])
+                lat2 = radians(position[i-1]['lat'])
+                lon2 = radians(position[i-1]['lng'])
+
+                dlon = lon2 - lon1
+                dlat = lat2 - lat1
+
+                a = sin(dlat / 2)**2 + cos(lat1) * cos(lat2) * sin(dlon / 2)**2
+                c = 2 * atan2(sqrt(a), sqrt(1 - a))
+                distance = R * c
+                oil = oil + distance
+            
+        print(oil)
+        oil = oil * 30
+
+
         
         #增加一列到history
         newdata = {}
@@ -322,7 +370,7 @@ class Model:
         newdata["offBus"] = []
         newdata["Arrival_time"] = []
         newdata["totalNumOfPassengers"] = 0
-        newdata["FuelConsumption"] = 0
+        newdata["FuelConsumption"] = oil
         newdata["surplus"] = 0
         print(newdata)
         result = db['history'].insert_one(newdata)
@@ -371,6 +419,7 @@ class Model:
         client = pymongo.MongoClient('mongodb://'+self._user+':'+self._password+'@140.121.198.84:27017/')
         now = datetime.today()
         db = client['KeelungBusSystem']
+        print(data)
         time = data["start_time"]
         email = data["email"]
         onbus = data["onbus"]
@@ -391,6 +440,7 @@ class Model:
         on.append(onbus)
         off.append(offbus)
         arri.append(arrivaltime)
+        print(off)
         db["history"].update_one({'Driver' : driver, 'Start_time' : time, "Bus_shift" : 0}, {"$set": { "onBus": on, "offBus": off, "Arrival_time": arri }})
         position = {"state" : "good"}
         return position
@@ -431,15 +481,13 @@ class Model:
             temp_state = 1
         return driver_state    
     
-###################################芷婷###########################################################
     def get_driver_name_from_db(self, data):
-        print("AAAaaaaaaaaaaaaaaaaaaaaaaaa")
-        name = list()
+        print("bbbbbbbbbbbbbbbbbbbbb")
+        user = list()
         client = pymongo.MongoClient('mongodb://'+self._user+':'+self._password+'@140.121.198.84:27017/')
         db = client['KeelungBusSystem']
-        name.append(db["info"].find_one({"email" : data['email']}))
+        user.append(db["auth"].find_one({"account" : data['account']}, {"_id" : 0, "user": 1}))
         
-        print(name)
-        return name
-########################################################################
-       
+        print(user)
+        return user
+

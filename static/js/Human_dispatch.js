@@ -1,5 +1,5 @@
 $(document).ready(function(){
- 
+	$("#manager_name").html("管理者："+localStorage.getItem("name"));
 });
 function setTable(response)
 {
@@ -29,7 +29,7 @@ function getDriverState()
         data: "json",
         dataType: "json",
         contentType : 'application/json',
-        url: "http://127.0.0.1:3000/humanDispatch",
+        url: "http://140.121.198.84:3000/humanDispatch",
         data:JSON.stringify({
             "day": day_list[day],
             "keyword":key.value

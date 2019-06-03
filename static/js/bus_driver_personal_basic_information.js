@@ -46,7 +46,7 @@ $(function () {
 $(document).ready(function(){
 	
 	
-
+	$(".driver_name").html(localStorage.getItem("name"));
 	$('#birthday > .form-control').prop('readonly', true);
 	$(".fix").click(function() {
 		$(".yes").show();

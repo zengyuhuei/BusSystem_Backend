@@ -275,8 +275,12 @@ def modify_shift():
     try:
         data = request.get_json()
         data["start_time"] = datetime.strptime(data["start_time"], '%H:%M')
-        model.modify_shift_from_db(data)
-        success = "修改成功"
+        check = model.modify_shift_from_db(data)
+        if check == 1:
+            success = "修改成功"
+        else:
+            response["status"] = "我要搞爆他"
+            error = "修改失敗" 
     except Exception as e:
         response["status"] = "error"
         response["error"] = str(e)
@@ -681,6 +685,7 @@ def set_on_bus_off_bus():
     response = {"status":"ok"}
     try:
         getdata = request.get_json()
+        print("SSSS")
         getdata["start_time"] = datetime.strptime(getdata["start_time"], '%H:%M')
         print(getdata)
         response = model.set_on_bus_off_bus(getdata)
@@ -688,16 +693,18 @@ def set_on_bus_off_bus():
     except Exception as e:
         response["status"] = "error"
     return jsonify(response)
-
+    
 @app.route('/get_name', methods=['POST'])
 @login_required
 def get_name():   
-   print("ting ting ting ting ting ting")
+   print("aaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
    response = {"status":"ok"}
    print(response) 
    try:
-        data = request.get_json()
-        response = model.get_driver_name_from_db(data)
+        getdata = request.get_json()
+        print(getdata)
+        response = model.get_driver_name_from_db(getdata)
+        print(response)
    except Exception as e:
         response["status"] = "error"
         print(str(e))

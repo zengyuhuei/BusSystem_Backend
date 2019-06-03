@@ -1,5 +1,6 @@
 console.log(localStorage.account);
 var people_number1 = 0;
+var busoff_people;
 $(document).ready(function(){
 	localStorage.setItem('peoplenum',0);
 	$('.count').prop('disabled', true);
@@ -15,6 +16,7 @@ $(document).ready(function(){
 });
 
 $(document).ready(function(){
+	$(".driver_name").html(localStorage.getItem("name"));
 	$('.count1').prop('disabled', true);
 	$(document).on('click','.plus1',function(){
 		$('.count1').val(parseInt($('.count1').val()) + 1 );
@@ -55,13 +57,23 @@ $(document).ready(function(){
 			localStorage.setItem('peoplenum',0);
 			people_number1 = 0;
 		}*/
-		people_number1 = people_number1 + parseInt($('.count').val()) - parseInt($('.count1').val());
+		if((people_number1 + parseInt($('.count').val()) - parseInt($('.count1').val()))>0){
+			people_number1 = people_number1 + parseInt($('.count').val()) - parseInt($('.count1').val());
+			busoff_people = parseInt($('.count1').val());
+		}
+		else{
+			busoff_people = people_number1;
+			people_number1 = 0;
+		}
+		console.log("qqqqq" + people_number1);
+		console.log("sssssssss" + busoff_people);
+		
 		$.ajax({
 			type: "POST",
 			data: "json",
 			dataType: "json",
 			contentType : 'application/json',
-			url: "http://127.0.0.1:3000/peoplenum_to_db",
+			url: "http://140.121.198.84:3000/peoplenum_to_db",
 			data:JSON.stringify({
 				"driver":localStorage.account,
 				"day": "SUN",
@@ -83,12 +95,12 @@ $(document).ready(function(){
 			data: "json",
 			dataType: "json",
 			contentType : 'application/json',
-			url: "http://127.0.0.1:3000/setonBusoffBus",
+			url: "http://140.121.198.84:3000/setonBusoffBus",
 			data:JSON.stringify({
 				"email":localStorage.account,
 				"start_time": "7:00",
 				"onbus": parseInt($('.count').val()),
-				"offbus": parseInt($('.count1').val()),
+				"offbus": busoff_people,
 				"arrivaltime": now
 			}),
 			success: function(response) {
@@ -105,5 +117,4 @@ $(document).ready(function(){
 	});
 	
 });
-
 

@@ -87,7 +87,8 @@ function modifyTable(id,driver,time)
 		data:JSON.stringify({
 			'_id' : id,
 			'driver' : driver,
-			'start_time' : time
+			'start_time' : time,
+			"day": $day
 		}),
 		xhr: function() {
 			return xhr;
@@ -105,6 +106,7 @@ function setid(id)
 	$(".busTable").find("tr:nth-child(end)").find("td:nth-child(1)").text();
 }
 $(document).ready(function(){
+	$("#manager_name").html("管理者："+localStorage.getItem("name"));
 	$(".yes").click(function() {
 		$("#bus").show();		
 		var tr_length = $('.table tbody tr').length; 
@@ -212,12 +214,15 @@ $(document).ready(function(){
     });
 	// Edit row on edit button click
 	$(document).on("click", ".edit", function(){		
+		var time = $(this).closest("tr").find("td:nth-child(3)").text();
+		console.log(time)
   $(this).parents("tr").find("td:not(:last-child)").each(function(){
 		var x = $(this).parents("tr").find("td:nth-child(2)")
 		var optionString = '';
 		check = 0;
 		var i = 0;
 		var driver = $(this).closest("tr").find("td:nth-child(2)").text();
+		
 		console.log("driver = "+driver)
 		$.ajax({
 			type: 'POST',
@@ -242,7 +247,7 @@ $(document).ready(function(){
 				x.html('<select type="text" class="form-control" name="driver" id="driver">'+optionString+'</select>');
 			}// 成功後要執行的函數
 		});	
-			$(this).parents("tr").find("td:nth-child(3)").html('<select type="text" class="form-control" name="time" id="time"><option>7:00</option><option>7:20</option><option>7:40</option><option>8:00</option><option>8:20</option><option>8:40</option><option>9:00</option><option>9:20</option>'+
+			$(this).parents("tr").find("td:nth-child(3)").html('<select type="text" class="form-control" name="time" id="time"><option>'+time+'</option><option>7:20</option><option>7:40</option><option>8:00</option><option>8:20</option><option>8:40</option><option>9:00</option><option>9:20</option>'+
 			'<option>9:40</option><option>10:00</option><option>10:20</option><option>10:40</option><option>11:00</option><option>11:20</option><option>11:40</option><option>12:00</option><option>12:20</option><option>12:40</option>'+
 			'<option>13:00</option><option>13:20</option><option>13:40</option><option>14:00</option><option>14:20</option><option>14:40</option><option>15:00</option><option>15:20</option><option>15:40</option><option>16:00</option></select>');
 		});		

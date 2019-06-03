@@ -46,7 +46,7 @@ $(function () {
 $(document).ready(function(){
 	
 	
-
+	$("#manager_name").html("管理者："+localStorage.getItem("name"));
 	$('#birthday > .form-control').prop('readonly', true);
 	$(".fix").click(function() {
 		$(".yes").show();
