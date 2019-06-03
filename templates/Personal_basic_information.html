@@ -29,7 +29,6 @@
     <body onload="start()">
 
 	   <nav class="navbar navbar-expand-xl navbar-dark bg-dark" id="mainNav">
-	   <h5 id="manager_name" class="text-warning"></h5>
 		  <div class="container">
 			  <a class="navbar-brand" href="{{url_for('manager_index')}}">基隆公車調派系統</a>
 			  <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
@@ -54,8 +53,7 @@
 					</div>
 				</li>
 				<li class="nav-item dropdown">
-					<a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-					  設定
+					<a class="nav-link dropdown-toggle active manager_name" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 					</a>
 					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
 					  <a class="dropdown-item" href="{{url_for('Personal_basic_information')}}">個人基本資料</a>
@@ -181,9 +179,9 @@
 						
 						</div>
 					</div>
-						<input type="submit" class="btn btn-primary mb-3 yes"  style="display:none;">
-						<button type="button"class="btn btn-success mb-3 cancel" style="display:none;">取消</button>
-						<button type="button"  class="btn btn-success mb-3 fix" >修改</button>
+					<input type="submit" class="btn btn-primary mb-3 yes"  style="display:none;">
+					<button type="button"class="btn btn-success mb-3 cancel" style="display:none;">取消</button>
+					<button type="button"  class="btn btn-success mb-3 fix" >修改</button>
 				</form>
 	
 				</div>

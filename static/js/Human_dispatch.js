@@ -1,5 +1,5 @@
 $(document).ready(function(){
-	$("#manager_name").html("管理者："+localStorage.getItem("name"));
+	$(".manager_name").html(localStorage.getItem("name"));
 });
 function setTable(response)
 {

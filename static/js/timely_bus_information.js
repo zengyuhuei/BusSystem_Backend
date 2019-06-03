@@ -16,7 +16,7 @@ $(document).ready(function(){
 		document.getElementById("driver").innerHTML = "<td></td>";
 		document.getElementById("passenger").innerHTML = "<td></td>";
 	})
-	$("#manager_name").html("管理者："+localStorage.getItem("name"));
+	$(".manager_name").html(localStorage.getItem("name"));
 	// 初始化地圖
 	map = new google.maps.Map(document.getElementById('map'), {
 		zoom: 21,

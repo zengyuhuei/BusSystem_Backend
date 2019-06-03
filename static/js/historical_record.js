@@ -38,6 +38,7 @@ $(document).ready(function(){
 			busGPS(route);
 		}
 	},5000);
+	$(".manager_name").html(localStorage.getItem("name"));
 });
 
 function load(route){

@@ -11,7 +11,7 @@ $(document).ready(function(){
 		//localStorage.setItem('Account',fileName);
 		$(this).siblings(".custom-file-label").addClass("selected").html(fileName);
 	});
-	$("#manager_name").html("管理者："+localStorage.getItem("name"));
+	$(".manager_name").html(localStorage.getItem("name"));
 });
 
 function readURL(input) {
