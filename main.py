@@ -710,6 +710,7 @@ def get_name():
         
    return jsonify(response)
 
+<<<<<<< HEAD
 @app.route('/getHistory', methods=['POST'])
 def get_history_info():
     response = {"status":"ok"}
@@ -722,5 +723,33 @@ def get_history_info():
     except Exception as e:
         response["status"] = "error"
     return jsonify(response)
+@app.route('/updateDriverState', methods=['POST'])
+@login_required
+def updateDriverState():   
+   response = {"status":"ok"}
+   print("XXXX") 
+   try:
+        data = request.get_json()
+        model.update_driver_state(data)
+   except Exception as e:
+        response["status"] = "error"
+        print(str(e))
+        
+   return jsonify(response)
+
+@app.route('/getDriverState', methods=['POST'])
+@login_required
+def getDriverState():   
+   response = {"status":"ok"}
+   print("XXXX") 
+   try:
+        data = request.get_json()
+        response = model.get_driver_state(data)
+        print(response)
+   except Exception as e:
+        response["status"] = "error"
+        print(str(e))
+        
+   return jsonify(response)
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=3000, debug=True)

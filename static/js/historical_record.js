@@ -1,3 +1,4 @@
+
 var map;
 var intervalControl;
 var directionsService;
@@ -40,6 +41,9 @@ $(document).ready(function(){
 		}
 	},5000);
 	$(".manager_name").html(localStorage.getItem("name"));
+	$('#birthday').datetimepicker({
+		format: 'YYYY/MM/DD'
+	});
 });
 
 function setData(xString)

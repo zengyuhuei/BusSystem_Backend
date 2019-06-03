@@ -124,6 +124,7 @@ class Model:
         time = data["start_time"]
         name = data["driver"]
         day = data["day"]
+        print(data)
         result = list(db["shift"].find({"day" : day, "driver" : name},{ "start_time": 1}))
         for i in range(0,len(result)-1):
             if abs(result[i]['start_time']-time).seconds/3600 < 1:
@@ -132,6 +133,7 @@ class Model:
         data["lng"] = 0.0
         data["peoplenum"] = 0
         data["arrive_time"] = datetime.now()
+        data["state"] = 0
         result = db['shift'].insert_one(data)
 
         return json.dumps({'inserted_id': str(result.inserted_id)})
@@ -246,6 +248,7 @@ class Model:
         for x in mycol.find({"driver" : driver}, {"_id" : 0, "route": 1, "driver": 1, "lat": 1, "lng": 1}):
             position.append(x)
         return position
+
     def get_busDriver_from_db_web(self):
         driver = list()
         client = pymongo.MongoClient('mongodb://'+self._user+':'+self._password+'@140.121.198.84:27017/')
@@ -488,7 +491,7 @@ class Model:
         client = pymongo.MongoClient('mongodb://'+self._user+':'+self._password+'@140.121.198.84:27017/')
         db = client['KeelungBusSystem']
         user.append(db["auth"].find_one({"account" : data['account']}, {"_id" : 0, "user": 1}))
-        
+
         print(user)
         return user
         
@@ -509,3 +512,22 @@ class Model:
                 print(history)
         return history_info
 
+    def update_driver_state(self,data):
+        client = pymongo.MongoClient('mongodb://'+self._user+':'+self._password+'@140.121.198.84:27017/')
+        db = client['KeelungBusSystem']
+        print(data)
+        print(db["shift"].find_one({"driver":data["driver"],"state":data["state1"]}))
+        db["shift"].update_one({"driver":data["driver"],"state":data["state1"]}, {"$set":{"state":data["state2"]}})
+        print("ZZZZZ")
+    def get_driver_state(self,data):
+        client = pymongo.MongoClient('mongodb://'+self._user+':'+self._password+'@140.121.198.84:27017/')
+        db = client['KeelungBusSystem']
+        mycol = db['shift']
+        print(data)
+        emer = list()
+        for x in mycol.find({"state":"2"}, {"_id" : 0}):
+            emer.append(x)
+        print(emer)
+        return emer
+
+        
