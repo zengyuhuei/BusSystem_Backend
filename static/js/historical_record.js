@@ -11,6 +11,7 @@ $(document).ready(function(){
 		$route = $("#inputState").val();
 		load($route);
 	})
+	$("#manager_name").html("管理者："+localStorage.getItem("name"));
 });
 
 function load(route){

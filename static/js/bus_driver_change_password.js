@@ -1,4 +1,5 @@
 $(document).ready(function(){
+	$("#driver_name").html("司機："+localStorage.getItem("name"));
 	$(document).on('click','#btnSave',function(){
 		if($('#pwd1').val()==$('#pwd2').val())
 		{

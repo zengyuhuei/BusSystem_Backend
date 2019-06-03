@@ -3,6 +3,9 @@ var i = 0;
 var xString = ""
 var driverList = new Array();
 var marker;
+$(document).ready(function(){
+	$("#manager_name").html("管理者："+localStorage.getItem("name"));
+});
 function setData()
 {
     document.getElementById("busdriver").innerHTML += '<select class="form-control" id="driverName">'+xString+'</select>';

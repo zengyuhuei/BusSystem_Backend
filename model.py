@@ -481,15 +481,13 @@ class Model:
             temp_state = 1
         return driver_state    
     
-###################################芷婷###########################################################
     def get_driver_name_from_db(self, data):
-        print("AAAaaaaaaaaaaaaaaaaaaaaaaaa")
-        name = list()
+        print("bbbbbbbbbbbbbbbbbbbbb")
+        user = list()
         client = pymongo.MongoClient('mongodb://'+self._user+':'+self._password+'@140.121.198.84:27017/')
         db = client['KeelungBusSystem']
-        name.append(db["info"].find_one({"email" : data['email']}))
+        user.append(db["auth"].find_one({"account" : data['account']}, {"_id" : 0, "user": 1}))
         
-        print(name)
-        return name
-########################################################################
+        print(user)
+        return user
 

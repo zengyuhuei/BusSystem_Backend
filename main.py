@@ -697,12 +697,14 @@ def set_on_bus_off_bus():
 @app.route('/get_name', methods=['POST'])
 @login_required
 def get_name():   
-   print("ting ting ting ting ting ting")
+   print("aaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
    response = {"status":"ok"}
    print(response) 
    try:
-        data = request.get_json()
-        response = model.get_driver_name_from_db(data)
+        getdata = request.get_json()
+        print(getdata)
+        response = model.get_driver_name_from_db(getdata)
+        print(response)
    except Exception as e:
         response["status"] = "error"
         print(str(e))

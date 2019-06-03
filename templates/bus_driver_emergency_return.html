@@ -17,6 +17,7 @@
 			let count = 0;
 			function load()
 			{
+			    $("#driver_name").html("司機："+localStorage.getItem("name"));
 				websocket_init();
 				loadingBusGPS();
 			}
@@ -114,6 +115,7 @@
     <body onload="load();">
 
 		<nav class="navbar navbar-expand-xl navbar-dark bg-dark" id="mainNav">
+		  <h1 id="driver_name" class="text-warning"></h1>
 		  <div class="container">
 			  <a class="navbar-brand" href="{{url_for('driver_index')}}"><h1>基隆公車調派系統</h1></a>
 			  <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
@@ -125,7 +127,6 @@
 					<li class="nav-item"><a class = "nav-link" href="{{url_for('bus_driver_people_number_return')}}"><h3>乘客人數回報</h3></a></li>
 					<li class="nav-item active"><a class = "nav-link" href="{{url_for('bus_driver_emergency_return')}}"> <h3>突發狀況回報</h3></a></li>
 					<li class="nav-item"><a class = "nav-link" href="{{url_for('bus_driver_personal_basic_information')}}"> <h3>個人基本資料</h3></a></li>
-					<li class="nav-item"><a class = "nav-link" href="#"> <h3>導航模式</h3></a></li>
 					<li class="nav-item"><a class = "nav-link" href="{{url_for('bus_driver_change_password')}}"> <h3>修改密碼</h3></a></li>
 				</ul>
 				<ul class="navbar-nav">
