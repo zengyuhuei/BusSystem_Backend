@@ -26,8 +26,8 @@
 		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
 	</head>
 
-	
-    <body onload="websocket_init()">
+
+    <body onload="start()">
 
 	   <nav class="navbar navbar-expand-xl navbar-dark bg-dark" id="mainNav">
 		  <div class="container">
@@ -83,14 +83,14 @@
 				<h5>路線：</h5>
 			</label>
 			
-			<div class="col-xs-4 col-md-3 col-lg-3">
-				<select id="inputState" class="form-control">
+			<div class="col-xs-4 col-md-3 col-lg-3" id="inputState">
+				<!--<select  class="form-control">
 					<option value="101">101 和平島</option>
 					<option value="102">102 祥豐街</option>
 					<option value="103">103 中正路</option>
 					<option value="104">104 海大</option>
 					<option value="105">105 新豐街</option>
-				</select>
+				</select>-->
 			</div>
 			
 			<label for="input1" class="col-xs-3 col-md-auto col-form-label">
