@@ -4,7 +4,7 @@ function setName()
 	account=localStorage.getItem("account");
 	$.ajax({
 		type: 'POST',
-		url: "http://140.121.198.84:3000/get_name",
+		url: "http://127.0.0.1:3000/get_name",
 		data: "json",
         dataType: "json",
 		contentType : 'application/json',
@@ -34,7 +34,7 @@ function setName()
 		success: function (response) {
 				console.log(response[0]);
 				localStorage.setItem("name",response[0]['user'])
-				$("#driver_name").html(localStorage.getItem("name"));
+				$(".driver_name").html(localStorage.getItem("name"));
 				//window.location.href = response.redirect;
 		}// 成功後要執行的函數
 	});

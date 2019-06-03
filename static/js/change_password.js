@@ -1,5 +1,5 @@
 $(document).ready(function(){
-	$("#manager_name").html("管理者："+localStorage.getItem("name"));
+	$(".manager_name").html(localStorage.getItem("name"));
 	$(document).on('click','#btnSave',function(){
 		if($('#pwd1').val()==$('#pwd2').val())
 		{
@@ -12,7 +12,7 @@ $(document).ready(function(){
 				type: 'POST',
 				data: 'json',
 				contentType : 'application/json',
-				url: "http://140.121.198.84:3000/changePassword",
+				url: "http://127.0.0.1:3000/changePassword",
 				data:JSON.stringify({
 					'account' : account,
 					'password' : $password,

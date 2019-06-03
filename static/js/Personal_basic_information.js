@@ -2,7 +2,7 @@ function load(){
 	
 	$.ajax({
 		type: 'GET',
-		url: "http://140.121.198.84:3000/getInfo?",
+		url: "http://127.0.0.1:3000/getInfo?",
 		dataType: 'json',
 		success: function(data) {
 			console.log(data);
@@ -46,7 +46,7 @@ $(function () {
 $(document).ready(function(){
 	
 	
-	$("#manager_name").html("管理者："+localStorage.getItem("name"));
+	$(".manager_name").html(localStorage.getItem("name"));
 	$('#birthday > .form-control').prop('readonly', true);
 	$(".fix").click(function() {
 		$(".yes").show();
@@ -65,7 +65,7 @@ $(document).ready(function(){
 		
 	})
 	$(".cancel").click(function() {
-		load();
+		location.reload();
 		$(".yes").hide();
 		$(".cancel").hide();
 		$(".fix").show();

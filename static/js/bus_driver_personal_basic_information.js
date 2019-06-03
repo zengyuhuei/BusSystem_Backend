@@ -1,7 +1,7 @@
 function load(){
 	$.ajax({
 			type: 'GET',
-			url: "http://140.121.198.84:3000/getInfo?",
+			url: "http://127.0.0.1:3000/getInfo?",
 			dataType: 'json',
 			success: function(data) {
 				console.log(data);
@@ -50,6 +50,7 @@ $(document).ready(function(){
 	$('#birthday > .form-control').prop('readonly', true);
 	$(".fix").click(function() {
 		$(".yes").show();
+		$(".cancel").show();
 		$(".fix").hide();
 		$('.custom-file').show();
 		$('#InputPhone1').prop('readonly', false);
@@ -57,13 +58,27 @@ $(document).ready(function(){
 		$('#myfile').prop('disabled', false);
 		$('#account').prop('readonly', false);
 		
-		
-		
 		$('#InputPhone1').prop('required', true);
 		$('#address').prop('required', true);
 		$('#myfile').prop('required', true);
 		$('#account').prop('required', true);
 		
+	})
+	$(".cancel").click(function() {
+		location.reload();
+		$(".yes").hide();
+		$(".cancel").hide();
+		$(".fix").show();
+		$('.custom-file').hide();
+		$('#InputPhone1').prop('required', false);
+		$('#address').prop('required', false);
+		$('#myfile').prop('required', false);
+		$('#account').prop('required', false);
+		
+		$('#InputPhone1').prop('readonly', true);
+		$('#address').prop('readonly', true);
+		$('#myfile').prop('disabled', true);
+		$('#account').prop('readonly', true);
 	})
 	
 });

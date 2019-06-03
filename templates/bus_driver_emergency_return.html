@@ -37,7 +37,7 @@
 					data: "json",
 					dataType: "json",
 					contentType : 'application/json',
-					url: "http://140.121.198.84:3000/setbusGPS",
+					url: "http://127.0.0.1:3000/setbusGPS",
 					data:JSON.stringify({
 						"email": localStorage.account,
 						"day": "SUN",
@@ -61,7 +61,7 @@
 					data: "json",
 					dataType: "json",
 					contentType : 'application/json',
-					url: "http://140.121.198.84:3000/setbusGPS",
+					url: "http://127.0.0.1:3000/setbusGPS",
 					data:JSON.stringify({
 						"email": localStorage.account,
 						"day": "SUN",
@@ -86,7 +86,7 @@
 					data: "json",
 					dataType: "json",
 					contentType : 'application/json',
-					url: "http://140.121.198.84:3000/setbusStop",
+					url: "http://127.0.0.1:3000/setbusStop",
 					data:JSON.stringify({
 								"email": localStorage.account,
 								"day": "SUN",
@@ -153,7 +153,7 @@
 			</form>
 			<div>
 				<input type="submit" class="btn btn-primary"  onclick='sendMessageToManager()'>
-				<button type="button" class="btn btn-danger btn-lg" onclick='solveEmergency()'>狀況已排除<</button>
+				<button type="button" class="btn btn-danger" onclick='solveEmergency()'>狀況已排除</button>
 			</div>
 		</div>
 

@@ -4,7 +4,7 @@ var xString = ""
 var driverList = new Array();
 var marker;
 $(document).ready(function(){
-	$("#manager_name").html("管理者："+localStorage.getItem("name"));
+	$(".manager_name").html(localStorage.getItem("name"));
 });
 function setData()
 {
@@ -16,7 +16,7 @@ function setDriver()
 		(resolve,reject)=>{
     $.ajax({
         type: 'POST',
-        url: "http://140.121.198.84:3000/getbusDriverforWeb",
+        url: "http://127.0.0.1:3000/getbusDriverforWeb",
         data:'json',
         dataType:'json',
         contentType:'json',
@@ -40,7 +40,7 @@ function setDriver()
     function initialize() {
       $.ajax({
         type: 'POST',
-        url: "http://140.121.198.84:3000/getbusDriverforWeb",
+        url: "http://127.0.0.1:3000/getbusDriverforWeb",
         data:'json',
         dataType:'json',
         contentType:'json',
