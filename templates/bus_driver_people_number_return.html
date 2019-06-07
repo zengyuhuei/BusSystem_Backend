@@ -201,6 +201,7 @@
 			function end()
 			{
 				clearTimeout(myVar);
+				var Today=new Date();
 				count = 0;
 				people_number1 = 0;
 				document.getElementById("people_number").innerHTML = "0";
@@ -236,6 +237,18 @@
 						"driver":localStorage.getItem("driver"),
 						"state1":"1",
 						"state2":"0"
+					}),
+						error: function (xhr) {},      // 錯誤後執行的函數
+						success: function (response) {}// 成功後要執行的函數
+				});
+				$.ajax({
+					type: 'POST',
+					data : 'json',
+					contentType : 'application/json',
+					url: "http://127.0.0.1:3000/setSurplusIntoDb",
+					data:JSON.stringify({
+						"driver":localStorage.getItem("driver"),
+						"time":Today.getFullYear()+"/"+ (Today.getMonth()+1)+"/" +Today.getDate()
 					}),
 						error: function (xhr) {},      // 錯誤後執行的函數
 						success: function (response) {}// 成功後要執行的函數

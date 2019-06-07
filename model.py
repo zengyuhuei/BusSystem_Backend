@@ -308,7 +308,6 @@ class Model:
     def get_busNumber_from_db(self, data):
         client = pymongo.MongoClient('mongodb://'+self._user+':'+self._password+'@140.121.198.84:27017/')
         db = client['KeelungBusSystem']
-        print("SSSS")
         result = list(db["route"].find({},{"_id" : 0, "bus_route": 1}))
         return json.dumps(result)
 		
@@ -360,7 +359,7 @@ class Model:
             
         print(oil)
         oil = oil * 30
-
+        oil = round(oil, 0)
 
         
         #增加一列到history
@@ -376,7 +375,6 @@ class Model:
         newdata["totalNumOfPassengers"] = 0
         newdata["FuelConsumption"] = oil
         newdata["surplus"] = 0
-        print(newdata)
         result = db['history'].insert_one(newdata)
 
         return position
@@ -492,7 +490,6 @@ class Model:
         db = client['KeelungBusSystem']
         user.append(db["auth"].find_one({"account" : data['account']}, {"_id" : 0, "user": 1}))
 
-        print(user)
         return user
         
     def get_history_info_from_db(self, data):
@@ -502,30 +499,39 @@ class Model:
         history_info = list()
         for history in result:
             sec = (history['Date'] - data['time']).total_seconds()
-            print(sec)
             if sec <= 86400 and sec >= 0:
                 del history['_id']
                 del history['Date']
                 del history['Bus_shift']
                 history['Start_time'] = str(history['Start_time']).split(' ', 1 )[1]
                 history_info.append(history)
-                print(history)
         return history_info
 
     def update_driver_state(self,data):
         client = pymongo.MongoClient('mongodb://'+self._user+':'+self._password+'@140.121.198.84:27017/')
         db = client['KeelungBusSystem']
         db["shift"].update_one({"driver":data["driver"],"state":data["state1"]}, {"$set":{"state":data["state2"]}})
-        print("ZZZZZ")
+
     def get_driver_state(self,data):
         client = pymongo.MongoClient('mongodb://'+self._user+':'+self._password+'@140.121.198.84:27017/')
         db = client['KeelungBusSystem']
         mycol = db['shift']
-        print(data)
         emer = list()
         for x in mycol.find({"state":"2"}, {"_id" : 0}):
             emer.append(x)
-        print(emer)
         return emer
 
+    def set_surplus_into_db(self, data):
+        client = pymongo.MongoClient('mongodb://'+self._user+':'+self._password+'@140.121.198.84:27017/')
+        db = client['KeelungBusSystem']
+        driverShift_list = list()
+        for x in db["history"].find({"Driver": data['driver']}, {"_id" : 1, "Driver" : 1, "totalNumOfPassengers" : 1, "FuelConsumption" : 1}):
+            driverShift_list.append(x)
+        target_list = driverShift_list[-1]
+
+        totalNumOfPassenger = target_list['totalNumOfPassengers']
+        fuelConsumption = target_list['FuelConsumption']
+        surplus = (totalNumOfPassenger * 15) - fuelConsumption
+        
+        db["history"].update_one({"_id": target_list["_id"]}, {"$set": {"surplus" : surplus}})
         

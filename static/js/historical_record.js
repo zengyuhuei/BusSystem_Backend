@@ -16,19 +16,16 @@ $(document).ready(function(){
 		let time = $("#date").val();
 		
 		load(route);
-		busGPS(route);
 		console.log(route);
 		console.log(time);
-		createTable(route,time);		// 初始化地圖
-		
+		createTable(route,time);
 	})
-	var mapOptions = {
-        center: { lat:25.143411,lng:121.774429}, 
-        zoom: 14
-      };
-      var map = new google.maps.Map(
-          document.getElementById('map'),
-          mapOptions);
+
+	// 初始化地圖
+	map = new google.maps.Map(document.getElementById('map'), {
+		zoom: 23,
+		center: new google.maps.LatLng(25.143411, 121.774429),
+		});
 	// 載入路線服務與路線顯示圖層
 	directionsService = new google.maps.DirectionsService();
 	directionsDisplay = new google.maps.DirectionsRenderer({
@@ -39,29 +36,11 @@ $(document).ready(function(){
 
 	// 放置路線圖層
 	directionsDisplay.setMap(map);
-});
-function busGPS(route){
-	$.ajax({
-		type: "POST",
-		data: "json",
-		dataType: "json",
-		contentType : 'application/json',
-		url: "http://127.0.0.1:3000/getbusGPS",
-		data:JSON.stringify({
-			"route": route
-		}),
-		success: function(response) {
-			console.log(response);
-			jj = returnGPS(response);
-			busInformation();
-		},
-		error: function(xhr, type) {
-			console.log("hehehe");
-		}
+	$(".manager_name").html(localStorage.getItem("name"));
+	$('#birthday').datetimepicker({
+		format: 'YYYY/MM/DD'
 	});
-
-	//setTimeout("busGPS($route)",5000);
-}
+});
 function load(route){
 	$.ajax({
 		type: "POST",
@@ -153,41 +132,6 @@ function returnRoute(json)
 		console.log(status);
 		}
 	});
-
-
-}
-function returnGPS(bus_coor)
-{
-	var coor = Object.keys(bus_coor).map(function(_) { return bus_coor[_]; });
-	console.log(coor.length);
-	return coor;
-}
-function busInformation()
-{
-    for(var j = 0; j < marker1.length ; j++){
-		console.log("set bus marker null");
-		marker1[j].setPosition(null);
-		marker1[j].setMap(null);
-		marker1[j]=null;
-	}
-	marker1 = [];
-	//公車資訊
-	for(var j = 0; j < jj.length ; j++){
-		marker1[j] = new google.maps.Marker({
-			position: jj[j],
-			map: map,
-			icon:'https://i.ibb.co/s6B8nGn/bb.png',
-			data:jj[j].driver,
-			data2:jj[j].peoplenum,
-			zIndex:2
-		});
-		// 加入地圖標記點擊事件
-		marker1[j].addListener('click', function () {
-			console.log("bus clicked!");
-			document.getElementById("driver").innerHTML = "<td>"+this.data+"</td>";
-			document.getElementById("passenger").innerHTML = "<td>"+this.data2+"</td>";
-		});
-	}
 }
 function setData(xString)
 {
@@ -230,7 +174,6 @@ function createTable(route,time)
 }
 function start_his()
 {
-	console.log("DDDD")
 	var xString = '';
 	var i = 0;
 	const p =new Promise(

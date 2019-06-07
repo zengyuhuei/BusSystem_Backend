@@ -629,7 +629,6 @@ def set_busGPS():
 @app.route('/getbusNumber', methods=['POST'])
 @login_required
 def get_busNumber():
-    print("SSSSS")
     response = {"status":"ok"}
     try:
         data = request.get_json()
@@ -713,8 +712,7 @@ def get_history_info():
     response = {"status":"ok"}
     try:
         data = request.get_json()
-        data["time"] = datetime.strptime(data["time"], '%Y-%m-%d')
-        print(data)
+        data["time"] = datetime.strptime(data["time"], '%Y/%m/%d')
         response = model.get_history_info_from_db(data)
 
     except Exception as e:
@@ -733,12 +731,23 @@ def updateDriverState():
         print(str(e))
         
    return jsonify(response)
+@app.route('/setSurplusIntoDb', methods=['POST'])
+@login_required
+def setSurplusIntoDB():
+    response = {"status":"ok"}
+    try:
+        data = request.get_json()
+        print(data)
+        data["time"] = datetime.strptime(data["time"], '%Y/%m/%d')
+        model.set_surplus_into_db(data)
 
+    except Exception as e:
+        response["status"] = "error"
+    return jsonify(response)
 @app.route('/getDriverState', methods=['POST'])
 @login_required
 def getDriverState():   
    response = {"status":"ok"}
-   print("XXXX") 
    try:
         data = request.get_json()
         response = model.get_driver_state(data)
