@@ -55,7 +55,7 @@
 						data: "json",
 						dataType: "json",
 						contentType : 'application/json',
-						url: "http://140.121.198.84:3000/startSetbusStop",
+						url: "http://127.0.0.1:3000/startSetbusStop",
 						data:JSON.stringify({
 							"email": localStorage.account,
 							"day": "SUN",
@@ -78,7 +78,7 @@
 							type: 'POST',
 							data : 'json',
 							contentType : 'application/json',
-							url: "http://140.121.198.84:3000/updateDriverState",
+							url: "http://127.0.0.1:3000/updateDriverState",
 							data:JSON.stringify({
 								"driver":localStorage.getItem("driver"),
 								"state1":"0",
@@ -98,7 +98,7 @@
 						data: "json",
 						dataType: "json",
 						contentType : 'application/json',
-						url: "http://140.121.198.84:3000/setbusStop",
+						url: "http://127.0.0.1:3000/setbusStop",
 						data:JSON.stringify({
 									"email": localStorage.account,
 									"day": "SUN",
@@ -154,7 +154,7 @@
 						data: "json",
 						dataType: "json",
 						contentType : 'application/json',
-						url: "http://140.121.198.84:3000/setbusGPS",
+						url: "http://127.0.0.1:3000/setbusGPS",
 						data:JSON.stringify({
 							"email": localStorage.account,
 							"day": "SUN",
@@ -178,7 +178,7 @@
 						data: "json",
 						dataType: "json",
 						contentType : 'application/json',
-						url: "http://140.121.198.84:3000/setbusGPS",
+						url: "http://127.0.0.1:3000/setbusGPS",
 						data:JSON.stringify({
 							"email": localStorage.account,
 							"day": "SUN",
@@ -211,7 +211,7 @@
 					dataType: "json",
 					contentType : 'application/json',
 
-					url: "http://140.121.198.84:3000/setbusGPS",
+					url: "http://127.0.0.1:3000/setbusGPS",
 					data:JSON.stringify({
 					"email": localStorage.account,
 					"day": "SUN",
@@ -231,7 +231,7 @@
 					type: 'POST',
 					data : 'json',
 					contentType : 'application/json',
-					url: "http://140.121.198.84:3000/updateDriverState",
+					url: "http://127.0.0.1:3000/updateDriverState",
 					data:JSON.stringify({
 						"driver":localStorage.getItem("driver"),
 						"state1":"1",

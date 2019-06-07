@@ -5,6 +5,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		<title>基隆公車調派系統-歷史紀錄</title>
 		<script src="{{ url_for('static', filename='js/jquery-3.4.1.min.js') }}"></script>
+		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC3RdvutneSQCHgWDr4t7AAhKNx7jmMFz0"></script>
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.1/js/tempusdominus-bootstrap-4.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
@@ -17,11 +18,12 @@
 		<link href="{{ url_for('static', filename='css/main.css') }}" rel="stylesheet">
 		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
 		<script src="{{url_for('static', filename='js/historical_record.js')}}"></script>
+		<script src="{{url_for('static', filename='js/manager_index.js')}}"></script>
 		<script src = "{{url_for('static', filename='js/websocket_open.js')}}"></script>
 	</head>
 
 
-    <body onload="start()">
+    <body onload="start_his()">
 
 	   <nav class="navbar navbar-expand-xl navbar-dark bg-dark" id="mainNav">
 		  <div class="container">

@@ -629,6 +629,7 @@ def set_busGPS():
 @app.route('/getbusNumber', methods=['POST'])
 @login_required
 def get_busNumber():
+    print("SSSSS")
     response = {"status":"ok"}
     try:
         data = request.get_json()
@@ -696,21 +697,17 @@ def set_on_bus_off_bus():
 @app.route('/get_name', methods=['POST'])
 @login_required
 def get_name():   
-   print("aaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
    response = {"status":"ok"}
    print(response) 
    try:
         getdata = request.get_json()
-        print(getdata)
         response = model.get_driver_name_from_db(getdata)
-        print(response)
    except Exception as e:
         response["status"] = "error"
         print(str(e))
         
    return jsonify(response)
 
-<<<<<<< HEAD
 @app.route('/getHistory', methods=['POST'])
 def get_history_info():
     response = {"status":"ok"}

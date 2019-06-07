@@ -308,6 +308,7 @@ class Model:
     def get_busNumber_from_db(self, data):
         client = pymongo.MongoClient('mongodb://'+self._user+':'+self._password+'@140.121.198.84:27017/')
         db = client['KeelungBusSystem']
+        print("SSSS")
         result = list(db["route"].find({},{"_id" : 0, "bus_route": 1}))
         return json.dumps(result)
 		
@@ -486,7 +487,6 @@ class Model:
         return driver_state    
     
     def get_driver_name_from_db(self, data):
-        print("bbbbbbbbbbbbbbbbbbbbb")
         user = list()
         client = pymongo.MongoClient('mongodb://'+self._user+':'+self._password+'@140.121.198.84:27017/')
         db = client['KeelungBusSystem']
@@ -515,8 +515,6 @@ class Model:
     def update_driver_state(self,data):
         client = pymongo.MongoClient('mongodb://'+self._user+':'+self._password+'@140.121.198.84:27017/')
         db = client['KeelungBusSystem']
-        print(data)
-        print(db["shift"].find_one({"driver":data["driver"],"state":data["state1"]}))
         db["shift"].update_one({"driver":data["driver"],"state":data["state1"]}, {"$set":{"state":data["state2"]}})
         print("ZZZZZ")
     def get_driver_state(self,data):

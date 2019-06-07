@@ -38,6 +38,5 @@ function setName()
 				//window.location.href = response.redirect;
 		}// 成功後要執行的函數
 	});
-	$(".manager_name").html(localStorage.getItem("name"));
-	
+	$(".manager_name").html(localStorage.getItem("name"));	
 }
