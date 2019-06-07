@@ -47,7 +47,7 @@ function load(route){
 		data: "json",
 		dataType: "json",
 		contentType : 'application/json',
-		url: "http://127.0.0.1:3000/getRoute",
+		url: "http://140.121.198.84:3000/getRoute",
 		data:JSON.stringify({
 			"route": route
 		}),
@@ -145,7 +145,7 @@ function createTable(route,time)
 	type: 'POST',
 	dataType : 'json',
 	contentType : 'application/json',
-	url: "http://127.0.0.1:3000/getHistory",
+	url: "http://140.121.198.84:3000/getHistory",
 	data:JSON.stringify({
 		"route":route,
 		"time": time
@@ -181,7 +181,7 @@ function start_his()
 			type: 'POST',
 			dataType : 'json',
 			contentType : 'application/json',
-			url: "http://127.0.0.1:3000/getbusNumber",
+			url: "http://140.121.198.84:3000/getbusNumber",
 			data:JSON.stringify({
 				
 			}),
