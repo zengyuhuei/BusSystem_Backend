@@ -1,4 +1,3 @@
-
 var map;
 var intervalControl;
 var directionsService;
@@ -13,11 +12,18 @@ $(document).ready(function(){
 		$("#map").show();
 		$("#bus").show();
 		let route = $("#inputRoute").val();
-		let time = $("#date").val();
-		
+		let time = $("#date").val();		
 		load(route);
 		console.log(route);
 		console.log(time);
+		var table = document.getElementById("busTable");
+		if(table.rows!=null)
+		{
+			for(var i=table.rows.length - 1; i > 0; i--)
+			{
+				table.deleteRow(i);
+			}
+		}		
 		createTable(route,time);
 	})
 
@@ -47,7 +53,7 @@ function load(route){
 		data: "json",
 		dataType: "json",
 		contentType : 'application/json',
-		url: "http://140.121.198.84:3000/getRoute",
+		url: "http://127.0.0.1:3000/getRoute",
 		data:JSON.stringify({
 			"route": route
 		}),
@@ -145,7 +151,7 @@ function createTable(route,time)
 	type: 'POST',
 	dataType : 'json',
 	contentType : 'application/json',
-	url: "http://140.121.198.84:3000/getHistory",
+	url: "http://127.0.0.1:3000/getHistory",
 	data:JSON.stringify({
 		"route":route,
 		"time": time
@@ -159,12 +165,12 @@ function createTable(route,time)
 			var actions = $("table td:last-child").html();
 			var index = $("table tbody tr:last-child").index();
 			var row = '<tr>' +
-					'<td>'+(i+1)+'</td>'+
-					'<td>'+response[i]['Start_time']+'</td>' +
-					'<td>'+response[i]['Driver']+'</td>' +
-					'<td>'+response[i]['totalNumOfPassengers']+'</td>'+
-					'<td>'+response[i]['FuelConsumption']+'</td>'+
-					'<td>'+response[i]['surplus']+'</td>'+
+					'<td align="center" valign="middle">'+(i+1)+'</td>'+
+					'<td align="center" valign="middle">'+response[i]['Start_time']+'</td>' +
+					'<td align="center" valign="middle">'+response[i]['Driver']+'</td>' +
+					'<td align="center" valign="middle">'+response[i]['totalNumOfPassengers']+'</td>'+
+					'<td align="center" valign="middle">'+response[i]['FuelConsumption']+'</td>'+
+					'<td align="center" valign="middle">'+response[i]['surplus']+'</td>'+
 					'</tr>';
 					$("table").append(row);				
 			i=i+1;
@@ -181,7 +187,7 @@ function start_his()
 			type: 'POST',
 			dataType : 'json',
 			contentType : 'application/json',
-			url: "http://140.121.198.84:3000/getbusNumber",
+			url: "http://127.0.0.1:3000/getbusNumber",
 			data:JSON.stringify({
 				
 			}),
