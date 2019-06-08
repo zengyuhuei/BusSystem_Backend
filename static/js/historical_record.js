@@ -2,10 +2,12 @@ var map;
 var intervalControl;
 var directionsService;
 var directionsDisplay;
-var jj = [];
+var obj = [];
 var markers = [];
 var historyRecord = [];
-
+var stopOnBusInfo = [];
+var stopOffBusInfo = [];
+var stopBusArrivalInfo = [];
 
 
 $(document).ready(function(){
@@ -14,7 +16,7 @@ $(document).ready(function(){
 		$("#bus").show();
 		let route = $("#inputRoute").val();
 		let time = $("#date").val();		
-		load(route);
+		load(route,time);
 		console.log(route);
 		console.log(time);
 		var table = document.getElementById("busTable");
@@ -47,15 +49,16 @@ $(document).ready(function(){
 	});
 	
 });
-function load(route){
+function load(route, time){
 	$.ajax({
 		type: "POST",
 		data: "json",
 		dataType: "json",
 		contentType : 'application/json',
-		url: "http://127.0.0.1:3000/getRoute",
+		url: "http://127.0.0.1:3000/getHistoryRoute",
 		data:JSON.stringify({
-			"route": route
+			"route": route,
+			"time" : time
 		}),
 		success: function(response) {
 			returnRoute(response);
@@ -67,7 +70,7 @@ function load(route){
 }
 function returnRoute(json)
 {
-	var obj = Object.keys(json).map(function(_) { return json[_]; });
+	obj = Object.keys(json).map(function(_) { return json[_]; });
 	
 	var waypts = [];
 	for(var j = 0; j < markers.length ; j++){
@@ -97,12 +100,7 @@ function returnRoute(json)
 	directionsService.route( point, function(response, status) {
 		if (status == 'OK') {
 			// 回傳路線上每個步驟的細節
-			var stopOnBusInfo = [];
-			var stopOffBusInfo = [];
-			var stopBusArrivalInfo = [];
-			stopOnBusInfo = historyRecord[0].onBus;
-			stopOffBusInfo = historyRecord[0].offBus;
-			stopBusArrivalInfo = historyRecord[0].Arrival_time;
+			
 			for(var i = 0; i < obj.length; i++)
 			{
 				// 加入地圖標記
@@ -162,7 +160,7 @@ function createTable(route,time)
 			$('[data-toggle="tooltip"]').tooltip();
 			var actions = $("table td:last-child").html();
 			var index = $("table tbody tr:last-child").index();
-			var row = '<tr  class=clickable-row>' +
+			var row = '<tr  onclick=clickaction(this) id=' + i + '>' +
 					'<td align="center" valign="middle">'+(i+1)+'</td>'+
 					'<td align="center" valign="middle">'+response[i]['Start_time']+'</td>' +
 					'<td align="center" valign="middle">'+response[i]['Driver']+'</td>' +
@@ -174,15 +172,51 @@ function createTable(route,time)
 			i=i+1;
 		}		
 		console.log("success qwq");
-		
-		$('#busTable tr').click(function(){
-			$(this).toggleClass('red'); 
-			console.log("hello fatty ouo");
-		});
 	}// 成功後要執行的函數
 })
 	console.log("hello fatty =u=|||");
 }
+
+function clickaction(tr){
+	console.log(tr.id);
+	stopOnBusInfo = historyRecord[tr.id].onBus;
+	console.log("stopOnBusInfo===="+stopOnBusInfo);
+	stopOffBusInfo = historyRecord[tr.id].offBus;
+	stopBusArrivalInfo = historyRecord[tr.id].Arrival_time;
+	for(var j = 0; j < markers.length ; j++){
+		console.log("set bus stop marker null");
+		markers[j].setPosition(null);
+		markers[j].setMap(null);
+		markers[j]=null;
+	}
+	markers = [];
+	for(var i = 0; i < obj.length; i++)
+			{
+				// 加入地圖標記
+				markers[i] = new google.maps.Marker({
+					position: obj[i],
+					map: map,
+					label: { text: ''+i, color: "#fff" },
+					data: obj[i].route,
+					data2: stopOnBusInfo[i],
+					data3: stopOffBusInfo[i],
+					data4: stopBusArrivalInfo[i],
+					zIndex:1
+				});
+				// 加入資訊視窗
+				var infowindow = new google.maps.InfoWindow();
+				//infowindows[i].open(map, markers[i]);
+
+				// 加入地圖標記點擊事件
+				markers[i].addListener('click', function () {
+						console.log("ouo");		
+						infowindow.setContent( "<p>站牌名稱: " + this.data + "</p><p>上車人數: " + this.data2 + "</p><p>下車人數: " + this.data3 + "</p><p>到站時間: " + this.data4 + "</p>");
+						infowindow.open(map, this);
+				});
+				
+			}
+}
+
 function start_his()
 {
 	var xString = '';

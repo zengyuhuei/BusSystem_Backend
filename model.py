@@ -534,4 +534,37 @@ class Model:
         surplus = (totalNumOfPassenger * 15) - fuelConsumption
         
         db["history"].update_one({"_id": target_list["_id"]}, {"$set": {"surplus" : surplus}})
-        
+
+
+
+    #歷史資訊拿路線
+    def get_history_route_from_db(self, bus_route):
+        position = list()
+        date_list = list()
+        client = pymongo.MongoClient('mongodb://'+self._user+':'+self._password+'@140.121.198.84:27017/')
+        db = client['KeelungBusSystem']
+        route_name = bus_route["route"] #前端傳回來的路線
+        time = datetime.strptime(bus_route["time"], '%Y/%m/%d')
+        print(time)
+
+        cols = db.collection_names()
+        print("cols:%s" %cols)
+        for ss in cols:
+            print("ss:%s" %ss)
+            if len(ss)>14:
+                date_list.append(ss[:19])
+        print("date_list:%s" %date_list)
+
+        for c in date_list:
+            print("c:%s" %c)
+            print("date:%s" %datetime.strptime(c,'%Y-%m-%d %H:%M:%S').timestamp())
+        s = sorted(date_list, key=lambda date:datetime.strptime(date,'%Y-%m-%d %H:%M:%S').timestamp())
+        print("s:%s" %s)
+
+        route_result = db["route"].find_one({'bus_route' : route_name})
+        for i in range(1,len(route_result)-1):
+            bus_stop=route_result[str(i)]
+            position.append(db["busRoad_coor"].find_one({"route" : bus_stop},{"_id" : 0, "route": 1, "lat": 1, "lng": 1 }))
+        return position
+  
+    
