@@ -280,7 +280,7 @@ def modify_shift():
             success = "修改成功"
         else:
             response["status"] = "我要搞爆他"
-            error = "修改失敗" 
+            error = "修改失敗-司機還未結束上個工作" 
     except Exception as e:
         response["status"] = "error"
         response["error"] = str(e)

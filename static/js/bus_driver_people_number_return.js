@@ -76,7 +76,7 @@ $(document).ready(function(){
 			url: "http://127.0.0.1:3000/peoplenum_to_db",
 			data:JSON.stringify({
 				"driver":localStorage.account,
-				"day": "SUN",
+				"day": day_list[day],
 				"start_time": "7:00",
 				"peoplenum": people_number1,
 			}),
