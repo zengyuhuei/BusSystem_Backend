@@ -7,6 +7,7 @@ var markers = [];
 var historyRecord = [];
 
 
+
 $(document).ready(function(){
 	$("#yes").click(function() {
 		$("#map").show();
@@ -44,6 +45,7 @@ $(document).ready(function(){
 	$('#birthday').datetimepicker({
 		format: 'YYYY/MM/DD'
 	});
+	
 });
 function load(route){
 	$.ajax({
@@ -160,7 +162,7 @@ function createTable(route,time)
 			$('[data-toggle="tooltip"]').tooltip();
 			var actions = $("table td:last-child").html();
 			var index = $("table tbody tr:last-child").index();
-			var row = '<tr>' +
+			var row = '<tr  class=clickable-row>' +
 					'<td align="center" valign="middle">'+(i+1)+'</td>'+
 					'<td align="center" valign="middle">'+response[i]['Start_time']+'</td>' +
 					'<td align="center" valign="middle">'+response[i]['Driver']+'</td>' +
@@ -171,8 +173,15 @@ function createTable(route,time)
 					$("table").append(row);				
 			i=i+1;
 		}		
+		console.log("success qwq");
+		
+		$('#busTable tr').click(function(){
+			$(this).toggleClass('red'); 
+			console.log("hello fatty ouo");
+		});
 	}// 成功後要執行的函數
 })
+	console.log("hello fatty =u=|||");
 }
 function start_his()
 {
@@ -200,6 +209,7 @@ function start_his()
 			}// 成功後要執行的函數
 		}).done(result => resolve(xString))
 	}).then(result => setData(xString))
+	
 	websocket_init();
 }
 

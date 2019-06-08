@@ -8,6 +8,11 @@ $(document).ready(function(){
 	})
 	$(".manager_name").html(localStorage.getItem("name"));
 });
+$(function(){
+    $('td').click(function(){
+        $(this).toggleClass('red'); 
+    });
+});
 function setTable(response)
 { 
 	console.log("CC");
