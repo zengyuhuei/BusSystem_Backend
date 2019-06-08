@@ -1,11 +1,10 @@
-
 var map;
 var intervalControl;
 var directionsService;
 var directionsDisplay;
-var jj=[];
-var marker1 = [];
+var jj = [];
 var markers = [];
+var historyRecord = [];
 
 
 $(document).ready(function(){
@@ -32,8 +31,6 @@ $(document).ready(function(){
 		suppressMarkers: true // 單純畫路線，不要顯示 marker
 	});
 
-
-
 	// 放置路線圖層
 	directionsDisplay.setMap(map);
 	$(".manager_name").html(localStorage.getItem("name"));
@@ -52,7 +49,6 @@ function load(route){
 			"route": route
 		}),
 		success: function(response) {
-			console.log(response);
 			returnRoute(response);
 		},
 		error: function(xhr, type) {
@@ -63,17 +59,6 @@ function load(route){
 function returnRoute(json)
 {
 	var obj = Object.keys(json).map(function(_) { return json[_]; });
-	console.log(obj);
-	console.log(obj.length);
-	/*var bus_coor = [
-		{lat: 25.135139, lng: 121.782333},
-		{lat: 25.139583, lng: 121.789444},
-		{lat: 25.135306, lng: 121.784750},
-		{lat: 25.142389, lng: 121.789306}
-	]*/
-	
-	//var jj = returnGPS(bus_coor);
-	console.log(jj);
 	
 	var waypts = [];
 	for(var j = 0; j < markers.length ; j++){
@@ -103,6 +88,12 @@ function returnRoute(json)
 	directionsService.route( point, function(response, status) {
 		if (status == 'OK') {
 			// 回傳路線上每個步驟的細節
+			var stopOnBusInfo = [];
+			var stopOffBusInfo = [];
+			var stopBusArrivalInfo = [];
+			stopOnBusInfo = historyRecord[0].onBus;
+			stopOffBusInfo = historyRecord[0].offBus;
+			stopBusArrivalInfo = historyRecord[0].Arrival_time;
 			for(var i = 0; i < obj.length; i++)
 			{
 				// 加入地圖標記
@@ -111,7 +102,9 @@ function returnRoute(json)
 					map: map,
 					label: { text: ''+i, color: "#fff" },
 					data: obj[i].route,
-					data2: "https://www.google.com.tw/", //影像連結 一起從json拿出
+					data2: stopOnBusInfo[i],
+					data3: stopOffBusInfo[i],
+					data4: stopBusArrivalInfo[i],
 					zIndex:1
 				});
 				// 加入資訊視窗
@@ -121,7 +114,7 @@ function returnRoute(json)
 				// 加入地圖標記點擊事件
 				markers[i].addListener('click', function () {
 						console.log("ouo");		
-						infowindow.setContent( this.data +'<br><a href='+ this.data2 +' target="_blank">查看即時影像</a>');
+						infowindow.setContent( "<p>站牌名稱: " + this.data + "</p><p>上車人數: " + this.data2 + "</p><p>下車人數: " + this.data3 + "</p><p>到站時間: " + this.data4 + "</p>");
 						infowindow.open(map, this);
 				});
 				
@@ -153,6 +146,8 @@ function createTable(route,time)
 		error: function (xhr) { 
 		},      // 錯誤後執行的函數
 		success: function (response) {
+		console.log(response);
+		historyRecord = response;
 		while(response[i]!=null)
 		{
 			$('[data-toggle="tooltip"]').tooltip();
