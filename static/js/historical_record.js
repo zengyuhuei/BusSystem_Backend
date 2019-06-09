@@ -71,7 +71,6 @@ function load(route, time){
 function returnRoute(json)
 {
 	obj = Object.keys(json).map(function(_) { return json[_]; });
-	
 	var waypts = [];
 	for(var j = 0; j < markers.length ; j++){
 		console.log("set bus stop marker null");

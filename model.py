@@ -541,6 +541,7 @@ class Model:
     def get_history_route_from_db(self, bus_route):
         position = list()
         date_list = list()
+        history_collection = list()
         client = pymongo.MongoClient('mongodb://'+self._user+':'+self._password+'@140.121.198.84:27017/')
         db = client['KeelungBusSystem']
         route_name = bus_route["route"] #前端傳回來的路線
@@ -548,23 +549,40 @@ class Model:
         print(time)
 
         cols = db.collection_names()
-        print("cols:%s" %cols)
         for ss in cols:
-            print("ss:%s" %ss)
             if len(ss)>14:
                 date_list.append(ss[:19])
-        print("date_list:%s" %date_list)
 
-        for c in date_list:
-            print("c:%s" %c)
-            print("date:%s" %datetime.strptime(c,'%Y-%m-%d %H:%M:%S').timestamp())
-        s = sorted(date_list, key=lambda date:datetime.strptime(date,'%Y-%m-%d %H:%M:%S').timestamp())
-        print("s:%s" %s)
+        dateSort = sorted(date_list, key=lambda date:datetime.strptime(date,'%Y-%m-%d %H:%M:%S').timestamp())
 
-        route_result = db["route"].find_one({'bus_route' : route_name})
-        for i in range(1,len(route_result)-1):
-            bus_stop=route_result[str(i)]
-            position.append(db["busRoad_coor"].find_one({"route" : bus_stop},{"_id" : 0, "route": 1, "lat": 1, "lng": 1 }))
-        return position
+        for i in dateSort:
+            nowDate = datetime.strptime(i,'%Y-%m-%d %H:%M:%S').timestamp() - time.timestamp()
+            if nowDate>0:
+                realDate = nowDate + time.timestamp()
+                DateCollection = datetime.fromtimestamp(realDate)
+                break
+
+        if nowDate<0:
+            route_result = db["route"].find_one({'bus_route' : route_name})
+            for i in range(1,len(route_result)-1):
+                bus_stop=route_result[str(i)]
+                position.append(db["busRoad_coor"].find_one({"route" : bus_stop},{"_id" : 0, "route": 1, "lat": 1, "lng": 1 }))
+            return position
+        else:
+            DateCollection = DateCollection.strftime("%Y-%m-%d")
+            print(DateCollection)
+
+            for kk in cols:
+                if kk[:10] == DateCollection:
+                    history_collection.append(kk)
+            print(history_collection[0])
+
+            route_result = db[history_collection[1]].find_one({'bus_route' : route_name}, {"_id" : 0})
+            for i in range(1,len(route_result)-1):
+                bus_stop=route_result[str(i)]
+                position.append(db[history_collection[0]].find_one({"route" : bus_stop},{"_id" : 0, "route": 1, "lat": 1, "lng": 1 }))
+            return position
+
+       
   
     
