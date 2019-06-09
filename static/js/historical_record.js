@@ -55,7 +55,7 @@ function load(route, time){
 		data: "json",
 		dataType: "json",
 		contentType : 'application/json',
-		url: "http://140.121.198.84:3000/getHistoryRoute",
+		url: "http://127.0.0.1:3000/getHistoryRoute",
 		data:JSON.stringify({
 			"route": route,
 			"time" : time
@@ -144,7 +144,7 @@ function createTable(route,time)
 	type: 'POST',
 	dataType : 'json',
 	contentType : 'application/json',
-	url: "http://140.121.198.84:3000/getHistory",
+	url: "http://127.0.0.1:3000/getHistory",
 	data:JSON.stringify({
 		"route":route,
 		"time": time
@@ -159,7 +159,7 @@ function createTable(route,time)
 			$('[data-toggle="tooltip"]').tooltip();
 			var actions = $("table td:last-child").html();
 			var index = $("table tbody tr:last-child").index();
-			var row = '<tr  onclick=clickaction(this) id=' + i + '>' +
+			var row = '<tr onclick=clickaction(this) id=' + i + '>' +
 					'<td align="center" valign="middle">'+(i+1)+'</td>'+
 					'<td align="center" valign="middle">'+response[i]['Start_time']+'</td>' +
 					'<td align="center" valign="middle">'+response[i]['Driver']+'</td>' +
@@ -171,9 +171,17 @@ function createTable(route,time)
 			i=i+1;
 		}		
 		console.log("success qwq");
+
+		$('tr').hover(function(){
+			$(this).css("background-color","#DDDDDD");
+			console.log("hi");
+			},function(){
+			$(this).css("background-color","");
+			});
 	}// 成功後要執行的函數
 })
 	console.log("hello fatty =u=|||");
+  
 }
 
 function clickaction(tr){
@@ -225,7 +233,7 @@ function start_his()
 			type: 'POST',
 			dataType : 'json',
 			contentType : 'application/json',
-			url: "http://140.121.198.84:3000/getbusNumber",
+			url: "http://127.0.0.1:3000/getbusNumber",
 			data:JSON.stringify({
 				
 			}),
