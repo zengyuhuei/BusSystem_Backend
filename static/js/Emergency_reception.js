@@ -17,7 +17,7 @@ function setDriver()
 		(resolve,reject)=>{
     $.ajax({
         type: 'POST',
-        url: "http://127.0.0.1:3000/getbusDriverforWeb",
+        url: "http://140.121.198.84:3000/getbusDriverforWeb",
         data:'json',
         dataType:'json',
         contentType:'json',
@@ -41,7 +41,7 @@ function setDriver()
     function initialize() {
       $.ajax({
         type: 'POST',
-        url: "http://127.0.0.1:3000/getbusDriverforWeb",
+        url: "http://140.121.198.84:3000/getbusDriverforWeb",
         data:'json',
         dataType:'json',
         contentType:'json',
@@ -65,7 +65,7 @@ function setDriver()
           mapOptions);
       $.ajax({
         type: 'POST',
-        url: "http://127.0.0.1:3000/getDriverState",
+        url: "http://140.121.198.84:3000/getDriverState",
         data:'json',
         dataType:'json',
         contentType:'json',

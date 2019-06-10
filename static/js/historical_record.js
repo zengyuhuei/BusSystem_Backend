@@ -27,7 +27,7 @@ $(document).ready(function(){
 				table.deleteRow(i);
 			}
 		}		
-		createTable(route,time);
+		createTable(time);
 	})
 
 	// 初始化地圖
@@ -55,7 +55,7 @@ function load(route, time){
 		data: "json",
 		dataType: "json",
 		contentType : 'application/json',
-		url: "http://127.0.0.1:3000/getHistoryRoute",
+		url: "http://140.121.198.84:3000/getHistoryRoute",
 		data:JSON.stringify({
 			"route": route,
 			"time" : time
@@ -137,16 +137,15 @@ function setData(xString)
 	document.getElementById("inputState").innerHTML += '<select class="form-control" id="inputRoute">'+xString+'</select>';
 }
 
-function createTable(route,time)
+function createTable(time)
 {
 	var i = 0;
 	$.ajax({
 	type: 'POST',
 	dataType : 'json',
 	contentType : 'application/json',
-	url: "http://127.0.0.1:3000/getHistory",
+	url: "http://140.121.198.84:3000/getHistory",
 	data:JSON.stringify({
-		"route":route,
 		"time": time
 	}),
 		error: function (xhr) { 
@@ -160,7 +159,7 @@ function createTable(route,time)
 			var actions = $("table td:last-child").html();
 			var index = $("table tbody tr:last-child").index();
 			var row = '<tr onclick=clickaction(this) id=' + i + '>' +
-					'<td align="center" valign="middle">'+(i+1)+'</td>'+
+					'<td align="center" valign="middle">'+response[i]['Route']+'</td>'+
 					'<td align="center" valign="middle">'+response[i]['Start_time']+'</td>' +
 					'<td align="center" valign="middle">'+response[i]['Driver']+'</td>' +
 					'<td align="center" valign="middle">'+response[i]['totalNumOfPassengers']+'</td>'+
@@ -233,7 +232,7 @@ function start_his()
 			type: 'POST',
 			dataType : 'json',
 			contentType : 'application/json',
-			url: "http://127.0.0.1:3000/getbusNumber",
+			url: "http://140.121.198.84:3000/getbusNumber",
 			data:JSON.stringify({
 				
 			}),

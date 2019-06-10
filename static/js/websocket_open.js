@@ -3,7 +3,7 @@ function websocket_init()
 {
     // Connect to Web Socket
     var i = 0;
-    ws = new WebSocket("ws://127.0.0.1:9001/");
+    ws = new WebSocket("ws://140.121.198.84:9001/");
     // Set event handlers.
     ws.onopen = function() 
     {
@@ -23,7 +23,7 @@ function websocket_init()
         
         var answer = confirm("是否要跳轉至突發接收頁面?") //把確認框賦值給answer
         if(answer) //判斷是否點選確定
-          window.location ="http://127.0.0.1:3000/Emergency_reception" //確定的話遊覽器自身跳轉
+          window.location ="http://140.121.198.84:3000/Emergency_reception" //確定的話遊覽器自身跳轉
       }
       else if(from[0] == "C")
       {
@@ -61,7 +61,7 @@ function sendMessageToManager()
     type: 'POST',
     data : 'json',
     contentType : 'application/json',
-    url: "http://127.0.0.1:3000/updateDriverState",
+    url: "http://140.121.198.84:3000/updateDriverState",
     data:JSON.stringify({
       "driver":localStorage.getItem("driver"),
       "state1":"1",
@@ -99,7 +99,7 @@ function solveEmergency()
     type: 'POST',
     data : 'json',
     contentType : 'application/json',
-    url: "http://127.0.0.1:3000/updateDriverState",
+    url: "http://140.121.198.84:3000/updateDriverState",
     data:JSON.stringify({
       "driver":localStorage.getItem("driver"),
       "state1":"2",

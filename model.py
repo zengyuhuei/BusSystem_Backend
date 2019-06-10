@@ -495,7 +495,7 @@ class Model:
     def get_history_info_from_db(self, data):
         client = pymongo.MongoClient('mongodb://'+self._user+':'+self._password+'@140.121.198.84:27017/')
         db = client["KeelungBusSystem"]
-        result = db["history"].find({"Route" : data['route'],"Bus_shift" : 1})
+        result = db["history"].find({"Bus_shift" : 1})
         history_info = list()
         for history in result:
             sec = (history['Date'] - data['time']).total_seconds()

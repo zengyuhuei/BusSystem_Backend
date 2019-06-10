@@ -73,7 +73,7 @@ $(document).ready(function(){
 			data: "json",
 			dataType: "json",
 			contentType : 'application/json',
-			url: "http://127.0.0.1:3000/peoplenum_to_db",
+			url: "http://140.121.198.84:3000/peoplenum_to_db",
 			data:JSON.stringify({
 				"driver":localStorage.account,
 				"day": day_list[day],
@@ -95,7 +95,7 @@ $(document).ready(function(){
 			data: "json",
 			dataType: "json",
 			contentType : 'application/json',
-			url: "http://127.0.0.1:3000/setonBusoffBus",
+			url: "http://140.121.198.84:3000/setonBusoffBus",
 			data:JSON.stringify({
 				"email":localStorage.account,
 				"start_time": "7:00",
