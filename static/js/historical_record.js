@@ -8,6 +8,7 @@ var historyRecord = [];
 var stopOnBusInfo = [];
 var stopOffBusInfo = [];
 var stopBusArrivalInfo = [];
+var time;
 
 $(document).ready(function(){
 	$(".manager_name").html(localStorage.getItem("name"));
@@ -15,7 +16,7 @@ $(document).ready(function(){
 		$("#map").show();
 		$("#bus").show();
 		//let route = $("#inputRoute").val();
-		let time = $("#date").val();		
+		time = $("#date").val();		
 		//load(route,time);
 		var table = document.getElementById("busTable");
 		if(table.rows!=null)
@@ -147,16 +148,17 @@ function createTable(time)
 		"time": time
 	}),
 		error: function (xhr) { 
+			console.log("XXXX")
 		},      // 錯誤後執行的函數
 		success: function (response) {
 		console.log(response);
 		historyRecord = response;
+		console.log(response);
 		while(response[i]!=null)
 		{
 			$('[data-toggle="tooltip"]').tooltip();
 			var actions = $("table td:last-child").html();
 			var index = $("table tbody tr:last-child").index();
-			console.log(response);
 			var row = '<tr onclick=clickaction(this) id=' + i + '>' +
 					'<td align="center" valign="middle" style=display:none class="time">'+time+'</td>'+
 					'<td align="center" valign="middle">'+response[i]['Route']+'</td>'+
