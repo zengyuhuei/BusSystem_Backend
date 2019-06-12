@@ -16,9 +16,12 @@ $(document).ready(function(){
 		$("#map").show();
 		$("#bus").show();
 		//let route = $("#inputRoute").val();
+		console.log("AAAA")
 		time = $("#date").val();		
+		console.log("BBBB")
 		//load(route,time);
 		var table = document.getElementById("busTable");
+		console.log("CCCC")
 		if(table.rows!=null)
 		{
 			for(var i=table.rows.length - 1; i > 0; i--)
@@ -26,7 +29,7 @@ $(document).ready(function(){
 				table.deleteRow(i);
 			}
 		}		
-		console.log("AAAA")
+		console.log("DDDDD")
 		createTable(time);
 	})
 
