@@ -11,6 +11,7 @@ var stopBusArrivalInfo = [];
 var chooseTime = time;
 
 $(document).ready(function(){
+	$(".manager_name").html(localStorage.getItem("name"));
 	$("#yes").click(function() {
 		$("#map").show();
 		$("#bus").show();
@@ -43,7 +44,7 @@ $(document).ready(function(){
 
 	// 放置路線圖層
 	directionsDisplay.setMap(map);
-	$(".manager_name").html(localStorage.getItem("name"));
+	
 	$('#birthday').datetimepicker({
 		format: 'YYYY/MM/DD'
 	});
