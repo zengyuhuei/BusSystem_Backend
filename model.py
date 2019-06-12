@@ -503,6 +503,7 @@ class Model:
         history_info = list()
         for history in result:
             sec = (history['Date'] - data['time']).total_seconds()
+            print(sec)
             if sec <= 86400 and sec >= 0:
                 del history['_id']
                 del history['Date']
