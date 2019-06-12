@@ -8,7 +8,7 @@ var historyRecord = [];
 var stopOnBusInfo = [];
 var stopOffBusInfo = [];
 var stopBusArrivalInfo = [];
-
+var chooseTime = time;
 
 $(document).ready(function(){
 	$("#yes").click(function() {
@@ -16,9 +16,7 @@ $(document).ready(function(){
 		$("#bus").show();
 		let route = $("#inputRoute").val();
 		let time = $("#date").val();		
-		load(route,time);
-		console.log(route);
-		console.log(time);
+		//load(route,time);
 		var table = document.getElementById("busTable");
 		if(table.rows!=null)
 		{
@@ -28,6 +26,8 @@ $(document).ready(function(){
 			}
 		}		
 		createTable(time);
+		choooseTime = time;
+		console.log("chooooooooooooooose"+chooseTime);
 	})
 
 	// 初始化地圖
@@ -189,7 +189,9 @@ function clickaction(tr){
 	console.log("stopOnBusInfo===="+stopOnBusInfo);
 	stopOffBusInfo = historyRecord[tr.id].offBus;
 	stopBusArrivalInfo = historyRecord[tr.id].Arrival_time;
-	for(var j = 0; j < markers.length ; j++){
+	var chooseRoute = historyRecord[tr.id].Route;	
+	load(chooseRoute, chooseTime);
+	/*for(var j = 0; j < markers.length ; j++){
 		console.log("set bus stop marker null");
 		markers[j].setPosition(null);
 		markers[j].setMap(null);
@@ -197,30 +199,30 @@ function clickaction(tr){
 	}
 	markers = [];
 	for(var i = 0; i < obj.length; i++)
-			{
-				// 加入地圖標記
-				markers[i] = new google.maps.Marker({
-					position: obj[i],
-					map: map,
-					label: { text: ''+i, color: "#fff" },
-					data: obj[i].route,
-					data2: stopOnBusInfo[i],
-					data3: stopOffBusInfo[i],
-					data4: stopBusArrivalInfo[i],
-					zIndex:1
-				});
-				// 加入資訊視窗
-				var infowindow = new google.maps.InfoWindow();
-				//infowindows[i].open(map, markers[i]);
+	{
+		// 加入地圖標記
+		markers[i] = new google.maps.Marker({
+			position: obj[i],
+			map: map,
+			label: { text: ''+i, color: "#fff" },
+			data: obj[i].route,
+			data2: stopOnBusInfo[i],
+			data3: stopOffBusInfo[i],
+			data4: stopBusArrivalInfo[i],
+			zIndex:1
+		});
+		// 加入資訊視窗
+		var infowindow = new google.maps.InfoWindow();
+		//infowindows[i].open(map, markers[i]);
 
-				// 加入地圖標記點擊事件
-				markers[i].addListener('click', function () {
-						console.log("ouo");		
-						infowindow.setContent( "<p>站牌名稱: " + this.data + "</p><p>上車人數: " + this.data2 + "</p><p>下車人數: " + this.data3 + "</p><p>到站時間: " + this.data4 + "</p>");
-						infowindow.open(map, this);
-				});
-				
-			}
+		// 加入地圖標記點擊事件
+		markers[i].addListener('click', function () {
+				console.log("ouo");		
+				infowindow.setContent( "<p>站牌名稱: " + this.data + "</p><p>上車人數: " + this.data2 + "</p><p>下車人數: " + this.data3 + "</p><p>到站時間: " + this.data4 + "</p>");
+				infowindow.open(map, this);
+		});
+		
+	}*/
 }
 
 function start_his()
