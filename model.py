@@ -527,6 +527,7 @@ class Model:
         driverShift_list = list()
         for x in db["history"].find({"Driver": data['driver']}, {"_id" : 1, "Driver" : 1, "totalNumOfPassengers" : 1, "FuelConsumption" : 1}):
             driverShift_list.append(x)
+            print("CCC")
         target_list = driverShift_list[-1]
 
         totalNumOfPassenger = target_list['totalNumOfPassengers']

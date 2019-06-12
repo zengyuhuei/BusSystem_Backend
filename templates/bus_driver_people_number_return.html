@@ -228,7 +228,7 @@
 					contentType : 'application/json',
 					url: "http://140.121.198.84:3000/setSurplusIntoDb",
 					data:JSON.stringify({
-						"driver":localStorage.getItem("driver"),
+						"driver":localStorage.getItem("name"),
 						"time":Today.getFullYear()+"/"+ (Today.getMonth()+1)+"/" +Today.getDate()
 					}),
 						error: function (xhr) {},      // 錯誤後執行的函數
