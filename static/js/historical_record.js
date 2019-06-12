@@ -189,7 +189,7 @@ function clickaction(tr){
 	stopOffBusInfo = historyRecord[tr.id].offBus;
 	stopBusArrivalInfo = historyRecord[tr.id].Arrival_time;
 	var chooseRoute = historyRecord[tr.id].Route;
-	var chooseTime = document.getElementsByClassName("time");
+	var chooseTime = document.getElementsByClassName("time")[0];
 	console.log("chooooooooooose"+chooseTime);
 	load(chooseRoute, chooseTime);
 	/*for(var j = 0; j < markers.length ; j++){
