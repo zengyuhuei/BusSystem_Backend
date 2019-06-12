@@ -8,7 +8,7 @@ var historyRecord = [];
 var stopOnBusInfo = [];
 var stopOffBusInfo = [];
 var stopBusArrivalInfo = [];
-var chooseTime = time;
+var chooseTime;
 
 $(document).ready(function(){
 	$(".manager_name").html(localStorage.getItem("name"));
