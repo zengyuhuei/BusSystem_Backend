@@ -156,6 +156,7 @@ function createTable(time)
 			$('[data-toggle="tooltip"]').tooltip();
 			var actions = $("table td:last-child").html();
 			var index = $("table tbody tr:last-child").index();
+			console.log(response);
 			var row = '<tr onclick=clickaction(this) id=' + i + '>' +
 					'<td align="center" valign="middle" style=display:none class="time">'+time+'</td>'+
 					'<td align="center" valign="middle">'+response[i]['Route']+'</td>'+
