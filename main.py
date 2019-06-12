@@ -733,19 +733,7 @@ def updateDriverState():
         
    return jsonify(response)
 
-@app.route('/setSurplusIntoDb', methods=['POST'])
-@login_required
-def setSurplusIntoDB():
-    response = {"status":"ok"}
-    try:
-        data = request.get_json()
-        print(data)
-        data["time"] = datetime.strptime(data["time"], '%Y/%m/%d')
-        model.set_surplus_into_db(data)
 
-    except Exception as e:
-        response["status"] = "error"
-    return jsonify(response)
 
 @app.route('/getDriverState', methods=['POST'])
 @login_required

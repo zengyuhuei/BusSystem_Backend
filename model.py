@@ -302,7 +302,7 @@ class Model:
             surplus = total*15 - fuel
             print("surplus")
             print(surplus)
-            db["history"].update_one({'Driver' : driver, "Start_time" : time, "Bus_shift" : 0}, {"$set": { "Bus_shift" : 1, "totalNumOfPassengers" : total, "FuelConsumption" : surplus}})
+            db["history"].update_one({'Driver' : driver, "Start_time" : time, "Bus_shift" : 0}, {"$set": { "Bus_shift" : 1, "totalNumOfPassengers" : total, "surplus" : surplus}})
         else:
             db["shift"].update_one({"driver" : driver, "day" : day, 'start_time' : time}, {"$set": { "lat": flat, "lng": flng}}) 
         position = "good"
@@ -525,19 +525,6 @@ class Model:
             emer.append(x)
         return emer
 
-    def set_surplus_into_db(self, data):
-        client = pymongo.MongoClient('mongodb://'+self._user+':'+self._password+'@140.121.198.84:27017/')
-        db = client['KeelungBusSystem']
-        driverShift_list = list()
-        for x in db["history"].find({"Driver": data['driver']}, {"_id" : 1, "Driver" : 1, "totalNumOfPassengers" : 1, "FuelConsumption" : 1}):
-            driverShift_list.append(x)
-        target_list = driverShift_list[-1]
-
-        totalNumOfPassenger = target_list['totalNumOfPassengers']
-        fuelConsumption = target_list['FuelConsumption']
-        surplus = (totalNumOfPassenger * 15) - fuelConsumption
-        print(totalNumOfPassenger,fuelConsumption,surplus)
-        #db["history"].update_one({"_id": target_list["_id"]}, {"$set": {"surplus" : surplus}})
 
 
 
