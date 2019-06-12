@@ -26,6 +26,7 @@ $(document).ready(function(){
 				table.deleteRow(i);
 			}
 		}		
+		console.log("AAAA")
 		createTable(time);
 	})
 
@@ -138,6 +139,7 @@ function setData(xString)
 
 function createTable(time)
 {
+	console.log("BBB")
 	var i = 0;
 	$.ajax({
 	type: 'POST',
@@ -153,7 +155,6 @@ function createTable(time)
 		success: function (response) {
 		console.log(response);
 		historyRecord = response;
-		console.log(response);
 		while(response[i]!=null)
 		{
 			$('[data-toggle="tooltip"]').tooltip();
