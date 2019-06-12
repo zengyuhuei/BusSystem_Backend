@@ -532,7 +532,7 @@ class Model:
         totalNumOfPassenger = target_list['totalNumOfPassengers']
         fuelConsumption = target_list['FuelConsumption']
         surplus = (totalNumOfPassenger * 15) - fuelConsumption
-        
+        print(totalNumOfPassenger,fuelConsumption,surplus)
         db["history"].update_one({"_id": target_list["_id"]}, {"$set": {"surplus" : surplus}})
 
 
