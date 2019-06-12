@@ -713,8 +713,9 @@ def get_history_info():
     try:
         data = request.get_json()
         data["time"] = datetime.strptime(data["time"], '%Y/%m/%d')
+        print(data['time'])
         response = model.get_history_info_from_db(data)
-
+        print(response)
     except Exception as e:
         response["status"] = "error"
     return jsonify(response)
