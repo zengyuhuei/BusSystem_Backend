@@ -15,7 +15,7 @@ $(document).ready(function(){
 	$("#yes").click(function() {
 		$("#map").show();
 		$("#bus").show();
-		let route = $("#inputRoute").val();
+		//let route = $("#inputRoute").val();
 		let time = $("#date").val();		
 		//load(route,time);
 		var table = document.getElementById("busTable");
@@ -135,7 +135,7 @@ function returnRoute(json)
 }
 function setData(xString)
 {
-	document.getElementById("inputState").innerHTML += '<select class="form-control" id="inputRoute">'+xString+'</select>';
+	//qdocument.getElementById("inputState").innerHTML += '<select class="form-control" id="inputRoute">'+xString+'</select>';
 }
 
 function createTable(time)
