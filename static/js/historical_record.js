@@ -8,7 +8,6 @@ var historyRecord = [];
 var stopOnBusInfo = [];
 var stopOffBusInfo = [];
 var stopBusArrivalInfo = [];
-var chooseTime;
 
 $(document).ready(function(){
 	$(".manager_name").html(localStorage.getItem("name"));
@@ -27,8 +26,6 @@ $(document).ready(function(){
 			}
 		}		
 		createTable(time);
-		choooseTime = time;
-		console.log("chooooooooooooooose"+chooseTime);
 	})
 
 	// 初始化地圖
@@ -160,6 +157,7 @@ function createTable(time)
 			var actions = $("table td:last-child").html();
 			var index = $("table tbody tr:last-child").index();
 			var row = '<tr onclick=clickaction(this) id=' + i + '>' +
+					'<td align="center" valign="middle" style=display:none class="time">'+time+'</td>'+
 					'<td align="center" valign="middle">'+response[i]['Route']+'</td>'+
 					'<td align="center" valign="middle">'+response[i]['Start_time']+'</td>' +
 					'<td align="center" valign="middle">'+response[i]['Driver']+'</td>' +
@@ -190,7 +188,9 @@ function clickaction(tr){
 	console.log("stopOnBusInfo===="+stopOnBusInfo);
 	stopOffBusInfo = historyRecord[tr.id].offBus;
 	stopBusArrivalInfo = historyRecord[tr.id].Arrival_time;
-	var chooseRoute = historyRecord[tr.id].Route;	
+	var chooseRoute = historyRecord[tr.id].Route;
+	var chooseTime = document.getElementsByClassName("time");
+	console.log("chooooooooooose"+chooseTime);
 	load(chooseRoute, chooseTime);
 	/*for(var j = 0; j < markers.length ; j++){
 		console.log("set bus stop marker null");
