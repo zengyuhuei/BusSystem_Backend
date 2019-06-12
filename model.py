@@ -290,15 +290,19 @@ class Model:
         #時間還沒都進去 不知道格式 **
         if 'peoplenum' in data.keys():
             db["shift"].update_one({"driver" : driver, "day" : day, 'start_time' : time}, {"$set": { "lat": flat, "lng": flng, "peoplenum": peoplenum}})
-            history_info = db["history"].find_one({'Driver' : driver, 'Start_time' : time, "Bus_shift" : 0}, {"_id" : 0, "onBus" : 1})
+            history_info = db["history"].find_one({'Driver' : driver, 'Start_time' : time, "Bus_shift" : 0}, {"_id" : 0, "onBus" : 1, "FuelConsumption" : 1})
             total = 0
             on = []
             on = history_info['onBus']
+            fuel = history_info['FuelConsumption']
             for i in range(0,len(on)-1):
                 total = total + on[i]
             print("total")
             print(total)
-            db["history"].update_one({'Driver' : driver, "Start_time" : time, "Bus_shift" : 0}, {"$set": { "Bus_shift" : 1, "totalNumOfPassengers" : total}})
+            surplus = total*15 - fuel
+            print("surplus")
+            print(surplus)
+            db["history"].update_one({'Driver' : driver, "Start_time" : time, "Bus_shift" : 0}, {"$set": { "Bus_shift" : 1, "totalNumOfPassengers" : total, "FuelConsumption" : surplus}})
         else:
             db["shift"].update_one({"driver" : driver, "day" : day, 'start_time' : time}, {"$set": { "lat": flat, "lng": flng}}) 
         position = "good"
@@ -527,14 +531,13 @@ class Model:
         driverShift_list = list()
         for x in db["history"].find({"Driver": data['driver']}, {"_id" : 1, "Driver" : 1, "totalNumOfPassengers" : 1, "FuelConsumption" : 1}):
             driverShift_list.append(x)
-            print("CCC")
         target_list = driverShift_list[-1]
 
         totalNumOfPassenger = target_list['totalNumOfPassengers']
         fuelConsumption = target_list['FuelConsumption']
         surplus = (totalNumOfPassenger * 15) - fuelConsumption
         print(totalNumOfPassenger,fuelConsumption,surplus)
-        db["history"].update_one({"_id": target_list["_id"]}, {"$set": {"surplus" : surplus}})
+        #db["history"].update_one({"_id": target_list["_id"]}, {"$set": {"surplus" : surplus}})
 
 
 
