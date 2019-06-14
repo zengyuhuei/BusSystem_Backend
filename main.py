@@ -713,11 +713,13 @@ def get_history_info():
     try:
         data = request.get_json()
         data["time"] = datetime.strptime(data["time"], '%Y/%m/%d')
+        print(data['time'])
         response = model.get_history_info_from_db(data)
-
+        print(response)
     except Exception as e:
         response["status"] = "error"
     return jsonify(response)
+
 @app.route('/updateDriverState', methods=['POST'])
 @login_required
 def updateDriverState():   
@@ -731,19 +733,9 @@ def updateDriverState():
         print(str(e))
         
    return jsonify(response)
-@app.route('/setSurplusIntoDb', methods=['POST'])
-@login_required
-def setSurplusIntoDB():
-    response = {"status":"ok"}
-    try:
-        data = request.get_json()
-        print(data)
-        data["time"] = datetime.strptime(data["time"], '%Y/%m/%d')
-        model.set_surplus_into_db(data)
 
-    except Exception as e:
-        response["status"] = "error"
-    return jsonify(response)
+
+
 @app.route('/getDriverState', methods=['POST'])
 @login_required
 def getDriverState():   
@@ -757,5 +749,16 @@ def getDriverState():
         print(str(e))
         
    return jsonify(response)
+
+@app.route('/getHistoryRoute', methods=['POST'])
+def get_history_route():
+    response = {"status":"ok"}
+    try:
+        getRoute = request.get_json()
+        response = model.get_history_route_from_db(getRoute)
+    except Exception as e:
+        response["status"] = "error"
+    return jsonify(response)
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=3000, debug=True)

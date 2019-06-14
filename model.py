@@ -290,15 +290,19 @@ class Model:
         #時間還沒都進去 不知道格式 **
         if 'peoplenum' in data.keys():
             db["shift"].update_one({"driver" : driver, "day" : day, 'start_time' : time}, {"$set": { "lat": flat, "lng": flng, "peoplenum": peoplenum}})
-            history_info = db["history"].find_one({'Driver' : driver, 'Start_time' : time, "Bus_shift" : 0}, {"_id" : 0, "onBus" : 1})
+            history_info = db["history"].find_one({'Driver' : driver, 'Start_time' : time, "Bus_shift" : 0}, {"_id" : 0, "onBus" : 1, "FuelConsumption" : 1})
             total = 0
             on = []
             on = history_info['onBus']
+            fuel = history_info['FuelConsumption']
             for i in range(0,len(on)-1):
                 total = total + on[i]
             print("total")
             print(total)
-            db["history"].update_one({'Driver' : driver, "Start_time" : time, "Bus_shift" : 0}, {"$set": { "Bus_shift" : 1, "totalNumOfPassengers" : total}})
+            surplus = total*15 - fuel
+            print("surplus")
+            print(surplus)
+            db["history"].update_one({'Driver' : driver, "Start_time" : time, "Bus_shift" : 0}, {"$set": { "Bus_shift" : 1, "totalNumOfPassengers" : total, "surplus" : surplus}})
         else:
             db["shift"].update_one({"driver" : driver, "day" : day, 'start_time' : time}, {"$set": { "lat": flat, "lng": flng}}) 
         position = "good"
@@ -495,10 +499,11 @@ class Model:
     def get_history_info_from_db(self, data):
         client = pymongo.MongoClient('mongodb://'+self._user+':'+self._password+'@140.121.198.84:27017/')
         db = client["KeelungBusSystem"]
-        result = db["history"].find({"Route" : data['route'],"Bus_shift" : 1})
+        result = db["history"].find({"Bus_shift" : 1})
         history_info = list()
         for history in result:
             sec = (history['Date'] - data['time']).total_seconds()
+            print(sec)
             if sec <= 86400 and sec >= 0:
                 del history['_id']
                 del history['Date']
@@ -522,17 +527,55 @@ class Model:
             emer.append(x)
         return emer
 
-    def set_surplus_into_db(self, data):
+
+
+
+    #歷史資訊拿路線
+    def get_history_route_from_db(self, bus_route):
+        position = list()
+        date_list = list()
+        history_collection = list()
         client = pymongo.MongoClient('mongodb://'+self._user+':'+self._password+'@140.121.198.84:27017/')
         db = client['KeelungBusSystem']
-        driverShift_list = list()
-        for x in db["history"].find({"Driver": data['driver']}, {"_id" : 1, "Driver" : 1, "totalNumOfPassengers" : 1, "FuelConsumption" : 1}):
-            driverShift_list.append(x)
-        target_list = driverShift_list[-1]
+        route_name = bus_route["route"] #前端傳回來的路線
+        time = datetime.strptime(bus_route["time"], '%Y/%m/%d')
+        print(time)
 
-        totalNumOfPassenger = target_list['totalNumOfPassengers']
-        fuelConsumption = target_list['FuelConsumption']
-        surplus = (totalNumOfPassenger * 15) - fuelConsumption
-        
-        db["history"].update_one({"_id": target_list["_id"]}, {"$set": {"surplus" : surplus}})
-        
+        cols = db.collection_names()
+        for ss in cols:
+            if len(ss)>14:
+                date_list.append(ss[:19])
+
+        dateSort = sorted(date_list, key=lambda date:datetime.strptime(date,'%Y-%m-%d %H:%M:%S').timestamp())
+
+        for i in dateSort:
+            nowDate = datetime.strptime(i,'%Y-%m-%d %H:%M:%S').timestamp() - time.timestamp()
+            if nowDate>0:
+                realDate = nowDate + time.timestamp()
+                DateCollection = datetime.fromtimestamp(realDate)
+                break
+
+        if nowDate<0:
+            route_result = db["route"].find_one({'bus_route' : route_name})
+            for i in range(1,len(route_result)-1):
+                bus_stop=route_result[str(i)]
+                position.append(db["busRoad_coor"].find_one({"route" : bus_stop},{"_id" : 0, "route": 1, "lat": 1, "lng": 1 }))
+            return position
+        else:
+            DateCollection = DateCollection.strftime("%Y-%m-%d")
+            print(DateCollection)
+
+            for kk in cols:
+                if kk[:10] == DateCollection:
+                    history_collection.append(kk)
+            print(history_collection[0])
+
+            route_result = db[history_collection[1]].find_one({'bus_route' : route_name}, {"_id" : 0})
+            for i in range(1,len(route_result)-1):
+                bus_stop=route_result[str(i)]
+                position.append(db[history_collection[0]].find_one({"route" : bus_stop},{"_id" : 0, "route": 1, "lat": 1, "lng": 1 }))
+            return position
+
+       
+  
+    

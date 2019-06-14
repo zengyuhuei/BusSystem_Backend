@@ -1,24 +1,36 @@
-
 var map;
 var intervalControl;
 var directionsService;
 var directionsDisplay;
-var jj=[];
-var marker1 = [];
+var obj = [];
 var markers = [];
-
+var historyRecord = [];
+var stopOnBusInfo = [];
+var stopOffBusInfo = [];
+var stopBusArrivalInfo = [];
+var time;
 
 $(document).ready(function(){
+	$(".manager_name").html(localStorage.getItem("name"));
 	$("#yes").click(function() {
 		$("#map").show();
 		$("#bus").show();
-		let route = $("#inputRoute").val();
-		let time = $("#date").val();
-		
-		load(route);
-		console.log(route);
-		console.log(time);
-		createTable(route,time);
+		//let route = $("#inputRoute").val();
+		console.log("AAAA")
+		time = $("#date").val();		
+		console.log("BBBB")
+		//load(route,time);
+		var table = document.getElementById("busTable");
+		console.log("CCCC")
+		if(table.rows!=null)
+		{
+			for(var i=table.rows.length - 1; i > 0; i--)
+			{
+				table.deleteRow(i);
+			}
+		}		
+		console.log("DDDDD")
+		createTable(time);
 	})
 
 	// 初始化地圖
@@ -32,27 +44,26 @@ $(document).ready(function(){
 		suppressMarkers: true // 單純畫路線，不要顯示 marker
 	});
 
-
-
 	// 放置路線圖層
 	directionsDisplay.setMap(map);
-	$(".manager_name").html(localStorage.getItem("name"));
+	
 	$('#birthday').datetimepicker({
 		format: 'YYYY/MM/DD'
 	});
+	
 });
-function load(route){
+function load(route, time){
 	$.ajax({
 		type: "POST",
 		data: "json",
 		dataType: "json",
 		contentType : 'application/json',
-		url: "http://140.121.198.84:3000/getRoute",
+		url: "http://140.121.198.84:3000/getHistoryRoute",
 		data:JSON.stringify({
-			"route": route
+			"route": route,
+			"time" : time
 		}),
 		success: function(response) {
-			console.log(response);
 			returnRoute(response);
 		},
 		error: function(xhr, type) {
@@ -62,19 +73,7 @@ function load(route){
 }
 function returnRoute(json)
 {
-	var obj = Object.keys(json).map(function(_) { return json[_]; });
-	console.log(obj);
-	console.log(obj.length);
-	/*var bus_coor = [
-		{lat: 25.135139, lng: 121.782333},
-		{lat: 25.139583, lng: 121.789444},
-		{lat: 25.135306, lng: 121.784750},
-		{lat: 25.142389, lng: 121.789306}
-	]*/
-	
-	//var jj = returnGPS(bus_coor);
-	console.log(jj);
-	
+	obj = Object.keys(json).map(function(_) { return json[_]; });
 	var waypts = [];
 	for(var j = 0; j < markers.length ; j++){
 		console.log("set bus stop marker null");
@@ -103,6 +102,7 @@ function returnRoute(json)
 	directionsService.route( point, function(response, status) {
 		if (status == 'OK') {
 			// 回傳路線上每個步驟的細節
+			
 			for(var i = 0; i < obj.length; i++)
 			{
 				// 加入地圖標記
@@ -111,7 +111,9 @@ function returnRoute(json)
 					map: map,
 					label: { text: ''+i, color: "#fff" },
 					data: obj[i].route,
-					data2: "https://www.google.com.tw/", //影像連結 一起從json拿出
+					data2: stopOnBusInfo[i],
+					data3: stopOffBusInfo[i],
+					data4: stopBusArrivalInfo[i],
 					zIndex:1
 				});
 				// 加入資訊視窗
@@ -121,7 +123,7 @@ function returnRoute(json)
 				// 加入地圖標記點擊事件
 				markers[i].addListener('click', function () {
 						console.log("ouo");		
-						infowindow.setContent( this.data +'<br><a href='+ this.data2 +' target="_blank">查看即時影像</a>');
+						infowindow.setContent( "<p>站牌名稱: " + this.data + "</p><p>上車人數: " + this.data2 + "</p><p>下車人數: " + this.data3 + "</p><p>到站時間: " + this.data4 + "</p>");
 						infowindow.open(map, this);
 				});
 				
@@ -135,11 +137,12 @@ function returnRoute(json)
 }
 function setData(xString)
 {
-	document.getElementById("inputState").innerHTML += '<select class="form-control" id="inputRoute">'+xString+'</select>';
+	//qdocument.getElementById("inputState").innerHTML += '<select class="form-control" id="inputRoute">'+xString+'</select>';
 }
 
-function createTable(route,time)
+function createTable(time)
 {
+	console.log("BBB")
 	var i = 0;
 	$.ajax({
 	type: 'POST',
@@ -147,31 +150,89 @@ function createTable(route,time)
 	contentType : 'application/json',
 	url: "http://140.121.198.84:3000/getHistory",
 	data:JSON.stringify({
-		"route":route,
 		"time": time
 	}),
 		error: function (xhr) { 
+			console.log("XXXX")
 		},      // 錯誤後執行的函數
 		success: function (response) {
+		console.log(response);
+		historyRecord = response;
 		while(response[i]!=null)
 		{
 			$('[data-toggle="tooltip"]').tooltip();
 			var actions = $("table td:last-child").html();
 			var index = $("table tbody tr:last-child").index();
-			var row = '<tr>' +
-					'<td>'+(i+1)+'</td>'+
-					'<td>'+response[i]['Start_time']+'</td>' +
-					'<td>'+response[i]['Driver']+'</td>' +
-					'<td>'+response[i]['totalNumOfPassengers']+'</td>'+
-					'<td>'+response[i]['FuelConsumption']+'</td>'+
-					'<td>'+response[i]['surplus']+'</td>'+
+			var row = '<tr onclick=clickaction(this) id=' + i + '>' +
+					'<td align="center" valign="middle" style=display:none class="time">'+time+'</td>'+
+					'<td align="center" valign="middle">'+response[i]['Route']+'</td>'+
+					'<td align="center" valign="middle">'+response[i]['Start_time']+'</td>' +
+					'<td align="center" valign="middle">'+response[i]['Driver']+'</td>' +
+					'<td align="center" valign="middle">'+response[i]['totalNumOfPassengers']+'</td>'+
+					'<td align="center" valign="middle">'+response[i]['FuelConsumption']+'</td>'+
+					'<td align="center" valign="middle">'+response[i]['surplus']+'</td>'+
 					'</tr>';
 					$("table").append(row);				
 			i=i+1;
 		}		
+		console.log("success qwq");
+
+		$('tr').hover(function(){
+			$(this).css("background-color","#DDDDDD");
+			console.log("hi");
+			},function(){
+			$(this).css("background-color","");
+			});
 	}// 成功後要執行的函數
 })
+	console.log("hello fatty =u=|||");
+  
 }
+
+function clickaction(tr){
+	console.log(tr.id);
+	stopOnBusInfo = historyRecord[tr.id].onBus;
+	console.log("stopOnBusInfo===="+stopOnBusInfo);
+	stopOffBusInfo = historyRecord[tr.id].offBus;
+	stopBusArrivalInfo = historyRecord[tr.id].Arrival_time;
+	var chooseRoute = historyRecord[tr.id].Route;
+	var chooseTime = document.getElementsByClassName("time")[0].innerHTML;
+	console.log("chooooooooooose"+chooseTime);
+	load(chooseRoute, chooseTime);
+	/*for(var j = 0; j < markers.length ; j++){
+		console.log("set bus stop marker null");
+		markers[j].setPosition(null);
+		markers[j].setMap(null);
+		markers[j]=null;
+	}
+	markers = [];
+	for(var i = 0; i < obj.length; i++)
+	{
+		// 加入地圖標記
+		markers[i] = new google.maps.Marker({
+			position: obj[i],
+			map: map,
+			label: { text: ''+i, color: "#fff" },
+			data: obj[i].route,
+			data2: stopOnBusInfo[i],
+			data3: stopOffBusInfo[i],
+			data4: stopBusArrivalInfo[i],
+			zIndex:1
+		});
+		// 加入資訊視窗
+		var infowindow = new google.maps.InfoWindow();
+		//infowindows[i].open(map, markers[i]);
+
+		// 加入地圖標記點擊事件
+		markers[i].addListener('click', function () {
+				console.log("ouo");		
+				infowindow.setContent( "<p>站牌名稱: " + this.data + "</p><p>上車人數: " + this.data2 + "</p><p>下車人數: " + this.data3 + "</p><p>到站時間: " + this.data4 + "</p>");
+				infowindow.open(map, this);
+		});
+		
+	}*/
+}
+
 function start_his()
 {
 	var xString = '';
@@ -198,6 +259,7 @@ function start_his()
 			}// 成功後要執行的函數
 		}).done(result => resolve(xString))
 	}).then(result => setData(xString))
+	
 	websocket_init();
 }
 

@@ -15,6 +15,26 @@
 
 		<script>
 			let count = 0;
+			var restartCheck = 0;
+			var date;
+			date = new Date(); //日期对象 
+			var day_list = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
+    	var day  = date.getDay();
+
+			function pause()
+			{
+				if(restartCheck==0){
+					clearTimeout(myVar);
+					restartCheck = 1;
+				}
+				else{
+					start();
+					restartCheck = 0;
+				}
+				
+				console.log("pause run");
+			}
+
 			function load()
 			{
 			    $(".driver_name").html(localStorage.getItem("name"));
@@ -23,13 +43,6 @@
 			}
 			function start()
 			{
-				console.log("ouo");
-				var date2 = new Date(); //日期对象 
-				var now2 = "";
-				now2 = now2 + date2.getHours()+":"; 
-				now2 = now2 + date2.getMinutes();
-
-
 				if(count<busLocation.length){
 					$.ajax({
 					
@@ -40,7 +53,7 @@
 					url: "http://140.121.198.84:3000/setbusGPS",
 					data:JSON.stringify({
 						"email": localStorage.account,
-						"day": "SUN",
+						"day": day_list[day],
 						"start_time": "7:00",
 						"lat": busLocation[count].lat,
 						"lng": busLocation[count].lng
@@ -64,7 +77,7 @@
 					url: "http://140.121.198.84:3000/setbusGPS",
 					data:JSON.stringify({
 						"email": localStorage.account,
-						"day": "SUN",
+						"day": day_list[day],
 						"start_time": "7:00",
 						"lat": 0,
 						"lng": 0
@@ -89,7 +102,7 @@
 					url: "http://140.121.198.84:3000/setbusStop",
 					data:JSON.stringify({
 								"email": localStorage.account,
-								"day": "SUN",
+								"day": day_list[day],
 								"start_time": "7:00"
 						}),
 						success: function(response) {
@@ -152,8 +165,9 @@
 			  </div>
 			</form>
 			<div>
-				<input type="submit" class="btn btn-primary"  onclick='sendMessageToManager()'>
-				<button type="button" class="btn btn-danger" onclick='solveEmergency()'>狀況已排除</button>
+				<input type="submit" class="btn btn-primary btn-lg"  onclick='sendMessageToManager()'>
+				<button type="button" class="btn btn-danger btn-lg" onclick='solveEmergency()'>狀況已排除</button>
+				<button type="button" class="btn btn-secondary btn-lg" onclick='pause()'>暫停/重啟</button>
 			</div>
 		</div>
 
