@@ -63,7 +63,7 @@ function sendMessageToManager()
     contentType : 'application/json',
     url: "http://140.121.198.84:3000/updateDriverState",
     data:JSON.stringify({
-      "driver":localStorage.getItem("driver"),
+      "driver":localStorage.getItem("name"),
       "state1":"1",
       "state2":"2"
     }),
