@@ -516,7 +516,7 @@ class Model:
         print(data)
         client = pymongo.MongoClient('mongodb://'+self._user+':'+self._password+'@140.121.198.84:27017/')
         db = client['KeelungBusSystem']
-        db["shift"].update_one({"driver":data["driver"],"state":data["state1"]}, {"$set":{"state":data["state2"]}})
+        db["shift"].update_one({"driver":data["name"],"state":data["state1"]}, {"$set":{"state":data["state2"]}})
 
     def get_driver_state(self,data):
         client = pymongo.MongoClient('mongodb://'+self._user+':'+self._password+'@140.121.198.84:27017/')
