@@ -64,8 +64,8 @@ function sendMessageToManager()
     url: "http://140.121.198.84:3000/updateDriverState",
     data:JSON.stringify({
       "name":localStorage.getItem("name"),
-      "state1":"1",
-      "state2":"2"
+      "state1":1,
+      "state2":2
     }),
       error: function (xhr) { },      // 錯誤後執行的函數
       success: function (response) { }// 成功後要執行的函數
