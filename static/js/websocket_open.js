@@ -101,9 +101,9 @@ function solveEmergency()
     contentType : 'application/json',
     url: "http://140.121.198.84:3000/updateDriverState",
     data:JSON.stringify({
-      "driver":localStorage.getItem("driver"),
-      "state1":"2",
-      "state2":"1"
+      "driver":localStorage.getItem("name"),
+      "state1":2,
+      "state2":1
     }),
       error: function (xhr) { },      // 錯誤後執行的函數
       success: function (response) {
