@@ -79,18 +79,20 @@ function setDriver()
               marker1[j] = new google.maps.Marker({
                 position:myLatLng,
                 map: map,
-                icon:'../static/picture/FotoJet.png',
+                icon:'../static/picture/FotoJet.png'
               });
               var message = "發生事故<br>司機:"+marker1[j]['driver']+"<br>時間:<br>位於:<br>狀況:";
-              var infowindow = new google.maps.InfoWindow({
-                content: message
+              var infowindow = new google.maps.InfoWindow();
+              marker1[j].addListener('click', function () {	
+                infowindow.setContent(message);
+                infowindow.open(map, this);
               });
-              google.maps.event.addListener(marker1[j], 'mouseover', function() {
+              /*google.maps.event.addListener(marker1[j], 'mouseover', function() {
                 infowindow.open(marker.get('map'), marker1[j]);
               });
               google.maps.event.addListener(marker1[j], 'mouseout', function() {
                 infowindow.close(marker1[j].get('map'), marker1[j]);
-              });
+              });*/
             }
         }// 成功後要執行的函數
       })
