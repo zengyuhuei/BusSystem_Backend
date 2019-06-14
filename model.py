@@ -517,7 +517,7 @@ class Model:
         client = pymongo.MongoClient('mongodb://'+self._user+':'+self._password+'@140.121.198.84:27017/')
         db = client['KeelungBusSystem']
         print(db["shift"].find_one({"driver":data["driver"]}))
-        if data["state"] == 0:
+        if data["state1"] == 0:
             db["shift"].update_one({"driver":data["driver"],"lat" : { "$gt": 0 },"lng":{"$gt":0},"state":data["state1"]}, {"$set":{"state":data["state2"]}})
         else:
             db["shift"].update_one({"driver":data["driver"],"state":data["state1"]}, {"$set":{"state":data["state2"]}})
