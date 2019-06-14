@@ -526,7 +526,7 @@ class Model:
         db = client['KeelungBusSystem']
         mycol = db['shift']
         emer = list()
-        for x in mycol.find({"state":"2"}, {"_id" : 0}):
+        for x in mycol.find({"state":2}, {"_id" : 0}):
             emer.append(x)
         return emer
 
