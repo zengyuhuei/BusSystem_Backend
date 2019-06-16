@@ -105,6 +105,12 @@ function returnRoute(json)
 	directionsDisplay.setMap(map);
 	var waypts = [];
 	var markers = [];
+	for(var j = 0; j < markers.length ; j++){
+		console.log("set bus stop marker null");
+		markers[j].setPosition(null);
+		markers[j].setMap(null);
+		markers[j]=null;
+	}
 
 		for (var i = 1; i < obj.length-1; i++) {
 			waypts.push({
