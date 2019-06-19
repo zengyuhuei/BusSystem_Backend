@@ -76,7 +76,7 @@ function setDriver()
             for(var j = 0; j < marker1.length ; j++){
               console.log("CCCC")
               console.log(marker1[j]['driver'])
-              var message = "發生事故<br>司機:"+marker1[j]['driver']+"<br>時間:"+marker1[j]["arrival_time"]+"<br>位於:<br>狀況:"+localStorage.getItem(marker1[j]['driver']);
+              var message = "發生事故<br>司機:"+marker1[j]['driver']+"<br>時間:"+marker1[j]["arrival_time"]+"<br>位於:<br>狀況:";
               console.log(marker1[j])
               var myLatLng = {lat:parseFloat(marker1[j]['lat']),lng:parseFloat(marker1[j]['lng'])};
               marker1[j] = new google.maps.Marker({
