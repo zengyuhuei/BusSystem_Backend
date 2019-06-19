@@ -17,10 +17,14 @@ function websocket_init()
       from = String(e.data).split(":",1);
       if(from[0]=="B")
       {
+        var c = e.data.split(" ",1)
+        var d = e.data.split("發生意外:",2)
+        console.log(c)
+        console.log(d)
+        localStorage.setItem(c[0],d[1])
         var ans = prompt(e.data.slice(2),"回傳");
         returnMessageToDriver(" 管理員:"+ans);
         var x = e.data.split(/[:\n]/);
-        
         var answer = confirm("是否要跳轉至突發接收頁面?") //把確認框賦值給answer
         if(answer) //判斷是否點選確定
           window.location ="http://140.121.198.84:3000/Emergency_reception" //確定的話遊覽器自身跳轉
