@@ -247,7 +247,7 @@ $(document).ready(function(){
 				x.html('<select type="text" class="form-control" name="driver" id="driver">'+optionString+'</select>');
 			}// 成功後要執行的函數
 		});	
-			$(this).parents("tr").find("td:nth-child(3)").html('<select type="text" class="form-control" name="time" id="time"><option>'+time+'</option><option>7:20</option><option>7:40</option><option>8:00</option><option>8:20</option><option>8:40</option><option>9:00</option><option>9:20</option>'+
+			$(this).parents("tr").find("td:nth-child(3)").html('<select type="text" class="form-control" name="time" id="time"><option>'+time+'</option><option>7:00</option><option>7:20</option><option>7:40</option><option>8:00</option><option>8:20</option><option>8:40</option><option>9:00</option><option>9:20</option>'+
 			'<option>9:40</option><option>10:00</option><option>10:20</option><option>10:40</option><option>11:00</option><option>11:20</option><option>11:40</option><option>12:00</option><option>12:20</option><option>12:40</option>'+
 			'<option>13:00</option><option>13:20</option><option>13:40</option><option>14:00</option><option>14:20</option><option>14:40</option><option>15:00</option><option>15:20</option><option>15:40</option><option>16:00</option></select>');
 		});		

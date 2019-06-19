@@ -126,7 +126,8 @@ class Model:
         name = data["driver"]
         day = data["day"]
         result = list(db["shift"].find({"day" : day, "driver" : name},{ "start_time": 1}))
-        for i in range(0,len(result)-1):
+        for i in range(0,len(result)):
+            print(abs(result[i]['start_time']-time).seconds)
             if abs(result[i]['start_time']-time).seconds/3600 < 1:
                 info['inserted_id'] = '0'
                 return info
