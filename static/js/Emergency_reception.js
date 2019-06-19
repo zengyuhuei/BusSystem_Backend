@@ -73,7 +73,7 @@ function setDriver()
           success: function (response) {
             console.log(response)
             marker2 = response
-            for(var j = 0; j < marker1.length ; j++){
+            for(var j = 0; j < marker2.length ; j++){
               console.log(marker1[j])
               var message = "發生事故<br>司機:"+marker2[j]['driver']+"<br>時間:<br>位於:<br>狀況:";
               var myLatLng = {lat:parseFloat(marker2[j]['lat']),lng:parseFloat(marker2[j]['lng'])};
