@@ -325,9 +325,9 @@ def add_shift():
         result = model.add_shift_to_db(data)
         print(result)
        
-        if result['inserted_id'] == "少於一個小時":
+        if result['inserted_id'] == '0':
             response["status"] = "error"
-            error = result['inserted_id']
+            error = "少於一小時"
         else:
             success = "新增成功"
     except Exception as e:
