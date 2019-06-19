@@ -323,8 +323,10 @@ def add_shift():
         data["start_time"] = datetime.strptime(data["start_time"], '%H:%M')
         # 把 DICT 加到資料庫
         result = model.add_shift_to_db(data)
+        print(result)
         result_dict = json.loads(result)
         inserted_id = result_dict['inserted_id']
+
         success = "新增成功"
     except Exception as e:
         response["status"] = "error"
@@ -713,9 +715,7 @@ def get_history_info():
     try:
         data = request.get_json()
         data["time"] = datetime.strptime(data["time"], '%Y/%m/%d')
-        print(data['time'])
         response = model.get_history_info_from_db(data)
-        print(response)
     except Exception as e:
         response["status"] = "error"
     return jsonify(response)
