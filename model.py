@@ -129,10 +129,8 @@ class Model:
         for i in range(0,len(result)):
             print(abs(result[i]['start_time']-time).seconds)
             if abs(result[i]['start_time']-time).seconds/3600 < 1:
-                print("hello")
                 info['inserted_id'] = '0'
                 return info
-        print("insert")
         data["lat"] = 0.0
         data["lng"] = 0.0
         data["peoplenum"] = 0
