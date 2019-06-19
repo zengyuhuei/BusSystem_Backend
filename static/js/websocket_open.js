@@ -20,6 +20,7 @@ function websocket_init()
         var ans = prompt(e.data.slice(2),"回傳");
         returnMessageToDriver(" 管理員:"+ans);
         var x = e.data.split(/[:\n]/);
+        
         var answer = confirm("是否要跳轉至突發接收頁面?") //把確認框賦值給answer
         if(answer) //判斷是否點選確定
           window.location ="http://140.121.198.84:3000/Emergency_reception" //確定的話遊覽器自身跳轉
