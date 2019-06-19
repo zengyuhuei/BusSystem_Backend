@@ -120,6 +120,7 @@ class Model:
     # add_shift_to_db
     def add_shift_to_db(self, data):
         client = pymongo.MongoClient('mongodb://'+self._user+':'+self._password+'@140.121.198.84:27017/')
+        info = dict()
         db = client["KeelungBusSystem"]
         time = data["start_time"]
         name = data["driver"]
@@ -127,15 +128,16 @@ class Model:
         result = list(db["shift"].find({"day" : day, "driver" : name},{ "start_time": 1}))
         for i in range(0,len(result)-1):
             if abs(result[i]['start_time']-time).seconds/3600 < 1:
-                return json.dumps({'inserted_id': "小於一個小時"})
+                info['inserted_id'] = "小於一個小時"
+                return info
         data["lat"] = 0.0
         data["lng"] = 0.0
         data["peoplenum"] = 0
         data["arrive_time"] = datetime.now()
         data["state"] = 0
         result = db['shift'].insert_one(data)
-
-        return json.dumps({'inserted_id': str(result.inserted_id)})
+        info['inserted_id'] = str(result.inserted_id)
+        return info
 
 
     def get_info_from_db_all(self):

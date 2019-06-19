@@ -324,20 +324,20 @@ def add_shift():
         # 把 DICT 加到資料庫
         result = model.add_shift_to_db(data)
         print(result)
-        result_dict = json.loads(result)
-        inserted_id = result_dict['inserted_id']
-
-        success = "新增成功"
+       
+        if result['inserted_id'] == "少於一個小時":
+            response["status"] = "error"
+            error = result['inserted_id']
+        else:
+            success = "新增成功"
     except Exception as e:
         response["status"] = "error"
         response["error"] = str(e)
         error = "新增失敗"
         print(response, str(e))
-    if inserted_id == "error":
-        error = "少於一個小時"
 
     if response['status'] == "ok":
-        return redirect(url_for('add_or_revise_shift', success = success, inserted_id = inserted_id))
+        return redirect(url_for('add_or_revise_shift', success = success, inserted_id = result['inserted_id']))
     return redirect(url_for('add_or_revise_shift', error = error))
     
 @app.route('/peoplenum_to_db', methods=['POST'])
