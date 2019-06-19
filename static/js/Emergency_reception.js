@@ -88,6 +88,7 @@ function setDriver()
                 infowindow.setContent(message);
                 infowindow.open(map, this);
               });
+              console.log(marker1[j].message)
               /*google.maps.event.addListener(marker1[j], 'mouseover', function() {
                 infowindow.open(marker.get('map'), marker1[j]);
               });
