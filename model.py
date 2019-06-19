@@ -124,11 +124,10 @@ class Model:
         time = data["start_time"]
         name = data["driver"]
         day = data["day"]
-        print(data)
         result = list(db["shift"].find({"day" : day, "driver" : name},{ "start_time": 1}))
         for i in range(0,len(result)-1):
             if abs(result[i]['start_time']-time).seconds/3600 < 1:
-                return 0
+                return json.dumps({'inserted_id': "小於一個小時"})
         data["lat"] = 0.0
         data["lng"] = 0.0
         data["peoplenum"] = 0

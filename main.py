@@ -333,6 +333,8 @@ def add_shift():
         response["error"] = str(e)
         error = "新增失敗"
         print(response, str(e))
+    if inserted_id == "error":
+        error = "少於一個小時"
 
     if response['status'] == "ok":
         return redirect(url_for('add_or_revise_shift', success = success, inserted_id = inserted_id))
