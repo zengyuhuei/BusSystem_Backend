@@ -84,7 +84,7 @@ def message_received(client, server, message):
                 check = 1
         if  check == 0:#假設websocket server查詢不到此司機 將會將此司機放置欲回傳Listㄉ最後一ㄍ位置
             client_sender_id.append(cli)
-        else            
+        else :
             client_sender_id.pop(0)
         print("印出clientList")
         print(clientList)
