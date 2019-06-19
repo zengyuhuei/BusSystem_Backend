@@ -74,7 +74,7 @@ function setDriver()
             console.log(response)
             marker2 = response
             for(var j = 0; j < marker2.length ; j++){
-              var message = "發生事故<br>司機:"+marker2[0]['driver']+"<br>時間:<br>位於:<br>狀況:";
+              var message = "發生事故<br>司機:"+marker2[j]['driver']+"<br>時間:<br>位於:<br>狀況:";
               var myLatLng = {lat:parseFloat(marker2[j]['lat']),lng:parseFloat(marker2[j]['lng'])};
               marker1[j] = new google.maps.Marker({
                 position:myLatLng,
