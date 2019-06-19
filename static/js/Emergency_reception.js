@@ -74,6 +74,9 @@ function setDriver()
             console.log(response)
             marker1 = response
             for(var j = 0; j < marker1.length ; j++){
+              console.log("CCCC")
+              console.log(marker1[j]['driver'])
+              var message = "發生事故<br>司機:"+marker1[j]['driver']+"<br>時間:<br>位於:<br>狀況:";
               console.log(marker1[j])
               var myLatLng = {lat:parseFloat(marker1[j]['lat']),lng:parseFloat(marker1[j]['lng'])};
               marker1[j] = new google.maps.Marker({
@@ -81,9 +84,6 @@ function setDriver()
                 map: map,
                 icon:'../static/picture/FotoJet.png'
               });
-              console.log("CCCC")
-              console.log(marker1[j]['driver'])
-              var message = "發生事故<br>司機:"+marker1[j]['driver']+"<br>時間:<br>位於:<br>狀況:";
               var infowindow = new google.maps.InfoWindow();
               marker1[j].addListener('click', function () {	
                 infowindow.setContent(message);
