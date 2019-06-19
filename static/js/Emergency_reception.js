@@ -3,7 +3,7 @@ var i = 0;
 var xString = ""
 var driverList = new Array();
 var marker1 = [];
-var marker;
+var marker2 = [];
 $(document).ready(function(){
 	$(".manager_name").html(localStorage.getItem("name"));
 });
@@ -72,18 +72,17 @@ function setDriver()
           error: function (xhr) { },      // 錯誤後執行的函數
           success: function (response) {
             console.log(response)
-            marker1 = response
+            marker2 = response
             for(var j = 0; j < marker1.length ; j++){
-              console.log("CCCC")
-              console.log(marker1[j]['driver'])
-              var message = "發生事故<br>司機:"+marker1[j]['driver']+"<br>時間:<br>位於:<br>狀況:";
-              console.log(message)
-              var myLatLng = {lat:parseFloat(marker1[j]['lat']),lng:parseFloat(marker1[j]['lng'])};
+              console.log(marker1[j])
+              var message = "發生事故<br>司機:"+marker2[j]['driver']+"<br>時間:<br>位於:<br>狀況:";
+              var myLatLng = {lat:parseFloat(marker2[j]['lat']),lng:parseFloat(marker2[j]['lng'])};
               marker1[j] = new google.maps.Marker({
                 position:myLatLng,
                 map: map,
                 icon:'../static/picture/FotoJet.png'
               });
+              
               var infowindow = new google.maps.InfoWindow();
               marker1[j].addListener('click', function () {	
                 infowindow.setContent(message);
