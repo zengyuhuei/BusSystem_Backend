@@ -128,8 +128,10 @@ class Model:
         result = list(db["shift"].find({"day" : day, "driver" : name},{ "start_time": 1}))
         for i in range(0,len(result)-1):
             if abs(result[i]['start_time']-time).seconds/3600 < 1:
+                print("hello")
                 info['inserted_id'] = '0'
                 return info
+        print("insert")
         data["lat"] = 0.0
         data["lng"] = 0.0
         data["peoplenum"] = 0
