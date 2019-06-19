@@ -323,6 +323,7 @@ def add_shift():
         data["start_time"] = datetime.strptime(data["start_time"], '%H:%M')
         # 把 DICT 加到資料庫
         result = model.add_shift_to_db(data)
+        print("fuck")
         print(result)
        
         if result['inserted_id'] == '0':
