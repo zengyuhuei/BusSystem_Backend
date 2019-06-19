@@ -81,6 +81,8 @@ function setDriver()
                 map: map,
                 icon:'../static/picture/FotoJet.png'
               });
+              console.log("CCCC")
+              console.log(marker1[j]['driver'])
               var message = "發生事故<br>司機:"+marker1[j]['driver']+"<br>時間:<br>位於:<br>狀況:";
               var infowindow = new google.maps.InfoWindow();
               marker1[j].addListener('click', function () {	
