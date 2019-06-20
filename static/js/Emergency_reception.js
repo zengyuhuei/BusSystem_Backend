@@ -4,6 +4,7 @@ var xString = ""
 var driverList = new Array();
 var marker1 = [];
 var marker2 = [];
+var message = [];
 $(document).ready(function(){
 	$(".manager_name").html(localStorage.getItem("name"));
 });
@@ -71,23 +72,27 @@ function setDriver()
         contentType:'json',
           error: function (xhr) { },      // 錯誤後執行的函數
           success: function (response) {
-            console.log(response)
             marker2 = response
-            for(var j = 0; j < marker2.length ; j++){
-              var message = "發生事故<br>司機:"+marker2[j]['driver']+"<br>時間:<br>位於:<br>狀況:";
+            var i = 0
+            for(var j = 0; j < marker2.length ; j++)
+            {
               var myLatLng = {lat:parseFloat(marker2[j]['lat']),lng:parseFloat(marker2[j]['lng'])};
               marker1[j] = new google.maps.Marker({
                 position:myLatLng,
                 map: map,
-                icon:'../static/picture/FotoJet.png'
+                icon:'../static/picture/FotoJet.png',
+                id:j
               });
               
+              message[j] = "發生事故<br>司機:"+marker2[j]['driver']+"<br>時間:"+marker2[j]['arrive_time']+"<br>狀況:"+localStorage.getItem(marker2[j]['driver']);
+
+              console.log(marker2[j]['driver'])
               var infowindow = new google.maps.InfoWindow();
+              console.log(marker1[j])
               marker1[j].addListener('click', function () {	
-                infowindow.setContent(message);
+                infowindow.setContent(message[marker1[this.id].id]);
                 infowindow.open(map, this);
               });
-              console.log(marker1[j].message)
               /*google.maps.event.addListener(marker1[j], 'mouseover', function() {
                 infowindow.open(marker.get('map'), marker1[j]);
               });

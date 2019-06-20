@@ -17,6 +17,9 @@ function websocket_init()
       from = String(e.data).split(":",1);
       if(from[0]=="B")
       {
+        var c = e.data.split(" ",2);
+        var d = e.data.split("發生意外:",2)
+        localStorage.setItem(c[0].slice(2),d[1])
         var ans = prompt(e.data.slice(2),"回傳");
         returnMessageToDriver(" 管理員:"+ans);
         var x = e.data.split(/[:\n]/);
